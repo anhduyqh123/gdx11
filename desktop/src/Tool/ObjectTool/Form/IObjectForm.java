@@ -135,8 +135,8 @@ public class IObjectForm {
         clone.SetName(iActor.GetName());
         return clone;
     }
-    private void Rename(String name, IActor iActor)
+    private void Rename(String name, IActor iActor,IActor parent)
     {
-        iActor.GetIParent().Rename(iActor.GetName(),name);
+        parent.GetIGroup().Rename(iActor.GetName(),name);
     }
 }

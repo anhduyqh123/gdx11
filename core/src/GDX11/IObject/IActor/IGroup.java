@@ -32,6 +32,12 @@ public class IGroup extends IActor {
         ForIChild(IActor::Refresh);
     }
 
+    @Override
+    public void RunAction(String name) {
+        super.RunAction(name);
+        ForIChild(i->i.RunAction(name));
+    }
+
     //IGroup
     protected void ConnectChild(String name,IActor iActor)
     {

@@ -6,6 +6,8 @@ import GDX11.Util;
 import Tool.ObjectTool.Data.ClipBoard;
 
 import javax.swing.*;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.tree.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -24,7 +26,7 @@ public class GTree<T> {
     public GDX.Runnable1<T> onSelect;
     public GDX.Runnable2<T,T> parentAdd;//parent,child
     public GDX.Runnable2<T,T> parentRemove;//parent,child
-    public GDX.Runnable2<String,T> rename;//(old,new)
+    public GDX.Runnable3<String,T,T> rename;//(name,object,parent)
     public GDX.Runnable2<T,Integer> move;//moveUp,moveDown
     public GDX.Func1<T,T> clone = Reflect::Clone;
 
@@ -39,21 +41,22 @@ public class GTree<T> {
         tree.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar()=='s') Select();
-                if (e.getKeyChar()=='p') Paste();
-                if (e.getKeyChar()=='m') MoveTo();
-                if (e.getKeyChar()=='u') Move(-1);
-                if (e.getKeyChar()=='d') Move(1);
+                if (e.getKeyChar()=='s') Select();//s
+                if (e.getKeyChar()=='p') Paste();//p
+                if (e.getKeyChar()=='m') MoveTo();//m
+                if (e.getKeyChar()=='u') Move(-1);//u
+                if (e.getKeyChar()=='d') Move(1);//d
                 if (e.getKeyChar()==KeyEvent.VK_BACK_SPACE) Delete();
             }
         });
-        tfName.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode()==KeyEvent.VK_ENTER)
-                    Rename(tfName.getText());
-            }
-        });
+        if (tfName!=null)
+            tfName.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    if (e.getKeyCode()==KeyEvent.VK_ENTER)
+                        Rename(tfName.getText());
+                }
+            });
     }
     public void SetRoot(T root)
     {
@@ -79,6 +82,27 @@ public class GTree<T> {
     {
         map.clear();
         tree.setModel(new DefaultTreeModel(GetNode("Root",root)));
+        tree.getModel().addTreeModelListener(new TreeModelListener() {
+            @Override
+            public void treeNodesChanged(TreeModelEvent e) {
+                Rename(GetSelectedNode().toString());
+            }
+
+            @Override
+            public void treeNodesInserted(TreeModelEvent e) {
+
+            }
+
+            @Override
+            public void treeNodesRemoved(TreeModelEvent e) {
+
+            }
+
+            @Override
+            public void treeStructureChanged(TreeModelEvent e) {
+
+            }
+        });
     }
     public void SetSelection(Object object)
     {
@@ -114,6 +138,10 @@ public class GTree<T> {
     {
         return GetObject(GetMainNode());
     }
+    public <T> T GetParentObject()
+    {
+        return GetObject(GetSelectedNode().getParent());
+    }
     public <T> T GetSelectedObject()
     {
         return GetObject(GetSelectedNode());
@@ -131,7 +159,7 @@ public class GTree<T> {
     }
     private void Delete()
     {
-        T parent = GetObject(GetSelectedNode().getParent());
+        T parent = GetParentObject();
         Util.For(GetSelectedList(),n-> parentRemove.Run(parent,GetObject(n)));
         Refresh();
         List<T> children = (List<T>) getChildren.Run(parent);
@@ -183,7 +211,8 @@ public class GTree<T> {
     private void Rename(String name)
     {
         T object = GetSelectedObject();
-        rename.Run(name,object);
+        T parent = GetParentObject();
+        rename.Run(name,object,parent);
         Refresh();
         SetSelection(object);
     }

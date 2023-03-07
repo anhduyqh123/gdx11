@@ -17,7 +17,9 @@
           <component id="74db6" class="javax.swing.JTree" binding="tree">
             <constraints/>
             <properties>
+              <dragEnabled value="false"/>
               <editable value="false"/>
+              <focusable value="true"/>
               <largeModel value="false"/>
             </properties>
           </component>

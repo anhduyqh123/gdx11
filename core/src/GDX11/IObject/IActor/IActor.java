@@ -1,6 +1,8 @@
 package GDX11.IObject.IActor;
 
 import GDX11.GDX;
+import GDX11.IObject.IAction.IAction;
+import GDX11.IObject.IAction.IMulAction;
 import GDX11.IObject.IParam;
 import GDX11.IObject.IPos;
 import GDX11.IObject.IRunnable;
@@ -23,9 +25,8 @@ public class IActor {
     public ISize iSize = new ISize();
     public IPos iPos = new IPos();
     public IRunnable iRun = new IRunnable();
-
+    public IMulAction iAction = new IMulAction();
     protected GDX.Func<Actor> getActor;
-
     protected GDX.Func<IActor> getIRoot;
     protected GDX.Func<IGroup> getIParent;
     protected GDX.Func<Group> getParentOfRoot;
@@ -163,6 +164,12 @@ public class IActor {
     @Override
     public boolean equals(Object obj) {
         return Reflect.equals(this,obj);
+    }
+    //Action
+    public void RunAction(String name)
+    {
+        if (!iAction.Contains(name)) return;
+        GetActor().addAction(iAction.Find(name).Get());
     }
 
     //Get Data

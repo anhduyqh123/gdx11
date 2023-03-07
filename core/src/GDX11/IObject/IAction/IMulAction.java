@@ -20,7 +20,6 @@ public class IMulAction extends IAction {
     public List<IAction> list = new ArrayList<>();
     public Type type = Type.Sequence;
     protected GDX.Func<Map<String,IAction>> getMap;
-
     //IAction
     @Override
     public void Run() {
@@ -53,6 +52,10 @@ public class IMulAction extends IAction {
         Util.For(list,i->map.put(i.name,i));
         getMap = ()->map;
     }
+    public boolean Contains(String name)
+    {
+        return GetMap().containsKey(name);
+    }
     public <T extends IAction> T Find(String name)
     {
         if (GetMap().containsKey(name)) return (T)GetMap().get(name);
@@ -68,5 +71,17 @@ public class IMulAction extends IAction {
     public IMulAction FindIMul(String name)
     {
         return Find(name);
+    }
+
+    //ForEditor
+    public void Add(IAction child)
+    {
+        list.add(child);
+        GetMap().put(child.name,child);
+    }
+    public void Remove(IAction child)
+    {
+        list.remove(child);
+        GetMap().remove(child.name);
     }
 }

@@ -36,7 +36,7 @@ public class Content {
         }
         protected void ExcludeFields()
         {
-            fields.removeAll(Arrays.asList("iParam","iSize","iPos","iRun"));
+            fields.removeAll(Arrays.asList("iParam","iSize","iPos","iRun","iAction"));
         }
     }
     static class XGroup extends XActor

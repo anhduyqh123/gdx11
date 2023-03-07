@@ -20,10 +20,13 @@ public class MainForm {
         pnTop.add(optionForm.panel1);
 
         IActorForm iActorForm = new IActorForm();
+        IActionForm iActionForm = new IActionForm();
         tabbedPane.add("Info", iActorForm.panel1);
+        tabbedPane.add("Action", iActionForm.panel1);
 
         dataForm.onSelectIActor = iActor->{
             iActorForm.SetIActor(iActor);
+            iActionForm.SetIActor(iActor);
         };
     }
 }
