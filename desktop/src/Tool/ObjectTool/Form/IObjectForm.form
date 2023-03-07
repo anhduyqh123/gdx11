@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.ObjectTool.Form.IObjectForm">
+  <grid id="27dc6" binding="panel1" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="1447" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <scrollpane id="4973d">
+        <constraints/>
+        <properties>
+          <preferredSize width="250" height="300"/>
+        </properties>
+        <border type="none" title="data"/>
+        <children>
+          <component id="74db6" class="javax.swing.JTree" binding="tree">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+              <largeModel value="false"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <grid id="15d4e" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints/>
+        <properties>
+          <preferredSize width="200" height="300"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="72bf6" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="pack"/>
+            </properties>
+          </component>
+          <component id="816c3" class="javax.swing.JComboBox" binding="cbPack">
+            <constraints/>
+            <properties>
+              <preferredSize width="120" height="30"/>
+            </properties>
+          </component>
+          <component id="8528a" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="Name"/>
+            </properties>
+          </component>
+          <component id="30011" class="javax.swing.JTextField" binding="tfName">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="30"/>
+            </properties>
+          </component>
+          <component id="af137" class="javax.swing.JComboBox" binding="cbType">
+            <constraints/>
+            <properties>
+              <preferredSize width="120" height="30"/>
+            </properties>
+          </component>
+          <component id="be6a9" class="javax.swing.JButton" binding="btNew">
+            <constraints/>
+            <properties>
+              <text value="New"/>
+            </properties>
+          </component>
+          <component id="95b7d" class="javax.swing.JButton" binding="btPrefab">
+            <constraints/>
+            <properties>
+              <text value="Prefab"/>
+            </properties>
+          </component>
+          <component id="a22ab" class="javax.swing.JButton" binding="deleteButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Delete"/>
+            </properties>
+          </component>
+          <component id="222e4" class="javax.swing.JButton" binding="btPaste">
+            <constraints/>
+            <properties>
+              <text value="Paste"/>
+            </properties>
+          </component>
+          <component id="45d77" class="javax.swing.JButton" binding="cloneButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Clone"/>
+            </properties>
+          </component>
+          <component id="d132b" class="javax.swing.JButton" binding="upButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Up"/>
+            </properties>
+          </component>
+          <component id="59708" class="javax.swing.JButton" binding="downButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Down"/>
+            </properties>
+          </component>
+          <component id="8de0a" class="javax.swing.JButton" binding="addToButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="AddTo"/>
+            </properties>
+          </component>
+          <component id="1d15b" class="javax.swing.JButton" binding="saveButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Save"/>
+            </properties>
+          </component>
+          <component id="11186" class="javax.swing.JButton" binding="btReload">
+            <constraints/>
+            <properties>
+              <text value="Reload"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

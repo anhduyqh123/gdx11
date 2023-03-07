@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.ObjectTool.Form.IActorForm">
+  <grid id="27dc6" binding="panel1" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties>
+      <preferredSize width="800" height="410"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="c02cf" class="javax.swing.JButton" binding="btRefresh">
+        <constraints/>
+        <properties>
+          <text value="Refresh"/>
+        </properties>
+      </component>
+      <scrollpane id="bbe4c">
+        <constraints/>
+        <properties>
+          <preferredSize width="780" height="400"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="de9be" binding="pnContent" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints/>
+            <properties>
+              <preferredSize width="780" height="600"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <scrollpane id="8d702">
+                <constraints/>
+                <properties>
+                  <horizontalScrollBarPolicy value="31"/>
+                  <maximumSize width="750" height="220"/>
+                  <preferredSize width="780" height="220"/>
+                </properties>
+                <border type="none" title="info"/>
+                <children>
+                  <grid id="7a64c" binding="pInfo" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
+                    <constraints/>
+                    <properties>
+                      <maximumSize width="500" height="32767"/>
+                    </properties>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                </children>
+              </scrollpane>
+              <grid id="b6207" binding="pSize" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
+                <constraints/>
+                <properties>
+                  <preferredSize width="780" height="100"/>
+                </properties>
+                <border type="none" title="Size"/>
+                <children/>
+              </grid>
+              <grid id="1bc28" binding="pPos" layout-manager="FlowLayout" hgap="0" vgap="0" flow-align="1">
+                <constraints/>
+                <properties>
+                  <preferredSize width="780" height="100"/>
+                </properties>
+                <border type="none" title="Position"/>
+                <children/>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+</form>

@@ -1,0 +1,1 @@
+{packs:{first:{list:[{extension:jpg,kind:Texture,name:badlogic,pack:first,url:first/texture/badlogic.jpg}],url:first/}}}
