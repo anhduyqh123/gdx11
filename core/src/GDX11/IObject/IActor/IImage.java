@@ -19,8 +19,8 @@ public class IImage extends IActor{
 
     public IImage()
     {
-        iSize.width = "w";//width of texture
-        iSize.height = "h";//height of texture
+        iSize.width = "dw";//default of width
+        iSize.height = "dh";//default of height
     }
     //IActor
     @Override
@@ -31,8 +31,8 @@ public class IImage extends IActor{
     @Override
     protected void Connect() {
         super.Connect();
-        iRun.SetFunc("w",()->(float)GetTexture().getRegionWidth());
-        iRun.SetFunc("h",()->(float)GetTexture().getRegionHeight());
+        iRun.SetFunc("dw",()->(float)GetTexture().getRegionWidth());//width of texture
+        iRun.SetFunc("dh",()->(float)GetTexture().getRegionHeight());//height of texture
     }
 
     @Override

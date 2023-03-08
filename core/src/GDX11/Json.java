@@ -48,13 +48,25 @@ public class Json {
             {
                 Field field = map.get(i.name);
                 Object value = NewValue(field,object,i);
-                Class type = field.getType();
-                if (type.equals(List.class)) type = field.getElementType(0);
-                if (type.equals(Map.class)) type = field.getElementType(1);
+
+                Class type = GetChildType(field);
+//                Class type = field.getType();
+//                if (type.equals(List.class)) type = field.getElementType(0);
+//                if (type.equals(Map.class)) type = field.getElementType(1);
+
                 Reflect.SetValue(field,object,ToObject(type,value,i));
             }
         });
     }
+    //New
+    private Class GetChildType(Field field)
+    {
+        Class type = field.getType();
+        if (type.equals(List.class)) return field.getElementType(0);
+        if (type.equals(Map.class)) return field.getElementType(1);
+        return type;
+    }
+
     private void ReadFields(Object object,Object object0)//object0 is super new 7/10
     {
         Map<String, Field> map = Reflect.GetFields(object0.getClass());

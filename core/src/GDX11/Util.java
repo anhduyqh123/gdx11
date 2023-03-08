@@ -3,6 +3,8 @@ package GDX11;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Util {
     //vector
@@ -65,4 +67,53 @@ public class Util {
 
     //convert
 
+
+    //readData
+    public static String[][] ReadCSVFromNode(String name)
+    {
+        return ReadCSV(GDX.GetStringFromNode(name));
+    }
+    public static String[][] ReadCSV(String data)//[row][column]
+    {
+        Map<String,String> map0 = new HashMap<>();data = FindString(data,"\"\"","\"\"",map0);
+        Map<String,String> map = new HashMap<>();
+        data = FindString(data,"\"","\"",map);
+        data = data.replace("\r","");
+        String[] rows = data.split("\n");
+        String[][] matrix = new String[rows.length][];
+        for (int i=0;i<rows.length;i++)
+        {
+            matrix[i] = rows[i].split(",",-1);
+            for (int j=0;j<matrix[i].length;j++)
+            {
+                if (map.containsKey(matrix[i][j])) matrix[i][j] = map.get(matrix[i][j]);
+                for (String key : map0.keySet())
+                    if (matrix[i][j].contains(key)) matrix[i][j] = matrix[i][j].replace(key,map0.get(key));
+                if (matrix[i][j].startsWith("\"") && matrix[i][j].endsWith("\""))
+                    matrix[i][j] = matrix[i][j].replace("\"","");
+            }
+        }
+        return matrix;
+    }
+    public static String FindString(String str,String c1,String c2)
+    {
+        return GDX.Try(()->{
+            int s = str.indexOf(c1);
+            int e = str.indexOf(c2,s+1);
+            if (s==-1 || e==-1) return null;
+            return str.substring(s,e+c2.length());
+        },()->null);
+    }
+    public static String FindString(String str,String c1,String c2,Map<String,String> map)
+    {
+        String s = FindString(str,c1,c2);
+        while (s!=null)
+        {
+            String key = "$"+map.size();
+            map.put(key,s);
+            str = str.replace(s,key);
+            s = FindString(str,c1,c2);
+        }
+        return str;
+    }
 }

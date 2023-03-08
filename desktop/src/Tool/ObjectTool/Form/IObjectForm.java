@@ -4,9 +4,11 @@ import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
+import GDX11.IObject.IObject;
 import GDX11.Reflect;
 import Tool.JFrame.GTree;
 import Tool.JFrame.UI;
+import Tool.ObjectTool.Data.ClipBoard;
 import Tool.ObjectTool.Data.Content;
 import Tool.ObjectTool.Data.ObjectData;
 import Tool.ObjectTool.Data.ObjectPack;
@@ -52,24 +54,21 @@ public class IObjectForm {
 
         UI.ComboBox(cbType,UI.ClassToNames(types));
 
-        gTree.getChildren = this::GetChildren;
-        gTree.getName = IActor::GetName;
+        gTree.newObject = this::NewIActor;
         gTree.onSelect = this::OnSelectIActor;
-        gTree.parentAdd = this::ParentAdd;
-        gTree.parentRemove = this::ParentRemove;
-        gTree.rename = this::Rename;
-        gTree.clone = this::CloneIActor;
-        gTree.move = (i,d)->i.GetIParent().Move(i.GetName(),d);
         gTree.refreshObject = IActor::Refresh;
         RefreshData();
 
-        UI.Button(btNew,this::NewIActor);
+        UI.Button(btNew,gTree::NewObject);
+        UI.Button(btPrefab,this::Prefab);
+        UI.Button(cloneButton,()->gTree.Clone(tfName.getText()));
         UI.Button(saveButton,this::Save);
     }
-    private Collection GetChildren(IActor iActor)
+    private void Prefab()
     {
-        if (iActor instanceof IGroup) return ((IGroup)iActor).GetIChildren();
-        return null;
+        if (ClipBoard.i.GetObjects().size()<=0) return;
+        IObject ob = ClipBoard.i.GetObjects().get(0);
+        gTree.Clone(tfName.getText(),ia->ia.prefab=ob.name);
     }
     private void RefreshData()
     {
@@ -84,6 +83,7 @@ public class IObjectForm {
     }
     private void OnSelectIActor(IActor iActor)
     {
+        tfName.setText(iActor.name);
         SetMainIActor(gTree.GetMainObject());
         onSelectIActor.Run(iActor);
     }
@@ -97,46 +97,14 @@ public class IObjectForm {
     }
 
     //Edit
-    private void NewIActor()
+    private IActor NewIActor()
     {
         IActor newObject = Reflect.NewInstance(types[cbType.getSelectedIndex()]);
-        String name = tfName.getText();
-        IActor iActor = gTree.GetSelectedObject();
-        if (!(iActor instanceof IGroup)) iActor = iActor.GetIParent();
-        IGroup group = (IGroup) iActor;
-        if (group.Contains(name))
-        {
-            UI.NewDialog("tên biến trong 1 group không được trùng nhau!",panel1);
-            return;
-        }
-        group.AddChild(name,newObject);
-        group.Refresh();
-        gTree.Refresh();
-        gTree.SetSelection(newObject);
+        newObject.name = tfName.getText();
+        return newObject;
     }
     private void Save()
     {
-        selectedPack.Save(mainIActor.GetName(),()->UI.NewDialog("Save success!",panel1));
-    }
-    //extend
-    private void ParentAdd(IActor parent,IActor child)
-    {
-        IGroup iGroup = (IGroup) parent;
-        iGroup.AddChild(child.GetName(),child);
-    }
-    private void ParentRemove(IActor parent,IActor child)
-    {
-        IGroup iGroup = (IGroup) parent;
-        iGroup.Remove(child.GetName());
-    }
-    private IActor CloneIActor(IActor iActor)
-    {
-        IActor clone = Reflect.Clone(iActor);
-        clone.SetName(iActor.GetName());
-        return clone;
-    }
-    private void Rename(String name, IActor iActor,IActor parent)
-    {
-        parent.GetIGroup().Rename(iActor.GetName(),name);
+        selectedPack.Save(mainIActor.name,()->UI.NewDialog("Save success!",panel1));
     }
 }

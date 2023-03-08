@@ -3,6 +3,7 @@ package Tool.ObjectTool.Data;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IImage;
+import GDX11.IObject.IActor.ILabel;
 import Tool.JFrame.UI;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ import java.util.List;
 public class Content {
     public static Class[] GetTypes()
     {
-        Class[] types = {IGroup.class, IImage.class, IActor.class};
+        Class[] types = {IGroup.class, IImage.class, ILabel.class, IActor.class};
         return types;
     }
 
@@ -36,7 +37,7 @@ public class Content {
         }
         protected void ExcludeFields()
         {
-            fields.removeAll(Arrays.asList("iParam","iSize","iPos","iRun","iAction"));
+            fields.removeAll(Arrays.asList("iParam","iSize","iPos","iRun","iAction","name"));
         }
     }
     static class XGroup extends XActor
@@ -48,7 +49,7 @@ public class Content {
         @Override
         protected void ExcludeFields() {
             super.ExcludeFields();
-            fields.removeAll(Arrays.asList("list","map"));
+            fields.removeAll(Arrays.asList("iMap"));
         }
     }
 }

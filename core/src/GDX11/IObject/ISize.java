@@ -28,7 +28,7 @@ public class ISize {
         SetSize(actor);
         SetOrigin(actor);
         SetScale(actor);
-        actor.setRotation(GetIActor().GetValue(rotate));
+        actor.setRotation(GetIActor().GetParam(rotate));
     }
     private void SetSize(Actor actor)
     {
@@ -38,12 +38,12 @@ public class ISize {
     private void SetWidth(Actor actor)
     {
         if (SetWidthByChild(actor)) return;
-        actor.setWidth(GetIActor().GetValue(width));
+        actor.setWidth(GetIActor().GetParam(width));
     }
     private void SetHeight(Actor actor)
     {
         if (SetHeightByChild(actor)) return;
-        actor.setHeight(GetIActor().GetValue(height));
+        actor.setHeight(GetIActor().GetParam(height));
     }
     private boolean SetWidthByChild(Actor actor)
     {
@@ -70,8 +70,8 @@ public class ISize {
         if (origin.contains(";"))
         {
             String[] arr = origin.split(";");
-            actor.setOriginX(GetIActor().GetValue(arr[0]));
-            actor.setOriginY(GetIActor().GetValue(arr[1]));
+            actor.setOriginX(GetIActor().GetParam(arr[0]));
+            actor.setOriginY(GetIActor().GetParam(arr[1]));
         }
         else actor.setOrigin(IParam.GetAlign(origin));
     }
@@ -80,10 +80,10 @@ public class ISize {
         if (scale.contains(";"))
         {
             String[] arr = origin.split(";");
-            actor.setScaleX(GetIActor().GetValue(arr[0]));
-            actor.setScaleY(GetIActor().GetValue(arr[1]));
+            actor.setScaleX(GetIActor().GetParam(arr[0]));
+            actor.setScaleY(GetIActor().GetParam(arr[1]));
         }
-        else actor.setScale(GetIActor().GetValue(scale));
+        else actor.setScale(GetIActor().GetParam(scale));
     }
 
     @Override

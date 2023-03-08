@@ -1,13 +1,8 @@
 package GDX11.IObject.IActor;
 
 import GDX11.GDX;
-import GDX11.IObject.IAction.IAction;
+import GDX11.IObject.*;
 import GDX11.IObject.IAction.IMulAction;
-import GDX11.IObject.IParam;
-import GDX11.IObject.IPos;
-import GDX11.IObject.IRunnable;
-import GDX11.IObject.ISize;
-import GDX11.Reflect;
 import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
@@ -15,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
-public class IActor {
+public class IActor extends IObject {
 
     public String prefab = "";
     public String hexColor = Color.WHITE.toString();
@@ -26,20 +21,13 @@ public class IActor {
     public IPos iPos = new IPos();
     public IRunnable iRun = new IRunnable();
     public IMulAction iAction = new IMulAction();
+    {
+        iAction.name = "action";
+    }
     protected GDX.Func<Actor> getActor;
     protected GDX.Func<IActor> getIRoot;
     protected GDX.Func<IGroup> getIParent;
     protected GDX.Func<Group> getParentOfRoot;
-    protected GDX.Func<String> getName;
-
-    public String GetName()
-    {
-        return getName.Run();
-    }
-    public void SetName(String name)
-    {
-        getName = ()->name;
-    }
 
     //actor
     public <T extends Actor> T GetActor()
@@ -124,6 +112,7 @@ public class IActor {
         iParam.SetIActor(this);
         iSize.SetIActor(this);
         iPos.SetIActor(this);
+        iAction.SetIActor(this);
     }
     public <T extends IActor> T IRootFind(String name)
     {
@@ -154,21 +143,22 @@ public class IActor {
         actor.setColor(GetColor());
         actor.setTouchable(touchable);
         actor.setVisible(visible);
+        InitParam0();
     }
-    public <T> T GetValue(String st)
+    protected void InitParam0()
+    {
+        iParam.SetParam("x0",GetActor().getX());
+        iParam.SetParam("y0",GetActor().getY());
+    }
+    public <T> T GetParam(String st)
     {
         if (iRun.HasFunc(st)) return (T)iRun.GetFunc(st).Run();
         return (T)iParam.GetValueFromString(st);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return Reflect.equals(this,obj);
-    }
     //Action
     public void RunAction(String name)
     {
-        if (!iAction.Contains(name)) return;
+        if (!iAction.Contain(name)) return;
         GetActor().addAction(iAction.Find(name).Get());
     }
 
@@ -201,5 +191,10 @@ public class IActor {
     public void SetStagePosition(Vector2 pos,int align)
     {
         Scene.SetStagePosition(GetActor(),pos,align);
+    }
+
+    public static <T extends IActor> T GetIActor(Actor actor)
+    {
+        return (T)actor.getUserObject();
     }
 }

@@ -1,7 +1,8 @@
 package Tool.JFrame;
 
 import GDX11.GDX;
-import GDX11.Reflect;
+import GDX11.IObject.IMap;
+import GDX11.IObject.IObject;
 import GDX11.Util;
 import Tool.ObjectTool.Data.ClipBoard;
 
@@ -13,22 +14,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.*;
 
-public class GTree<T> {
+public class GTree<T extends IObject> {
     private JTree tree;
-    private T root;
-    private Map<TreeNode, Object> map = new HashMap<>();
-    private Map<Object, TreeNode> map0 = new HashMap<>();
+    private IObject root;
+    private Map<TreeNode, IObject> map = new HashMap<>();
+    private Map<IObject, TreeNode> map0 = new HashMap<>();
 
     //event
-    public GDX.Runnable1<T> refreshObject;
-    public GDX.Func1<Collection<T>,T> getChildren;
-    public GDX.Func1<String,T> getName;
+    public GDX.Runnable1<T> refreshObject = ob->{};
     public GDX.Runnable1<T> onSelect;
-    public GDX.Runnable2<T,T> parentAdd;//parent,child
-    public GDX.Runnable2<T,T> parentRemove;//parent,child
-    public GDX.Runnable3<String,T,T> rename;//(name,object,parent)
-    public GDX.Runnable2<T,Integer> move;//moveUp,moveDown
-    public GDX.Func1<T,T> clone = Reflect::Clone;
+    public GDX.Func<T> newObject;
 
     public GTree(JTree tree,JTextField tfName)
     {
@@ -41,11 +36,12 @@ public class GTree<T> {
         tree.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar()=='n') NewObject();//n
                 if (e.getKeyChar()=='s') Select();//s
                 if (e.getKeyChar()=='p') Paste();//p
                 if (e.getKeyChar()=='m') MoveTo();//m
-                if (e.getKeyChar()=='u') Move(-1);//u
-                if (e.getKeyChar()=='d') Move(1);//d
+                if (e.getKeyChar()=='1') Move(-1);
+                if (e.getKeyChar()=='2') Move(1);
                 if (e.getKeyChar()==KeyEvent.VK_BACK_SPACE) Delete();
             }
         });
@@ -58,30 +54,29 @@ public class GTree<T> {
                 }
             });
     }
-    public void SetRoot(T root)
+    public void SetRoot(IObject root)
     {
         this.root = root;
         Refresh();
     }
-    private DefaultMutableTreeNode NewNode(String name,Object object)
+    private DefaultMutableTreeNode NewNode(IObject object)
     {
-        DefaultMutableTreeNode node = new DefaultMutableTreeNode(name);
+        DefaultMutableTreeNode node = new DefaultMutableTreeNode(object.name);
         map.put(node, object);
         map0.put(object,node);
         return node;
     }
-    private DefaultMutableTreeNode GetNode(String name, T object)
+    private DefaultMutableTreeNode NewNodeModel(IObject object)
     {
-        DefaultMutableTreeNode node = NewNode(name,object);
-        Collection<T> children = getChildren.Run(object);
-        if (children!=null)
-            Util.For(children,o->node.add(GetNode(getName.Run(o),o)));
+        DefaultMutableTreeNode node = NewNode(object);
+        IMap<IObject> iMap = object.GetIMap();
+        if (iMap!=null) iMap.For(i->node.add(NewNodeModel(i)));
         return node;
     }
     public void Refresh()
     {
         map.clear();
-        tree.setModel(new DefaultTreeModel(GetNode("Root",root)));
+        tree.setModel(new DefaultTreeModel(NewNodeModel(root)));
         tree.getModel().addTreeModelListener(new TreeModelListener() {
             @Override
             public void treeNodesChanged(TreeModelEvent e) {
@@ -104,7 +99,7 @@ public class GTree<T> {
             }
         });
     }
-    public void SetSelection(Object object)
+    public void SetSelection(IObject object)
     {
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
         TreePath path = new TreePath(model.getPathToRoot(map0.get(object)));
@@ -126,23 +121,23 @@ public class GTree<T> {
             node = parent;
         }while (true);
     }
-    private TreeNode GetNode(T object)
+    private TreeNode GetNode(IObject object)
     {
         return map0.get(object);
     }
-    private  <T> T GetObject(TreeNode node)
+    private T GetObject(TreeNode node)
     {
         return (T)map.get(node);
     }
-    public <T> T GetMainObject()
+    public T GetMainObject()
     {
         return GetObject(GetMainNode());
     }
-    public <T> T GetParentObject()
+    public T GetParentObject()
     {
         return GetObject(GetSelectedNode().getParent());
     }
-    public <T> T GetSelectedObject()
+    public T GetSelectedObject()
     {
         return GetObject(GetSelectedNode());
     }
@@ -159,10 +154,10 @@ public class GTree<T> {
     }
     private void Delete()
     {
-        T parent = GetParentObject();
-        Util.For(GetSelectedList(),n-> parentRemove.Run(parent,GetObject(n)));
+        IObject parent = GetParentObject();
+        Util.For(GetSelectedList(),n-> parent.GetIMap().Remove(GetObject(n)));
         Refresh();
-        List<T> children = (List<T>) getChildren.Run(parent);
+        List<IObject> children = parent.GetIMap().list;
         if (children.size()>0) SetSelection(children.get(0));
         else SetSelection(parent);
     }
@@ -170,50 +165,76 @@ public class GTree<T> {
     //Clipboard
     private void Select()
     {
-        List<Object> selectedList = new ArrayList<>();
+        List<IObject> selectedList = new ArrayList<>();
         Util.For(GetSelectedList(),n->selectedList.add(GetObject(n)));
-        ClipBoard.i.Select(selectedList, (GDX.Func1<String, Object>) getName);
+        ClipBoard.i.Select(selectedList);
     }
     private void Paste()
     {
-        List<T> objects = (List<T>) ClipBoard.i.GetObjects();
+        List<IObject> objects = ClipBoard.i.GetObjects();
         if (objects.size()<=0) return;
-        List<T> clones = new ArrayList<>();
-        Util.For(objects,ob->clones.add(clone.Run(ob)));
+        List<IObject> clones = new ArrayList<>();
+        Util.For(objects,ob->clones.add(ob.Clone()));
         AddTo(clones);
     }
     private void MoveTo()
     {
-        List<T> objects = (List<T>) ClipBoard.i.GetObjects();
+        List<IObject> objects = ClipBoard.i.GetObjects();
         if (objects.size()<=0) return;
         TreeNode node = GetNode(objects.get(0));
-        T parent = GetObject(node.getParent());
-        Util.For(objects,i->parentRemove.Run(parent,i));
-        refreshObject.Run(parent);
+        IObject parent = GetObject(node.getParent());
+        Util.For(objects,i->parent.GetIMap().Remove(i));
+        refreshObject.Run((T)parent);
         AddTo(objects);
     }
     private void Move(int dir)
     {
-        T object = GetSelectedObject();
-        move.Run(object,dir);
+        IObject object = GetSelectedObject();
+        IObject parent = GetParentObject();
+        parent.GetIMap().Move(object,dir);
         Refresh();
         SetSelection(object);
     }
-    private void AddTo(List<T> list)
+    private void AddTo(List<IObject> list)
     {
-        T parent = GetSelectedObject();
-        if (parent==null || getChildren.Run(parent)==null) return;
-        Util.For(list,i->parentAdd.Run(parent,i));
+        IObject parent = GetSelectedObject();
+        if (parent==null || parent.GetIMap()==null) return;
+        Util.For(list,i->parent.GetIMap().Add(i));
         Refresh();
-        refreshObject.Run(parent);
+        refreshObject.Run((T)parent);
         SetSelection(list.get(0));
     }
     private void Rename(String name)
     {
-        T object = GetSelectedObject();
-        T parent = GetParentObject();
-        rename.Run(name,object,parent);
+        IObject object = GetSelectedObject();
+        IObject parent = GetParentObject();
+        parent.GetIMap().Rename(name,object);
         Refresh();
         SetSelection(object);
+    }
+    public void NewObject()
+    {
+        IObject newOb = newObject.Run();
+        IObject object = GetSelectedObject();
+        if (object.GetIMap()==null) object = GetParentObject();
+        object.GetIMap().Add(newOb);
+        Refresh();
+        refreshObject.Run((T)newOb);
+        SetSelection(newOb);
+    }
+    public IObject Clone(String name, GDX.Runnable1<T> cb)
+    {
+        IObject newOb = GetSelectedObject().Clone();
+        newOb.name = name;
+        cb.Run((T)newOb);
+        GetParentObject().GetIMap().Add(newOb);
+        Refresh();
+        refreshObject.Run((T)newOb);
+        SetSelection(newOb);
+        return newOb;
+    }
+    public IObject Clone(String name)
+    {
+        return Clone(name,ia->{});
     }
 }

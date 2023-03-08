@@ -5,6 +5,9 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GDX {
     public static void Vibrate(int num)
     {
@@ -118,7 +121,7 @@ public class GDX {
     {
         try {
             onTry.Run();
-        }catch (Exception ignored){}
+        }catch (Exception ignored){ignored.printStackTrace();}
     }
     public static void Try(Runnable onTry, Runnable onCatch)
     {

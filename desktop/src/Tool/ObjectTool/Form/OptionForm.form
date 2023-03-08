@@ -73,6 +73,7 @@
           <component id="b91df" class="javax.swing.JCheckBox" binding="cbDrag">
             <constraints/>
             <properties>
+              <selected value="true"/>
               <text value="Drag"/>
             </properties>
           </component>

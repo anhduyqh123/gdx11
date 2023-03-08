@@ -1,10 +1,7 @@
 package Tool.ObjectTool.Form;
 
-import GDX11.IObject.IAction.IAction;
-import GDX11.IObject.IAction.IDelay;
-import GDX11.IObject.IAction.IMulAction;
+import GDX11.IObject.IAction.*;
 import GDX11.IObject.IActor.IActor;
-import GDX11.IObject.IActor.IGroup;
 import GDX11.Reflect;
 import Tool.JFrame.GTree;
 import Tool.JFrame.UI;
@@ -33,13 +30,14 @@ public class IActionForm {
     private GTree<IAction> gTree = new GTree<>(tree,null);
     private Class selectedType;
     private IAction mainIAction;
+    private IActor iActor;
 
     public IActionForm()
     {
         pnInfo.setLayout(new WrapLayout());
 
         String[] vl1 = {"GDX","Box2D","Spine","Extend"};
-        Class[] types1 = {IDelay.class, IMulAction.class};
+        Class[] types1 = {IDelay.class, IMove.class, IAlpha.class, IMulAction.class};
         Class[] types2 ={};
         Class[] types3 ={};
         Class[] types4 ={};
@@ -54,67 +52,30 @@ public class IActionForm {
                 selectedType = type[id];
             });
         });
-
-        gTree.getChildren = this::GetChildren;
-        gTree.getName = i->i.name;
+        gTree.newObject = this::NewIAction;
         gTree.onSelect = this::OnSelectIAction;
-        gTree.parentAdd = this::ParentAdd;
-        gTree.parentRemove = this::ParentRemove;
-        gTree.rename = this::Rename;
-        gTree.clone = this::CloneIActor;
-        //gTree.move = (i,d)->i.GetIParent().Move(i.GetName(),d);
-        gTree.refreshObject = i->{};
 
-        UI.Button(btNew,this::NewIAction);
+        UI.Button(btNew,gTree::NewObject);
+        UI.Button(cloneButton,()->gTree.Clone(gTree.GetSelectedObject().name));
+        UI.Button(runButton,()->iActor.RunAction(gTree.GetMainObject().name));
     }
     public void SetIActor(IActor iActor)
     {
+        this.iActor = iActor;
         gTree.SetRoot(iActor.iAction);
         gTree.SetSelection(iActor.iAction);
     }
-    protected void NewIAction()
+    protected IAction NewIAction()
     {
-        IAction newAc = Reflect.NewInstance(selectedType);
-        IAction iAction = gTree.GetSelectedObject();
-        if (!(iAction instanceof IMulAction)) iAction = gTree.GetParentObject();
-        IMulAction iMul = (IMulAction) iAction;
-        iMul.Add(newAc);
-        gTree.Refresh();
-        gTree.SetSelection(newAc);
-    }
-    private Collection GetChildren(IAction iAction)
-    {
-        if (iAction instanceof IMulAction) return ((IMulAction)iAction).list;
-        return null;
-    }
-    private void ParentAdd(IAction parent,IAction child)
-    {
-        IMulAction iMul = (IMulAction) parent;
-        iMul.Add(child);
-    }
-    private void ParentRemove(IAction parent,IAction child)
-    {
-        IMulAction iMul = (IMulAction) parent;
-        iMul.Remove(child);
-    }
-    private void Rename(String name, IAction child,IAction parent)
-    {
-        IMulAction iMul = (IMulAction) parent;
-        iMul.Remove(child);
-        child.name = name;
-        iMul.Add(child);
-    }
-    private IAction CloneIActor(IAction iAction)
-    {
-        IAction clone = Reflect.Clone(iAction);
-        clone.name +="_clone";
-        return clone;
+        return Reflect.NewInstance(selectedType);
     }
     private void OnSelectIAction(IAction iAction)
     {
+        pnInfo.removeAll();
         List<String> list = UI.GetFields(iAction);
-        list.removeAll(Arrays.asList("list","name"));
+        list.removeAll(Arrays.asList("iMap","name"));
         UI.InitComponents(list,iAction,pnInfo);
         lbType.setText(iAction.getClass().getSimpleName());
+        UI.Repaint(pnInfo);
     }
 }

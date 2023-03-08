@@ -22,20 +22,27 @@ public class IPos {
     }
     public void Refresh()
     {
+        GetIActor().SetPosition(GetPosition(),GetAlign());
+    }
+    public Vector2 GetPosition()
+    {
+        Actor actor = GetIActor().GetActor();
         float x0 = GetIActor().iParam.GetValueFromString(x);
         float y0 = GetIActor().iParam.GetValueFromString(y);
         Vector2 pos = new Vector2(x0,y0);
-        int al = IParam.GetAlign(align);
-
-        if (coordinatesActor.equals("")) GetIActor().SetPosition(pos,al);
-        else {
-            if (coordinatesActor.equals("stage")) GetIActor().SetStagePosition(pos,al);
-            else {
-                Actor other = GetIActor().IRootFind(coordinatesActor).GetActor();
-                other.localToActorCoordinates(GetIActor().GetActor().getParent(),pos);
-                GetIActor().SetPosition(pos,al);
-            }
-        }
+        if (coordinatesActor.equals("")) return pos;
+        if (coordinatesActor.equals("stage")) return actor.getParent().stageToLocalCoordinates(pos);
+        Actor other = GetIActor().IRootFind(coordinatesActor).GetActor();
+        return other.localToActorCoordinates(GetIActor().GetActor().getParent(),pos);
+    }
+    public void SetPosition(Vector2 pos)//Align always bottom Left
+    {
+        x = pos.x+"";
+        y = pos.y+"";
+    }
+    public int GetAlign()
+    {
+        return IParam.GetAlign(align);
     }
 
     @Override

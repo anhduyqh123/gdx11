@@ -1,6 +1,6 @@
 package Tool.ObjectTool.Data;
 
-import GDX11.GDX;
+import GDX11.IObject.IObject;
 import GDX11.Util;
 import Tool.JFrame.UI;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public class ClipBoard {
     public static ClipBoard i;
     private JComboBox cb;
-    private List<Object> list;
+    private List<IObject> list;
 
     public ClipBoard(JComboBox cb)
     {
@@ -18,14 +18,14 @@ public class ClipBoard {
         this.cb = cb;
     }
 
-    public void Select(List<Object> list, GDX.Func1<String,Object> getName)
+    public void Select(List<IObject> list)
     {
         this.list = list;
         String[] arr = new String[list.size()];
-        Util.For(0,arr.length-1,i->arr[i]=getName.Run(list.get(i)));
+        Util.For(0,arr.length-1,i->arr[i]=list.get(i).name);
         UI.ComboBox(i.cb,arr);
     }
-    public List<Object> GetObjects()
+    public List<IObject> GetObjects()
     {
         return list;
     }

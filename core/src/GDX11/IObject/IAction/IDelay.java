@@ -1,6 +1,5 @@
 package GDX11.IObject.IAction;
 
-import GDX11.IObject.IActor.IActor;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
@@ -15,10 +14,14 @@ public class IDelay extends IAction{
 
     @Override
     public Action Get() {
-        return Actions.delay(GetIActor().iParam.GetValueFromString(duration));
+        return Actions.delay(GetDuration());
     }
     public void SetDuration(Object value)
     {
         duration = value+"";
+    }
+    public float GetDuration()
+    {
+        return GetFloatValue(duration);
     }
 }

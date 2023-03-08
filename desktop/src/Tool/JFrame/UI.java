@@ -160,6 +160,10 @@ public class UI {
     }
 
     //CheckBox
+    public static void CheckBox(JCheckBox cb, GDX.Runnable1<Boolean> onChange)
+    {
+        cb.addActionListener(e->onChange.Run(cb.isSelected()));
+    }
     public static JCheckBox NewCheckBox(String name,boolean value,JPanel parent,GDX.Runnable1<Boolean> onChange)
     {
         JCheckBox checkBox = new JCheckBox();

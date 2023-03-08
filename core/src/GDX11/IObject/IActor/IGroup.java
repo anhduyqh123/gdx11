@@ -1,6 +1,7 @@
 package GDX11.IObject.IActor;
 
 import GDX11.GDX;
+import GDX11.IObject.IMap;
 import GDX11.Util;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -11,9 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 public class IGroup extends IActor {
-
-    public Map<String, IActor> map = new HashMap<>();
-    public List<String> list = new ArrayList<>();
+    public IMap<IActor> iMap = new IMap<>();
+    {
+        iMap.onAdd = this::OnAddChild;
+    }
 
     //IActor
     @Override
@@ -24,8 +26,15 @@ public class IGroup extends IActor {
     @Override
     public void SetIRoot(Group group) {
         super.SetIRoot(group);
-        ForIChild(this::ConnectChild);
+        ForIChild(i->i.SetIParent(this));
     }
+
+    @Override
+    public void SetIParent(IGroup iParent) {
+        super.SetIParent(iParent);
+        ForIChild(i->i.SetIParent(this));
+    }
+
     @Override
     public void Refresh() {
         super.Refresh();
@@ -39,62 +48,18 @@ public class IGroup extends IActor {
     }
 
     //IGroup
-    protected void ConnectChild(String name,IActor iActor)
+    protected void OnAddChild(IActor iActor)
     {
         iActor.SetIParent(this);
-        iActor.SetName(name);
-    }
-    public void AddChild(String name,IActor iActor)
-    {
-        list.add(name);
-        map.put(name,iActor);
-        ConnectChild(name,iActor);
-    }
-    public void AddChildAndRefresh(String name,IActor iActor)
-    {
-        AddChild(name,iActor);
-        iActor.Refresh();
-    }
-    public void Remove(String name) {
-        Actor child = FindActor(name);
-        if (child!=null) child.remove();
-        map.remove(name);
-        list.remove(name);
-    }
-    public void Rename(String oldName,String newName)
-    {
-        IActor child = map.get(oldName);
-        map.remove(oldName);
-        map.put(newName,child);
-        int index = list.indexOf(oldName);
-        list.set(index,newName);
-        child.SetName(newName);
-    }
-    public void Move(String childName, int dir)
-    {
-        int index = list.indexOf(childName);
-        int nIndex = index+dir;
-        if (nIndex<0) nIndex = 0;
-        if (nIndex>=list.size()) nIndex = list.size()-1;
-        String nName = list.get(nIndex);
-        list.set(nIndex,childName);
-        list.set(index,nName);
     }
 
     public boolean Contains(String name)
     {
-        return map.containsKey(name);
+        return iMap.Contains(name);
     }
     public <T extends IActor> T FindIActor(String name)
     {
-        if (Contains(name)) return GetIActor(name);
-        for(IActor ic : map.values())
-            if (ic instanceof IGroup)
-            {
-                IActor result = ((IGroup)ic).FindIActor(name);
-                if (result!=null) return (T)result;
-            }
-        return null;
+        return (T)iMap.Find(name);
     }
     public <T extends Actor> T FindActor(String name)
     {
@@ -102,21 +67,11 @@ public class IGroup extends IActor {
     }
     public <T extends IActor> T GetIActor(String name)
     {
-        return (T)map.get(name);
+        return (T)iMap.Get(name);
     }
     public void ForIChild(GDX.Runnable1<IActor> cb)
     {
-        Util.For(list,name->cb.Run(map.get(name)));
-    }
-    public void ForIChild(GDX.Runnable2<String,IActor> cb)
-    {
-        Util.For(list,name->cb.Run(name,map.get(name)));
-    }
-    public List<IActor> GetIChildren()
-    {
-        List<IActor> children = new ArrayList<>();
-        ForIChild((n,i)->children.add(i));
-        return children;
+        iMap.For(cb);
     }
 
     //extend

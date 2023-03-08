@@ -1,7 +1,6 @@
 package Tool.ObjectTool.Form;
 
 import GDX11.IObject.IActor.IActor;
-import GDX11.IObject.IActor.IGroup;
 import Tool.JFrame.UI;
 import Tool.JFrame.WrapLayout;
 import Tool.ObjectTool.Data.Content;
@@ -53,9 +52,9 @@ public class IActorForm {
     }
     private String[] SizeValues(String value0)
     {
-        if (iActor instanceof IGroup)
+        if (iActor.GetIMap()!=null)
         {
-            List<String> list = new ArrayList<>(iActor.GetIGroup().list);
+            List<String> list = new ArrayList<>(iActor.GetIMap().GetMap().keySet());
             list.add(0,value0);
             return list.toArray(new String[0]);
         }

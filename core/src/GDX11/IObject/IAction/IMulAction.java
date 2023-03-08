@@ -1,15 +1,11 @@
 package GDX11.IObject.IAction;
 
 import GDX11.GDX;
-import GDX11.Util;
+import GDX11.IObject.IActor.IActor;
+import GDX11.IObject.IMap;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class IMulAction extends IAction {
     public enum Type{
@@ -17,19 +13,25 @@ public class IMulAction extends IAction {
         Sequence,
         Parallel
     }
-    public List<IAction> list = new ArrayList<>();
     public Type type = Type.Sequence;
-    protected GDX.Func<Map<String,IAction>> getMap;
+    public IMap<IAction> iMap = new IMap<>();
+    {
+        iMap.onAdd = i->i.SetIActor(GetIActor());
+    }
+
+    public IMulAction(){
+        super("multi");
+    }
     //IAction
     @Override
     public void Run() {
-        Util.For(list, IAction::Run);
+        iMap.For(IAction::Run);
     }
 
     @Override
     public Action Get() {
         ParallelAction mulAction = NewAction();
-        Util.For(list, i->mulAction.addAction(i.Get()));
+        iMap.For(i->mulAction.addAction(i.Get()));
         return mulAction;
     }
     protected ParallelAction NewAction()
@@ -39,49 +41,22 @@ public class IMulAction extends IAction {
     }
     //IMul
 
-    //data
+    @Override
+    public void SetIActor(IActor iActor) {
+        super.SetIActor(iActor);
+        iMap.For(i->i.SetIActor(iActor));
+    }
 
-    protected Map<String,IAction> GetMap()
-    {
-        if (getMap==null) Install();
-        return getMap.Run();
-    }
-    protected void Install()
-    {
-        Map<String,IAction> map = new HashMap<>();
-        Util.For(list,i->map.put(i.name,i));
-        getMap = ()->map;
-    }
-    public boolean Contains(String name)
-    {
-        return GetMap().containsKey(name);
-    }
-    public <T extends IAction> T Find(String name)
-    {
-        if (GetMap().containsKey(name)) return (T)GetMap().get(name);
-        for (IAction i : list)
-            if (i instanceof IMulAction)
-            {
-                IMulAction iMul = (IMulAction) i;
-                T iAction = iMul.Find(name);
-                if (iAction!=null) return iAction;
-            }
-        return null;
-    }
     public IMulAction FindIMul(String name)
     {
         return Find(name);
     }
-
-    //ForEditor
-    public void Add(IAction child)
+    public <T extends IAction> T Find(String name)
     {
-        list.add(child);
-        GetMap().put(child.name,child);
+        return (T)iMap.Find(name);
     }
-    public void Remove(IAction child)
+    public boolean Contain(String name)
     {
-        list.remove(child);
-        GetMap().remove(child.name);
+        return iMap.Contains(name);
     }
 }
