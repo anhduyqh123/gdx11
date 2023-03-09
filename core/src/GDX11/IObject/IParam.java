@@ -57,6 +57,10 @@ public class IParam {
             GetParam().put(name,value+"");
         }catch (Exception e){}
     }
+    public boolean HasParam(String name)
+    {
+        return GetParam().containsKey(name);
+    }
     //variable
     public Float GetValueFromString(String stValue)
     {
@@ -65,6 +69,7 @@ public class IParam {
     private  <T> T GetVariable(String stValue,T value0)
     {
         if (stValue.contains("[")) return GetRandom(stValue,value0);
+        if (stValue.equals("scale")) return (T)Float.valueOf(Scene.i.scale);
         if (stValue.equals("sw")) return (T)Float.valueOf(Scene.i.width);
         if (stValue.equals("sh")) return (T)Float.valueOf(Scene.i.height);
         if (stValue.contains("_")) return GetExtendVariable(stValue,value0);
@@ -72,6 +77,7 @@ public class IParam {
     }
     private  <T> T GetActorVariable(String stValue,T value0,Actor actor)
     {
+        if (HasParam(stValue)) return Reflect.ToBaseType(GetParam().get(stValue),value0);
         if (stValue.equals("index")) return (T)Integer.valueOf(actor.getZIndex());
         if (stValue.equals("w")) return (T)Float.valueOf(actor.getWidth());
         if (stValue.equals("h")) return (T)Float.valueOf(actor.getHeight());
@@ -144,15 +150,15 @@ public class IParam {
     public static int GetAlign(String align)
     {
         if (align.equals("")) return Align.bottomLeft;
-        if (align.equals("bl")) return Align.bottomLeft;
-        if (align.equals("b")) return Align.bottom;
-        if (align.equals("br")) return Align.bottomRight;
-        if (align.equals("l")) return Align.left;
-        if (align.equals("c")) return Align.center;
-        if (align.equals("r")) return Align.right;
-        if (align.equals("tl")) return Align.topLeft;
-        if (align.equals("t")) return Align.top;
-        if (align.equals("tr")) return Align.topRight;
+        if (align.equals("bottomLeft")) return Align.bottomLeft;
+        if (align.equals("bottom")) return Align.bottom;
+        if (align.equals("bottomRight")) return Align.bottomRight;
+        if (align.equals("left")) return Align.left;
+        if (align.equals("center")) return Align.center;
+        if (align.equals("right")) return Align.right;
+        if (align.equals("topLeft")) return Align.topLeft;
+        if (align.equals("top")) return Align.top;
+        if (align.equals("topRight")) return Align.topRight;
         return Align.bottomLeft;
     }
 

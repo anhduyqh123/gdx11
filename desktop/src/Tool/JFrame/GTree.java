@@ -3,6 +3,7 @@ package Tool.JFrame;
 import GDX11.GDX;
 import GDX11.IObject.IMap;
 import GDX11.IObject.IObject;
+import GDX11.Reflect;
 import GDX11.Util;
 import Tool.ObjectTool.Data.ClipBoard;
 
@@ -222,19 +223,24 @@ public class GTree<T extends IObject> {
         refreshObject.Run((T)newOb);
         SetSelection(newOb);
     }
-    public IObject Clone(String name, GDX.Runnable1<T> cb)
+    public void Clone(String name)
     {
         IObject newOb = GetSelectedObject().Clone();
         newOb.name = name;
-        cb.Run((T)newOb);
         GetParentObject().GetIMap().Add(newOb);
         Refresh();
         refreshObject.Run((T)newOb);
         SetSelection(newOb);
-        return newOb;
     }
-    public IObject Clone(String name)
+    public void Prefab(String name)
     {
-        return Clone(name,ia->{});
+        if (ClipBoard.i.GetObjects().size()<=0) return;
+        IObject newOb = ClipBoard.i.GetObjects().get(0).Clone();
+        Reflect.SetValue("prefab",newOb,newOb.name);
+        newOb.name = name;
+        GetSelectedObject().GetIMap().Add(newOb);
+        Refresh();
+        refreshObject.Run((T)newOb);
+        SetSelection(newOb);
     }
 }

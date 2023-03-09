@@ -15,6 +15,7 @@ public class IGroup extends IActor {
     public IMap<IActor> iMap = new IMap<>();
     {
         iMap.onAdd = this::OnAddChild;
+        iMap.onRemove = this::OnRemoveChild;
     }
 
     //IActor
@@ -34,11 +35,26 @@ public class IGroup extends IActor {
         super.SetIParent(iParent);
         ForIChild(i->i.SetIParent(this));
     }
+    @Override
+    public void RefreshContent() {
+        ForIChild(IActor::RefreshContent);
+    }
+
+    @Override
+    public void RefreshLanguage() {
+        ForIChild(IActor::RefreshLanguage);
+    }
 
     @Override
     public void Refresh() {
         super.Refresh();
         ForIChild(IActor::Refresh);
+    }
+
+    @Override
+    protected void RefreshCore() {
+        InitActor();
+        BaseRefresh();
     }
 
     @Override
@@ -51,6 +67,9 @@ public class IGroup extends IActor {
     protected void OnAddChild(IActor iActor)
     {
         iActor.SetIParent(this);
+    }
+    protected void OnRemoveChild(IActor iActor){
+        iActor.GetActor().remove();
     }
 
     public boolean Contains(String name)
@@ -79,6 +98,14 @@ public class IGroup extends IActor {
     {
         super.Runnable(cb);
         ForIChild(i->i.Runnable(cb));
+    }
+
+    //Clone
+    public <T extends IActor> T Clone(int index)
+    {
+        T clone = iMap.list.get(index).Clone();
+        clone.SetIParent(this);
+        return clone;
     }
 
 }

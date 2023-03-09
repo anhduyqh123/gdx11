@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import java.util.Map;
 
 public class IJson extends Json {
-    public static GDX.Func1<IActor,String> getIChild = IObject::Get;
     public static <T> T FromJson(JsonValue js)
     {
         IJson json = new IJson();
@@ -28,7 +27,7 @@ public class IJson extends Json {
             String prefab1 = ((IActor)object).prefab;
             String prefab2 = ((IActor)defaultObject).prefab;
             if (prefab1.equals(prefab2)) return defaultObject;
-            return Reflect.Clone(getIChild.Run(prefab1));
+            return IObject.Get(prefab1).Clone();
         }catch (Exception e){}
         return defaultObject;
     }
@@ -36,7 +35,7 @@ public class IJson extends Json {
     @Override
     protected Object GetObjectToRead(Object object, JsonValue js) {
         String prefab = js.getString("prefab","");
-        if (!prefab.equals("")) return Reflect.Clone(getIChild.Run(prefab));
+        if (!prefab.equals("")) return IObject.Get(prefab).Clone();
         return object;
     }
 

@@ -56,9 +56,17 @@ public class Util {
         v.y = Math.round(v.y);
     }
     //for
+    public static void Repeat(int count, GDX.Runnable cb)
+    {
+        For(1,count,i-> cb.Run());
+    }
     public static <T> void For(Collection<T> list, GDX.Runnable1<T> cb)
     {
         for (T i : list) cb.Run(i);
+    }
+    public static void ForIndex(Collection list, GDX.Runnable1<Integer> cb)
+    {
+        Util.For(0,list.size()-1, cb::Run);
     }
     public static <T> void For(int from,int to,GDX.Runnable1<Integer> cb)
     {

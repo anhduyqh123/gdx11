@@ -22,7 +22,7 @@ public class IComponent {
         return GetIActor().GetActor();
     }
 
-    public void OnUpdate(float delta)
+    public void Update(float delta)
     {
 
     }
@@ -31,11 +31,11 @@ public class IComponent {
         onDraw.run();
     }
 
-    public void OnRefresh()
+    public void Refresh()
     {
 
     }
-    public void OnRemove()
+    public void Remove()
     {
 
     }

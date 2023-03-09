@@ -3,12 +3,12 @@ package Tool.ObjectTool.Data;
 import GDX11.Asset;
 import GDX11.AssetData.AssetNode;
 import GDX11.AssetData.AssetPackage;
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IObject;
 import GDX11.Scene;
 import GDX11.Util;
+import com.badlogic.gdx.files.FileHandle;
 
 public class ObjectPack extends IGroup {
     private AssetPackage assetPackage;
@@ -51,5 +51,19 @@ public class ObjectPack extends IGroup {
             assetPackage.Install();
         }
         done.run();
+    }
+
+    @Override
+    protected void OnRemoveChild(IActor iActor) {
+        super.OnRemoveChild(iActor);
+        Delete(iActor);
+    }
+
+    public void Delete(IActor iActor) {
+        AssetNode node = assetPackage.Get(iActor.name);
+        try {
+            FileHandle file = new FileHandle(node.url);
+            file.delete();
+        }catch (Exception e){}
     }
 }

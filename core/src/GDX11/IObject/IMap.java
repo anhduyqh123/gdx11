@@ -41,6 +41,10 @@ public class IMap<T extends IObject> {
         }
         return null;
     }
+    public T Get(int index)
+    {
+        return list.get(index);
+    }
     public T Get(String name)
     {
         return GetMap().get(name);

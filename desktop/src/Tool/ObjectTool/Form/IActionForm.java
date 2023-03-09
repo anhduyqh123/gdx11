@@ -37,7 +37,7 @@ public class IActionForm {
         pnInfo.setLayout(new WrapLayout());
 
         String[] vl1 = {"GDX","Box2D","Spine","Extend"};
-        Class[] types1 = {IDelay.class, IMove.class, IAlpha.class, IMulAction.class};
+        Class[] types1 = {IDelay.class, IMove.class, IAlpha.class, IMulAction.class, IRunAction.class, IRepeat.class};
         Class[] types2 ={};
         Class[] types3 ={};
         Class[] types4 ={};

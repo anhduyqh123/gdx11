@@ -35,11 +35,6 @@ public class IImage extends IActor{
         iRun.SetFunc("dh",()->(float)GetTexture().getRegionHeight());//height of texture
     }
 
-    @Override
-    public void Refresh() {
-        super.Refresh();
-        RefreshContent();
-    }
     //IImage
     protected boolean IsNinePath()
     {

@@ -3,7 +3,6 @@ package Tool.ObjectTool.Form;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Scene;
-import GDX11.Util;
 import Tool.JFrame.UI;
 import Tool.ObjectTool.Data.ClipBoard;
 import Tool.ObjectTool.Data.MyGame;
@@ -45,7 +44,7 @@ public class OptionForm {
         Scene.i.ui.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!cbDrag.isSelected()) return false;
+                if (!cbDrag.isSelected()||button!=0) return false;
                 dragActor = Scene.i.ui.hit(x,y,false);
                 p0.set(x,y);
                 if (dragActor!=null){

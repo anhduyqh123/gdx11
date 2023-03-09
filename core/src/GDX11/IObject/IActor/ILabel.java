@@ -16,7 +16,7 @@ public class ILabel extends IActor{
 
     public String font = "";
     public String text = "text";
-    public String alignment = "c";
+    public String alignment = "center";
     public float fontScale = 1f;
     public boolean bestFix,wrap,multiLanguage;
 
@@ -36,12 +36,6 @@ public class ILabel extends IActor{
         super.Connect();
         iRun.SetFunc("dw",()->GetLabel().getPrefWidth());//width of texture
         iRun.SetFunc("dh",()->GetLabel().getPrefHeight());//height of texture
-    }
-
-    @Override
-    public void Refresh() {
-        super.Refresh();
-        RefreshContent();
     }
 
     @Override

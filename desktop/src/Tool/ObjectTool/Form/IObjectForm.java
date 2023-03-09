@@ -3,19 +3,15 @@ package Tool.ObjectTool.Form;
 import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
-import GDX11.IObject.IActor.IGroup;
-import GDX11.IObject.IObject;
 import GDX11.Reflect;
 import Tool.JFrame.GTree;
 import Tool.JFrame.UI;
-import Tool.ObjectTool.Data.ClipBoard;
 import Tool.ObjectTool.Data.Content;
 import Tool.ObjectTool.Data.ObjectData;
 import Tool.ObjectTool.Data.ObjectPack;
 
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,13 +29,12 @@ public class IObjectForm {
     private JButton downButton;
     private JButton addToButton;
     private JButton saveButton;
-    private JButton btReload;
+    private JButton btRefresh;
     public JPanel panel1;
 
     private ObjectData data = new ObjectData();
     private ObjectPack selectedPack;
-    private IActor selectedIActor;
-    private IActor mainIActor;
+    private IActor mainIActor,iActor;
     private final List<String> allPack = new ArrayList<>(Asset.i.data.GetKeys());
     private final Class[] types = Content.GetTypes();
     private GTree<IActor> gTree = new GTree<>(tree,tfName);
@@ -60,15 +55,10 @@ public class IObjectForm {
         RefreshData();
 
         UI.Button(btNew,gTree::NewObject);
-        UI.Button(btPrefab,this::Prefab);
+        UI.Button(btPrefab,()->gTree.Prefab(tfName.getText()));
         UI.Button(cloneButton,()->gTree.Clone(tfName.getText()));
         UI.Button(saveButton,this::Save);
-    }
-    private void Prefab()
-    {
-        if (ClipBoard.i.GetObjects().size()<=0) return;
-        IObject ob = ClipBoard.i.GetObjects().get(0);
-        gTree.Clone(tfName.getText(),ia->ia.prefab=ob.name);
+        UI.Button(btRefresh,()->iActor.Refresh());
     }
     private void RefreshData()
     {
@@ -83,6 +73,7 @@ public class IObjectForm {
     }
     private void OnSelectIActor(IActor iActor)
     {
+        this.iActor = iActor;
         tfName.setText(iActor.name);
         SetMainIActor(gTree.GetMainObject());
         onSelectIActor.Run(iActor);

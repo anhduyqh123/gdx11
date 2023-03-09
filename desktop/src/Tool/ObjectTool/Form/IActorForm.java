@@ -38,9 +38,7 @@ public class IActorForm {
 
         Content.InitIActor(iActor,pInfo);
         InitISize();
-        //UI.InitComponents(Arrays.asList("width","height","origin","scale","rotate"),iActor.iSize,pSize);
-        UI.NewLabel("size:"+(int)iActor.GetActor().getWidth()+"-"+(int)iActor.GetActor().getHeight(),pSize);
-        UI.InitComponents(iActor.iPos,pPos);
+        InitPosition();
     }
     private void InitISize()
     {
@@ -48,7 +46,14 @@ public class IActorForm {
                 vl-> iActor.iSize.width = vl).setEditable(true);
         UI.NewComboBox("height",SizeValues(iActor.iSize.height),iActor.iSize.height,pSize,
                 vl-> iActor.iSize.height = vl).setEditable(true);
-        UI.InitComponents(Arrays.asList("origin","scale","rotate"),iActor.iSize,pSize);
+        UI.NewAlignComboBox("origin",iActor.iSize,pSize).setEditable(true);
+        UI.InitComponents(Arrays.asList("scale","rotate"),iActor.iSize,pSize);
+        UI.NewLabel("size:"+(int)iActor.GetActor().getWidth()+"-"+(int)iActor.GetActor().getHeight(),pSize);
+    }
+    private void InitPosition()
+    {
+        UI.InitComponents(Arrays.asList("coordinatesActor","x","y"),iActor.iPos,pPos);
+        UI.NewAlignComboBox("align",iActor.iPos,pPos);
     }
     private String[] SizeValues(String value0)
     {

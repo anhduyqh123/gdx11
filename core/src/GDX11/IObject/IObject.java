@@ -1,11 +1,8 @@
 package GDX11.IObject;
 
-import GDX11.Asset;
+import GDX11.*;
 import GDX11.AssetData.AssetNode;
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
-import GDX11.Json;
-import GDX11.Reflect;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 
@@ -22,7 +19,7 @@ public abstract class IObject {
     {
         return Reflect.GetValue("iMap",this);
     }
-    public IObject Clone()
+    public <T extends IObject> T Clone()
     {
         return Reflect.Clone(this);
     }
@@ -34,7 +31,7 @@ public abstract class IObject {
     public static IActor Get(String name)
     {
         AssetNode node = Asset.i.GetNode(name);
-        String data = GDX.GetRemote(name,GDX.GetString(node.url));
+        String data = Config.GetRemote(name,GDX.GetString(node.url));
         JsonValue jsData = Json.StringToJson(data);
         return IJson.FromJson(jsData);
     }

@@ -5,12 +5,13 @@ import GDX11.Util;
 import Tool.JFrame.UI;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClipBoard {
     public static ClipBoard i;
     private JComboBox cb;
-    private List<IObject> list;
+    private List<IObject> list = new ArrayList<>();
 
     public ClipBoard(JComboBox cb)
     {
@@ -18,9 +19,10 @@ public class ClipBoard {
         this.cb = cb;
     }
 
-    public void Select(List<IObject> list)
+    public void Select(List<IObject> all)
     {
-        this.list = list;
+        list.clear();
+        list.addAll(all);
         String[] arr = new String[list.size()];
         Util.For(0,arr.length-1,i->arr[i]=list.get(i).name);
         UI.ComboBox(i.cb,arr);

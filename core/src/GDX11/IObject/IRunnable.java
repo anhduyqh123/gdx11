@@ -10,6 +10,18 @@ import java.util.Map;
 public class IRunnable {
     //static
     public static Map<String, GDX.Runnable1<IActor>> runMap = new HashMap<>();
+    public static void SetGameRun(String name, GDX.Runnable1<IActor> cb)
+    {
+        runMap.put(name,cb);
+    }
+    public static GDX.Runnable1<IActor> GetGameRun(String name)
+    {
+        return runMap.get(name);
+    }
+    public static boolean GameHasRun(String name)
+    {
+        return runMap.containsKey(name);
+    }
 
     private GDX.Func<Map> getFuncMap;
     private GDX.Func<Map> getRunMap;

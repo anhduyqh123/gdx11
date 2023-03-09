@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import java.util.*;
 
-public class AssetData extends Json.JsonObject{
+public class AssetData{
     private Map<String, AssetPackage> packs = new HashMap<>(); //all pack
 
     public AssetData(){}

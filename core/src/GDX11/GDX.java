@@ -5,9 +5,6 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class GDX {
     public static void Vibrate(int num)
     {
@@ -17,12 +14,6 @@ public class GDX {
     public static float DeltaTime()
     {
         return Gdx.graphics.getDeltaTime();
-    }
-    public static Func2<Object,String,Object> getRemote = (key,vl0)->vl0;
-    //remote
-    public static <T> T GetRemote(String key,T value0)
-    {
-        return (T)getRemote.Run(key,value0);
     }
 
     public static void Log(Object log)
@@ -34,55 +25,58 @@ public class GDX {
         Gdx.app.error("error",log+"");
     }
     //Prefs
-    private static final Preferences prefs = Gdx.app.getPreferences("Save");
+    private static Preferences GetPrefs()
+    {
+        return Gdx.app.getPreferences("Save");
+    }
     public static void ClearPreferences()
     {
-        prefs.clear();
+        GetPrefs().clear();
     }
     public static long GetPrefLong(String key, long value0)
     {
-        return prefs.getLong(key,value0);
+        return GetPrefs().getLong(key,value0);
     }
     public static void SetPrefLong(String key, long value)
     {
-        prefs.putLong(key,value);
-        prefs.flush();
+        GetPrefs().putLong(key,value);
+        GetPrefs().flush();
     }
     public static int GetPrefInteger(String key, int value0)
     {
-        return prefs.getInteger(key,value0);
+        return GetPrefs().getInteger(key,value0);
     }
     public static void SetPrefInteger(String key, int value)
     {
-        prefs.putInteger(key,value);
-        prefs.flush();
+        GetPrefs().putInteger(key,value);
+        GetPrefs().flush();
     }
     public static float GetPrefFloat(String key, float value0)
     {
-        return prefs.getFloat(key,value0);
+        return GetPrefs().getFloat(key,value0);
     }
     public static void SetPrefFloat(String key, float value)
     {
-        prefs.putFloat(key,value);
-        prefs.flush();
+        GetPrefs().putFloat(key,value);
+        GetPrefs().flush();
     }
     public static String GetPrefString(String key, String value0)
     {
-        return prefs.getString(key,value0);
+        return GetPrefs().getString(key,value0);
     }
     public static void SetPrefString(String key, String value)
     {
-        prefs.putString(key,value);
-        prefs.flush();
+        GetPrefs().putString(key,value);
+        GetPrefs().flush();
     }
     public static boolean GetPrefBoolean(String key, boolean value0)
     {
-        return prefs.getBoolean(key,value0);
+        return GetPrefs().getBoolean(key,value0);
     }
     public static void SetPrefBoolean(String key, boolean value)
     {
-        prefs.putBoolean(key,value);
-        prefs.flush();
+        GetPrefs().putBoolean(key,value);
+        GetPrefs().flush();
     }
     //PostRunnable
     public static void PostRunnable(java.lang.Runnable runnable)

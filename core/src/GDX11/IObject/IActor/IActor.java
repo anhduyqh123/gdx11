@@ -122,11 +122,6 @@ public class IActor extends IObject {
 
 
     //refresh
-    public void Refresh()
-    {
-        InitActor();
-        BaseRefresh();
-    }
     public void RefreshContent()
     {
 
@@ -134,6 +129,17 @@ public class IActor extends IObject {
     public void RefreshLanguage()
     {
 
+    }
+    public void Refresh()
+    {
+        RefreshCore();
+        InitEvent();
+    }
+    protected void RefreshCore()
+    {
+        InitActor();
+        BaseRefresh();
+        RefreshContent();
     }
     public void BaseRefresh()
     {
@@ -144,6 +150,10 @@ public class IActor extends IObject {
         actor.setTouchable(touchable);
         actor.setVisible(visible);
         InitParam0();
+    }
+    protected void InitEvent()
+    {
+        RunEventAction("init");
     }
     protected void InitParam0()
     {
@@ -157,6 +167,10 @@ public class IActor extends IObject {
     }
     //Action
     public void RunAction(String name)
+    {
+        RunEventAction(name);
+    }
+    protected void RunEventAction(String name)
     {
         if (!iAction.Contain(name)) return;
         GetActor().addAction(iAction.Find(name).Get());

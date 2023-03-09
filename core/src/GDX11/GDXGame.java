@@ -4,6 +4,7 @@ import GDX11.AssetData.AssetData;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GDXGame extends ApplicationAdapter {
@@ -69,7 +70,11 @@ public class GDXGame extends ApplicationAdapter {
     }
     protected Scene NewScene()
     {
-        return new Scene(720,1280,new SpriteBatch());
+        return NewScene(new SpriteBatch());
+    }
+    protected Scene NewScene(Batch batch)
+    {
+        return new Scene(Config.Get("game_width",720),Config.Get("game_height",1280),batch);
     }
     protected Asset NewAssets()
     {

@@ -19,13 +19,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class MyGame extends GDXGame {
     public static Color bg = Color.BLACK;
     public static MyGame i;
-    public int width,height;
-    public Runnable done;
-    public MyGame(int width,int height,Runnable done)
+    private Runnable done;
+    public MyGame(Runnable done)
     {
         i = this;
-        this.width = width;
-        this.height = height;
         this.done = done;
     }
 
@@ -54,7 +51,7 @@ public class MyGame extends GDXGame {
 
     @Override
     protected Scene NewScene() {
-        return new Scene(width,height,new PolygonSpriteBatch());
+        return NewScene(new PolygonSpriteBatch());
     }
 
     private void DebugBorder()

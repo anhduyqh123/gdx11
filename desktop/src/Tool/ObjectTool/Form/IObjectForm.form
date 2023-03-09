@@ -116,10 +116,10 @@
               <text value="Save"/>
             </properties>
           </component>
-          <component id="11186" class="javax.swing.JButton" binding="btReload">
+          <component id="11186" class="javax.swing.JButton" binding="btRefresh">
             <constraints/>
             <properties>
-              <text value="Reload"/>
+              <text value="Refresh"/>
             </properties>
           </component>
         </children>
