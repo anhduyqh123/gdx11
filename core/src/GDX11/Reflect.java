@@ -2,17 +2,15 @@ package GDX11;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SerializationException;
-import com.badlogic.gdx.utils.reflect.ClassReflection;
-import com.badlogic.gdx.utils.reflect.Constructor;
-import com.badlogic.gdx.utils.reflect.Field;
-import com.badlogic.gdx.utils.reflect.ReflectionException;
+import com.badlogic.gdx.utils.reflect.*;
 
 import java.util.*;
 
 public class Reflect {
     private static final Map<Class,Object> typeToDefaultObject = new HashMap<>();
     private static final Map<Class,Map<String, Field>> typeToFields = new HashMap<>();
-    public static boolean isAssignableFrom(Class type,Class superClass)
+
+    public static boolean IsAssignableFrom(Class type, Class superClass)
     {
         return ClassReflection.isAssignableFrom(superClass,type);
     }
@@ -119,6 +117,21 @@ public class Reflect {
         typeToFields.put(type,map);
         return map;
     }
+    //Method
+    public static Method GetMethod(Class type, String methodName, Class... parameterTypes) //all field but only public
+    {
+        try {
+            return ClassReflection.getMethod(type,methodName,parameterTypes);
+        }catch (Exception e){}
+        return null;
+    }
+    public static <T> T RunMethod(Method method,Object object,Object... args)
+    {
+        try {
+            return (T)method.invoke(object,args);
+        }catch (Exception e){}
+        return null;
+    }
     public static Object GetDefaultObject(Class type)
     {
         if (typeToDefaultObject.containsKey(type)) return typeToDefaultObject.get(type);
@@ -201,7 +214,7 @@ public class Reflect {
         if (type == CharSequence.class) return '0';
         return null;
     }
-    public static <T> T ToBaseType(String stValue, Class<T> type)
+    public static <T> T ToBaseType(String stValue, Class type)
     {
         if (type==int.class || type == Integer.class) return (T)Integer.valueOf(stValue);
         if (type==float.class || type == Float.class) return (T)Float.valueOf(stValue);

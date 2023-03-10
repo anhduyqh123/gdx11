@@ -85,7 +85,7 @@ public class GDXGame extends ApplicationAdapter {
     {
         try {
             AssetData data = makeNew?LoadPackages(GetPathData()):
-                    Json.FromJson(AssetData.class,GDX.GetString(GetPathData()));
+                    Json.ToObject(GDX.GetString(GetPathData()));
             if (data!=null) return data;
         }catch (Exception e){e.printStackTrace(); }
         return new AssetData();

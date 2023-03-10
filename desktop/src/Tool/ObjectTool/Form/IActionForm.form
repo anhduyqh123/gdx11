@@ -57,6 +57,12 @@
               <preferredSize width="120" height="30"/>
             </properties>
           </component>
+          <component id="750e9" class="javax.swing.JTextField" binding="tfName">
+            <constraints/>
+            <properties>
+              <preferredSize width="120" height="30"/>
+            </properties>
+          </component>
           <component id="7d1e2" class="javax.swing.JButton" binding="btNew">
             <constraints/>
             <properties>

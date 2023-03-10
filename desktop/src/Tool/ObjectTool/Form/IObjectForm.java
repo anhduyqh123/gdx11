@@ -55,8 +55,8 @@ public class IObjectForm {
         RefreshData();
 
         UI.Button(btNew,gTree::NewObject);
-        UI.Button(btPrefab,()->gTree.Prefab(tfName.getText()));
-        UI.Button(cloneButton,()->gTree.Clone(tfName.getText()));
+        UI.Button(btPrefab,gTree::Prefab);
+        UI.Button(cloneButton,gTree::Clone);
         UI.Button(saveButton,this::Save);
         UI.Button(btRefresh,()->iActor.Refresh());
     }
@@ -90,9 +90,7 @@ public class IObjectForm {
     //Edit
     private IActor NewIActor()
     {
-        IActor newObject = Reflect.NewInstance(types[cbType.getSelectedIndex()]);
-        newObject.name = tfName.getText();
-        return newObject;
+        return Reflect.NewInstance(types[cbType.getSelectedIndex()]);
     }
     private void Save()
     {

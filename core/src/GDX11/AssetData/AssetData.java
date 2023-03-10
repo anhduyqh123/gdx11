@@ -1,7 +1,6 @@
 package GDX11.AssetData;
 
 import GDX11.GDX;
-import GDX11.Json;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 

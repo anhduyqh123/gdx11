@@ -1,6 +1,7 @@
 package GDX11;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -72,7 +73,11 @@ public class Util {
     {
         for (int i=from;i<=to;i++) cb.Run(i);
     }
-
+    public static void For(JsonValue json, GDX.Runnable1<JsonValue> cb)
+    {
+        for (JsonValue js : json)
+            cb.Run(js);
+    }
     //convert
 
 

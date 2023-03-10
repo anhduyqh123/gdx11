@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.util.*;
 
 public class GTree<T extends IObject> {
+    private JTextField tfName;
     private JTree tree;
     private IObject root;
     private Map<TreeNode, IObject> map = new HashMap<>();
@@ -28,6 +29,7 @@ public class GTree<T extends IObject> {
 
     public GTree(JTree tree,JTextField tfName)
     {
+        this.tfName = tfName;
         this.tree = tree;
         tree.addTreeSelectionListener(e->{
             DefaultMutableTreeNode node = GetSelectedNode();
@@ -46,14 +48,13 @@ public class GTree<T extends IObject> {
                 if (e.getKeyChar()==KeyEvent.VK_BACK_SPACE) Delete();
             }
         });
-        if (tfName!=null)
-            tfName.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyPressed(KeyEvent e) {
-                    if (e.getKeyCode()==KeyEvent.VK_ENTER)
-                        Rename(tfName.getText());
-                }
-            });
+        tfName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER)
+                    Rename(tfName.getText());
+            }
+        });
     }
     public void SetRoot(IObject root)
     {
@@ -158,8 +159,7 @@ public class GTree<T extends IObject> {
         IObject parent = GetParentObject();
         Util.For(GetSelectedList(),n-> parent.GetIMap().Remove(GetObject(n)));
         Refresh();
-        List<IObject> children = parent.GetIMap().list;
-        if (children.size()>0) SetSelection(children.get(0));
+        if (parent.GetIMap().Size()>0) SetSelection(parent.GetIMap().Get(0));
         else SetSelection(parent);
     }
 
@@ -216,6 +216,7 @@ public class GTree<T extends IObject> {
     public void NewObject()
     {
         IObject newOb = newObject.Run();
+        if (!tfName.getText().equals("")) newOb.name = tfName.getText();
         IObject object = GetSelectedObject();
         if (object.GetIMap()==null) object = GetParentObject();
         object.GetIMap().Add(newOb);
@@ -223,21 +224,21 @@ public class GTree<T extends IObject> {
         refreshObject.Run((T)newOb);
         SetSelection(newOb);
     }
-    public void Clone(String name)
+    public void Clone()
     {
         IObject newOb = GetSelectedObject().Clone();
-        newOb.name = name;
+        newOb.name = tfName.getText();
         GetParentObject().GetIMap().Add(newOb);
         Refresh();
         refreshObject.Run((T)newOb);
         SetSelection(newOb);
     }
-    public void Prefab(String name)
+    public void Prefab()
     {
         if (ClipBoard.i.GetObjects().size()<=0) return;
         IObject newOb = ClipBoard.i.GetObjects().get(0).Clone();
         Reflect.SetValue("prefab",newOb,newOb.name);
-        newOb.name = name;
+        newOb.name = tfName.getText();
         GetSelectedObject().GetIMap().Add(newOb);
         Refresh();
         refreshObject.Run((T)newOb);

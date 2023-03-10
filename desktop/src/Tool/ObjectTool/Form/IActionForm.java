@@ -26,10 +26,10 @@ public class IActionForm {
     private JButton stopButton;
     private JLabel lbType;
     public JPanel panel1;
+    private JTextField tfName;
 
-    private GTree<IAction> gTree = new GTree<>(tree,null);
+    private GTree<IAction> gTree = new GTree<>(tree,tfName);
     private Class selectedType;
-    private IAction mainIAction;
     private IActor iActor;
 
     public IActionForm()
@@ -42,6 +42,7 @@ public class IActionForm {
         Class[] types3 ={};
         Class[] types4 ={};
         Class[][] types = {types1,types2,types3,types4};
+
         UI.ComboBox(cb,vl1,vl1[0],vl->{
             int index = cb.getSelectedIndex();
             Class[] type = types[index];
@@ -56,7 +57,7 @@ public class IActionForm {
         gTree.onSelect = this::OnSelectIAction;
 
         UI.Button(btNew,gTree::NewObject);
-        UI.Button(cloneButton,()->gTree.Clone(gTree.GetSelectedObject().name));
+        UI.Button(cloneButton,()->gTree.Clone());
         UI.Button(runButton,()->iActor.RunAction(gTree.GetMainObject().name));
     }
     public void SetIActor(IActor iActor)

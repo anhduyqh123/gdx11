@@ -30,7 +30,7 @@ public class ITable extends IGroup{
     protected void RefreshCore() {
         super.RefreshCore();
         if (clone>0) CloneChild(clone);
-        else FillChildren(column,iMap.list);
+        else FillChildren(column,iMap.GetObjects());
     }
 
     @Override

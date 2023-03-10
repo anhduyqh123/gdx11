@@ -103,7 +103,7 @@ public class IGroup extends IActor {
     //Clone
     public <T extends IActor> T Clone(int index)
     {
-        T clone = iMap.list.get(index).Clone();
+        T clone = iMap.Get(index).Clone();
         clone.SetIParent(this);
         return clone;
     }

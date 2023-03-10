@@ -1,8 +1,10 @@
 package GDX11.IObject;
 
 import GDX11.GDX;
+import GDX11.Json;
 import GDX11.Reflect;
 import GDX11.Util;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +31,14 @@ public class IMap<T extends IObject> {
     public boolean Contains(String name)
     {
         return GetMap().containsKey(name);
+    }
+    public List<T> GetObjects()
+    {
+        return list;
+    }
+    public int Size()
+    {
+        return list.size();
     }
     public T Find(String name)
     {
@@ -86,6 +96,26 @@ public class IMap<T extends IObject> {
         T nChild = list.get(nIndex);
         list.set(nIndex,child);
         list.set(index,nChild);
+    }
+
+    //For Json
+    public JsonValue ToJson(Object object0)
+    {
+        JsonValue js = new JsonValue(JsonValue.ValueType.object);
+        JsonValue jsArray = new JsonValue(JsonValue.ValueType.array);
+        js.addChild("list",jsArray);
+        IMap<T> iMap0 = (IMap<T>)object0;
+        For(ob-> jsArray.addChild(Json.ObjectToJson(ob,iMap0.Get(ob.name))));
+        return js;
+    }
+    public Object ToObject(JsonValue js)
+    {
+        Util.For(js.get("list"),i->{
+            Object ob = Get(i.getString("name"));
+            if (ob!=null) Json.JsonToObject(i,ob);
+            else Add(Json.ToObject(i));
+        });
+        return this;
     }
 
     @Override

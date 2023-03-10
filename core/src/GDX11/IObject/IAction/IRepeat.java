@@ -11,13 +11,13 @@ public class IRepeat extends IMulAction{
     }
     @Override
     public void Run() {
-        if (iMap.list.size()>0)
+        if (iMap.Size()>0)
             iMap.Get(0).Run();
     }
 
     @Override
     public Action Get() {
-        if (iMap.list.size()<=0) return Actions.sequence();
+        if (iMap.Size()<=0) return Actions.sequence();
         return Actions.repeat(value,iMap.Get(0).Get());
     }
 }
