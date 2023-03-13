@@ -19,12 +19,14 @@ public class AssetPackage {
     public AssetPackage(String url){
         this.url = url;
     }
-    public void Install()
+    public void Clear()
     {
         map.clear();
         assetNodes.clear();
         loadableNode.clear();
-
+    }
+    public void Install()
+    {
         Util.For(list,n->{
             if (map.containsKey(n.name)) GDX.Error("trùng tên:"+n.pack+":"+n.url+"*"+map.get(n.name).url);
             map.put(n.name,n);

@@ -74,13 +74,13 @@ public class IMap<T extends IObject> {
     {
         list.add(child);
         GetMap().put(child.name,child);
-        if (onAdd!=null) onAdd.Run(child);
+        GDX.Try(()->onAdd.Run(child));
     }
     public void Remove(T child)
     {
         list.remove(child);
         GetMap().remove(child.name);
-        if (onRemove!=null) onRemove.Run(child);
+        GDX.Try(()->onRemove.Run(child));
     }
     public void Rename(String newName,T child)
     {
@@ -105,7 +105,11 @@ public class IMap<T extends IObject> {
         JsonValue jsArray = new JsonValue(JsonValue.ValueType.array);
         js.addChild("list",jsArray);
         IMap<T> iMap0 = (IMap<T>)object0;
-        For(ob-> jsArray.addChild(Json.ObjectToJson(ob,iMap0.Get(ob.name))));
+        For(ob-> {
+            JsonValue x = Json.ObjectToJson(ob,iMap0.Get(ob.name));
+            if (!x.has("name")) x.addChild("name",new JsonValue(ob.name));
+            jsArray.addChild(x);
+        });
         return js;
     }
     public Object ToObject(JsonValue js)

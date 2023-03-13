@@ -34,6 +34,7 @@ public class GTree<T extends IObject> {
         tree.addTreeSelectionListener(e->{
             DefaultMutableTreeNode node = GetSelectedNode();
             if (node==null || node.isRoot()) return;
+            tfName.setText(GetSelectedObject().name);
             onSelect.Run(GetObject(node));
         });
         tree.addKeyListener(new KeyAdapter() {

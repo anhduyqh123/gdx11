@@ -5,6 +5,7 @@ import GDX11.GDX;
 import GDX11.IObject.IParam;
 import GDX11.Translate;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -29,7 +30,24 @@ public class ILabel extends IActor{
 
     @Override
     protected Actor NewActor() {
-        return new Label(text,GetStyle(font));
+        return new Label(text,GetStyle(font)){
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+                OnUpdate(delta);
+            }
+
+            @Override
+            public void draw(Batch batch, float parentAlpha) {
+                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
+            }
+
+            @Override
+            public boolean remove() {
+                OnRemove();
+                return super.remove();
+            }
+        };
     }
     @Override
     protected void Connect() {

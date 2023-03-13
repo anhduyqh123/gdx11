@@ -8,7 +8,8 @@ import java.util.*;
 
 public class Reflect {
     private static final Map<Class,Object> typeToDefaultObject = new HashMap<>();
-    private static final Map<Class,Map<String, Field>> typeToFields = new HashMap<>();
+    private static final Map<Class,Map<String,Field>> allField = new HashMap<>();
+    private static final Map<Class,Map<String,Field>> dataField = new HashMap<>();
 
     public static boolean IsAssignableFrom(Class type, Class superClass)
     {
@@ -31,7 +32,7 @@ public class Reflect {
         Class type1 = ob1.getClass();
         Class type2 = ob2.getClass();
         if (!type1.equals(type2)) return false;
-        for (Field f : GetFields(type1).values())
+        for (Field f : GetDataFieldMap(type1).values())
         {
             Object e1 = GetValue(f,ob1);
             Object e2 = GetValue(f,ob2);
@@ -64,10 +65,7 @@ public class Reflect {
     }
     public static Field GetField(Class type,String fieldName) //all field but only public
     {
-        try {
-            return ClassReflection.getField(type,fieldName);
-        }catch (Exception e){}
-        return null;
+        return GetAllFieldMap(type).get(fieldName);
     }
     public static Field GetDeclaredField(Class type,String fieldName) //only local field
     {
@@ -83,7 +81,7 @@ public class Reflect {
         }catch (Exception e){}
         return null;
     }
-    public static List<Field> GetAllFields(Class type) //All Field
+    private static List<Field> GetAllFields(Class type) //All Field
     {
         Array<Class> classHierarchy = new Array();
         Class nextClass = type;
@@ -99,22 +97,30 @@ public class Reflect {
     public static Map<String, Field> GetFields(Class type,List<String> fieldNames)
     {
         Map<String, Field> map = new HashMap<>();
-        Map<String, Field> fields = GetFields(type);
+        Map<String, Field> fields = GetAllFieldMap(type);
         for(String name : fieldNames)
             map.put(name,fields.get(name));
         return map;
     }
-    public static Map<String, Field> GetFields(Class type)
+    public static Map<String, Field> GetAllFieldMap(Class type)
     {
-        if (typeToFields.containsKey(type)) return typeToFields.get(type);
+        if (allField.containsKey(type)) return allField.get(type);
         Map<String, Field> map = new HashMap<>();
         for(Field f : GetAllFields(type))
         {
             if (!f.isAccessible()) f.setAccessible(true);
-            if (IsValidField(f))
-                map.put(f.getName(),f);
+            map.put(f.getName(),f);
         }
-        typeToFields.put(type,map);
+        allField.put(type,map);
+        return map;
+    }
+    public static Map<String, Field> GetDataFieldMap(Class type)
+    {
+        if (dataField.containsKey(type)) return dataField.get(type);
+        Map<String, Field> map = new HashMap<>();
+        for(Field f : GetAllFieldMap(type).values())
+            if (IsValidField(f)) map.put(f.getName(),f);
+        dataField.put(type,map);
         return map;
     }
     //Method
@@ -262,7 +268,7 @@ public class Reflect {
     }
     private static void CloneFields(Object object,Object objectClone)
     {
-        for(Field f : GetFields(object.getClass()).values())
+        for(Field f : GetDataFieldMap(object.getClass()).values())
         {
             Object value = GetValue(f,object);
             Object value0 = GetValue(f,objectClone);

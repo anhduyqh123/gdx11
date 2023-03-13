@@ -22,7 +22,7 @@ public class UI {
     public static List<String> GetFields(Object object)
     {
         List<String> list = new ArrayList<>();
-        for(Field f : Reflect.GetFields(object.getClass()).values())
+        for(Field f : Reflect.GetDataFieldMap(object.getClass()).values())
             list.add(f.getName());
         return list;
     }
@@ -74,13 +74,13 @@ public class UI {
     }
     public static void InitComponents(Object object,JPanel parent)
     {
-        for(Field f : Reflect.GetFields(object.getClass()).values())
+        for(Field f : Reflect.GetDataFieldMap(object.getClass()).values())
             NewComponent(f,object,parent);
     }
     public static void InitComponents(List<String> fieldNames, Object object, JPanel parent)
     {
         for(String name : fieldNames)
-            NewComponent(Reflect.GetFields(object.getClass()).get(name),object,parent);
+            NewComponent(Reflect.GetDataFieldMap(object.getClass()).get(name),object,parent);
     }
     //Panel
     public static void Repaint(JPanel panel)

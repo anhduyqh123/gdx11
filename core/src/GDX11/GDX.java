@@ -115,7 +115,7 @@ public class GDX {
     {
         try {
             onTry.Run();
-        }catch (Exception ignored){ignored.printStackTrace();}
+        }catch (Exception ignored){}
     }
     public static void Try(Runnable onTry, Runnable onCatch)
     {

@@ -48,7 +48,9 @@ public class ObjectPack extends IGroup {
             AssetNode node = new AssetNode(pack, AssetNode.Kind.Object,"",name);
             node.url = url;
             assetPackage.list.add(node);
+            assetPackage.Clear();
             assetPackage.Install();
+            Asset.i.PushMapAssetNode(pack);
         }
         done.run();
     }

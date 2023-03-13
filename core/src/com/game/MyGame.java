@@ -1,5 +1,7 @@
 package com.game;
 
+import Blackjack.Blackjack;
+import GDX11.AssetData.AssetData;
 import GDX11.GDXGame;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Scene;
@@ -10,14 +12,13 @@ public class MyGame extends GDXGame {
         asset.SetData(GetGameData(true));
         asset.LoadPackages(()->{
             //done loading
-            IActor iActor = new IActor();
-            iActor.iSize.width = "200";
-            iActor.iSize.height = "200";
-            iActor.SetIRoot(Scene.i.ui);
-            iActor.Refresh();
-            iActor.GetActor().debug();
-            scene.GetStage().addActor(iActor.GetActor());
-
-        },"first");//load first package
+            new Blackjack();
+        },"first","default");//load first package
+    }
+    @Override
+    protected AssetData LoadPackages(String path) {
+        AssetData data = new AssetData();
+        data.LoadPackages();
+        return data;
     }
 }

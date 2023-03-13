@@ -38,7 +38,7 @@ public class Content {
         }
         protected void ExcludeFields()
         {
-            fields.removeAll(Arrays.asList("iParam","iSize","iPos","iRun","iAction","name"));
+            fields.removeAll(Arrays.asList("iParam","iSize","iPos","iRun","iAction","iComponents","name"));
         }
         protected void InitAlignField(IActor iActor,JPanel panel)
         {

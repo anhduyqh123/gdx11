@@ -3,12 +3,16 @@ package GDX11.IObject.IActor;
 import GDX11.GDX;
 import GDX11.IObject.*;
 import GDX11.IObject.IAction.IMulAction;
+import GDX11.IObject.IComponent.IComponents;
 import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class IActor extends IObject {
 
@@ -24,6 +28,8 @@ public class IActor extends IObject {
     {
         iAction.name = "action";
     }
+    public IComponents iComponents = new IComponents();
+
     protected GDX.Func<Actor> getActor;
     protected GDX.Func<IActor> getIRoot;
     protected GDX.Func<IGroup> getIParent;
@@ -42,23 +48,36 @@ public class IActor extends IObject {
     protected Actor NewActor()
     {
         return new Actor(){
-//            @Override
-//            public void act(float delta) {
-//                super.act(delta);
-//                Update(delta);
-//            }
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+                OnUpdate(delta);
+            }
 
-//            @Override
-//            public void draw(Batch batch, float parentAlpha) {
-//                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
-//            }
-//
-//            @Override
-//            public boolean remove() {
-//                ForComponent((n,p)->p.Remove());
-//                return super.remove();
-//            }
+            @Override
+            public void draw(Batch batch, float parentAlpha) {
+                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
+            }
+
+            @Override
+            public boolean remove() {
+                OnRemove();
+                return super.remove();
+            }
         };
+    }
+    //Event
+    protected void OnUpdate(float delta)
+    {
+        iComponents.Update(delta);
+    }
+    protected void OnDraw(Batch batch, float parentAlpha, Runnable onDraw)
+    {
+        iComponents.Draw(batch, parentAlpha, onDraw);
+    }
+    protected void OnRemove()
+    {
+        iComponents.Remove();
     }
     public void InitActor()
     {
@@ -186,6 +205,16 @@ public class IActor extends IObject {
     public void Runnable(GDX.Runnable1<IActor> cb)
     {
         cb.Run(this);
+    }
+    public void AddClick(Runnable onClick)
+    {
+        GetActor().addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (event.getPointer()!=0) return;
+                onClick.run();
+            }
+        });
     }
 
     //Position

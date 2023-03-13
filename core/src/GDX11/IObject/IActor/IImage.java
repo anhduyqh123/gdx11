@@ -3,6 +3,7 @@ package GDX11.IObject.IActor;
 import GDX11.Asset;
 import GDX11.GDX;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -25,7 +26,24 @@ public class IImage extends IActor{
     //IActor
     @Override
     protected Actor NewActor() {
-        return new Image();
+        return new Image(){
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+                OnUpdate(delta);
+            }
+
+            @Override
+            public void draw(Batch batch, float parentAlpha) {
+                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
+            }
+
+            @Override
+            public boolean remove() {
+                OnRemove();
+                return super.remove();
+            }
+        };
     }
 
     @Override

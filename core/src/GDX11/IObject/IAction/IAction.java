@@ -16,9 +16,9 @@ public abstract class IAction extends IObject {
     {
         getIActor = ()->iActor;
     }
-    public IActor GetIActor()
+    public <T extends IActor> T GetIActor()
     {
-        return getIActor.Run();
+        return (T)getIActor.Run();
     }
 
     public abstract void Run();

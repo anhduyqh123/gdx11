@@ -78,7 +78,7 @@ public class Json {
         if (object0==null) object0 = Reflect.GetDefaultObject(type);
         JsonValue json = new JsonValue(JsonValue.ValueType.object);
         json.addChild(stClass,new JsonValue(type.getName()));
-        for(Field f : Reflect.GetFields(object.getClass()).values())
+        for(Field f : Reflect.GetDataFieldMap(object.getClass()).values())
         {
             Object value = Reflect.GetValue(f,object);
             Object value0 = Reflect.GetValue(f,object0);
@@ -124,7 +124,7 @@ public class Json {
     }
     public static <T> T JsonToObject(JsonValue js,Object object)
     {
-        Map<String,Field> map = Reflect.GetFields(object.getClass());
+        Map<String,Field> map = Reflect.GetDataFieldMap(object.getClass());
         Util.For(js,i->{
             if (!map.containsKey(i.name)) return;
             Field field = map.get(i.name);

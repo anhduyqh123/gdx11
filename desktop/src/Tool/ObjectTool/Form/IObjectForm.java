@@ -74,7 +74,6 @@ public class IObjectForm {
     private void OnSelectIActor(IActor iActor)
     {
         this.iActor = iActor;
-        tfName.setText(iActor.name);
         SetMainIActor(gTree.GetMainObject());
         onSelectIActor.Run(iActor);
     }

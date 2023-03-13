@@ -112,11 +112,16 @@ public class Asset extends Actor {
         return list;
     }
 
+    public void PushMapAssetNode(String pack)
+    {
+        for(AssetNode n : GetAssetPackage(pack).assetNodes)
+            mapAssets.put(n.name,n);
+    }
+
     private void ForceLoadPackage(String pack)
     {
         packLoaded.add(pack);
-        for(AssetNode n : GetAssetPackage(pack).assetNodes)
-            mapAssets.put(n.name,n);
+        PushMapAssetNode(pack);
         Util.For(GetAssetPackage(pack).loadableNode,this::Load);
     }
     private void LoadPackage(String pack)

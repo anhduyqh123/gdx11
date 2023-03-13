@@ -1,5 +1,7 @@
 package GDX11;
 
+import GDX11.IObject.IActor.IActor;
+import GDX11.IObject.IActor.IFind;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IObject;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -8,12 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Screen extends Group {
+public class Screen extends Group implements IFind {
     private static final List<Screen> screens = new ArrayList<>();
 
     public GDX.Runnable onShow,onHide,onShowDone,onHideDone;
-    protected IGroup iGroup;
-    protected String name;
+    public IGroup iGroup;
+    public String name;
 
     public Screen(String name)
     {
@@ -21,6 +23,7 @@ public class Screen extends Group {
         this.iGroup = IObject.Get(name).Clone();
         iGroup.SetActor(this);
         iGroup.SetIRoot(Scene.i.ui);
+        iGroup.Refresh();
 
         iGroup.iRun.SetRun("startShow",()->TryRun(onShow));
         iGroup.iRun.SetRun("startHide",()->TryRun(onHide));
@@ -47,9 +50,19 @@ public class Screen extends Group {
     {
         return this.equals(GetLatest());
     }
+    //Event
+    public void AddClick(String name,Runnable onClick)
+    {
+        iGroup.FindIActor(name).AddClick(onClick);
+    }
     //static
     public static Screen GetLatest()
     {
         return screens.get(screens.size()-1);
+    }
+
+    @Override
+    public <T extends IActor> T FindIActor(String name) {
+        return iGroup.FindIActor(name);
     }
 }

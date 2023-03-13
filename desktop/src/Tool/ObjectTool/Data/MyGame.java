@@ -1,10 +1,7 @@
 package Tool.ObjectTool.Data;
 
+import GDX11.*;
 import GDX11.AssetData.AssetData;
-import GDX11.GDX;
-import GDX11.GDXGame;
-import GDX11.Scene;
-import GDX11.Util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.JsonWriter;
 
 public class MyGame extends GDXGame {
     public static Color bg = Color.BLACK;
@@ -46,6 +44,7 @@ public class MyGame extends GDXGame {
     protected AssetData LoadPackages(String path) {
         AssetData data = new AssetData();
         data.LoadPackages();
+        GDX.WriteToFile(path, Json.ToJson(data).toJson(JsonWriter.OutputType.minimal));
         return data;
     }
 
