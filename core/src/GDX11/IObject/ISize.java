@@ -1,49 +1,38 @@
 package GDX11.IObject;
 
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
-import GDX11.Reflect;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class ISize {
+public class ISize extends IBase {
     public String width = "0";
     public String height = "0";
     public String scale = "1";//1 or 1:1
     public String rotate = "0";
-    public String origin = "";
+    public String origin = "";//center or 100:100
 
-    protected GDX.Func<IActor> getIActor;
-    public void SetIActor(IActor iActor)
-    {
-        getIActor = ()->iActor;
-    }
-    public IActor GetIActor()
-    {
-        return getIActor.Run();
-    }
     public void Refresh()
     {
-        Actor actor = GetIActor().GetActor();
-        SetSize(actor);
-        SetOrigin(actor);
-        SetScale(actor);
-        actor.setRotation(GetIActor().GetParam(rotate));
+        SetSize();
+        SetOrigin(origin);
+        SetScale(scale);
+        SetRotation(rotate);
     }
-    private void SetSize(Actor actor)
+    private void SetSize()
     {
-        SetWidth(actor);
-        SetHeight(actor);
+        SetWidth(GetActor());
+        SetHeight(GetActor());
     }
     private void SetWidth(Actor actor)
     {
         if (SetWidthByChild(actor)) return;
-        actor.setWidth(GetIActor().GetParam(width));
+        actor.setWidth(GetIActor().GetParam(width,0f));
     }
     private void SetHeight(Actor actor)
     {
         if (SetHeightByChild(actor)) return;
-        actor.setHeight(GetIActor().GetParam(height));
+        actor.setHeight(GetIActor().GetParam(height,0f));
     }
     private boolean SetWidthByChild(Actor actor)
     {
@@ -65,29 +54,37 @@ public class ISize {
         }
         return false;
     }
-    private void SetOrigin(Actor actor)
+    public void SetOrigin(String origin)
     {
-        if (origin.contains(";"))
+        if (origin.contains(":"))
         {
-            String[] arr = origin.split(";");
-            actor.setOriginX(GetIActor().GetParam(arr[0]));
-            actor.setOriginY(GetIActor().GetParam(arr[1]));
+            String[] arr = origin.split(":");
+            GetActor().setOriginX(GetIActor().GetParam(arr[0],0f));
+            GetActor().setOriginY(GetIActor().GetParam(arr[1],0f));
         }
-        else actor.setOrigin(IParam.GetAlign(origin));
+        else GetActor().setOrigin(IParam.GetAlign(origin));
     }
-    private void SetScale(Actor actor)
+    public void SetScale(String scale)
     {
-        if (scale.contains(";"))
-        {
-            String[] arr = origin.split(";");
-            actor.setScaleX(GetIActor().GetParam(arr[0]));
-            actor.setScaleY(GetIActor().GetParam(arr[1]));
-        }
-        else actor.setScale(GetIActor().GetParam(scale));
+        Vector2 sl = GetScale(scale);
+        GetActor().setScale(sl.x,sl.y);
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        return Reflect.equals(this,obj);
+    public Vector2 GetScale(String scale)
+    {
+        Vector2 v = new Vector2();
+        if (scale.contains(":"))
+        {
+            String[] arr = scale.split(":");
+            v.set(GetIActor().GetParam(arr[0],0f),GetIActor().GetParam(arr[1],0f));
+        }
+        else{
+            float x = GetIActor().GetParam(scale,0f);
+            v.set(x,x);
+        }
+        return v;
+    }
+    public void SetRotation(String rotate)
+    {
+        GetActor().setRotation(GetIActor().GetParam(rotate,0f));
     }
 }

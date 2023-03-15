@@ -7,6 +7,7 @@ import Tool.JFrame.UI;
 import Tool.ObjectTool.Data.ClipBoard;
 import Tool.ObjectTool.Data.MyGame;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,6 +26,7 @@ public class OptionForm {
     private JCheckBox cbDrag;
     public JPanel panel1;
     private JComboBox cbClipboard;
+    private JButton btResetCam;
     private Actor dragActor;
 
     public OptionForm()
@@ -34,7 +36,14 @@ public class OptionForm {
             UI.NewColorChooserWindow(Color.WHITE, hex->
                     MyGame.bg.set(Color.valueOf(hex)));
         });
+        UI.Button(btResetCam,this::ResetCamera);
         InitDrag();
+    }
+    private void ResetCamera()
+    {
+        OrthographicCamera camera  = (OrthographicCamera) Scene.i.GetStage().getCamera();
+        camera.zoom = 1;
+        camera.position.set(Scene.i.width/2,Scene.i.height/2,0);
     }
 
     private void InitDrag()

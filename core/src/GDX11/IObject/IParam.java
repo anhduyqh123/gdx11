@@ -1,10 +1,6 @@
 package GDX11.IObject;
 
-import GDX11.Asset;
-import GDX11.GDX;
-import GDX11.IObject.IActor.IActor;
-import GDX11.Reflect;
-import GDX11.Scene;
+import GDX11.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector;
@@ -16,23 +12,9 @@ import com.badlogic.gdx.utils.Align;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IParam {
+public class IParam extends IBase {
     public Map<String,String> dataMap = new HashMap<>();
     protected GDX.Func<Map> getParam;
-    protected GDX.Func<IActor> getIActor;
-
-    public void SetIActor(IActor iActor)
-    {
-        getIActor = ()->iActor;
-    }
-    public IActor GetIActor()
-    {
-        return getIActor.Run();
-    }
-    public Actor GetActor()
-    {
-        return GetIActor().GetActor();
-    }
     public Map<String,String> GetParam()
     {
         if (getParam==null)
@@ -48,7 +30,7 @@ public class IParam {
         return GDX.Try(()->{
             if (value0 instanceof Color) return (T)Color.valueOf(stValue);
             if (value0 instanceof Vector) return (T)GetVector(stValue);
-            return GetVariable(stValue,Reflect.ToBaseType(stValue,value0));
+            return (T)GetVariable(stValue);
         },()->value0);
     }
     public <T> void SetParam(String name,T value)
@@ -62,55 +44,61 @@ public class IParam {
         return GetParam().containsKey(name);
     }
     //variable
-    public Float GetValueFromString(String stValue)
+    public Number GetValueFromString(String stValue)
     {
-        return GetCalculate(stValue,st->Float.parseFloat(GetVariable(st,0f)+""));
+        return GetCalculate(stValue, this::GetVariable);
     }
-    private  <T> T GetVariable(String stValue,T value0)
+    private Number GetVariable(String stValue)
     {
-        if (stValue.contains("[")) return GetRandom(stValue,value0);
-        if (stValue.equals("scale")) return (T)Float.valueOf(Scene.i.scale);
-        if (stValue.equals("sw")) return (T)Float.valueOf(Scene.i.width);
-        if (stValue.equals("sh")) return (T)Float.valueOf(Scene.i.height);
-        if (stValue.contains("_")) return GetExtendVariable(stValue,value0);
-        return GetActorVariable(stValue,value0,GetActor());
+        if (stValue.contains("[")) return GetRandom(stValue);
+        if (stValue.equals("scale")) return Scene.i.scale;
+        if (stValue.equals("sw")) return (float) Scene.i.width;
+        if (stValue.equals("sh")) return (float) Scene.i.height;
+        if (stValue.contains("_")) return GetExtendVariable(stValue);
+        return GetActorVariable(stValue,GetActor());
     }
-    private  <T> T GetActorVariable(String stValue,T value0,Actor actor)
+    private Number GetActorVariable(String stValue,Actor actor)
     {
-        if (HasParam(stValue)) return Reflect.ToBaseType(GetParam().get(stValue),value0);
-        if (stValue.equals("index")) return (T)Integer.valueOf(actor.getZIndex());
-        if (stValue.equals("w")) return (T)Float.valueOf(actor.getWidth());
-        if (stValue.equals("h")) return (T)Float.valueOf(actor.getHeight());
-        if (stValue.equals("pw")) return (T)Float.valueOf(actor.getParent().getWidth());
-        if (stValue.equals("ph")) return (T)Float.valueOf(actor.getParent().getHeight());
-        if (stValue.equals("xl")) return (T)Float.valueOf(actor.getX(Align.left));
-        if (stValue.equals("x")) return (T)Float.valueOf(actor.getX(Align.center));
-        if (stValue.equals("xr")) return (T)Float.valueOf(actor.getX(Align.right));
-        if (stValue.equals("yb")) return (T)Float.valueOf(actor.getY(Align.bottom));
-        if (stValue.equals("y")) return (T)Float.valueOf(actor.getY(Align.center));
-        if (stValue.equals("yt")) return (T)Float.valueOf(actor.getY(Align.top));
-        return Reflect.ToBaseType(stValue,value0);
+        if (HasParam(stValue)) return GetBaseValue(GetParam().get(stValue));
+        if (stValue.equals("pSize")) return actor.getParent().getChildren().size;
+        if (stValue.equals("index")) return actor.getZIndex();
+        if (stValue.equals("w")) return actor.getWidth();
+        if (stValue.equals("h")) return actor.getHeight();
+        if (stValue.equals("pw")) return actor.getParent().getWidth();
+        if (stValue.equals("ph")) return actor.getParent().getHeight();
+        if (stValue.equals("xl")) return actor.getX(Align.left);
+        if (stValue.equals("x")) return actor.getX(Align.center);
+        if (stValue.equals("xr")) return actor.getX(Align.right);
+        if (stValue.equals("yb")) return actor.getY(Align.bottom);
+        if (stValue.equals("y")) return actor.getY(Align.center);
+        if (stValue.equals("yt")) return actor.getY(Align.top);
+        return GetBaseValue(stValue);
     }
-    private <T> T GetExtendVariable(String stValue,T value0)
+    public Number GetBaseValue(String stValue)
+    {
+        if (stValue.contains(".")) return Float.valueOf(stValue);
+        return Integer.valueOf(stValue);
+    }
+    private Number GetExtendVariable(String stValue)
     {
         String[] arr = stValue.split("_");
         if (Asset.i.GetNode(arr[0])!=null) return GetTextureParam(arr[0],arr[1]);
-        return GetActorVariable(arr[1],value0,GetIActor().IRootFind(arr[0]).GetActor());
+        return GetActorVariable(arr[1],GetIActor().IRootFind(arr[0]).GetActor());
     }
-    private <T> T GetTextureParam(String name,String key)
+    private Number GetTextureParam(String name,String key)
     {
-        if (key.equals("w")) return (T)Float.valueOf(Asset.i.GetTexture(name).getRegionWidth());
-        return (T)Float.valueOf(Asset.i.GetTexture(name).getRegionHeight());
+        if (key.equals("w")) return Asset.i.GetTexture(name).getRegionWidth();
+        return Asset.i.GetTexture(name).getRegionHeight();
     }
     //random
-    private <T> T GetRandom(String stValue,T value0)
+    private Number GetRandom(String stValue)
     {
         stValue = stValue.replace("[","").replace("]","");
         String[] arr = stValue.split(",");
-        Float v1 = Float.valueOf(GetVariable(arr[0],value0)+"");
-        Float v2= Float.valueOf(GetVariable(arr[1],value0)+"");
-        if (arr[0].contains(".")) return (T)Float.valueOf(MathUtils.random(v1,v2));
-        return (T)Integer.valueOf(MathUtils.random(v1.intValue(),v2.intValue()));
+        Number v1 = GetVariable(arr[0]);
+        Number v2 = GetVariable(arr[2]);
+        if (arr[0].contains(".")) return MathUtils.random(v1.floatValue(),v2.floatValue());
+        return MathUtils.random(v1.intValue(),v2.intValue());
     }
     //vector
     private static Vector GetVector(String value)//(1,2)
@@ -122,8 +110,21 @@ public class IParam {
         return null;
     }
     //Calculate
-    private static Float GetCalculate(String value, GDX.Func1<Float,String> onVar)//a+b+c;
+    private static String UnGroup(String value, GDX.Func1<Number,String> onVar)//(a+b)+c
     {
+        Map<String,String> map = new HashMap<>();
+        String stEnd = Util.FindString(value,"(",")",map);
+        for (String key : map.keySet())
+        {
+            String value0 = map.get(key).replace("(","").replace(")","");
+            stEnd = stEnd.replace(key, GetCalculate(value0,onVar)+"");
+        }
+        return stEnd;
+    }
+    private static Number GetCalculate(String value, GDX.Func1<Number,String> onVar)//a+b+c;
+    {
+        if (value.contains("(")) value = UnGroup(value,onVar);
+        if (value.charAt(0)=='[') return onVar.Run(value);
         if (value.charAt(0)=='-') value = "0"+value;
         if (value.contains("+")) return GetCalculate(value,"\\+",onVar);
         if (value.contains("-")) return GetCalculate(value,"\\-",onVar);
@@ -131,19 +132,37 @@ public class IParam {
         if (value.contains("/")) return GetCalculate(value,"\\/",onVar);
         return onVar.Run(value);
     }
-    private static float GetCalculate(String value, String sign,GDX.Func1<Float,String> onVar)
+    private static Number GetCalculate(String value, String sign,GDX.Func1<Number,String> onVar)
     {
         String[] arr = value.split(sign);
-        float vl = Float.parseFloat(GetCalculate(arr[0],onVar)+"");
+        Number vl = GetCalculate(arr[0],onVar);
         for (int i=1;i<arr.length;i++)
         {
-            float result = Float.parseFloat(GetCalculate(arr[i],onVar)+"");
-            if (sign.equals("\\+")) vl=vl+ result;
-            if (sign.equals("\\-")) vl=vl- result;
-            if (sign.equals("\\*")) vl=vl* result;
-            if (sign.equals("\\/")) vl=vl/ result;
+            Number result = GetCalculate(arr[i],onVar);
+            vl = JoinNumber(vl,result,sign);
         }
         return vl;
+    }
+    private static Number JoinNumber(Number n1,Number n2,String sign)
+    {
+        if (n1 instanceof Integer && n2 instanceof Integer) return IntJoin(n1.intValue(), n2.intValue(), sign);
+        return FloatJoin(n1.floatValue(), n2.floatValue(), sign);
+    }
+    private static float FloatJoin(float n1,float n2,String sign)
+    {
+        if (sign.equals("\\+")) return n1+n2;
+        if (sign.equals("\\-")) return n1-n2;
+        if (sign.equals("\\*")) return n1*n2;
+        if (sign.equals("\\/")) return n1/n2;
+        return 0;
+    }
+    private static int IntJoin(int n1,int n2,String sign)
+    {
+        if (sign.equals("\\+")) return n1+n2;
+        if (sign.equals("\\-")) return n1-n2;
+        if (sign.equals("\\*")) return n1*n2;
+        if (sign.equals("\\/")) return n1/n2;
+        return 0;
     }
 
     //Align
@@ -160,10 +179,5 @@ public class IParam {
         if (align.equals("top")) return Align.top;
         if (align.equals("topRight")) return Align.topRight;
         return Align.bottomLeft;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return Reflect.equals(this,obj);
     }
 }

@@ -108,7 +108,7 @@ public class Util {
         }
         return matrix;
     }
-    public static String FindString(String str,String c1,String c2)
+    private static String FindString(String str,String c1,String c2)
     {
         return GDX.Try(()->{
             int s = str.indexOf(c1);

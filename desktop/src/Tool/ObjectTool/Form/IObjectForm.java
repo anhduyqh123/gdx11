@@ -4,6 +4,7 @@ import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Reflect;
+import GDX11.Scene;
 import Tool.JFrame.GTree;
 import Tool.JFrame.UI;
 import Tool.ObjectTool.Data.Content;
@@ -64,12 +65,19 @@ public class IObjectForm {
     {
         String[] pack = allPack.toArray(new String[0]);
         UI.ComboBox(cbPack,pack,pack[0], vl->{
+            Scene.i.ui.clear();
             Asset.i.ForceLoadPackages(null,vl);
+            mainIActor = null;
             selectedPack = data.Get(vl);
             selectedPack.Renew();
             gTree.SetRoot(selectedPack);
             gTree.SetSelection(selectedPack);
         });
+    }
+    public void RefreshAt(IActor iActor)
+    {
+        gTree.Refresh();
+        gTree.SetSelection(iActor);
     }
     private void OnSelectIActor(IActor iActor)
     {

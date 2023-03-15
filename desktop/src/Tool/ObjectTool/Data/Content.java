@@ -32,23 +32,12 @@ public class Content {
             UI.NewLabel("type:"+iActor.getClass().getSimpleName(),panel).setForeground(Color.BLUE);
             fields = UI.GetFields(iActor);
             ExcludeFields();
-            InitAlignField(iActor, panel);
             UI.InitComponents(fields,iActor,panel);
             UI.NewCheckBox("debug",iActor.GetActor().getDebug(),panel,vl->iActor.GetActor().setDebug(vl));
         }
         protected void ExcludeFields()
         {
             fields.removeAll(Arrays.asList("iParam","iSize","iPos","iRun","iAction","iComponents","name"));
-        }
-        protected void InitAlignField(IActor iActor,JPanel panel)
-        {
-            List<String> list = new ArrayList<>();
-            Util.For(fields,n->{
-                if (!n.contains("lign")) return;
-                list.add(n);
-                UI.NewAlignComboBox(n,iActor,panel);
-            });
-            fields.removeAll(list);
         }
     }
     static class XGroup extends XActor

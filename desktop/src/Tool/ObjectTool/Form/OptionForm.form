@@ -16,6 +16,12 @@
           <text value="BG Color"/>
         </properties>
       </component>
+      <component id="2a17a" class="javax.swing.JButton" binding="btResetCam">
+        <constraints/>
+        <properties>
+          <text value="ResetCam"/>
+        </properties>
+      </component>
       <component id="b6fa9" class="javax.swing.JButton" binding="editButton" default-binding="true">
         <constraints/>
         <properties>

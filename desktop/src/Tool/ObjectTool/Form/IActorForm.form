@@ -9,12 +9,6 @@
     </properties>
     <border type="none"/>
     <children>
-      <component id="c02cf" class="javax.swing.JButton" binding="btRefresh">
-        <constraints/>
-        <properties>
-          <text value="Refresh"/>
-        </properties>
-      </component>
       <scrollpane id="bbe4c">
         <constraints/>
         <properties>

@@ -23,12 +23,16 @@ public class MainForm {
 
         IActorForm iActorForm = new IActorForm();
         IActionForm iActionForm = new IActionForm();
+        FuncForm funcForm = new FuncForm(dataForm::RefreshAt);
+
         tabbedPane.add("Info", iActorForm.panel1);
         tabbedPane.add("Action", iActionForm.panel1);
+        tabbedPane.add("Function", funcForm.panel1);
 
         dataForm.onSelectIActor = iActor->{
             iActorForm.SetIActor(iActor);
             iActionForm.SetIActor(iActor);
+            funcForm.SetIActor(iActor);
         };
     }
 }

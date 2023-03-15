@@ -55,6 +55,11 @@ public class UI {
             NewComboBox(name,constants,value,parent,vl->SetField(field,object,vl));
             return;
         }
+        if (name.contains("lign"))
+        {
+            NewAlignComboBox(name,object,parent);
+            return;
+        }
         if (name.equals("hexColor"))
         {
             NewColorPicker(parent,value.toString(),vl->SetField(field,object,vl));

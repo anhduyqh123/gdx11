@@ -4,14 +4,13 @@ import GDX11.GDX;
 import GDX11.IObject.*;
 import GDX11.IObject.IAction.IMulAction;
 import GDX11.IObject.IComponent.IComponents;
+import GDX11.Reflect;
 import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class IActor extends IObject {
@@ -184,6 +183,12 @@ public class IActor extends IObject {
         if (iRun.HasFunc(st)) return (T)iRun.GetFunc(st).Run();
         return (T)iParam.GetValueFromString(st);
     }
+    public <T> T GetParam(String st,T value0)
+    {
+        Number num = GetParam(st);
+        if (value0 instanceof Integer) return (T)Integer.valueOf(num.intValue());
+        return (T)Float.valueOf(num.floatValue());
+    }
     //Action
     public void RunAction(String name)
     {
@@ -236,6 +241,14 @@ public class IActor extends IObject {
         Scene.SetStagePosition(GetActor(),pos,align);
     }
 
+    //Extend
+    public void Run(Runnable cb,float delay)
+    {
+        Action ac1 = Actions.delay(delay);
+        Action ac2 = Actions.run(cb);
+        GetActor().addAction(Actions.sequence(ac1,ac2));
+    }
+    //static
     public static <T extends IActor> T GetIActor(Actor actor)
     {
         return (T)actor.getUserObject();

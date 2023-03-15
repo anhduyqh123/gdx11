@@ -12,7 +12,6 @@ import java.util.List;
 
 public class IActorForm {
     public JPanel panel1;
-    private JButton btRefresh;
     private JPanel pnContent;
     private JPanel pInfo;
     private JPanel pSize;
@@ -24,10 +23,10 @@ public class IActorForm {
     {
         pInfo.setLayout(new WrapLayout());
 
-        UI.Button(btRefresh,()-> {
-            iActor.Refresh();
-            SetIActor(iActor);
-        });
+//        UI.Button(btRefresh,()-> {
+//            iActor.Refresh();
+//            SetIActor(iActor);
+//        });
     }
     public void SetIActor(IActor iActor)
     {

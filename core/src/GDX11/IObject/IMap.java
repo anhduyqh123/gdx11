@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class IMap<T extends IObject> {
+public class IMap<T extends IObject> implements Json.JsonObject {
 
     public List<T> list = new ArrayList<>();
     public GDX.Runnable1<T> onAdd,onRemove;
@@ -99,6 +99,7 @@ public class IMap<T extends IObject> {
     }
 
     //For Json
+    @Override
     public JsonValue ToJson(Object object0)
     {
         JsonValue js = new JsonValue(JsonValue.ValueType.object);
@@ -112,6 +113,7 @@ public class IMap<T extends IObject> {
         });
         return js;
     }
+    @Override
     public Object ToObject(JsonValue js)
     {
         Util.For(js.get("list"),i->{

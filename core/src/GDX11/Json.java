@@ -25,8 +25,9 @@ public class Json {
         if (object instanceof  Enum) return new JsonValue(object.toString());
         if (object instanceof  List) return ListToJson((List) object,(List)object0);
         if (object instanceof  Map) return MapToJson((Map) object,(Map)object0);
-        Method toJson = Reflect.GetMethod(type,"ToJson",Object.class);
-        if (toJson!=null) return Reflect.RunMethod(toJson,object,object0);
+        if (object instanceof JsonObject) return ((JsonObject)object).ToJson(object0);
+//        Method toJson = Reflect.GetMethod(type,"ToJson",Object.class);
+//        if (toJson!=null) return Reflect.RunMethod(toJson,object,object0);
         return ObjectToJson(object, object0);
     }
     public static JsonValue BaseToJson(Object object)
@@ -103,8 +104,9 @@ public class Json {
         if (object instanceof  Enum) return (T)Enum.valueOf(type,js.asString());
         if (object instanceof List) return (T)ToList(js,(List) object,field.getElementType(0));
         if (object instanceof Map) return (T)ToMap(js,(Map) object,field.getElementType(1));
-        Method toObject = Reflect.GetMethod(type,"ToObject",JsonValue.class);
-        if (toObject!=null) return Reflect.RunMethod(toObject,object,js);
+        if (object instanceof JsonObject) return (T)((JsonObject)object).ToObject(js);
+//        Method toObject = Reflect.GetMethod(type,"ToObject",JsonValue.class);
+//        if (toObject!=null) return Reflect.RunMethod(toObject,object,js);
         return JsonToObject(js, object);
     }
     public static Map ToMap(JsonValue js,Map map,Class elementType)
@@ -140,4 +142,9 @@ public class Json {
         return jsonReader.parse(stJson);
     }
     //</editor-fold>
+    public interface JsonObject
+    {
+        JsonValue ToJson(Object object0);
+        Object ToObject(JsonValue js);
+    }
 }

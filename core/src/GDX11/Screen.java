@@ -22,7 +22,7 @@ public class Screen extends Group implements IFind {
         this.name = name;
         this.iGroup = IObject.Get(name).Clone();
         iGroup.SetActor(this);
-        iGroup.SetIRoot(Scene.i.ui);
+        iGroup.SetIRoot(null);
         iGroup.Refresh();
 
         iGroup.iRun.SetRun("startShow",()->TryRun(onShow));
@@ -36,6 +36,7 @@ public class Screen extends Group implements IFind {
     }
     public void Show()
     {
+        Scene.i.ui.addActor(this);
         iGroup.RunAction("show");
         setTouchable(Touchable.enabled);
         screens.add(this);

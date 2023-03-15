@@ -81,6 +81,10 @@ public class IGroup extends IActor implements IFind {
     }
 
     //IGroup
+    public Group GetGroup()
+    {
+        return GetActor();
+    }
     protected void OnAddChild(IActor iActor)
     {
         iActor.SetIParent(this);

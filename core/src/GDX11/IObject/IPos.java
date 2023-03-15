@@ -6,20 +6,12 @@ import GDX11.Reflect;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class IPos {
+public class IPos extends IBase {
     public String coordinatesActor = "";
     public String x = "0";
     public String y = "0";
     public String align = "";
-    protected GDX.Func<IActor> getIActor;
-    public void SetIActor(IActor iActor)
-    {
-        getIActor = ()->iActor;
-    }
-    public IActor GetIActor()
-    {
-        return getIActor.Run();
-    }
+
     public void Refresh()
     {
         GetIActor().SetPosition(GetPosition(),GetAlign());
@@ -27,8 +19,8 @@ public class IPos {
     public Vector2 GetPosition()
     {
         Actor actor = GetIActor().GetActor();
-        float x0 = GetIActor().iParam.GetValueFromString(x);
-        float y0 = GetIActor().iParam.GetValueFromString(y);
+        float x0 = GetIActor().GetParam(x,0f);
+        float y0 = GetIActor().GetParam(y,0f);
         Vector2 pos = new Vector2(x0,y0);
         if (coordinatesActor.equals("")) return pos;
         if (coordinatesActor.equals("stage")) return actor.getParent().stageToLocalCoordinates(pos);
@@ -43,10 +35,5 @@ public class IPos {
     public int GetAlign()
     {
         return IParam.GetAlign(align);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return Reflect.equals(this,obj);
     }
 }

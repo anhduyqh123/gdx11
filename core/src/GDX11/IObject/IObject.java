@@ -5,7 +5,7 @@ import GDX11.AssetData.AssetNode;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 
-public abstract class IObject {
+public abstract class IObject extends IBase implements Json.JsonObject {
 
     public String name = "name";
     public IObject(){}
@@ -24,22 +24,19 @@ public abstract class IObject {
     }
 
     //For Json
+    @Override
     public JsonValue ToJson(Object object0)
     {
         String prefab = Reflect.GetValue("prefab",this);
         object0 = prefab==null||prefab.equals("")?object0:Get(prefab);
         return Json.ObjectToJson(this,object0);
     }
+    @Override
     public Object ToObject(JsonValue js)
     {
         Object object = this;
         if (js.has("prefab")) object = Get(js.getString("prefab")).Clone();
         return Json.JsonToObject(js,object);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return Reflect.equals(this,obj);
     }
 
     public static <T extends IObject> T Get(String name)
