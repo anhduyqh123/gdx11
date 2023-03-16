@@ -7,10 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class ITable extends IGroup{
     public float childWidth,childHeight;
@@ -27,10 +24,18 @@ public class ITable extends IGroup{
     }
 
     @Override
+    public void RefreshContent() {
+        super.RefreshContent();
+        List<Actor> list = new ArrayList<>();
+        Util.For(iMap.GetObjects(),ia->list.add(ia.GetActor()));
+        RefreshGrid(list);
+    }
+
+    @Override
     protected void RefreshCore() {
         super.RefreshCore();
         if (clone>0) CloneChild(clone);
-        else FillChildren(column,iMap.GetObjects());
+        else FillChildren(iMap.GetObjects());
     }
 
     @Override
@@ -41,6 +46,7 @@ public class ITable extends IGroup{
 
     @Override
     public void RunAction(String name) {
+        RunEventAction(name);
         ForActor(i->GetIActor(i).RunAction(name));
     }
 
@@ -53,19 +59,27 @@ public class ITable extends IGroup{
     {
         List<IActor> list = new ArrayList<>();
         Util.Repeat(clone,()-> list.add(Clone(0)));
-        FillChildren(column,list);
+        FillChildren(list);
     }
-    private void FillChildren(int column, Collection<IActor> children)
+    private void FillChildren(Collection<IActor> children)
+    {
+        List<Actor> actors = new ArrayList<>();
+        Util.For(children,iActor->{
+            iActor.Refresh();
+            actors.add(iActor.GetActor());
+        });
+        RefreshGrid(actors);
+    }
+    private void RefreshGrid(List<Actor> children)
     {
         Table table = GetActor();
         table.clearChildren();
 
         int i=0;
         NewRow(table);
-        for(IActor iActor : children)
+        for(Actor actor : children)
         {
-            iActor.Refresh();
-            Actor actor = iActor.GetActor();
+            if (!actor.isVisible()) continue;
             Cell cell = table.add(actor);
             if (childWidth==0) cell.width(actor.getWidth());
             if (childHeight==0) cell.height(actor.getHeight());
@@ -79,9 +93,8 @@ public class ITable extends IGroup{
 
         if (reverse)
         {
-            List<IActor> list = new ArrayList<>(children);
-            Collections.reverse(list);
-            Util.ForIndex(list,x->list.get(x).GetActor().setZIndex(x));
+            Collections.reverse(children);
+            Util.ForIndex(children,x->children.get(x).setZIndex(x));
         }
     }
     private void NewRow(Table table)

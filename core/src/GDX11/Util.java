@@ -61,7 +61,7 @@ public class Util {
     {
         For(1,count,i-> cb.Run());
     }
-    public static <T> void For(Collection<T> list, GDX.Runnable1<T> cb)
+    public static <T> void For(Iterable<T> list, GDX.Runnable1<T> cb)
     {
         for (T i : list) cb.Run(i);
     }

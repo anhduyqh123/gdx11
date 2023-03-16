@@ -15,7 +15,8 @@ public class IUtil extends IAction{
         Remove,
         ToFront,
         ToBack,
-        ClearAction
+        ClearAction,
+        RefreshContent
     }
     public Type type = Type.Visible;
 
@@ -51,6 +52,9 @@ public class IUtil extends IAction{
                 break;
             case ClearAction:
                 GetActor().clearActions();
+                break;
+            case RefreshContent:
+                GetIActor().RefreshContent();
                 break;
             default:
         }

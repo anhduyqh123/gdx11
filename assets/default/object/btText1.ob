@@ -1,0 +1,1 @@
+{class:GDX11.IObject.IActor.IGroup,prefab:btText,iMap:{list:[{class:GDX11.IObject.IActor.IImage,texture:btn_red,name:img},{class:GDX11.IObject.IActor.ILabel,name:lb}]},name:btText1}

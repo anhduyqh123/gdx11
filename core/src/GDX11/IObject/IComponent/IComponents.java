@@ -45,7 +45,7 @@ public class IComponents extends IComponent {
                 defaultDraw = false;
             }
         }
-        if (defaultDraw) onDraw.run();
+        if (defaultDraw) GDX.Try(onDraw::run);
     }
 
     @Override

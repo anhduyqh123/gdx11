@@ -13,6 +13,7 @@ public class GBoard {
         new GDeck(game.FindIGroup("deck"));
         dealer = new GDealer(game.FindIGroup("dealer"));
         player = new GPlayer(game.FindIGroup("player"));
+        player.InitControl(game.FindIGroup("table"));
     }
     private void Reset()
     {
@@ -27,13 +28,18 @@ public class GBoard {
     }
     public void DealCard()
     {
-        DealCard(player,0,2*2,()->player.Turn());
+        DealCard(player,0,2*2,()->
+                player.Turn(()->dealer.Turn(this::EndGame)));
     }
-    private void DealCard(GPlayer pl,float delay,int count,Runnable done)
+    private void DealCard(GBot pl,float delay,int count,Runnable done)
     {
         game.Run(pl::TakeCard,delay);
         if (count<=1) game.Run(done,delay);
         else
             DealCard(pl.equals(player)?dealer:player,delay+1f,count-1,done);
+    }
+    private void EndGame()
+    {
+
     }
 }

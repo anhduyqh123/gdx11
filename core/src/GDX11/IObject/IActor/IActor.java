@@ -13,8 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-public class IActor extends IObject {
+import java.util.Arrays;
+import java.util.List;
 
+public class IActor extends IObject {
     public String prefab = "";
     public String hexColor = Color.WHITE.toString();
     public boolean visible = true;
@@ -169,9 +171,35 @@ public class IActor extends IObject {
         actor.setVisible(visible);
         InitParam0();
     }
+    private final static List<String> eventNames = Arrays.asList("enter","exit","clicked");
+    private boolean ContainsEvent()
+    {
+        for (String ev : eventNames)
+            if (iAction.Contain(ev)) return true;
+        return false;
+    }
     protected void InitEvent()
     {
         RunEventAction("init");
+        if (ContainsEvent())
+        GetActor().addListener(new ClickListener(){
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                RunAction("enter");
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                RunAction("exit");
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                RunAction("clicked");
+            }
+        });
     }
     protected void InitParam0()
     {

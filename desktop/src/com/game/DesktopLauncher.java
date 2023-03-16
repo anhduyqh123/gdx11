@@ -25,17 +25,4 @@ public class DesktopLauncher {
 		new LwjglApplication(new MyGame(), config);
 
 	}
-	public static  <T> T GetValue(String stInit,String stFloat)
-	{
-		Object ob = GetInt(stInit)+GetFloat(stFloat);
-		return (T)ob;
-	}
-	public static Integer GetInt(String st)
-	{
-		return Integer.parseInt(st);
-	}
-	public static Float GetFloat(String st)
-	{
-		return Float.parseFloat(st);
-	}
 }

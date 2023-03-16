@@ -46,7 +46,7 @@ public class IParam extends IBase {
     //variable
     public Number GetValueFromString(String stValue)
     {
-        return GetCalculate(stValue, this::GetVariable);
+        return new ICalculate(this::GetVariable).Get(stValue);
     }
     private Number GetVariable(String stValue)
     {
@@ -61,7 +61,7 @@ public class IParam extends IBase {
     {
         if (HasParam(stValue)) return GetBaseValue(GetParam().get(stValue));
         if (stValue.equals("pSize")) return actor.getParent().getChildren().size;
-        if (stValue.equals("index")) return actor.getZIndex();
+        if (stValue.equals("i")) return actor.getZIndex();
         if (stValue.equals("w")) return actor.getWidth();
         if (stValue.equals("h")) return actor.getHeight();
         if (stValue.equals("pw")) return actor.getParent().getWidth();
@@ -74,7 +74,7 @@ public class IParam extends IBase {
         if (stValue.equals("yt")) return actor.getY(Align.top);
         return GetBaseValue(stValue);
     }
-    public Number GetBaseValue(String stValue)
+    private Number GetBaseValue(String stValue)
     {
         if (stValue.contains(".")) return Float.valueOf(stValue);
         return Integer.valueOf(stValue);
@@ -108,61 +108,6 @@ public class IParam extends IBase {
         if (arr.length==2) return new Vector2(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]));
         if (arr.length==3) return new Vector3(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]),Float.parseFloat(arr[2]));
         return null;
-    }
-    //Calculate
-    private static String UnGroup(String value, GDX.Func1<Number,String> onVar)//(a+b)+c
-    {
-        Map<String,String> map = new HashMap<>();
-        String stEnd = Util.FindString(value,"(",")",map);
-        for (String key : map.keySet())
-        {
-            String value0 = map.get(key).replace("(","").replace(")","");
-            stEnd = stEnd.replace(key, GetCalculate(value0,onVar)+"");
-        }
-        return stEnd;
-    }
-    private static Number GetCalculate(String value, GDX.Func1<Number,String> onVar)//a+b+c;
-    {
-        if (value.contains("(")) value = UnGroup(value,onVar);
-        if (value.charAt(0)=='[') return onVar.Run(value);
-        if (value.charAt(0)=='-') value = "0"+value;
-        if (value.contains("+")) return GetCalculate(value,"\\+",onVar);
-        if (value.contains("-")) return GetCalculate(value,"\\-",onVar);
-        if (value.contains("*")) return GetCalculate(value,"\\*",onVar);
-        if (value.contains("/")) return GetCalculate(value,"\\/",onVar);
-        return onVar.Run(value);
-    }
-    private static Number GetCalculate(String value, String sign,GDX.Func1<Number,String> onVar)
-    {
-        String[] arr = value.split(sign);
-        Number vl = GetCalculate(arr[0],onVar);
-        for (int i=1;i<arr.length;i++)
-        {
-            Number result = GetCalculate(arr[i],onVar);
-            vl = JoinNumber(vl,result,sign);
-        }
-        return vl;
-    }
-    private static Number JoinNumber(Number n1,Number n2,String sign)
-    {
-        if (n1 instanceof Integer && n2 instanceof Integer) return IntJoin(n1.intValue(), n2.intValue(), sign);
-        return FloatJoin(n1.floatValue(), n2.floatValue(), sign);
-    }
-    private static float FloatJoin(float n1,float n2,String sign)
-    {
-        if (sign.equals("\\+")) return n1+n2;
-        if (sign.equals("\\-")) return n1-n2;
-        if (sign.equals("\\*")) return n1*n2;
-        if (sign.equals("\\/")) return n1/n2;
-        return 0;
-    }
-    private static int IntJoin(int n1,int n2,String sign)
-    {
-        if (sign.equals("\\+")) return n1+n2;
-        if (sign.equals("\\-")) return n1-n2;
-        if (sign.equals("\\*")) return n1*n2;
-        if (sign.equals("\\/")) return n1/n2;
-        return 0;
     }
 
     //Align
