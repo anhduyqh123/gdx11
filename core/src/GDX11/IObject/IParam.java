@@ -66,12 +66,8 @@ public class IParam extends IBase {
         if (stValue.equals("h")) return actor.getHeight();
         if (stValue.equals("pw")) return actor.getParent().getWidth();
         if (stValue.equals("ph")) return actor.getParent().getHeight();
-        if (stValue.equals("xl")) return actor.getX(Align.left);
-        if (stValue.equals("x")) return actor.getX(Align.center);
-        if (stValue.equals("xr")) return actor.getX(Align.right);
-        if (stValue.equals("yb")) return actor.getY(Align.bottom);
-        if (stValue.equals("y")) return actor.getY(Align.center);
-        if (stValue.equals("yt")) return actor.getY(Align.top);
+        if (stValue.equals("x")) return actor.getX();
+        if (stValue.equals("y")) return actor.getY();
         return GetBaseValue(stValue);
     }
     private Number GetBaseValue(String stValue)

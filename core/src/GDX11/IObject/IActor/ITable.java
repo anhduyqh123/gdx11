@@ -109,5 +109,15 @@ public class ITable extends IGroup{
         for (Actor actor : GetTable().getChildren())
             cb.Run(actor);
     }
+    public <T extends IActor> T NewChildFrom(int index)
+    {
+        T iActor = Clone(index);
+        iActor.Refresh();
+        List<Actor> list = new ArrayList<>();
+        Util.For(iMap.GetObjects(),ia->list.add(ia.GetActor()));
+        list.add(iActor.GetActor());
+        RefreshGrid(list);
+        return iActor;
+    }
 
 }

@@ -4,10 +4,7 @@ import Blackjack.Model.Card;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IImage;
-import GDX11.IObject.IRunnable;
 import GDX11.Util;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.*;
 
@@ -16,6 +13,7 @@ public class GDeck {
     private IGroup iGroup;
     private Map<Card, IImage> map = new HashMap<>();
     private List<Card> cards = new ArrayList<>();
+    public List<Card> popCards = new ArrayList<>();
 
     public GDeck(IGroup iGroup)
     {
@@ -31,8 +29,13 @@ public class GDeck {
         iGroup.Refresh();
         Shuffle();
     }
+    public void Clear()
+    {
+        popCards.clear();
+    }
     public void Reset()
     {
+        popCards.clear();
         Shuffle();
         iGroup.RunAction("reset");
     }
@@ -62,6 +65,7 @@ public class GDeck {
         if (cards.size()<=0) return null;
         Card card = cards.get(cards.size()-1);
         cards.remove(card);
+        popCards.add(card);
         return card;
     }
 }
