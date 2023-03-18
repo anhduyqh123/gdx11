@@ -113,16 +113,24 @@ public class GDX {
     //try catch
     public static void Try(Runnable onTry)
     {
+        Try(onTry,false);
+    }
+    public static void Try(Runnable onTry,boolean printError)
+    {
         try {
             onTry.Run();
-        }catch (Exception ignored){}
+        }catch (Exception ignored){
+            if (printError)
+                ignored.printStackTrace();
+        }
     }
     public static void Try(Runnable onTry, Runnable onCatch)
     {
         try {
             onTry.Run();
-        }catch (Exception ignored){}
-        onCatch.Run();
+        }catch (Exception ignored){
+            onCatch.Run();
+        }
     }
     public static <T> T Try(Func<T> onTry,Func<T> onCatch)
     {

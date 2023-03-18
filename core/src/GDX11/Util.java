@@ -5,6 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Util {
@@ -55,6 +56,16 @@ public class Util {
     {
         v.x = Math.round(v.x);
         v.y = Math.round(v.y);
+    }
+    //
+    public static float[] GetVertices(List<Vector2> list)
+    {
+        float[] vert = new float[list.size()*2];
+        ForIndex(list,i->{
+            vert[i*2] = list.get(i).x;
+            vert[i*2+1] = list.get(i).y;
+        });
+        return vert;
     }
     //for
     public static void Repeat(int count, GDX.Runnable cb)

@@ -27,7 +27,7 @@ public class IComponents extends IComponent {
     }
     public void Add(IComponent cp)
     {
-        iMap.GetMap().put(cp.name,cp);
+        iMap.Add(cp);
     }
 
     @Override

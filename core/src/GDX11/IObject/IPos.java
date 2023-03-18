@@ -1,8 +1,5 @@
 package GDX11.IObject;
 
-import GDX11.GDX;
-import GDX11.IObject.IActor.IActor;
-import GDX11.Reflect;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -11,6 +8,12 @@ public class IPos extends IBase {
     public String x = "0";
     public String y = "0";
     public String align = "";
+
+    public IPos(){}
+    public IPos(float x,float y){
+        this.x = x+"";
+        this.y = y+"";
+    }
 
     public void Refresh()
     {

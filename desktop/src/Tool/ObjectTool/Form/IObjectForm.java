@@ -1,5 +1,8 @@
 package Tool.ObjectTool.Form;
 
+import Extend.IShape.ICircle;
+import Extend.IShape.IPoints;
+import Extend.IShape.IPolygon;
 import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
@@ -60,6 +63,13 @@ public class IObjectForm {
         UI.Button(cloneButton,gTree::Clone);
         UI.Button(saveButton,this::Save);
         UI.Button(btRefresh,()->iActor.Refresh());
+
+        UI.Button(deleteButton,()->{
+            IPolygon iCircle = new IPolygon();
+            iCircle.name = "draw";
+            iActor.iComponents.Add(iCircle);
+            GDX.Log("add");
+        });
     }
     private void RefreshData()
     {

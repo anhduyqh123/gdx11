@@ -51,7 +51,7 @@ project(":desktop") {
     apply plugin: "io.github.file5.guidesigner"
 
     dependencies {
-        implementation project(":core")
+        implementation project(":extend")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
@@ -121,5 +121,16 @@ project(":core") {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         
+    }
+}
+project(":extend") {
+    apply plugin: "java-library"
+
+
+    dependencies {
+        api project(":core")
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+
+        api "com.esotericsoftware.spine:spine-libgdx:3.8.55.1"
     }
 }
