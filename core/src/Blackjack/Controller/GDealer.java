@@ -11,10 +11,9 @@ import java.util.List;
 
 public class GDealer extends GBot{
     private CardSet model;
-    private GCardSet gSet;
     public GDX.Func<List<GBot>> getPlayers;
     private List<GCardSet> setList = new ArrayList<>();
-    public Runnable doneCheck;
+    public Runnable doneCheck,endGame;
     public GDealer(IGroup iGroup) {
         super(iGroup);
     }
@@ -22,14 +21,14 @@ public class GDealer extends GBot{
     @Override
     protected void InitSet() {
         super.InitSet();
-        gSet = gSetList.get(0);
         model = gSet.set;
     }
 
     @Override
-    public void TakeCard() {
-        if (model.Size()==0) gSet.GetCard();
+    public void TakeCard(Runnable done) {
+        if (model.Size()==0) gSet.GetCard(done);
         else gSet.GetCard(false,()->{
+            done.run();
             Card card0 = model.Get(0);
             if (card0.GetScore()>1 && card0.GetScore()<10)
             {
@@ -117,6 +116,6 @@ public class GDealer extends GBot{
     private void End()
     {
         Util.For(getPlayers.Run(), GBot::EndGame);
-        next.run();
+        endGame.run();
     }
 }

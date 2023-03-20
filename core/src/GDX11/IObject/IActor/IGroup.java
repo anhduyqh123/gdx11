@@ -80,6 +80,12 @@ public class IGroup extends IActor implements IFind {
         ForIChild(i->i.RunAction(name));
     }
 
+    @Override
+    public void Run(String name) {
+        super.Run(name);
+        ForIChild(i->i.Run(name));
+    }
+
     //IGroup
     public Group GetGroup()
     {
@@ -122,6 +128,12 @@ public class IGroup extends IActor implements IFind {
     public <T extends IActor> T Clone(int index)
     {
         T clone = iMap.Get(index).Clone();
+        clone.SetIParent(this);
+        return clone;
+    }
+    public <T extends IActor> T Clone(String name)
+    {
+        T clone = iMap.Get(name).Clone();
         clone.SetIParent(this);
         return clone;
     }

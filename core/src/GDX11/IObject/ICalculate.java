@@ -2,6 +2,7 @@ package GDX11.IObject;
 
 import GDX11.GDX;
 import GDX11.Util;
+import com.badlogic.gdx.math.MathUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +22,8 @@ public class ICalculate {
     }
     public Number Get(String stValue)
     {
-        if (stValue.contains("(")) stValue = Util.FindString(stValue,"(",")",map);;
+        if (stValue.contains("(")) stValue = Util.FindString(stValue,"(",")",map);
+        if (stValue.charAt(0)=='[') return GetRandom(stValue);
         if (stValue.charAt(0)=='-') stValue = "0"+stValue;
         if (stValue.contains("+")) return Get(stValue,"\\+");
         if (stValue.contains("-")) return Get(stValue,"\\-");
@@ -61,5 +63,15 @@ public class ICalculate {
         if (sign.equals("\\*")) return n1*n2;
         if (sign.equals("\\/")) return n1/n2;
         return 0;
+    }
+    //random
+    private Number GetRandom(String stValue)
+    {
+        stValue = stValue.replace("[","").replace("]","");
+        String[] arr = stValue.split(",");
+        Number v1 = Get(arr[0]);
+        Number v2 = Get(arr[1]);
+        if (arr[0].contains(".")) return MathUtils.random(v1.floatValue(),v2.floatValue());
+        return MathUtils.random(v1.intValue(),v2.intValue());
     }
 }

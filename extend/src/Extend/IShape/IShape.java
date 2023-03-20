@@ -3,7 +3,6 @@ package Extend.IShape;
 import GDX11.GDX;
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.IObject.IPos;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;

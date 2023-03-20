@@ -1,12 +1,12 @@
 package Blackjack.Controller;
 
 import GDX11.IObject.IActor.IGroup;
+import GDX11.Util;
 
 
 public class GPlayer extends GBot {
-    private IGroup iBt;
-    private IGroup iNoti;
-
+    private IGroup iBt,iNoti,iBet;
+    private Runnable betDone;
     public GPlayer(IGroup iGroup)
     {
         super(iGroup);
@@ -43,8 +43,41 @@ public class GPlayer extends GBot {
             iBt.RunAction("off");
         });
     }
+    public void InitBet(IGroup iBet)
+    {
+        this.iBet = iBet;
+        Util.For(0,5,i-> iBet.FindIActor("chip"+i).AddClick(()->Bet(i)));
+        iBet.FindIActor("btClear").AddClick(()->{
+            betList.clear();
+            gSet.Clear();
+            iBet.FindActor("table").setVisible(false);
+        });
+        iBet.FindIActor("btDeal").AddClick(()->{
+            iBet.FindActor("table").setVisible(false);
+            iBet.RunAction("off");
+            betDone.run();
+        });
+    }
+    private void Bet(int index)
+    {
+        betList.add(index);
+        iBet.FindActor("table").setVisible(true);
+        gSet.Bet(index);
+
+    }
+
+    @Override
+    public void Bet(Runnable done) {
+        betDone = done;
+        iBet.RunAction("on");
+        iBet.FindActor("table").setVisible(betList.size()>0);
+        gSet.SetBet(betList);
+
+    }
+
     public void Reset()
     {
+        iBet.RunAction("reset");
         iNoti.RunAction("reset");
         iGroup.FindITable("table").Refresh();
         super.Reset();

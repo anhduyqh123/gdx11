@@ -29,7 +29,7 @@ public class CardSet {
     {
         if (!HasA()) return BaseScore();
         int score1 = BaseScore();
-        int score2 = score1+11;
+        int score2 = score1+10;
         return score2>21?score1:score2;
     }
     public int Size()

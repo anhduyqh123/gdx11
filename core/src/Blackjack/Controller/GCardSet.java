@@ -1,11 +1,16 @@
 package Blackjack.Controller;
 
-import Blackjack.Model.Card;
 import Blackjack.Model.CardSet;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
+import GDX11.IObject.IActor.IImage;
 import GDX11.Scene;
+import GDX11.Util;
+import com.badlogic.gdx.scenes.scene2d.Group;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GCardSet {
     public CardSet set = new CardSet();
@@ -15,6 +20,7 @@ public class GCardSet {
     public GDX.Runnable1<String> event;
     public GDX.Func<GCardSet> newGCardSet;
     public boolean reviewed;
+    public int bet = 0;
 
     public GCardSet(IGroup iGroup)
     {
@@ -44,16 +50,17 @@ public class GCardSet {
     }
     public void GetCard(boolean showCard,Runnable done)
     {
-        Card card = GDeck.i.PopCard();
-        IActor view = GDeck.i.GetView(card);
-        set.Add(card);
-        Scene.AddActorKeepTransform(view.GetActor(),iGroup.FindActor("gr"));
-        view.iRun.SetRun("moveLocal", ()->{
-            if (showCard) GDeck.i.GetView(card).RunAction("upCard");
-            MoveDone();
-            if (done!=null) done.run();
+        GDeck.i.PopCard(card->{
+            IActor view = GDeck.i.GetView(card);
+            set.Add(card);
+            Scene.AddActorKeepTransform(view.GetActor(),iGroup.FindActor("gr"));
+            view.iRun.SetRun("moveLocal", ()->{
+                if (showCard) GDeck.i.GetView(card).RunAction("upCard");
+                MoveDone();
+                if (done!=null) done.run();
+            });
+            view.RunAction("moveLocal");
         });
-        view.RunAction("moveLocal");
     }
     protected void MoveDone()
     {
@@ -129,7 +136,41 @@ public class GCardSet {
     }
     public void RunAction(String color)
     {
-        set.For(c->GDeck.i.GetView(c).RunAction(color));
+        set.For(c->GDeck.i.GetView(c).Run(color));
+    }
+    public void SetBet(List<Integer> list)
+    {
+        bet=0;
+        Clear();
+        Util.For(list,i->NewCoin(i,"pos"));
+        iGroup.FindIGroup("myBet").RunAction("rebet");
+        iGroup.FindIGroup("myBet").FindILabel("lb").SetText(bet);
+    }
+    public void Bet(int index)
+    {
+        NewCoin(index,"drop");
+        iGroup.FindIGroup("myBet").FindILabel("lb").SetText(bet);
+    }
+    private IImage NewCoin(int index,String event)
+    {
+        bet+=1;
+        IImage clone = iGroup.FindIGroup("myBet").Clone(0);
+        clone.texture = "chip_"+(index+1);
+        clone.name = "clone";
+        iGroup.FindIGroup("myBet").iMap.Add(clone);
+        clone.Refresh();
+        clone.RunAction(event);
+        return clone;
+    }
+    public void Clear()
+    {
+        bet = 0;
+        List<IActor> list = new ArrayList<>();
+        iGroup.FindIGroup("myBet").ForIChild(ia->{
+            if (ia.name.equals("clone")) list.add(ia);
+        });
+        Util.For(list,ia->iGroup.FindIGroup("myBet").iMap.Remove(ia));
+        iGroup.FindIGroup("myBet").Refresh();
     }
 
     //Event
@@ -137,15 +178,27 @@ public class GCardSet {
     {
         reviewed = true;
         event.Run("push");
+        iGroup.RunAction("push");
     }
     public void Win()
     {
         reviewed = true;
         event.Run("won");
+        iGroup.RunAction("win");
+        OnWin();
     }
     public void Lose()
     {
         reviewed = true;
         event.Run("dealer_win");
+        iGroup.RunAction("lose");
+    }
+    private void OnWin()
+    {
+        IGroup clone = iGroup.Clone("myBet");
+        clone.Refresh();
+        clone.FindILabel("lb").SetText(bet);
+        clone.Run("pos");
+        clone.RunAction("win0");
     }
 }

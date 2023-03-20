@@ -9,10 +9,12 @@ import java.util.List;
 
 public class GBot {
     protected List<GCardSet> gSetList = new ArrayList<>();
+    protected GCardSet gSet;
     protected int iSet = 0;
     protected IGroup iGroup;
     protected Runnable next;
     public GDX.Runnable1<GCardSet> onReview;
+    protected List<Integer> betList = new ArrayList<>();
 
     public GBot(IGroup iGroup)
     {
@@ -24,10 +26,12 @@ public class GBot {
         GCardSet set = NewCardSet(iGroup.FindIGroup("cardSet"));
         set.newGCardSet = ()->{
             GCardSet newSet = NewCardSet(iGroup.FindITable("table").NewChildFrom(0));
+            newSet.SetBet(betList);
             gSetList.add(newSet);
             return newSet;
         };
         gSetList.add(set);
+        gSet = gSetList.get(0);
     }
     protected GCardSet NewCardSet(IGroup iGroup)
     {
@@ -40,6 +44,10 @@ public class GBot {
         InitSet();
         iSet=-1;
         iGroup.RunAction("reset");
+    }
+    public void Bet(Runnable done)
+    {
+
     }
     public void Turn(Runnable next)
     {
@@ -70,9 +78,9 @@ public class GBot {
     {
         next.run();
     }
-    public void TakeCard()
+    public void TakeCard(Runnable done)
     {
-        gSetList.get(0).GetCard();
+        gSetList.get(0).GetCard(done);
     }
     protected GCardSet GetCardSet()
     {

@@ -4,7 +4,6 @@ import GDX11.GDX;
 import GDX11.IObject.*;
 import GDX11.IObject.IAction.IMulAction;
 import GDX11.IObject.IComponent.IComponents;
-import GDX11.Reflect;
 import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -65,6 +64,11 @@ public class IActor extends IObject {
             public boolean remove() {
                 OnRemove();
                 return super.remove();
+            }
+
+            @Override
+            public void drawDebug(ShapeRenderer shapes) {
+                super.drawDebug(shapes);
             }
         };
     }
@@ -220,6 +224,11 @@ public class IActor extends IObject {
         return (T)Float.valueOf(num.floatValue());
     }
     //Action
+    public void Run(String name)
+    {
+        if (!iAction.Contain(name)) return;
+        iAction.Find(name).Run();
+    }
     public void RunAction(String name)
     {
         RunEventAction(name);

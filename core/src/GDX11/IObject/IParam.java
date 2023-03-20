@@ -2,7 +2,6 @@ package GDX11.IObject;
 
 import GDX11.*;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -50,7 +49,6 @@ public class IParam extends IBase {
     }
     private Number GetVariable(String stValue)
     {
-        if (stValue.contains("[")) return GetRandom(stValue);
         if (stValue.equals("scale")) return Scene.i.scale;
         if (stValue.equals("sw")) return (float) Scene.i.width;
         if (stValue.equals("sh")) return (float) Scene.i.height;
@@ -85,16 +83,6 @@ public class IParam extends IBase {
     {
         if (key.equals("w")) return Asset.i.GetTexture(name).getRegionWidth();
         return Asset.i.GetTexture(name).getRegionHeight();
-    }
-    //random
-    private Number GetRandom(String stValue)
-    {
-        stValue = stValue.replace("[","").replace("]","");
-        String[] arr = stValue.split(",");
-        Number v1 = GetVariable(arr[0]);
-        Number v2 = GetVariable(arr[2]);
-        if (arr[0].contains(".")) return MathUtils.random(v1.floatValue(),v2.floatValue());
-        return MathUtils.random(v1.intValue(),v2.intValue());
     }
     //vector
     private static Vector GetVector(String value)//(1,2)
