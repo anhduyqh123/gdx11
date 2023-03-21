@@ -1,7 +1,5 @@
 package Tool.ObjectTool.Form;
 
-import GDX11.GDX;
-
 import javax.swing.*;
 
 public class MainForm {
@@ -23,15 +21,21 @@ public class MainForm {
 
         IActorForm iActorForm = new IActorForm();
         IActionForm iActionForm = new IActionForm();
+        IComponentForm iComponentForm = new IComponentForm();
+        IParamForm iParamForm = new IParamForm();
         FuncForm funcForm = new FuncForm(dataForm::RefreshAt);
 
         tabbedPane.add("Info", iActorForm.panel1);
         tabbedPane.add("Action", iActionForm.panel1);
+        tabbedPane.add("Component", iComponentForm.panel1);
+        tabbedPane.add("Param", iParamForm.panel1);
         tabbedPane.add("Function", funcForm.panel1);
 
         dataForm.onSelectIActor = iActor->{
             iActorForm.SetIActor(iActor);
             iActionForm.SetIActor(iActor);
+            iComponentForm.SetIActor(iActor);
+            iParamForm.SetIActor(iActor);
             funcForm.SetIActor(iActor);
         };
     }

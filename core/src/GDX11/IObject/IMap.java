@@ -78,9 +78,14 @@ public class IMap<T extends IObject> implements Json.JsonObject {
     }
     public void Remove(T child)
     {
+        if (child==null) return;
         list.remove(child);
         GetMap().remove(child.name);
         GDX.Try(()->onRemove.Run(child));
+    }
+    public void Remove(String name)
+    {
+        Remove(Get(name));
     }
     public void Rename(String newName,T child)
     {

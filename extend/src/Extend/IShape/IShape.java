@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class IShape extends IComponent {//all position is local of Actor
-
     public ShapeRenderer.ShapeType shapeType = ShapeRenderer.ShapeType.Line;
     private GDX.Func<ShapeRenderer> getRenderer;
 

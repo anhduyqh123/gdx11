@@ -7,18 +7,21 @@ import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IImage;
 import GDX11.Scene;
 import GDX11.Util;
-import com.badlogic.gdx.scenes.scene2d.Group;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GCardSet {
+    private static final int[] coins = {10,20,50,100,200,500};
+
     public CardSet set = new CardSet();
     public IGroup iGroup;
     private Runnable next;
     public Runnable onTurn = ()->{},onReview;
     public GDX.Runnable1<String> event;
+    public GDX.Runnable1<Integer> onWin,onLose,onPush;
     public GDX.Func<GCardSet> newGCardSet;
+    public GDX.Func<Boolean> canSlit;
     public boolean reviewed;
     public int bet = 0;
 
@@ -69,8 +72,8 @@ public class GCardSet {
     }
     public boolean CanSplit()
     {
-        return true;
-        //return set.CanSplit();
+        //return true;
+        return canSlit.Run() && set.CanSplit();
     }
     public boolean CanDouble()
     {
@@ -104,6 +107,15 @@ public class GCardSet {
     }
     public void Double()
     {
+        IGroup myBet2 = iGroup.FindITable("table").Clone(0);
+        myBet2.name = "clone";
+        iGroup.FindITable("table").iMap.Add(myBet2);
+        myBet2.Refresh();
+        myBet2.Run("pos");
+        myBet2.FindActor("img").remove();
+
+        iGroup.FindITable("table").RefreshLayout();
+
         GetCard();
         iGroup.Run(()->{
             int score = set.GetScore();
@@ -143,17 +155,22 @@ public class GCardSet {
         bet=0;
         Clear();
         Util.For(list,i->NewCoin(i,"pos"));
-        iGroup.FindIGroup("myBet").RunAction("rebet");
-        iGroup.FindIGroup("myBet").FindILabel("lb").SetText(bet);
+        iGroup.FindIGroup("table").RunAction("rebet");
+        RefreshBetText();
     }
     public void Bet(int index)
     {
         NewCoin(index,"drop");
-        iGroup.FindIGroup("myBet").FindILabel("lb").SetText(bet);
+        RefreshBetText();
+    }
+    private void RefreshBetText()
+    {
+        iGroup.FindIGroup("myBet").FindILabel("lb").text = bet+"";
+        iGroup.FindIGroup("myBet").FindILabel("lb").RefreshContent();
     }
     private IImage NewCoin(int index,String event)
     {
-        bet+=1;
+        bet+=coins[index];
         IImage clone = iGroup.FindIGroup("myBet").Clone(0);
         clone.texture = "chip_"+(index+1);
         clone.name = "clone";
@@ -164,13 +181,15 @@ public class GCardSet {
     }
     public void Clear()
     {
+        iGroup.FindIGroup("table").iMap.Remove("clone");
         bet = 0;
         List<IActor> list = new ArrayList<>();
         iGroup.FindIGroup("myBet").ForIChild(ia->{
             if (ia.name.equals("clone")) list.add(ia);
         });
         Util.For(list,ia->iGroup.FindIGroup("myBet").iMap.Remove(ia));
-        iGroup.FindIGroup("myBet").Refresh();
+        iGroup.FindIGroup("table").Refresh();
+        RefreshBetText();
     }
 
     //Event
@@ -179,6 +198,7 @@ public class GCardSet {
         reviewed = true;
         event.Run("push");
         iGroup.RunAction("push");
+        onPush.Run(bet);
     }
     public void Win()
     {
@@ -186,18 +206,22 @@ public class GCardSet {
         event.Run("won");
         iGroup.RunAction("win");
         OnWin();
+        onWin.Run(bet);
     }
     public void Lose()
     {
         reviewed = true;
         event.Run("dealer_win");
         iGroup.RunAction("lose");
+        onLose.Run(bet);
     }
     private void OnWin()
     {
-        IGroup clone = iGroup.Clone("myBet");
+        IGroup clone = iGroup.Clone("table");
         clone.Refresh();
-        clone.FindILabel("lb").SetText(bet);
+        clone.FindIGroup("myBet").FindActor("img").remove();
+        if (clone.iMap.Size()==2)
+            clone.FindIGroup("clone").FindActor("img").remove();
         clone.Run("pos");
         clone.RunAction("win0");
     }

@@ -52,10 +52,10 @@ public class Util {
         mid.add(dir.setLength(l*Math.abs(percent)));
         return mid;
     }
-    public static void Round(Vector2 v)
+    public static void Int(Vector2 v)
     {
-        v.x = Math.round(v.x);
-        v.y = Math.round(v.y);
+        v.x = (int)v.x;
+        v.y = (int)v.y;
     }
     //
     public static float[] GetVertices(List<Vector2> list)

@@ -99,7 +99,13 @@ public class GDeck {
         }
         popCards.add(card);
         GetView(card).GetActor().setVisible(true);
+        VisibleBack();
         cb.Run(card);
+    }
+    private void VisibleBack()
+    {
+        if (cards.size()==0) return;
+        GetView(cards.get(cards.size()-1)).GetActor().setVisible(true);
     }
 
     public void ToDeck0(GDX.Runnable done)
@@ -129,6 +135,7 @@ public class GDeck {
         cards.remove(yellow);
 
         Util.For(cards,card->{
+            GetView(card).GetActor().setVisible(true);
             GetView(card).Run("deck");
             GetView(card).RunAction("toDeck");
         });

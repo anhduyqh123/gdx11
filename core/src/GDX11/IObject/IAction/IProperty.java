@@ -1,5 +1,6 @@
 package GDX11.IObject.IAction;
 
+import GDX11.GDX;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;

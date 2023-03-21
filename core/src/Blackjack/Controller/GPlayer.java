@@ -1,5 +1,7 @@
 package Blackjack.Controller;
 
+import Extend.XItem;
+import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.Util;
 
@@ -50,10 +52,9 @@ public class GPlayer extends GBot {
         iBet.FindIActor("btClear").AddClick(()->{
             betList.clear();
             gSet.Clear();
-            iBet.FindActor("table").setVisible(false);
+            iBet.Run("x0");
         });
         iBet.FindIActor("btDeal").AddClick(()->{
-            iBet.FindActor("table").setVisible(false);
             iBet.RunAction("off");
             betDone.run();
         });
@@ -61,7 +62,7 @@ public class GPlayer extends GBot {
     private void Bet(int index)
     {
         betList.add(index);
-        iBet.FindActor("table").setVisible(true);
+        iBet.Run("x1");
         gSet.Bet(index);
 
     }
@@ -70,7 +71,7 @@ public class GPlayer extends GBot {
     public void Bet(Runnable done) {
         betDone = done;
         iBet.RunAction("on");
-        iBet.FindActor("table").setVisible(betList.size()>0);
+        iBet.Run(betList.size()>0?"x1":"x0");
         gSet.SetBet(betList);
 
     }
@@ -90,5 +91,20 @@ public class GPlayer extends GBot {
             iBt.FindActor("btSplit").setVisible(cardSet.CanSplit());
             iBt.FindActor("btDouble").setVisible(cardSet.CanDouble());
         };
+    }
+
+    @Override
+    protected void OnLose(int bet) {
+        XItem.Get("money").Add(-bet);
+    }
+
+    @Override
+    protected void OnWin(int bet) {
+        XItem.Get("money").Add(bet);
+    }
+
+    @Override
+    protected void OnPush(int bet) {
+
     }
 }

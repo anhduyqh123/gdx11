@@ -26,9 +26,7 @@ public class ITable extends IGroup{
     @Override
     public void RefreshContent() {
         super.RefreshContent();
-        List<Actor> list = new ArrayList<>();
-        Util.For(iMap.GetObjects(),ia->list.add(ia.GetActor()));
-        RefreshGrid(list);
+        RefreshLayout();
     }
 
     @Override
@@ -70,6 +68,12 @@ public class ITable extends IGroup{
         });
         RefreshGrid(actors);
     }
+    public void RefreshLayout()
+    {
+        List<Actor> list = new ArrayList<>();
+        Util.For(iMap.GetObjects(),ia->list.add(ia.GetActor()));
+        RefreshGrid(list);
+    }
     private void RefreshGrid(List<Actor> children)
     {
         Table table = GetActor();
@@ -96,6 +100,7 @@ public class ITable extends IGroup{
             Collections.reverse(children);
             Util.ForIndex(children,x->children.get(x).setZIndex(x));
         }
+        //Util.For(children,a->GetIActor(a).InitParam0());
     }
     private void NewRow(Table table)
     {

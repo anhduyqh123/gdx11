@@ -167,7 +167,7 @@ public class UI {
     }
     public static void Button(JButton bt, GDX.Runnable run)
     {
-        bt.addActionListener(e->GDX.Try(run));
+        bt.addActionListener(e->GDX.Try(run,true));
     }
 
     //CheckBox

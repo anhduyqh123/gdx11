@@ -36,7 +36,11 @@ public class GBot {
     protected GCardSet NewCardSet(IGroup iGroup)
     {
         GCardSet gCardSet = new GCardSet(iGroup);
+        gCardSet.canSlit = ()->gSetList.size()<2;
         gCardSet.onReview = ()->onReview.Run(gCardSet);
+        gCardSet.onWin = this::OnWin;
+        gCardSet.onLose = this::OnLose;
+        gCardSet.onPush = this::OnPush;
         return gCardSet;
     }
     public void Reset()
@@ -89,5 +93,17 @@ public class GBot {
     public void EndGame()
     {
         Util.For(gSetList,set->set.RunAction("white"));
+    }
+    protected void OnWin(int bet)
+    {
+
+    }
+    protected void OnLose(int bet)
+    {
+
+    }
+    protected void OnPush(int bet)
+    {
+
     }
 }

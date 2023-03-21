@@ -133,7 +133,7 @@ public class IGroup extends IActor implements IFind {
     }
     public <T extends IActor> T Clone(String name)
     {
-        T clone = iMap.Get(name).Clone();
+        T clone = iMap.Find(name).Clone();
         clone.SetIParent(this);
         return clone;
     }
