@@ -51,7 +51,7 @@ public class IActorForm {
     }
     private void InitPosition()
     {
-        UI.InitComponents(Arrays.asList("coordinatesActor","x","y"),iActor.iPos,pPos);
+        UI.InitComponents(Arrays.asList("coordActor","x","y"),iActor.iPos,pPos);
         UI.NewAlignComboBox("align",iActor.iPos,pPos);
     }
     private String[] SizeValues(String value0)

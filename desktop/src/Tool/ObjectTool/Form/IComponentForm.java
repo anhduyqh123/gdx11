@@ -10,6 +10,7 @@ import GDX11.Reflect;
 import Tool.JFrame.GTree;
 import Tool.JFrame.UI;
 import Tool.JFrame.WrapLayout;
+import Tool.ObjectTool.Point.IPointsEdit;
 
 import javax.swing.*;
 import java.util.Arrays;
@@ -28,11 +29,13 @@ public class IComponentForm {
     private JButton cloneButton;
     private JButton btPaste;
     private JLabel lbType;
-    private JButton btEdit;
+    private JCheckBox edit;
 
     private GTree<IComponent> gTree = new GTree<>(tree,tfName);
     private Class selectedType;
+    private IComponent selected;
     private IActor iActor;
+    private IPointsEdit pointsEdit;
 
     public IComponentForm()
     {
@@ -56,10 +59,14 @@ public class IComponentForm {
             });
         });
         gTree.newObject = this::NewIComponent;
-        gTree.onSelect = this::OnSelectIAction;
+        gTree.onSelect = this::OnSelect;
 
         UI.Button(btNew,gTree::NewObject);
         UI.Button(cloneButton,()->gTree.Clone());
+        UI.CheckBox(edit,vl->{
+            if (vl) NewEdit();
+            else pointsEdit.remove();;
+        });
     }
 
     public void SetIActor(IActor iActor)
@@ -73,13 +80,19 @@ public class IComponentForm {
         GDX.Log(selectedType.getSimpleName());
         return Reflect.NewInstance(selectedType);
     }
-    private void OnSelectIAction(IComponent cp)
+    private void OnSelect(IComponent cp)
     {
+        selected = cp;
         pnInfo.removeAll();
         List<String> list = UI.GetFields(cp);
-        list.removeAll(Arrays.asList("name","list"));
+        list.removeAll(Arrays.asList("name"));
         UI.InitComponents(list,cp,pnInfo);
         lbType.setText(cp.getClass().getSimpleName());
         UI.Repaint(pnInfo);
+    }
+    private void NewEdit()
+    {
+        pointsEdit = new IPointsEdit(iActor);
+        if (selected instanceof IPoints) pointsEdit.SetData(selected.Get(IPoints.class).list);
     }
 }

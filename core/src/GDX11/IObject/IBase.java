@@ -19,6 +19,10 @@ public class IBase {
     {
         return GetIActor().GetActor();
     }
+    public <T> T Get(Class<T> type)
+    {
+        return (T)this;
+    }
     @Override
     public boolean equals(Object obj) {
         return Reflect.equals(this,obj);

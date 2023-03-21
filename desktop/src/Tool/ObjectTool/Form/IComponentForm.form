@@ -94,7 +94,7 @@
               <text value="Type: Class"/>
             </properties>
           </component>
-          <component id="4768a" class="javax.swing.JButton" binding="btEdit">
+          <component id="91fc0" class="javax.swing.JCheckBox" binding="edit">
             <constraints/>
             <properties>
               <text value="Edit"/>

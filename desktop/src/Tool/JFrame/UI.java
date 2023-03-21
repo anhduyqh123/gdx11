@@ -1,7 +1,9 @@
 package Tool.JFrame;
 
 import GDX11.GDX;
+import GDX11.IObject.IPos;
 import GDX11.Reflect;
+import GDX11.Util;
 import com.badlogic.gdx.utils.reflect.Field;
 
 import javax.swing.*;
@@ -46,6 +48,11 @@ public class UI {
         String name = field.getName();
         Object value = Reflect.GetValue(field, object);
         if (value==null) return;
+        if (Reflect.IsAssignableFrom(type,List.class))
+        {
+            Util.For((List)value,i->InitComponents(i,NewPanel(name,parent)));
+            return;
+        }
         if (type == boolean.class) {
             NewCheckBox(name,(boolean)value,parent,result-> SetField(field,object,result));
             return;
@@ -72,7 +79,7 @@ public class UI {
         }
         if (Reflect.IsBaseType(type))
         {
-            NewTextField(name,value,100,20,parent,st->SetField(field,object,st));
+            NewTextField(field,object,100,20,parent);
             return;
         }
         InitComponents(value, NewPanel(name,parent));
@@ -117,8 +124,10 @@ public class UI {
     public static JComboBox NewAlignComboBox(String fieldName,Object object,JPanel parent)
     {
         String[] arr = {"","bottomLeft","bottom","bottomRight","left","center","right","topLeft","top","topRight"};
-        return NewComboBox(fieldName,arr, Reflect.GetValue(fieldName,object),parent,
-                vl-> Reflect.SetValue(fieldName,object,vl));
+        return NewComboBox(fieldName,arr, Reflect.GetValue(fieldName,object),parent, vl-> {
+            Reflect.SetValue(fieldName,object,vl);
+            if (object instanceof IPos) ((IPos) object).OnChange();
+        });
     }
     public static <T> JComboBox NewComboBox(T[] items, T value, int width,int height)
     {
@@ -205,6 +214,15 @@ public class UI {
                 }
             });
         return textField;
+    }
+    public static JTextField NewTextField(Field field,Object object,int width,int height,JPanel parent)
+    {
+        JTextField tf = NewTextField(field.getName(),Reflect.GetValue(field,object),width,height,parent,st->{
+            SetField(field,object,st);
+            if (object instanceof IPos) ((IPos) object).OnChange();
+        });
+        if (object instanceof IPos) ((IPos) object).AddChangeEvent(field.getName(),()-> tf.setText(Reflect.GetValue(field,object)));
+        return tf;
     }
     //TextArea
     private static JTextArea NewTextArea(String value,int width,int height)

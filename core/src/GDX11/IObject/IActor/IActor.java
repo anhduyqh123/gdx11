@@ -270,6 +270,10 @@ public class IActor extends IObject {
     {
         return new Vector2(GetActor().getX(align),GetActor().getY(align));
     }
+    public Vector2 GetStagePosition(int align)
+    {
+        return Scene.GetStagePosition(GetActor(),align);
+    }
 
     public void SetPosition(Vector2 pos,int align)
     {
