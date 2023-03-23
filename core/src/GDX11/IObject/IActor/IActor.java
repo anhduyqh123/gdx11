@@ -1,5 +1,6 @@
 package GDX11.IObject.IActor;
 
+import GDX11.GAudio;
 import GDX11.GDX;
 import GDX11.IObject.*;
 import GDX11.IObject.IAction.IMulAction;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.Arrays;
 import java.util.List;
@@ -176,6 +178,11 @@ public class IActor extends IObject {
         actor.setTouchable(touchable);
         actor.setVisible(visible);
         InitParam0();
+
+        AddChangeEvent("base",()->{
+            GDX.Log("123");
+            actor.setColor(GetColor());
+        });
     }
     private final static List<String> eventNames = Arrays.asList("enter","exit","clicked");
     private boolean ContainsEvent()
@@ -206,6 +213,12 @@ public class IActor extends IObject {
                 RunAction("clicked");
             }
         });
+        if (iAction.Contain("soundOn"))
+            GAudio.i.AddSoundEvent(name,vl-> RunAction(vl==0?"soundOff":"soundOn"));
+        if (iAction.Contain("musicOn"))
+            GAudio.i.AddMusicEvent(name,vl-> RunAction(vl==0?"musicOff":"musicOn"));
+        if (iAction.Contain("vibrateOn"))
+            GAudio.i.AddVibrateEvent(name,vl-> RunAction(vl==0?"vibrateOff":"vibrateOn"));
     }
     protected void InitParam0()
     {

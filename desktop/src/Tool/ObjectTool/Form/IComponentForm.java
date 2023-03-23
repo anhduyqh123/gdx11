@@ -59,14 +59,21 @@ public class IComponentForm {
             });
         });
         gTree.newObject = this::NewIComponent;
-        gTree.onSelect = this::OnSelect;
+        gTree.onSelect = cp->{
+            OnSelect(cp);
+            CheckEdit();
+        };
 
         UI.Button(btNew,gTree::NewObject);
         UI.Button(cloneButton,()->gTree.Clone());
-        UI.CheckBox(edit,vl->{
-            if (vl) NewEdit();
-            else pointsEdit.remove();;
-        });
+        UI.CheckBox(edit,vl->CheckEdit());
+    }
+    private void CheckEdit()
+    {
+        if (edit.isSelected()) NewEdit();
+        else{
+            if (pointsEdit!=null) pointsEdit.remove();
+        }
     }
 
     public void SetIActor(IActor iActor)
@@ -77,7 +84,6 @@ public class IComponentForm {
     }
     private IComponent NewIComponent()
     {
-        GDX.Log(selectedType.getSimpleName());
         return Reflect.NewInstance(selectedType);
     }
     private void OnSelect(IComponent cp)
@@ -92,7 +98,9 @@ public class IComponentForm {
     }
     private void NewEdit()
     {
+        if (pointsEdit!=null) pointsEdit.remove();
         pointsEdit = new IPointsEdit(iActor);
+        pointsEdit.onDataChange = ()->OnSelect(selected);
         if (selected instanceof IPoints) pointsEdit.SetData(selected.Get(IPoints.class).list);
     }
 }

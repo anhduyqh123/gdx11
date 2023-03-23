@@ -117,7 +117,7 @@ public class Reflect {
     public static Map<String, Field> GetDataFieldMap(Class type)
     {
         if (dataField.containsKey(type)) return dataField.get(type);
-        Map<String, Field> map = new HashMap<>();
+        Map<String, Field> map = new LinkedHashMap<>();
         for(Field f : GetAllFieldMap(type).values())
             if (IsValidField(f)) map.put(f.getName(),f);
         dataField.put(type,map);

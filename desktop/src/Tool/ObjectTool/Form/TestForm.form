@@ -19,6 +19,32 @@
           <name value=""/>
         </properties>
       </component>
+      <component id="2ce4e" class="javax.swing.JSlider" binding="slider1" default-binding="true">
+        <constraints/>
+        <properties>
+          <inheritsPopupMenu value="false"/>
+          <inverted value="false"/>
+          <name value="name"/>
+          <paintLabels value="true"/>
+          <paintTicks value="false"/>
+          <preferredSize width="300" height="50"/>
+          <snapToTicks value="true"/>
+          <toolTipText value="12345"/>
+        </properties>
+      </component>
+      <component id="9460d" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <preferredSize width="100" height="20"/>
+          <text value="aaaaaaaaa"/>
+        </properties>
+      </component>
+      <component id="e0dbe" class="javax.swing.JLabel">
+        <constraints/>
+        <properties>
+          <text value="percent:1.00"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

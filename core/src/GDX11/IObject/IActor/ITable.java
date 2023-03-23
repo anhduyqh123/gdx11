@@ -100,7 +100,7 @@ public class ITable extends IGroup{
             Collections.reverse(children);
             Util.ForIndex(children,x->children.get(x).setZIndex(x));
         }
-        //Util.For(children,a->GetIActor(a).InitParam0());
+        Util.For(children,a->GetIActor(a).InitParam0());
     }
     private void NewRow(Table table)
     {

@@ -14,7 +14,8 @@ import java.util.List;
 public class Content {
     public static Class[] GetTypes()
     {
-        Class[] types = {IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class};
+        Class[] types = {IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class,
+        IScrollImage.class, IProgressBar.class};
         return types;
     }
 

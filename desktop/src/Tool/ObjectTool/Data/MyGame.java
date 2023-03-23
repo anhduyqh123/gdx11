@@ -5,13 +5,7 @@ import GDX11.AssetData.AssetData;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.JsonWriter;
 
 public class MyGame extends GDXGame {
@@ -37,8 +31,9 @@ public class MyGame extends GDXGame {
         asset.SetData(data);
         asset.LoadPackages(done,data.GetKeys().toArray(new String[0]));
 
-        InitControlCamera();
-        DebugBorder();
+        Event.InitControlCamera();
+        Event.DebugBorder();
+        Event.InitDrag();
     }
     @Override
     protected AssetData LoadPackages(String path) {
@@ -51,46 +46,5 @@ public class MyGame extends GDXGame {
     @Override
     protected Scene NewScene() {
         return NewScene(new PolygonSpriteBatch());
-    }
-
-    private void DebugBorder()
-    {
-        Actor actor = new Actor();
-        actor.setSize(Scene.i.width,Scene.i.height);
-        actor.setTouchable(Touchable.disabled);
-        actor.setDebug(true);
-        Scene.i.GetStage().addActor(actor);
-    }
-    private void InitControlCamera()
-    {
-        OrthographicCamera camera  = (OrthographicCamera) Scene.i.GetStage().getCamera();
-        Vector2 pos0 = new Vector2();
-        Vector2 camPos = new Vector2();
-        Scene.i.GetStage().addListener(new ClickListener(){
-            @Override
-            public boolean scrolled(InputEvent event, float x, float y, float amountX, float amountY) {
-                float delta = amountY* GDX.DeltaTime();
-                camera.zoom+=delta;
-                return super.scrolled(event, x, y, amountX, amountY);
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (button!=1) return false;
-                pos0.set(Gdx.input.getX(),Gdx.input.getY());
-                camPos.set(camera.position.x,camera.position.y);
-                return true;
-            }
-
-            @Override
-            public void touchDragged(InputEvent event, float x, float y, int pointer) {
-                Vector2 p = new Vector2(Gdx.input.getX(),Gdx.input.getY());
-                Vector2 dir = Util.GetDirect(p,pos0);
-                float len = dir.len()*camera.zoom*1.5f;
-                dir.setLength(len);
-                Vector2 cPos = new Vector2(camPos).add(dir.x,-dir.y);
-                camera.position.set(cPos,0);
-            }
-        });
     }
 }

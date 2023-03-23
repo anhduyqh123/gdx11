@@ -1,6 +1,8 @@
 package Tool.ObjectTool.Form;
 
 import GDX11.IObject.IActor.IActor;
+import GDX11.IObject.ISize;
+import GDX11.Reflect;
 import Tool.JFrame.UI;
 import Tool.JFrame.WrapLayout;
 import Tool.ObjectTool.Data.Content;
@@ -41,12 +43,11 @@ public class IActorForm {
     }
     private void InitISize()
     {
-        UI.NewComboBox("width",SizeValues(iActor.iSize.width),iActor.iSize.width,pSize,
-                vl-> iActor.iSize.width = vl).setEditable(true);
-        UI.NewComboBox("height",SizeValues(iActor.iSize.height),iActor.iSize.height,pSize,
-                vl-> iActor.iSize.height = vl).setEditable(true);
-        UI.NewAlignComboBox("origin",iActor.iSize,pSize).setEditable(true);
-        UI.InitComponents(Arrays.asList("scale","rotate"),iActor.iSize,pSize);
+        ISize iSize = iActor.iSize;
+        UI.NewComboBox("width",iSize,SizeValues(iSize.width),pSize).setEditable(true);
+        UI.NewComboBox("height",iSize,SizeValues(iSize.height),pSize).setEditable(true);
+        UI.NewAlignComboBox("origin",iSize,pSize).setEditable(true);
+        UI.InitComponents(Arrays.asList("scale","rotate"),iSize,pSize);
         UI.NewLabel("size:"+(int)iActor.GetActor().getWidth()+"-"+(int)iActor.GetActor().getHeight(),pSize);
     }
     private void InitPosition()

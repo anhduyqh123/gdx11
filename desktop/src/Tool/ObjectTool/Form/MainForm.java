@@ -37,6 +37,7 @@ public class MainForm {
             iComponentForm.SetIActor(iActor);
             iParamForm.SetIActor(iActor);
             funcForm.SetIActor(iActor);
+            optionForm.SetIActor(iActor);
         };
     }
 }

@@ -1,6 +1,8 @@
 package Tool.JFrame;
 
 import GDX11.GDX;
+//import GDX11.IObject.IBase;
+import GDX11.IObject.IBase;
 import GDX11.IObject.IPos;
 import GDX11.Reflect;
 import GDX11.Util;
@@ -42,7 +44,7 @@ public class UI {
         }
         Reflect.SetValue(field,object,value);
     }
-    public static void NewComponent(Field field, Object object, JPanel parent)
+    public static void NewComponent(Field field, Object object, JPanel panel)
     {
         Class type = field.getType();
         String name = field.getName();
@@ -50,49 +52,56 @@ public class UI {
         if (value==null) return;
         if (Reflect.IsAssignableFrom(type,List.class))
         {
-            Util.For((List)value,i->InitComponents(i,NewPanel(name,parent)));
+            List list = (List)value;
+            if (list.size()<=5)
+                Util.ForIndex(list,i->InitComponents(list.get(i),NewPanel(name+i,panel)));
             return;
         }
         if (type == boolean.class) {
-            NewCheckBox(name,(boolean)value,parent,result-> SetField(field,object,result));
+            NewCheckBox(field,object,panel);
             return;
         }
         if (type.isEnum()){
             Enum[] constants = (Enum[])type.getEnumConstants();
-            NewComboBox(name,constants,value,parent,vl->SetField(field,object,vl));
+            NewComboBox(field,object,constants,panel);
             return;
         }
         if (name.contains("lign"))
         {
-            NewAlignComboBox(name,object,parent);
+            NewAlignComboBox(name,object,panel);
             return;
         }
         if (name.equals("hexColor"))
         {
-            NewColorPicker(parent,value.toString(),vl->SetField(field,object,vl));
+            NewColorPicker(field,object,panel);
             return;
         }
         if (name.startsWith("st"))
         {
-            NewTextArea(name,value,100,20,parent,st->SetField(field,object,st));
+            NewTextArea(field,object,panel);
+            return;
+        }
+        if (name.startsWith("percent"))
+        {
+            NewSlider(field,object,panel);
             return;
         }
         if (Reflect.IsBaseType(type))
         {
-            NewTextField(field,object,100,20,parent);
+            NewTextField(field,object,100,20,panel);
             return;
         }
-        InitComponents(value, NewPanel(name,parent));
+        InitComponents(value, NewPanel(name,panel));
     }
-    public static void InitComponents(Object object,JPanel parent)
+    public static void InitComponents(Object object,JPanel panel)
     {
         for(Field f : Reflect.GetDataFieldMap(object.getClass()).values())
-            NewComponent(f,object,parent);
+            NewComponent(f,object,panel);
     }
-    public static void InitComponents(List<String> fieldNames, Object object, JPanel parent)
+    public static void InitComponents(List<String> fieldNames, Object object, JPanel panel)
     {
         for(String name : fieldNames)
-            NewComponent(Reflect.GetDataFieldMap(object.getClass()).get(name),object,parent);
+            NewComponent(Reflect.GetDataFieldMap(object.getClass()).get(name),object,panel);
     }
     //Panel
     public static void Repaint(JPanel panel)
@@ -105,9 +114,9 @@ public class UI {
         panel.removeAll();
         Repaint(panel);
     }
-    public static JPanel NewPanel(String name,JPanel parent)
+    public static JPanel NewPanel(String name,JPanel panel)
     {
-        JPanel pn = NewPanel(parent);
+        JPanel pn = NewPanel(panel);
         pn.setBorder(BorderFactory.createTitledBorder(pn.getBorder(),name));
         return pn;
     }
@@ -116,15 +125,15 @@ public class UI {
         JPanel panel = new JPanel();
         parent.add(panel);
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panel.setMaximumSize(new Dimension(parent.getWidth(),1000));
+        panel.setMaximumSize(new Dimension(panel.getWidth(),1000));
         panel.setLayout(new WrapLayout());
         return panel;
     }
     //ComboBox
-    public static JComboBox NewAlignComboBox(String fieldName,Object object,JPanel parent)
+    public static JComboBox NewAlignComboBox(String fieldName,Object object,JPanel panel)
     {
         String[] arr = {"","bottomLeft","bottom","bottomRight","left","center","right","topLeft","top","topRight"};
-        return NewComboBox(fieldName,arr, Reflect.GetValue(fieldName,object),parent, vl-> {
+        return NewComboBox(fieldName,arr, Reflect.GetValue(fieldName,object),panel, vl-> {
             Reflect.SetValue(fieldName,object,vl);
             if (object instanceof IPos) ((IPos) object).OnChange();
         });
@@ -136,18 +145,32 @@ public class UI {
         SetSize(comboBox,width,height);
         return comboBox;
     }
-    public static <T> JComboBox NewComboBox(String name, T[] items, T value, int width,int height, JPanel parent)
+    public static <T> JComboBox NewComboBox(String name, T[] items, T value, int width,int height, JPanel panel)
     {
         JComboBox comboBox = NewComboBox(items,value,width,height);
-        LabelComponent(name,comboBox,parent);
+        LabelComponent(name,comboBox,panel);
         return comboBox;
     }
-    public static <T> JComboBox NewComboBox(String name, T[] items, T value, JPanel parent,GDX.Runnable1<T> onChange)
+    public static <T> JComboBox NewComboBox(String name, T[] items, T value, JPanel panel,GDX.Runnable1<T> onChange)
     {
         JComboBox comboBox = NewComboBox(items,value,120,20);
-        LabelComponent(name,comboBox,parent);
-        comboBox.addActionListener(e->onChange.Run((T)comboBox.getSelectedItem()));
+        LabelComponent(name,comboBox,panel);
+        comboBox.addActionListener(e->{
+            onChange.Run((T)comboBox.getSelectedItem());
+        });
         return comboBox;
+    }
+    public static <T> JComboBox NewComboBox(Field field,Object object,T[] items,JPanel panel)
+    {
+        return NewComboBox(field.getName(),items,Reflect.GetValue(field,object),panel,vl->{
+            Reflect.SetValue(field,object,vl);
+            GDX.Log(object.getClass());
+            if (object instanceof IPos) ((IPos) object).OnChange();
+        });
+    }
+    public static <T> JComboBox NewComboBox(String fieldName,Object object,T[] items,JPanel panel)
+    {
+        return NewComboBox(Reflect.GetField(object.getClass(),fieldName),object,items,panel);
     }
     public static <T> void ComboBox(JComboBox cb,T[] items)
     {
@@ -167,11 +190,11 @@ public class UI {
         cb.setSelectedItem(value);
     }
     //Button
-    public static JButton NewButton(String name,JPanel parent,Runnable onClick)
+    public static JButton NewButton(String name,JPanel panel,Runnable onClick)
     {
         JButton button = new JButton(name);
         button.addActionListener(e -> onClick.run());
-        parent.add(button);
+        panel.add(button);
         return button;
     }
     public static void Button(JButton bt, GDX.Runnable run)
@@ -184,14 +207,19 @@ public class UI {
     {
         cb.addActionListener(e->onChange.Run(cb.isSelected()));
     }
-    public static JCheckBox NewCheckBox(String name,boolean value,JPanel parent,GDX.Runnable1<Boolean> onChange)
+    public static JCheckBox NewCheckBox(String name,boolean value,JPanel panel,GDX.Runnable1<Boolean> onChange)
     {
         JCheckBox checkBox = new JCheckBox();
         checkBox.setText(name);
         checkBox.setSelected(value);
         checkBox.addActionListener(e->onChange.Run(checkBox.isSelected()));
-        parent.add(checkBox);
+        panel.add(checkBox);
         return checkBox;
+    }
+    public static JCheckBox NewCheckBox(Field field,Object object,JPanel panel)
+    {
+        return NewCheckBox(field.getName(),Reflect.GetValue(field,object),panel,
+                vl-> Reflect.SetValue(field,object,vl));
     }
     //TextField
     private static JTextField NewTextField(String value,int width,int height)
@@ -200,10 +228,10 @@ public class UI {
         SetSize(textField,width,height);
         return textField;
     }
-    public static JTextField NewTextField(String name,Object value,int width,int height,JPanel parent,GDX.Runnable1<String> onChange)
+    public static JTextField NewTextField(String name,Object value,int width,int height,JPanel panel,GDX.Runnable1<String> onChange)
     {
         JTextField textField = NewTextField(value.toString(), width,height);
-        LabelComponent(name,textField,parent);
+        LabelComponent(name,textField,panel);
         if (onChange!=null)
             textField.addKeyListener(new KeyAdapter() {
                 @Override
@@ -215,9 +243,9 @@ public class UI {
             });
         return textField;
     }
-    public static JTextField NewTextField(Field field,Object object,int width,int height,JPanel parent)
+    public static JTextField NewTextField(Field field,Object object,int width,int height,JPanel panel)
     {
-        JTextField tf = NewTextField(field.getName(),Reflect.GetValue(field,object),width,height,parent,st->{
+        JTextField tf = NewTextField(field.getName(),Reflect.GetValue(field,object),width,height,panel,st->{
             SetField(field,object,st);
             if (object instanceof IPos) ((IPos) object).OnChange();
         });
@@ -231,10 +259,10 @@ public class UI {
         SetSize(textField,width,height);
         return textField;
     }
-    public static JTextArea NewTextArea(String name,Object value,int width,int height,JPanel parent,GDX.Runnable1<String> onChange)
+    public static JTextArea NewTextArea(String name,Object value,int width,int height,JPanel panel,GDX.Runnable1<String> onChange)
     {
         JTextArea textField = NewTextArea(value.toString(), width,height);
-        LabelComponent(name,textField,parent);
+        LabelComponent(name,textField,panel);
         if (onChange!=null)
             textField.addKeyListener(new KeyAdapter() {
                 @Override
@@ -246,20 +274,25 @@ public class UI {
             });
         return textField;
     }
-    public static JLabel NewLabel(String name,JPanel parent)
+    public static JTextArea NewTextArea(Field field,Object object,JPanel panel)
+    {
+        return NewTextArea(field.getName(),Reflect.GetValue(field,object),100,30,panel,st->SetField(field,object,st));
+    }
+    public static JLabel NewLabel(String name,JPanel panel)
     {
         JLabel label = new JLabel(name);
-        parent.add(label);
+        panel.add(label);
         return label;
     }
     //extend
-    private static void LabelComponent(String text, JComponent component, JPanel parent)
+    private static JLabel LabelComponent(String text, JComponent component, JPanel parent)
     {
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel lb = new JLabel(text);
         panel.add(lb);
         panel.add(component);
         parent.add(panel);
+        return lb;
     }
     public static void SetSize(JComponent component,int width,int height)
     {
@@ -296,6 +329,13 @@ public class UI {
     {
         NewButton("Color",panel,()->NewColorChooserWindow(hexColor,onChance));
     }
+    public static void NewColorPicker(Field field,Object object,JPanel panel)
+    {
+        NewColorPicker(panel,Reflect.GetValue(field,object),st->{
+            Reflect.SetValue(field,object,st);
+            if (object instanceof IBase) ((IBase) object).OnChange();
+        });
+    }
     //</editor-fold>
 
     //JFrame
@@ -324,5 +364,28 @@ public class UI {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setVisible(true);
         return frame;
+    }
+
+    //Slider
+    public static JSlider NewSlider(String name, float value, JPanel panel , GDX.Runnable1<Float> cb)
+    {
+        JSlider cp = new JSlider();
+        cp.setValue((int)(value*100));
+        SetSize(cp,100,20);
+        JLabel lb = LabelComponent(name+":"+value,cp,panel);
+        SetSize(lb,90,20);
+        cp.addChangeListener(e->{
+            float vl = cp.getValue()/100f;
+            lb.setText(name+":"+vl);
+            cb.Run(vl);
+        });
+        return cp;
+    }
+    public static JSlider NewSlider(Field field, Object object, JPanel panel)
+    {
+        return NewSlider(field.getName(),Reflect.GetValue(field,object),panel,vl->{
+            Reflect.SetValue(field,object,vl);
+            if (object instanceof IBase) ((IBase) object).OnChange();
+        });
     }
 }
