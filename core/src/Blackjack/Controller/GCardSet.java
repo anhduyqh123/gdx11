@@ -22,7 +22,7 @@ public class GCardSet {
     public GDX.Runnable1<Integer> onWin,onLose,onPush;
     public GDX.Func<GCardSet> newGCardSet;
     public GDX.Func<Boolean> canSlit;
-    public boolean reviewed;
+    public boolean reviewed,handCount;
     public int bet = 0;
 
     public GCardSet(IGroup iGroup)
@@ -57,7 +57,7 @@ public class GCardSet {
             IActor view = GDeck.i.GetView(card);
             set.Add(card);
             Scene.AddActorKeepTransform(view.GetActor(),iGroup.FindActor("gr"));
-            view.iRun.SetRun("moveLocal", ()->{
+            view.iEvent.SetRun("moveLocal", ()->{
                 if (showCard) GDeck.i.GetView(card).RunAction("upCard");
                 MoveDone();
                 if (done!=null) done.run();
@@ -72,8 +72,8 @@ public class GCardSet {
     }
     public boolean CanSplit()
     {
-        //return true;
-        return canSlit.Run() && set.CanSplit();
+        return true;
+        //return canSlit.Run() && set.CanSplit();
     }
     public boolean CanDouble()
     {
@@ -87,6 +87,7 @@ public class GCardSet {
             RefreshCards();
             newSet.RefreshCards();
             newSet.RunAction("gray");
+            newSet.SetHandCount(handCount);
             iGroup.Run(()->Turn(next),1f);
         });
     }
@@ -224,5 +225,10 @@ public class GCardSet {
             clone.FindIGroup("clone").FindActor("img").remove();
         clone.Run("pos");
         clone.RunAction("win0");
+    }
+    public void SetHandCount(boolean handCount)
+    {
+        this.handCount = handCount;
+        iGroup.FindActor("score").getColor().a = handCount?0:1;
     }
 }

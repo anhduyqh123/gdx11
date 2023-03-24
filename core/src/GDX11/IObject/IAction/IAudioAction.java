@@ -15,14 +15,13 @@ public class IAudioAction extends IAction{
     }
     public enum State
     {
-        Switch,
         Play,
         PlaySingle,
         Loop,
         Stop
     }
     public Type type = Type.Sound;
-    public State state = State.Switch;
+    public State state = State.Play;
     public float volume = 1;
     public String random = "";
 
@@ -61,7 +60,6 @@ public class IAudioAction extends IAction{
     {
         switch (state)
         {
-            case Switch: GAudio.i.SwitchSound();break;
             case Play: GAudio.i.PlaySound(GetName()); break;
             case PlaySingle: GAudio.i.PlaySingleSound(GetName()); break;
             case Loop: break;
@@ -72,7 +70,6 @@ public class IAudioAction extends IAction{
     {
         switch (state)
         {
-            case Switch: GAudio.i.SwitchMusic();break;
             case Play: GAudio.i.StartMusic(name); break;
             case PlaySingle:
             case Loop: break;
@@ -83,7 +80,6 @@ public class IAudioAction extends IAction{
     {
         switch (state)
         {
-            case Switch: GAudio.i.SwitchVibrate();break;
             case Play: GAudio.i.DoVibrate((int)volume); break;
             case PlaySingle:
             case Loop:

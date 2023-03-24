@@ -1,11 +1,9 @@
 package GDX11.Actors;
 
-import GDX11.Actions.CountAction;
 import GDX11.GDX;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
 
 public class ProgressBar extends ScrollImage {
     public GDX.Runnable1<Vector2> onChange;
@@ -20,13 +18,6 @@ public class ProgressBar extends ScrollImage {
     {
         this.percent = ValidPercent(percent);
         if (onChange!=null) onChange.Run(GetPos());
-    }
-    public void CountValue(float percent,float duration)
-    {
-        float start = this.percent;
-        float end = ValidPercent(percent);
-        Action ac = CountAction.Get(this::SetValue,start,end,duration);
-        addAction(ac);
     }
     private Vector2 GetPos()//parent position
     {

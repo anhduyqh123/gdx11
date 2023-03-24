@@ -36,7 +36,7 @@ public class GDealer extends GBot{
                 return;
             }
             Card card1 = model.Get(1);
-            GDeck.i.GetView(card1).iRun.SetRun("check",this::Check);
+            GDeck.i.GetView(card1).iEvent.SetRun("check",this::Check);
             iGroup.Run(()->GDeck.i.GetView(card1).RunAction("check"),1f);
         });
     }

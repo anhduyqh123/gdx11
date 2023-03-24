@@ -5,8 +5,7 @@ import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IImage;
-import GDX11.IObject.IRunnable;
-import GDX11.Scene;
+import GDX11.IObject.IEvent;
 import GDX11.Util;
 
 import java.util.*;
@@ -36,8 +35,8 @@ public class GDeck {
         Shuffle();
 
         GetView(yellow).SetTexture("card_yel");
-        iGroup.iRun.SetRun("startShuffle",this::StartShuffle);
-        IRunnable.SetGameRun("cardX",this::AtCard);
+        iGroup.iEvent.SetRun("startShuffle",this::StartShuffle);
+        IEvent.SetGameRun("cardX",this::AtCard);
     }
     private void AtCard(IActor vCard)
     {
@@ -68,7 +67,7 @@ public class GDeck {
         IImage view = iGroup.FindIImage("img").Clone();
         view.name = "i"+map.size();
         iGroup.iMap.Add(view);
-        view.iRun.SetRun("showCard",()->view.SetTexture(id));
+        view.iEvent.SetRun("showCard",()->view.SetTexture(id));
         map.put(card,view);
         return card;
     }
@@ -125,7 +124,7 @@ public class GDeck {
             done.Run();
             return;
         }
-        iGroup.iRun.SetRun("endShuffle",done);
+        iGroup.iEvent.SetRun("endShuffle",done);
         ToDeck();
     }
     private void ToDeck()

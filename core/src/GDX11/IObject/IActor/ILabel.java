@@ -52,8 +52,8 @@ public class ILabel extends IActor{
     @Override
     protected void Connect() {
         super.Connect();
-        iRun.SetFunc("dw",()->GetLabel().getPrefWidth());
-        iRun.SetFunc("dh",()->GetLabel().getPrefHeight());
+        iEvent.SetFunc("dw",()->GetLabel().getPrefWidth());
+        iEvent.SetFunc("dh",()->GetLabel().getPrefHeight());
     }
 
     @Override

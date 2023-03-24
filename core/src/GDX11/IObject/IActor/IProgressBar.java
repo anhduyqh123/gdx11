@@ -9,7 +9,13 @@ public class IProgressBar extends IScrollImage{
 
     @Override
     protected Actor NewActor() {
-        return new ProgressBar();
+        return new ProgressBar(){
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+                OnUpdate(delta);
+            }
+        };
     }
 
     @Override
@@ -18,5 +24,29 @@ public class IProgressBar extends IScrollImage{
         ProgressBar pro = GetActor();
         pro.SetValue(percent);
         AddChangeEvent("percent",()->pro.SetValue(percent));
+    }
+
+    @Override
+    protected void OnUpdate(float delta) {
+        super.OnUpdate(delta);
+        UpdatePercent();
+    }
+    public ProgressBar GetActor()
+    {
+        return super.GetActor();
+    }
+
+    //IProgressBar
+    private void UpdatePercent()
+    {
+        if (iParam.Has("percent"))
+        {
+            ProgressBar pro = GetActor();
+            pro.SetValue(iParam.Get("percent",0f));
+        }
+    }
+    public void SetValue(float percent)
+    {
+        iParam.Set("percent",percent);
     }
 }

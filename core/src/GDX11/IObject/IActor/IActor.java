@@ -1,6 +1,6 @@
 package GDX11.IObject.IActor;
 
-import GDX11.GAudio;
+import GDX11.Config;
 import GDX11.GDX;
 import GDX11.IObject.*;
 import GDX11.IObject.IAction.IMulAction;
@@ -13,7 +13,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +25,7 @@ public class IActor extends IObject {
     public IParam iParam = new IParam();
     public ISize iSize = new ISize();
     public IPos iPos = new IPos();
-    public IRunnable iRun = new IRunnable();
+    public IEvent iEvent = new IEvent();
     public IMulAction iAction = new IMulAction();
     {
         iAction.name = "action";
@@ -179,10 +178,7 @@ public class IActor extends IObject {
         actor.setVisible(visible);
         InitParam0();
 
-        AddChangeEvent("base",()->{
-            GDX.Log("123");
-            actor.setColor(GetColor());
-        });
+        AddChangeEvent("base",()-> actor.setColor(GetColor()));
     }
     private final static List<String> eventNames = Arrays.asList("enter","exit","clicked");
     private boolean ContainsEvent()
@@ -199,39 +195,34 @@ public class IActor extends IObject {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
-                RunAction("enter");
+                Run("enter");
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
-                RunAction("exit");
+                Run("exit");
             }
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                RunAction("clicked");
+                Run("clicked");
             }
         });
-        if (iAction.Contain("soundOn"))
-            GAudio.i.AddSoundEvent(name,vl-> RunAction(vl==0?"soundOff":"soundOn"));
-        if (iAction.Contain("musicOn"))
-            GAudio.i.AddMusicEvent(name,vl-> RunAction(vl==0?"musicOff":"musicOn"));
-        if (iAction.Contain("vibrateOn"))
-            GAudio.i.AddVibrateEvent(name,vl-> RunAction(vl==0?"vibrateOff":"vibrateOn"));
     }
     protected void InitParam0()
     {
-        iParam.SetParam("x0",GetActor().getX());
-        iParam.SetParam("y0",GetActor().getY());
+        iParam.Set("x0",GetActor().getX());
+        iParam.Set("y0",GetActor().getY());
     }
-    public <T> T GetParam(String st)
+    protected  <T> T GetParam(String st)
     {
-        if (iRun.HasFunc(st)) return (T)iRun.GetFunc(st).Run();
+        if (iEvent.HasFunc(st)) return (T) iEvent.GetFunc(st).Run();
         return (T)iParam.GetValueFromString(st);
     }
     public <T> T GetParam(String st,T value0)
     {
+        if (Config.Has(st)) return Config.Get(st,value0);
         Number num = GetParam(st);
         if (value0 instanceof Integer) return (T)Integer.valueOf(num.intValue());
         return (T)Float.valueOf(num.floatValue());
@@ -239,8 +230,7 @@ public class IActor extends IObject {
     //Action
     public void Run(String name)
     {
-        if (!iAction.Contain(name)) return;
-        iAction.Find(name).Run();
+        RunEvent(name);
     }
     public void RunAction(String name)
     {
@@ -250,6 +240,11 @@ public class IActor extends IObject {
     {
         if (!iAction.Contain(name)) return;
         GetActor().addAction(iAction.Find(name).Get());
+    }
+    protected void RunEvent(String name)
+    {
+        if (!iAction.Contain(name)) return;
+        iAction.Find(name).Run();
     }
 
     //Get Data

@@ -12,7 +12,7 @@ public class GBot {
     protected GCardSet gSet;
     protected int iSet = 0;
     protected IGroup iGroup;
-    protected Runnable next;
+    protected Runnable next,insureDone;
     public GDX.Runnable1<GCardSet> onReview;
     protected List<Integer> betList = new ArrayList<>();
 
@@ -105,5 +105,13 @@ public class GBot {
     protected void OnPush(int bet)
     {
 
+    }
+    public void OnInsure(Runnable done)
+    {
+        this.insureDone = done;
+    }
+    public void SetHandCount(boolean handCount)
+    {
+        Util.For(gSetList,set->set.SetHandCount(handCount));
     }
 }

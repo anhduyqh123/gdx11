@@ -7,7 +7,7 @@ import GDX11.Reflect;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IRunnable {
+public class IEvent {
     //static
     public static Map<String, GDX.Runnable1<IActor>> runMap = new HashMap<>();
     public static void SetGameRun(String name, GDX.Runnable1<IActor> cb)

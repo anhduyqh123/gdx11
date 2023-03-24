@@ -76,7 +76,7 @@ public class UI {
             NewColorPicker(field,object,panel);
             return;
         }
-        if (name.startsWith("st"))
+        if (name.startsWith("st_"))
         {
             NewTextArea(field,object,panel);
             return;
@@ -164,7 +164,6 @@ public class UI {
     {
         return NewComboBox(field.getName(),items,Reflect.GetValue(field,object),panel,vl->{
             Reflect.SetValue(field,object,vl);
-            GDX.Log(object.getClass());
             if (object instanceof IPos) ((IPos) object).OnChange();
         });
     }

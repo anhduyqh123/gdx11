@@ -2,8 +2,6 @@ package com.game;
 
 import GDX11.IObject.IMap;
 import GDX11.IObject.IObject;
-import GDX11.IObject.IRunnable;
-import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.HashMap;
 import java.util.Map;

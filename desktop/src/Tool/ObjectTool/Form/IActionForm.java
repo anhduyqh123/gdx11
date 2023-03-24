@@ -38,7 +38,7 @@ public class IActionForm {
 
         String[] vl1 = {"GDX","Box2D","Spine","Extend"};
         Class[] types1 = {IDelay.class, IMove.class, IProperty.class, IMulAction.class, XAction.class, IRepeat.class, IAudioAction.class,
-        IUtil.class, IClone.class, IImageAction.class, IAddParent.class};
+        IUtil.class, IClone.class, IImageAction.class, IAddParent.class,ICountAction.class, IParamAction.class};
         Class[] types2 ={};
         Class[] types3 ={};
         Class[] types4 ={};

@@ -7,7 +7,9 @@ import GDX11.Util;
 
 
 public class GPlayer extends GBot {
-    private IGroup iBt,iNoti,iBet;
+    public static Runnable onWin,onLose,onPush;
+
+    private IGroup iBt,iNoti,iBet,iInsure;
     private Runnable betDone;
     public GPlayer(IGroup iGroup)
     {
@@ -59,6 +61,19 @@ public class GPlayer extends GBot {
             betDone.run();
         });
     }
+    public void InitInsure(IGroup iInsure)
+    {
+        iInsure.Run("reset");
+        this.iInsure = iInsure;
+        iInsure.FindIActor("btYes").AddClick(()->{
+            insureDone.run();
+            iInsure.RunAction("off");
+        });
+        iInsure.FindIActor("btNo").AddClick(()->{
+            insureDone.run();
+            iInsure.RunAction("off");
+        });
+    }
     private void Bet(int index)
     {
         betList.add(index);
@@ -96,15 +111,23 @@ public class GPlayer extends GBot {
     @Override
     protected void OnLose(int bet) {
         XItem.Get("money").Add(-bet);
+        onLose.run();
     }
 
     @Override
     protected void OnWin(int bet) {
         XItem.Get("money").Add(bet);
+        onWin.run();
     }
 
     @Override
     protected void OnPush(int bet) {
+        onPush.run();
+    }
 
+    @Override
+    public void OnInsure(Runnable done) {
+        super.OnInsure(done);
+        iInsure.RunAction("choice");
     }
 }

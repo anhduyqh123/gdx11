@@ -69,7 +69,7 @@ public class GDX {
         GetPrefs().putString(key,value);
         GetPrefs().flush();
     }
-    public static boolean GetPrefBoolean(String key, boolean value0)
+    public static Boolean GetPrefBoolean(String key, boolean value0)
     {
         return GetPrefs().getBoolean(key,value0);
     }

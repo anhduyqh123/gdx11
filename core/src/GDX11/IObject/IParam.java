@@ -14,7 +14,7 @@ import java.util.Map;
 public class IParam extends IBase {
     public Map<String,String> dataMap = new HashMap<>();
     protected GDX.Func<Map> getParam;
-    public Map<String,String> GetParam()
+    public Map<String,String> GetData()
     {
         if (getParam==null)
         {
@@ -23,24 +23,28 @@ public class IParam extends IBase {
         }
         return getParam.Run();
     }
-    public <T> T GetParam(String name,T value0)
+    public String Get(String name)
     {
-        String stValue = GetParam().get(name);
+        return GetData().get(name);
+    }
+    public <T> T Get(String name, T value0)
+    {
+        String stValue = Get(name);
         return GDX.Try(()->{
             if (value0 instanceof Color) return (T)Color.valueOf(stValue);
             if (value0 instanceof Vector) return (T)GetVector(stValue);
             return (T)GetVariable(stValue);
         },()->value0);
     }
-    public <T> void SetParam(String name,T value)
+    public <T> void Set(String name, T value)
     {
         try {
-            GetParam().put(name,value+"");
+            GetData().put(name,value+"");
         }catch (Exception e){}
     }
-    public boolean HasParam(String name)
+    public boolean Has(String name)
     {
-        return GetParam().containsKey(name);
+        return GetData().containsKey(name);
     }
     //variable
     public Number GetValueFromString(String stValue)
@@ -57,7 +61,7 @@ public class IParam extends IBase {
     }
     private Number GetActorVariable(String stValue,Actor actor)
     {
-        if (HasParam(stValue)) return GetBaseValue(GetParam().get(stValue));
+        if (Has(stValue)) return GetBaseValue(GetData().get(stValue));
         if (stValue.equals("pSize")) return actor.getParent().getChildren().size;
         if (stValue.equals("i")) return actor.getZIndex();
         if (stValue.equals("w")) return actor.getWidth();

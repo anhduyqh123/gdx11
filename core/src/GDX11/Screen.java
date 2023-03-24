@@ -25,10 +25,12 @@ public class Screen extends Group implements IFind {
         iGroup.SetIRoot(null);
         iGroup.Refresh();
 
-        iGroup.iRun.SetRun("startShow",()->TryRun(onShow));
-        iGroup.iRun.SetRun("startHide",()->TryRun(onHide));
-        iGroup.iRun.SetRun("showDone",()->TryRun(onShowDone));
-        iGroup.iRun.SetRun("hideDone",()->TryRun(onHideDone));
+        iGroup.iEvent.SetRun("startShow",()->TryRun(onShow));
+        iGroup.iEvent.SetRun("startHide",()->TryRun(onHide));
+        iGroup.iEvent.SetRun("showDone",()->TryRun(onShowDone));
+        iGroup.iEvent.SetRun("hideDone",()->TryRun(onHideDone));
+        iGroup.iEvent.SetRun("show",this::Show);
+        iGroup.iEvent.SetRun("hide",this::Hide);
     }
     private void TryRun(GDX.Runnable event)
     {

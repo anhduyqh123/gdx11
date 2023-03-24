@@ -53,6 +53,10 @@ public class IMulAction extends IAction {
     {
         return (T)iMap.Find(name);
     }
+    public <T extends IAction> T Find(String name,Class<T> type)
+    {
+        return Find(name);
+    }
     public boolean Contain(String name)
     {
         return iMap.Contains(name);

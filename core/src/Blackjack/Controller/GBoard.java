@@ -1,7 +1,9 @@
 package Blackjack.Controller;
 
+import GDX11.Config;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
+import GDX11.IObject.IEvent;
 
 import java.util.Arrays;
 
@@ -23,8 +25,14 @@ public class GBoard {
         player.onReview = dealer::Review;
         player.InitControl(game.FindIGroup("table"),game.FindIGroup("noti"));
         player.InitBet(game.FindIGroup("bet"));
-
+        player.InitInsure(game.FindIGroup("insure"));
         deck.Reset();
+
+        IEvent.SetGameRun("handCount",ia->{
+            boolean handCount = Config.GetPref("handCount",false);
+            dealer.SetHandCount(handCount);
+            player.SetHandCount(handCount);
+        });
     }
     private void Reset()
     {

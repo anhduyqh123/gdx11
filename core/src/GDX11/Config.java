@@ -27,25 +27,45 @@ public class Config {
         }catch (Exception e){}
     }
 
-    //get value
+    //Set value
     public static void Set(String name, Object value)
     {
         if (data.has(name)) data.get(name).set(value+"");
         else data.addChild(name,new JsonValue(value+""));
     }
+    public static void SetPref(String name,Object value0)
+    {
+        GDX.SetPrefString(name,value0+"");
+    }
 
-    //get value
-    public static  <T> T GetRemote(String name,T value0)
+    //Get value
+    public static <T> T GetPref(String name,T value0)
+    {
+        String stValue = GetPref(name);
+        if (stValue.equals("")) return GetRemote(name, value0);
+        return Reflect.ToBaseType(stValue,value0);
+    }
+    public static String GetPref(String name)
+    {
+        return GDX.GetPrefString(name,"");
+    }
+    public static <T> T GetRemote(String name,T value0)
     {
         return (T)getRemote.Run(name, Get(name,value0));
     }
     public static  <T> T Get(String name, T value0)
     {
-        try {
-            String result = data.getString(name);
-            return Reflect.ToBaseType(result,value0);
-        }catch (Exception e){}
-        return value0;
+        return GDX.Try(()->{
+            String stValue = Get(name);
+            return Reflect.ToBaseType(stValue,value0);
+        },()->value0);
+    }
+    public static String Get(String name){
+        return data.getString(name);
+    }
+    public static boolean Has(String name)
+    {
+        return data.has(name);
     }
     public static String ToString()
     {
