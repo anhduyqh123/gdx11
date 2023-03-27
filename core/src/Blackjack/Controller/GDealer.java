@@ -42,8 +42,29 @@ public class GDealer extends GBot{
     }
     private void Check()
     {
+        Card card0 = model.Get(0);
+
+        if (card0.number==1)
+        {
+            getPlayers.Run().get(0).OnInsure(vl->{
+                iGroup.Run(this::CheckInsure,vl?1f:0f);
+            });
+            return;
+        }
         if (model.IsBlackjack()) Turn();
         else doneCheck.run();
+    }
+    private void CheckInsure()
+    {
+        LoadSetList();
+        boolean blackjack = model.IsBlackjack();
+        boolean xxx = false;
+        for (GCardSet set : setList)
+            xxx = set.OnInsure(blackjack);
+        iGroup.Run(()->{
+            if (model.IsBlackjack()) Turn();
+            else doneCheck.run();
+        },xxx?2:1f);
     }
 
     @Override

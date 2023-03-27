@@ -42,6 +42,7 @@ public class AssetData{
     {
         for(FileHandle child : GDX.GetFile(path).list())
         {
+            if (child.nameWithoutExtension().equals("texture")) continue;
             if (!child.isDirectory()) continue;
             LoadPackage(child.nameWithoutExtension(), child.path().replace("./",""));
         }
@@ -49,6 +50,12 @@ public class AssetData{
     public void LoadPackages()
     {
         LoadPackages(".");
+        LoadTexture();
+    }
+    public void LoadTexture()
+    {
+        for(FileHandle child : GDX.GetFile("texture").list())
+            LoadTextures(child.name(), child.path());
     }
     public void LoadPackage(String packName,String path)
     {

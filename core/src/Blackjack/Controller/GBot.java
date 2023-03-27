@@ -12,8 +12,10 @@ public class GBot {
     protected GCardSet gSet;
     protected int iSet = 0;
     protected IGroup iGroup;
-    protected Runnable next,insureDone;
+    protected Runnable next;
+    protected GDX.Runnable1<Boolean> insureDone;
     public GDX.Runnable1<GCardSet> onReview;
+    public GDX.Func<GBot> getDealer;
     protected List<Integer> betList = new ArrayList<>();
 
     public GBot(IGroup iGroup)
@@ -106,7 +108,7 @@ public class GBot {
     {
 
     }
-    public void OnInsure(Runnable done)
+    public void OnInsure(GDX.Runnable1<Boolean> done)
     {
         this.insureDone = done;
     }

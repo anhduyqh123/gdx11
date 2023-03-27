@@ -1,6 +1,7 @@
 package Blackjack.Controller;
 
 import Extend.XItem;
+import GDX11.Config;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.Util;
@@ -66,11 +67,12 @@ public class GPlayer extends GBot {
         iInsure.Run("reset");
         this.iInsure = iInsure;
         iInsure.FindIActor("btYes").AddClick(()->{
-            insureDone.run();
+            gSet.Insure();
+            insureDone.Run(true);
             iInsure.RunAction("off");
         });
         iInsure.FindIActor("btNo").AddClick(()->{
-            insureDone.run();
+            insureDone.Run(false);
             iInsure.RunAction("off");
         });
     }
@@ -105,7 +107,22 @@ public class GPlayer extends GBot {
             iBt.RunAction("choice");
             iBt.FindActor("btSplit").setVisible(cardSet.CanSplit());
             iBt.FindActor("btDouble").setVisible(cardSet.CanDouble());
+            if (Config.GetPref("hint",false)) Hint();
         };
+    }
+    private void Hint()
+    {
+        if (GetCardSet().CanSplit())
+        {
+            iBt.FindIActor("btSplit").RunAction("hint");
+            return;
+        }
+        if (GetCardSet().set.GetScore()<17)
+        {
+            iBt.FindIActor("btHit").RunAction("hint");
+            return;
+        }
+        iBt.FindIActor("btStand").RunAction("hint");
     }
 
     @Override
@@ -126,7 +143,7 @@ public class GPlayer extends GBot {
     }
 
     @Override
-    public void OnInsure(Runnable done) {
+    public void OnInsure(GDX.Runnable1<Boolean> done) {
         super.OnInsure(done);
         iInsure.RunAction("choice");
     }

@@ -4,6 +4,7 @@ import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.IObject.IParam;
 import GDX11.Translate;
+import GDX11.Util;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ILabel extends IActor{
 
@@ -98,8 +101,7 @@ public class ILabel extends IActor{
     }
     public String GetText()
     {
-        if (multiLanguage) return GDX.Try(()->GetTranslate(text),()->text);
-        return text;
+        return GetRealText(text);
     }
     private Label.LabelStyle GetStyle(String fontName)
     {
@@ -115,40 +117,30 @@ public class ILabel extends IActor{
         lb.setStyle(GetStyle(fontName));
     }
 
-    //static
-    public static String GetTranslate(String text)//{key}->en-hello,vi->xin chao;
+    protected String GetSingle(String text)
     {
-        List<String> keys = GetKeys(text);
-        if (keys.size()<=0) return Translate.i.Get(text);
-        String txt = text;
-        for(String key : keys) txt = txt.replace(key,Translate.i.Get(GetValue(key)));
-        return txt;
+        if (iParam.Has(text)) return iParam.Get(text);
+        if (Translate.i.HasKey(text)) return Translate.i.Get(text);
+        return text;
     }
-    private static String GetValue(String value)
+    protected String GetMulti(String text)
     {
-        return value.substring(1,value.length()-1);
-    }
-    private static List<String> GetKeys(String data)
-    {
-        List<String> list = new ArrayList<>();
-        while (true)
+        Map<String,String> map = new HashMap<>();
+        text = Util.FindString(text,"{","}",map);
+        for (String key : map.keySet())
         {
-            String key = GetKey(data);
-            if (key==null) return list;
-            list.add(key);
-            data = data.replace(key,"");
+            String value = map.get(key).replace("{","").replace("}","");
+            text = text.replaceAll(key,GetSingle(value));
         }
+        return text;
     }
-    private static String GetKey(String data)
+    protected String GetRealText(String text)
     {
-        try {
-            int s = data.indexOf("{");
-            int e = data.indexOf("}");
-            if (s==-1 || e==-1) return null;
-            return data.substring(s,e+1);
-        }catch (Exception ignored){}
-        return null;
+        if (text.contains("{")) return GetMulti(text);
+        return GetSingle(text);
     }
+
+    //static
     private static void BestFix(Label label)
     {
         if (label.getWidth()==0){

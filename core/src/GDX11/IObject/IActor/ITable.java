@@ -93,7 +93,7 @@ public class ITable extends IGroup{
         }
         table.pad(padTop,padLeft,padBot,padRight);
         table.align(IParam.GetAlign(contentAlign));
-        table.validate();
+        table.layout();
 
         if (reverse)
         {

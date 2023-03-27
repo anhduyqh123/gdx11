@@ -23,16 +23,21 @@ public class GBoard {
         dealer.getPlayers = ()-> Arrays.asList(player);
         player = new GPlayer(game.FindIGroup("player"));
         player.onReview = dealer::Review;
+        player.getDealer = ()->dealer;
         player.InitControl(game.FindIGroup("table"),game.FindIGroup("noti"));
         player.InitBet(game.FindIGroup("bet"));
         player.InitInsure(game.FindIGroup("insure"));
-        deck.Reset();
 
         IEvent.SetGameRun("handCount",ia->{
             boolean handCount = Config.GetPref("handCount",false);
             dealer.SetHandCount(handCount);
             player.SetHandCount(handCount);
         });
+        Init();
+    }
+    public void Init()
+    {
+        deck.Reset();
     }
     private void Reset()
     {

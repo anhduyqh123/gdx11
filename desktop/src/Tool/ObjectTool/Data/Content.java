@@ -1,5 +1,6 @@
 package Tool.ObjectTool.Data;
 
+import Extend.PagedScroll.IPagedScroll;
 import GDX11.IObject.IActor.*;
 import GDX11.Reflect;
 import GDX11.Util;
@@ -15,7 +16,7 @@ public class Content {
     public static Class[] GetTypes()
     {
         Class[] types = {IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class,
-        IScrollImage.class, IProgressBar.class};
+        IScrollImage.class, IProgressBar.class,IScrollPane.class, IPagedScroll.class};
         return types;
     }
 
@@ -38,7 +39,7 @@ public class Content {
         }
         protected void ExcludeFields()
         {
-            fields.removeAll(Arrays.asList("iParam","iSize","iPos","iRun","iAction","iComponents","name"));
+            fields.removeAll(Arrays.asList("iParam","iSize","iPos","iEvent","iAction","iComponents","name"));
         }
     }
     static class XGroup extends XActor

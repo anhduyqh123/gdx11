@@ -7,10 +7,12 @@ import GDX11.IObject.IActor.IProgressBar;
 import GDX11.Screen;
 
 public class GameScreen extends Screen {
+    public Runnable reset;
     public GameScreen() {
         super("Game");
         FindIGroup("top").FindIActor("btMore").AddClick(()-> new MoreCoinScreen().Show());
         FindIGroup("top").FindIActor("btSetting").AddClick(()->new Screen("Setting").Show());
+        FindIGroup("top").FindIActor("btWorld").AddClick(()->new ThemeScreen(reset,this).Show());
     }
     public void SetExp(float p1,float p2)
     {

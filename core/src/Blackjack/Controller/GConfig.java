@@ -39,6 +39,10 @@ public class GConfig {
     {
         return level*5+10;
     }
+    public int GetChipReward(int level)
+    {
+        return 50+50*level;
+    }
     public void CheckNextLevel()
     {
         if (exp>=GetMaxExp(level)) NextLevel();

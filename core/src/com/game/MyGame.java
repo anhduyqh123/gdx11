@@ -13,7 +13,7 @@ public class MyGame extends GDXGame {
         asset.LoadPackages(()->{
             //done loading
             new Blackjack();
-        },"first","default");//load first package
+        },"first","default","theme0");//load first package
     }
     @Override
     protected AssetData LoadPackages(String path) {

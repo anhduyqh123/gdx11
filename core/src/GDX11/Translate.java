@@ -8,16 +8,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Translate {
-    public static Translate i;
+    public static Translate i = Init();
     private final JsonValue json = new JsonValue(JsonValue.ValueType.object);
     private final Map<String, Runnable> cbChange = new LinkedHashMap<>();
     public String code = "en";//get only
     public List<String> codes;//get only
 
-    public Translate(){}
+    public Translate(){
+    }
     public Translate(String data)
     {
-        i = this;
         String[][] board = Util.ReadCSV(data);
         codes = Arrays.asList(board[0]);
         Util.For(1,board.length-1,i->{
@@ -51,6 +51,10 @@ public class Translate {
     {
         return json.get(key).getString(code);
     }
+    public boolean HasKey(String key)
+    {
+        return json.has(key);
+    }
     public void AddChangeCallback(String key,Runnable cb)
     {
         cbChange.put(key,cb);
@@ -62,6 +66,6 @@ public class Translate {
     }
     public static Translate Init()
     {
-        return new Translate(GDX.GetStringFromNode("translate"));
+        return  GDX.Try(()->new Translate(GDX.GetStringFromNode("translate")),()->new Translate());
     }
 }

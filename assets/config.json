@@ -2,5 +2,6 @@
 	screen_width:360,
 	screen_height:720,
 	game_width:1080,
-	game_height:1920
+	game_height:1920,
+	money:5000
 }

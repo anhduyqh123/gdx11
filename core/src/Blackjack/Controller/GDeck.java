@@ -60,6 +60,19 @@ public class GDeck {
 //        Clear();
 
         iGroup.RunAction("reset");
+
+        //AddCard(Arrays.asList(Find("9_club"),Find("2_club"),Find("1_club"),Find("5_club")));
+    }
+    private void AddCard(List<Card> list)
+    {
+        cards.removeAll(list);
+        Util.For(list,c->cards.add(c));
+    }
+    private Card Find(String key)
+    {
+        for (Card c : cards)
+            if (c.key.equals(key)) return c;
+        return null;
     }
     private Card NewCard(String id)
     {

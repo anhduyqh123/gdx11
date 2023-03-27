@@ -2,6 +2,7 @@ package Tool.ObjectTool.Form;
 
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
+import GDX11.Translate;
 import Tool.JFrame.UI;
 import Tool.ObjectTool.Data.ClipBoard;
 import Tool.ObjectTool.Data.Event;
@@ -29,6 +30,7 @@ public class OptionForm {
 
     public OptionForm()
     {
+        Translate.Init();
         new ClipBoard(cbClipboard);
         BGColorButton.addActionListener(e->{
             UI.NewColorChooserWindow(Color.WHITE, hex->

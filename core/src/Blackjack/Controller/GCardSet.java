@@ -15,7 +15,7 @@ public class GCardSet {
     private static final int[] coins = {10,20,50,100,200,500};
 
     public CardSet set = new CardSet();
-    public IGroup iGroup;
+    public IGroup iGroup,insure;
     private Runnable next;
     public Runnable onTurn = ()->{},onReview;
     public GDX.Runnable1<String> event;
@@ -206,7 +206,7 @@ public class GCardSet {
         reviewed = true;
         event.Run("won");
         iGroup.RunAction("win");
-        OnWin();
+        OnWin(0);
         onWin.Run(bet);
     }
     public void Lose()
@@ -216,7 +216,7 @@ public class GCardSet {
         iGroup.RunAction("lose");
         onLose.Run(bet);
     }
-    private void OnWin()
+    private void OnWin(int index)
     {
         IGroup clone = iGroup.Clone("table");
         clone.Refresh();
@@ -224,11 +224,33 @@ public class GCardSet {
         if (clone.iMap.Size()==2)
             clone.FindIGroup("clone").FindActor("img").remove();
         clone.Run("pos");
-        clone.RunAction("win0");
+        clone.RunAction("win"+index);
     }
     public void SetHandCount(boolean handCount)
     {
         this.handCount = handCount;
         iGroup.FindActor("score").getColor().a = handCount?0:1;
+    }
+    public void Insure()
+    {
+        insure = iGroup.Clone("table");
+        insure.Refresh();
+        insure.FindIGroup("myBet").FindActor("img").remove();
+        insure.Run("pos");
+        insure.RunAction("insure");
+    }
+    public boolean OnInsure(boolean blackjack)
+    {
+        if (insure==null) return false;
+        if (blackjack)
+        {
+            insure.RunAction("win");
+            OnWin(1);
+        }
+        else{
+            event.Run("insurance_lost");
+            insure.RunAction("lose");
+        }
+        return true;
     }
 }
