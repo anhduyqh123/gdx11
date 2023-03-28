@@ -13,13 +13,66 @@ import java.util.Map;
 
 public class IParam extends IBase {
     public Map<String,String> dataMap = new HashMap<>();
+    protected GDX.Func<Map> getValue0Map;
     protected GDX.Func<Map> getParam;
+    private GDX.Func<Map> getEventMap;
+
+    @Override
+    public void Dispose() {
+        getParam = null;
+        getEventMap = null;
+        getValue0Map = null;
+    }
+
+    private Map<String, Runnable> GetEventMap()
+    {
+        if (getEventMap==null){
+            Map map = new HashMap();
+            getEventMap = ()->map;
+        }
+        return getEventMap.Run();
+    }
+    private void RunEvent(String name)
+    {
+        if (getEventMap==null) return;
+        if (!GetEventMap().containsKey(name)) return;
+        GetEventMap().get(name).run();
+    }
+    public void AddChangeEvent(String param, Runnable cb)
+    {
+        GetEventMap().put(param, cb);
+    }
+    private void InstallValue0()
+    {
+        Map<String,Object> map = new HashMap<>();
+        for (String key : dataMap.keySet())
+            map.put(key,ToBaseValue(Get(key)));
+        getValue0Map = ()->map;
+    }
+    private Object ToBaseValue(String st)
+    {
+        return GDX.Try(()->Integer.valueOf(st),
+                ()->GDX.Try(()->Float.valueOf(st),()->st));
+    }
+    private Object GetValue0(String name)
+    {
+        return getValue0Map.Run().get(name);
+    }
+    public <T> T GetValueOrValue0(String name)
+    {
+        if (!getValue0Map.Run().containsKey(name)) return (T)Get(name);
+        Number value0 = (Number) GetValue0(name);
+        Number number = Get(name,value0);
+        if (value0 instanceof Integer) return (T)Integer.valueOf(number.intValue());
+        return (T)number;
+    }
     public Map<String,String> GetData()
     {
         if (getParam==null)
         {
             Map map = new HashMap(dataMap);
             getParam = ()->map;
+            InstallValue0();
         }
         return getParam.Run();
     }
@@ -40,6 +93,7 @@ public class IParam extends IBase {
     {
         try {
             GetData().put(name,value+"");
+            RunEvent(name);
         }catch (Exception e){}
     }
     public boolean Has(String name)

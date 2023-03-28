@@ -29,4 +29,10 @@ public class GameScreen extends Screen {
         IGroup star = FindIGroup("top").FindIGroup("star");
         star.FindILabel("lb").SetText(level);
     }
+    public void SetMoney(int oldVl,int newVl)
+    {
+        IGroup bar = FindIGroup("top").FindIGroup("bar");
+        bar.FindILabel("lb").iAction.Find("count",ICountAction.class).Set(oldVl,newVl);
+        bar.FindILabel("lb").RunAction("count");
+    }
 }

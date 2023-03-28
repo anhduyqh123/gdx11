@@ -62,7 +62,10 @@ public class IObjectForm {
         UI.Button(btPrefab,gTree::Prefab);
         UI.Button(cloneButton,gTree::Clone);
         UI.Button(saveButton,this::Save);
-        UI.Button(btRefresh,()->iActor.Refresh());
+        UI.Button(btRefresh,()->{
+            iActor.Dispose();
+            iActor.Refresh();
+        });
 
         UI.Button(deleteButton,()->{
             IPolygon iCircle = new IPolygon();

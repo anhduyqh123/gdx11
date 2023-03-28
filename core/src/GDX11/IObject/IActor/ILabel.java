@@ -79,6 +79,11 @@ public class ILabel extends IActor{
     }
 
     //ILabel
+
+    public Label GetActor() {
+        return super.GetActor();
+    }
+
     public void SetText(Object text)
     {
         Label lb = GetActor();
@@ -116,10 +121,24 @@ public class ILabel extends IActor{
         Label lb = GetActor();
         lb.setStyle(GetStyle(fontName));
     }
-
+    private String GetFormat(String name)
+    {
+        String key = "format_"+name;
+        String text = iParam.Get(name);
+        if (iParam.Has(key))
+        {
+            String fm = iParam.Get(key);
+            Object vl = iParam.GetValueOrValue0(name);
+            return String.format(fm,vl).replace("\n","").replace("\r","");
+        }
+        return text;
+    }
     protected String GetSingle(String text)
     {
-        if (iParam.Has(text)) return iParam.Get(text);
+        if (iParam.Has(text)){
+            iParam.AddChangeEvent(text,()-> GetActor().setText(GetText()));
+            return GetFormat(text);
+        }
         if (Translate.i.HasKey(text)) return Translate.i.Get(text);
         return text;
     }

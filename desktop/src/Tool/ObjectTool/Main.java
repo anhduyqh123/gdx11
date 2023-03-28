@@ -27,11 +27,13 @@ public class Main {
     private static void LoadGame()
     {
         Config.data = Config.LoadData(new FileHandle("config.json").readString());
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = Config.Get("screen_width",360);
         config.height = Config.Get("screen_height",720);
-        config.x = screenSize.width- config.width;
+        config.x = width- config.width-50;
         new LwjglApplication(new MyGame(mainForm::Install), config);
     }
 }

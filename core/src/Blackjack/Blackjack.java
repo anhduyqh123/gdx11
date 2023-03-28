@@ -29,10 +29,7 @@ public class Blackjack {
     private void NewGame()
     {
         GameScreen screen = new GameScreen();
-        XItem.Get("money").AddChangeEvent("game",(o,n)->{
-            IGroup bar = screen.FindIGroup("top").FindIGroup("bar");
-            bar.FindILabel("lb").SetText(n);
-        });
+        XItem.Get("money").AddChangeEvent("game",screen::SetMoney);
         screen.reset = this::NewGame;
         screen.Show();
 

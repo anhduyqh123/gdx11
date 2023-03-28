@@ -1,0 +1,53 @@
+PARAM KEY
+
+if PARAM has key -> return param
+
+variable
+
+mw			->	width/2 of parent
+mh			->	height/2 of parent
+w			->	width of actor
+h			->	height of actor
+pw			->	width of parent
+ph			->	height of parent
+sw			->	width of stage
+sh			->	height of stage
+
+scale		-> 	scale of Scene
+
+(1,2)		->	vector2
+(1,2,3)		->	vector3
+#ffffffff	->	color
+x			->	position of actor
+y			->	position of actor
+sx			->	stage position of actor
+sy			->	stage position of actor
+i			->	index of Actor
+pSize		->	size children of parent
+name_w		->	width of name (asset, child,  neighbor)
+name_h		->	height of name (asset, child, neighbor)
+
+index		->	index of iActor
+iSize		->	size of iGroup children
+
+
+Math Formula
+
+[1,10]		->	random from 1 to 10, 1->int, 1.0->float
+1+2*3-4/2	->	return 5
+
+Neighbor
+
+//
+
+Examples
+
+[0,w] 		->	random from 0 to width
+
+algin
+xl,x,xr
+yb,y,yt
+
+tl,t,tr
+l,c,r
+bl,b,br

@@ -299,6 +299,10 @@ public class IActor extends IObject {
         Action ac2 = Actions.run(cb);
         GetActor().addAction(Actions.sequence(ac1,ac2));
     }
+    public void Dispose()
+    {
+        iParam.Dispose();
+    }
     //static
     public static <T extends IActor> T GetIActor(Actor actor)
     {

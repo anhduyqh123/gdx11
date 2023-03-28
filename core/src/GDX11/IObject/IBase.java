@@ -27,6 +27,7 @@ public class IBase {
     {
         return (T)this;
     }
+    public void Dispose() {}
     @Override
     public boolean equals(Object obj) {
         return Reflect.equals(this,obj);

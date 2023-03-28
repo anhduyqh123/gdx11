@@ -12,14 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.reflect.Field;
 
+import java.text.NumberFormat;
 import java.util.*;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 360;
-		config.height = 640;
+		config.width = 720;
+		config.height = 1280;
 
 		new LwjglApplication(new MyGame(), config);
 	}

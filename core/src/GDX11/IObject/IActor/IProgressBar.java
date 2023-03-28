@@ -9,13 +9,7 @@ public class IProgressBar extends IScrollImage{
 
     @Override
     protected Actor NewActor() {
-        return new ProgressBar(){
-            @Override
-            public void act(float delta) {
-                super.act(delta);
-                OnUpdate(delta);
-            }
-        };
+        return new ProgressBar();
     }
 
     @Override
@@ -23,13 +17,7 @@ public class IProgressBar extends IScrollImage{
         super.SetTexture(texture);
         ProgressBar pro = GetActor();
         pro.SetValue(percent);
-        AddChangeEvent("percent",()->pro.SetValue(percent));
-    }
-
-    @Override
-    protected void OnUpdate(float delta) {
-        super.OnUpdate(delta);
-        UpdatePercent();
+        iParam.AddChangeEvent("percent",()-> pro.SetValue(iParam.Get("percent",0f)));
     }
     public ProgressBar GetActor()
     {
@@ -37,14 +25,6 @@ public class IProgressBar extends IScrollImage{
     }
 
     //IProgressBar
-    private void UpdatePercent()
-    {
-        if (iParam.Has("percent"))
-        {
-            ProgressBar pro = GetActor();
-            pro.SetValue(iParam.Get("percent",0f));
-        }
-    }
     public void SetValue(float percent)
     {
         iParam.Set("percent",percent);
