@@ -18,7 +18,7 @@ public class CardSet {
         set.remove(card);
         return card;
     }
-    private int BaseScore()
+    public int BaseScore()
     {
         if (IsBlackjack()) return 21;
         int score = 0;

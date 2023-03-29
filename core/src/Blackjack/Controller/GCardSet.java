@@ -36,7 +36,10 @@ public class GCardSet {
         this.next = next;
         if (set.Size()<2) GetCard(()->Turn(next));
         else {
-            if (set.IsBlackjack()) OnEvent("blackjack");
+            if (set.IsBlackjack()){
+                OnEvent("blackjack");
+                GAudio.i.PlaySound("clap2");
+            }
             else onTurn.run();
         }
     }

@@ -19,6 +19,8 @@ public class Blackjack {
     private GConfig gConfig = new GConfig();
     public Blackjack()
     {
+        GAudio.i.StartMusic("bgMusic");
+
         XItem.InitItem(new XItem("theme",0));
         XItem.InitItem(new XItem("money",5000));
 

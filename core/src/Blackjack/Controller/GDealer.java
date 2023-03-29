@@ -2,6 +2,7 @@ package Blackjack.Controller;
 
 import Blackjack.Model.Card;
 import Blackjack.Model.CardSet;
+import GDX11.Config;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.Util;
@@ -44,7 +45,7 @@ public class GDealer extends GBot{
     {
         Card card0 = model.Get(0);
 
-        if (card0.number==1)
+        if (card0.number==1 && Config.GetPref("insure",true))
         {
             getPlayers.Run().get(0).OnInsure(vl->{
                 iGroup.Run(this::CheckInsure,vl?1f:0f);
@@ -82,7 +83,9 @@ public class GDealer extends GBot{
     }
     private void CheckReview()
     {
-        if (model.GetScore()<17) GetCardSet().GetCard(()->iGroup.Run(this::CheckReview,0.8f));
+        int score = model.BaseScore();
+        if (Config.GetPref("soft17",true)) score = model.GetScore();
+        if (score<17) GetCardSet().GetCard(()->iGroup.Run(this::CheckReview,0.8f));
         else Review();
     }
     private void LoadSetList()

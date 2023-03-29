@@ -17,10 +17,10 @@ public class AssetNode {
         Object
     }
 
-    public Kind kind;
-    public String name;
-    public String url;
-    public String extension;
+    public Kind kind = Kind.None;
+    public String name = "";
+    public String url = "";
+    public String extension = "";
     public String pack="";
     public String atlas="";
 
