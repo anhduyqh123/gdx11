@@ -32,6 +32,7 @@ public class GDX {
     public static void ClearPreferences()
     {
         GetPrefs().clear();
+        GetPrefs().flush();
     }
     public static long GetPrefLong(String key, long value0)
     {

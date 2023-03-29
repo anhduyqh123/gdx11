@@ -1,28 +1,23 @@
+apply plugin: "java"
+
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = ["../assets"]
+//sourceSets.main.resources.srcDirs = ["../android/assets"]
 
-//project.ext.mainClassName = "com.game.DesktopLauncher"
-project.ext.mainClassName = "Tool.ObjectTool.Main"
-project.ext.assetsDir = new File("../assets")
-
-import org.gradle.internal.os.OperatingSystem
+//project.ext.mainClassName = "Editor.ParticleViewer.MainView"
+project.ext.mainClassName = "Editor.UITool.UIMain"
+project.ext.assetsDir = new File("../android/Empty");
 
 task run(dependsOn: classes, type: JavaExec) {
-    mainClass = project.mainClassName
+    main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
     ignoreExitValue = true
-
-    if (OperatingSystem.current() == OperatingSystem.MAC_OS) {
-        // Required to run on macOS
-        jvmArgs += "-XstartOnFirstThread"
-    }
 }
 
 task debug(dependsOn: classes, type: JavaExec) {
-    mainClass = project.mainClassName
+    main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
     workingDir = project.assetsDir
@@ -31,7 +26,6 @@ task debug(dependsOn: classes, type: JavaExec) {
 }
 
 task dist(type: Jar) {
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
@@ -41,3 +35,8 @@ task dist(type: Jar) {
     }
     with jar
 }
+
+
+dist.dependsOn classes
+
+eclipse.project.name = appName + "-desktop"

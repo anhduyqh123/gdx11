@@ -149,7 +149,8 @@ public class ILabel extends IActor{
         for (String key : map.keySet())
         {
             String value = map.get(key).replace("{","").replace("}","");
-            text = text.replaceAll(key,GetSingle(value));
+            String single = GetSingle(value);
+            text = text.replace(key,single);
         }
         return text;
     }

@@ -10,7 +10,7 @@ import java.util.List;
 public class GBot {
     protected List<GCardSet> gSetList = new ArrayList<>();
     protected GCardSet gSet;
-    protected int iSet = 0;
+    protected int iSet = 0,totalBet;
     protected IGroup iGroup;
     protected Runnable next;
     protected GDX.Runnable1<Boolean> insureDone;
@@ -43,12 +43,14 @@ public class GBot {
         gCardSet.onWin = this::OnWin;
         gCardSet.onLose = this::OnLose;
         gCardSet.onPush = this::OnPush;
+        gCardSet.onBet = bet->totalBet+=bet;
         return gCardSet;
     }
     public void Reset()
     {
         InitSet();
         iSet=-1;
+        totalBet = 0;
         iGroup.RunAction("reset");
     }
     public void Bet(Runnable done)

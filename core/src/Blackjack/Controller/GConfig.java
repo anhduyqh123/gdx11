@@ -7,12 +7,14 @@ public class GConfig {
     public int exp = GDX.GetPrefInteger("exp",0);
     private GDX.Runnable2<Float,Float> cbExp; //old,new percent
     private GDX.Runnable1<Integer> cbLevel;
+    public GDX.Runnable1<Integer> nextLevel;
 
     private void NextLevel()
     {
         level++;
         GDX.SetPrefInteger("level",1);
         cbLevel.Run(level);
+        nextLevel.Run(level);
         exp=0;
         AddExp(0);
     }

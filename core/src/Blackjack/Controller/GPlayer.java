@@ -1,5 +1,6 @@
 package Blackjack.Controller;
 
+import Blackjack.Screen.MoreCoinScreen;
 import Extend.XItem;
 import GDX11.Config;
 import GDX11.GDX;
@@ -78,6 +79,7 @@ public class GPlayer extends GBot {
     }
     private void Bet(int index)
     {
+        if (!IsValidCoin(index)) return;
         betList.add(index);
         iBet.Run("x1");
         gSet.Bet(index);
@@ -86,11 +88,20 @@ public class GPlayer extends GBot {
 
     @Override
     public void Bet(Runnable done) {
+        if (XItem.Get("money").value<=0) XItem.Get("money").SetValue(500);
+        if (XItem.Get("money").value<GetBet()) betList.clear();
         betDone = done;
         iBet.RunAction("on");
         iBet.Run(betList.size()>0?"x1":"x0");
         gSet.SetBet(betList);
 
+    }
+    private int GetBet()
+    {
+        int total = 0;
+        for (int id : betList)
+            total+=GCardSet.coins[id];
+        return total;
     }
 
     public void Reset()
@@ -146,5 +157,14 @@ public class GPlayer extends GBot {
     public void OnInsure(GDX.Runnable1<Boolean> done) {
         super.OnInsure(done);
         iInsure.RunAction("choice");
+    }
+    private boolean IsValidCoin(int index)
+    {
+        if (totalBet+GCardSet.coins[index]>XItem.Get("money").value)
+        {
+            new MoreCoinScreen().Show();
+            return false;
+        }
+        return true;
     }
 }

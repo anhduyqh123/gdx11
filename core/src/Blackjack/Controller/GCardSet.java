@@ -1,6 +1,7 @@
 package Blackjack.Controller;
 
 import Blackjack.Model.CardSet;
+import GDX11.GAudio;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
@@ -12,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GCardSet {
-    private static final int[] coins = {10,20,50,100,200,500};
+    public static final int[] coins = {10,20,50,100,200,500};
 
     public CardSet set = new CardSet();
     public IGroup iGroup,insure;
     private Runnable next;
     public Runnable onTurn = ()->{},onReview;
     public GDX.Runnable1<String> event;
-    public GDX.Runnable1<Integer> onWin,onLose,onPush;
+    public GDX.Runnable1<Integer> onWin,onLose,onPush,onBet;
     public GDX.Func<GCardSet> newGCardSet;
     public GDX.Func<Boolean> canSlit;
     public boolean reviewed,handCount;
@@ -101,7 +102,7 @@ public class GCardSet {
         GetCard();
         iGroup.Run(()->{
             int score = set.GetScore();
-            if (score>21) OnEvent("bust");
+            if (score>21) Bust();
             if (score==21) Stand();
             if (score<21) Turn(next);
         },1f);
@@ -120,9 +121,14 @@ public class GCardSet {
         GetCard();
         iGroup.Run(()->{
             int score = set.GetScore();
-            if (score>21) OnEvent("bust");
+            if (score>21) Bust();
             else Stand();
         },1f);
+    }
+    private void Bust()
+    {
+        GAudio.i.PlaySound("wrong");
+        OnEvent("bust");
     }
     private void OnEvent(String name)
     {
@@ -172,6 +178,7 @@ public class GCardSet {
     private IImage NewCoin(int index,String event)
     {
         bet+=coins[index];
+        onBet.Run(coins[index]);
         IImage clone = iGroup.FindIGroup("myBet").Clone(0);
         clone.texture = "chip_"+(index+1);
         clone.name = "clone";
@@ -208,6 +215,7 @@ public class GCardSet {
         iGroup.RunAction("win");
         OnWin(0);
         onWin.Run(bet);
+        GAudio.i.PlaySound("sgoal");
     }
     public void Lose()
     {
@@ -246,10 +254,12 @@ public class GCardSet {
         {
             insure.RunAction("win");
             OnWin(1);
+            onWin.Run(bet);
         }
         else{
             event.Run("insurance_lost");
             insure.RunAction("lose");
+            onWin.Run(-bet);
         }
         return true;
     }
