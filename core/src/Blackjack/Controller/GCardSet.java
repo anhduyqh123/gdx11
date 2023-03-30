@@ -76,8 +76,7 @@ public class GCardSet {
     }
     public boolean CanSplit()
     {
-        return true;
-        //return canSlit.Run() && set.CanSplit();
+        return canSlit.Run() && set.CanSplit();
     }
     public boolean CanDouble()
     {

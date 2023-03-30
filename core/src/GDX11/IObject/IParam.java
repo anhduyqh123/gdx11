@@ -1,7 +1,6 @@
 package GDX11.IObject;
 
 import GDX11.*;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -13,7 +12,6 @@ import java.util.Map;
 
 public class IParam extends IBase {
     public Map<String,String> dataMap = new HashMap<>();
-    protected GDX.Func<Map> getValue0Map;
     protected GDX.Func<Map> getParam;
     private GDX.Func<Map> getEventMap;
 
@@ -21,7 +19,6 @@ public class IParam extends IBase {
     public void Dispose() {
         getParam = null;
         getEventMap = null;
-        getValue0Map = null;
     }
 
     private Map<String, Runnable> GetEventMap()
@@ -42,59 +39,42 @@ public class IParam extends IBase {
     {
         GetEventMap().put(param, cb);
     }
-    private void InstallValue0()
-    {
-        Map<String,Object> map = new HashMap<>();
-        for (String key : dataMap.keySet())
-            map.put(key,ToBaseValue(Get(key)));
-        getValue0Map = ()->map;
-    }
-    private Object ToBaseValue(String st)
-    {
-        return GDX.Try(()->Integer.valueOf(st),
-                ()->GDX.Try(()->Float.valueOf(st),()->st));
-    }
-    private Object GetValue0(String name)
-    {
-        return getValue0Map.Run().get(name);
-    }
-    public <T> T GetValueOrValue0(String name)
-    {
-        if (!getValue0Map.Run().containsKey(name)) return (T)Get(name);
-        Number value0 = (Number) GetValue0(name);
-        Number number = Get(name,value0);
-        if (value0 instanceof Integer) return (T)Integer.valueOf(number.intValue());
-        return (T)number;
-    }
-    public Map<String,String> GetData()
+    public Map<String,Object> GetData()
     {
         if (getParam==null)
         {
-            Map map = new HashMap(dataMap);
+            Map<String,Object> map = new HashMap<>();
+            for (String key : dataMap.keySet())
+                map.put(key,Json.ToBaseType(dataMap.get(key)));
             getParam = ()->map;
-            InstallValue0();
         }
         return getParam.Run();
     }
-    public String Get(String name)
+    public <T> T Get(String name)
     {
-        return GetData().get(name);
+        return (T)GetData().get(name);
     }
     public <T> T Get(String name, T value0)
     {
-        String stValue = Get(name);
-        return GDX.Try(()->{
-            if (value0 instanceof Color) return (T)Color.valueOf(stValue);
-            if (value0 instanceof Vector) return (T)GetVector(stValue);
-            return (T)GetVariable(stValue);
-        },()->value0);
+        return Get(name)!=null?Get(name):value0;
     }
-    public <T> void Set(String name, T value)
+    public void Set(String name, Object value)
     {
-        try {
-            GetData().put(name,value+"");
+        GDX.Try(()->{
+            PutData(name,value);
             RunEvent(name);
-        }catch (Exception e){}
+        });
+    }
+    private void PutData(String name,Object value)
+    {
+        Object vl = value;
+        if (Has(name))
+        {
+            Object vl0 = Get(name);
+            if (vl0 instanceof Integer && value instanceof Float)
+                vl = ((Float) value).intValue();
+        }
+        GetData().put(name,vl);
     }
     public boolean Has(String name)
     {
@@ -115,7 +95,7 @@ public class IParam extends IBase {
     }
     private Number GetActorVariable(String stValue,Actor actor)
     {
-        if (Has(stValue)) return GetBaseValue(GetData().get(stValue));
+        if (Has(stValue)) return Get(stValue);
         if (stValue.equals("pSize")) return actor.getParent().getChildren().size;
         if (stValue.equals("i")) return actor.getZIndex();
         if (stValue.equals("w")) return actor.getWidth();
@@ -128,12 +108,7 @@ public class IParam extends IBase {
         if (stValue.equals("y")) return actor.getY();
         if (stValue.equals("yc")) return actor.getY(Align.center);
         if (stValue.equals("yt")) return actor.getY(Align.top);
-        return GetBaseValue(stValue);
-    }
-    private Number GetBaseValue(String stValue)
-    {
-        if (stValue.contains(".")) return Float.valueOf(stValue);
-        return Integer.valueOf(stValue);
+        return Json.ToBaseType(stValue);
     }
     private Number GetExtendVariable(String stValue)
     {

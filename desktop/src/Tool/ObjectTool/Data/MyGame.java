@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.utils.JsonWriter;
 
+import java.util.Collection;
+import java.util.List;
+
 public class MyGame extends GDXGame {
     public static Color bg = Color.BLACK;
     public static MyGame i;
@@ -25,21 +28,27 @@ public class MyGame extends GDXGame {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         scene.Render();
     }
-    public void LoadAssetData() //need to Override
+    public void LoadAssetData()
     {
-        AssetData data = GetGameData(true);
-        asset.SetData(data);
-        asset.LoadPackages(done,data.GetKeys().toArray(new String[0]));
-
+        super.LoadAssetData();
         Event.InitControlCamera();
         Event.DebugBorder();
         Event.InitDrag();
     }
+    protected Collection<String> GetFirstPacks() {
+        return asset.data.GetKeys();
+    }
+
+    @Override
+    protected void FirstLoad() {
+        done.run();
+    }
+
     @Override
     protected AssetData LoadPackages(String path) {
         AssetData data = new AssetData();
         data.LoadPackages();
-        GDX.WriteToFile(path, Json.ToJson(data).toJson(JsonWriter.OutputType.minimal));
+        //GDX.WriteToFile(path, Json.ToJson(data).toJson(JsonWriter.OutputType.minimal));
         return data;
     }
 

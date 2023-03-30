@@ -3,5 +3,14 @@
 	screen_height:1280,
 	game_width:1080,
 	game_height:1920,
-	money:5000
+	sound:true,
+	music:true,
+	
+	config:{
+		money:5000,
+		handCount:true,
+		insure:true,
+		hint:true,
+		soft17:true
+	}
 }

@@ -1,11 +1,17 @@
 package GDX11;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
 
 public class GDX {
+    //Platform
+    public static boolean IsDesktop()
+    {
+        return Gdx.app.getType()== Application.ApplicationType.Desktop;
+    }
     public static void Vibrate(int num)
     {
         if (num<=0) return;

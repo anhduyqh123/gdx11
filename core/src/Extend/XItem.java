@@ -1,5 +1,6 @@
 package Extend;
 
+import GDX11.Config;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.Reflect;
@@ -21,6 +22,10 @@ public class XItem {
     public XItem addItem;//add value when out value
 
     public XItem(){}
+    public XItem(String name)
+    {
+        this(name, Config.Get(name));
+    }
     public XItem(String name, int value0)
     {
         this.name = name;

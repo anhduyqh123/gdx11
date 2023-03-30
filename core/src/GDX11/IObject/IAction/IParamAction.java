@@ -16,7 +16,6 @@ public class IParamAction extends IAction{
         Set, //set stValue to param
         Switch,// stValue is value default
         Equal, // if param equal stValue
-        Default
     }
     public Type type = Type.None;
     public Kind kind = Kind.Set;
@@ -36,19 +35,16 @@ public class IParamAction extends IAction{
                 if (kind==Kind.Set) iParam.Set(param,stValue);
                 if (kind==Kind.Switch) iParam.Set(param,Switch());
                 if (kind==Kind.Equal) Equal(iParam.Get(param));
-                if (kind==Kind.Default) iParam.Set(param,iParam.Get(param,stValue));
                 break;
             case Global:
                 if (kind==Kind.Set) Config.Set(param,stValue);
                 if (kind==Kind.Switch) Config.Set(param,Switch());
                 if (kind==Kind.Equal) Equal(Config.Get(param));
-                if (kind==Kind.Default) Config.Set(param,Config.Get(param,stValue));
                 break;
             case Pref:
                 if (kind==Kind.Set) Config.SetPref(param,stValue);
                 if (kind==Kind.Switch) Config.SetPref(param,Switch());
                 if (kind==Kind.Equal) Equal(Config.GetPref(param));
-                if (kind==Kind.Default) Config.SetPref(param,Config.GetPref(param,stValue));
                 break;
         }
     }
@@ -69,6 +65,7 @@ public class IParamAction extends IAction{
     }
     private void Equal(Object ob1)
     {
-        GetIActor().RunAction(name+"_"+ob1.equals(stValue));
+        String st = ob1+"";
+        GetIActor().RunAction(name+"_"+st.equals(stValue));
     }
 }

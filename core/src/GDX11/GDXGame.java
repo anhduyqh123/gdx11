@@ -6,6 +6,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.JsonWriter;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class GDXGame extends ApplicationAdapter {
     protected Scene scene;
@@ -30,6 +35,7 @@ public class GDXGame extends ApplicationAdapter {
     }
     protected void Init()
     {
+        Config.Init();
         audio = new GAudio();
         scene = NewScene();
         asset = NewAssets();
@@ -53,19 +59,23 @@ public class GDXGame extends ApplicationAdapter {
         scene.Dispose();
     }
 
-    public void LoadAssetData() //need to Override
+    protected void LoadAssetData() //need to Override
     {
-        asset.SetData(GetGameData(true));
-        asset.LoadPackages(()->{
-            //done loading
-        },"first");//load first package
+        asset.SetData(GetGameData());
+        asset.LoadPackages(()-> FirstLoad(), GetFirstPacks().toArray(new String[0]));//load first package
     }
-    protected AssetData LoadPackages(String path)
+    protected Collection<String> GetFirstPacks()
     {
-        AssetData data = new AssetData();
-        data.LoadPackage("first","first/");
+        return Arrays.asList("first");
+    }
+    protected void FirstLoad()
+    {
 
-        //GDX.WriteToFile(path, Json.ToJsonData(data));
+    }
+    protected AssetData LoadPackages(String path) {
+        AssetData data = new AssetData();
+        data.LoadPackages();
+        GDX.WriteToFile(path, Json.ToJson(data).toJson(JsonWriter.OutputType.minimal));
         return data;
     }
     protected Scene NewScene()
@@ -81,17 +91,14 @@ public class GDXGame extends ApplicationAdapter {
         return new Asset();
     }
 
-    protected AssetData GetGameData(boolean makeNew)
+    protected AssetData GetGameData()
     {
+        String path = "gameAssets.txt";
         try {
-            AssetData data = makeNew?LoadPackages(GetPathData()):
-                    Json.ToObject(GDX.GetString(GetPathData()));
+            AssetData data = GDX.IsDesktop()?LoadPackages(path):
+                    Json.ToObject(GDX.GetString(path));
             if (data!=null) return data;
         }catch (Exception e){e.printStackTrace(); }
         return new AssetData();
-    }
-    protected String GetPathData()
-    {
-        return "gameAssets.txt";
     }
 }

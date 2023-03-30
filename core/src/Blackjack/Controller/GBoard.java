@@ -29,7 +29,7 @@ public class GBoard {
         player.InitInsure(game.FindIGroup("insure"));
 
         IEvent.SetGameRun("handCount",ia->{
-            boolean handCount = Config.GetPref("handCount",false);
+            boolean handCount = Config.GetPref("handCount");
             dealer.SetHandCount(handCount);
             player.SetHandCount(handCount);
         });

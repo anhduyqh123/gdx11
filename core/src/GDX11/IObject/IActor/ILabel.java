@@ -124,14 +124,13 @@ public class ILabel extends IActor{
     private String GetFormat(String name)
     {
         String key = "format_"+name;
-        String text = iParam.Get(name);
+        Object ob = iParam.Get(name);
         if (iParam.Has(key))
         {
             String fm = iParam.Get(key);
-            Object vl = iParam.GetValueOrValue0(name);
-            return String.format(fm,vl).replace("\n","").replace("\r","");
+            return String.format(fm,ob).replace("\n","").replace("\r","");
         }
-        return text;
+        return ob+"";
     }
     protected String GetSingle(String text)
     {

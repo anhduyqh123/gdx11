@@ -22,7 +22,7 @@ public class Blackjack {
         GAudio.i.StartMusic("bgMusic");
 
         XItem.InitItem(new XItem("theme",0));
-        XItem.InitItem(new XItem("money",5000));
+        XItem.InitItem(new XItem("money"));
 
         IEvent.SetGameRun("exp1", ia-> gConfig.CheckNextLevel());
         gConfig.nextLevel = this::NewLevel;

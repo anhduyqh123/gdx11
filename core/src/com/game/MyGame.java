@@ -9,20 +9,19 @@ import GDX11.Json;
 import GDX11.Scene;
 import com.badlogic.gdx.utils.JsonWriter;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 public class MyGame extends GDXGame {
-    public void LoadAssetData() //need to Override
-    {
-        asset.SetData(GetGameData(false));
-        asset.LoadPackages(()->{
-            //done loading
-            new Blackjack();
-        },"first","default","theme0");//load first package
-    }
+
     @Override
-    protected AssetData LoadPackages(String path) {
-        AssetData data = new AssetData();
-        data.LoadPackages();
-        GDX.WriteToFile(path, Json.ToJson(data).toJson(JsonWriter.OutputType.minimal));
-        return data;
+    protected void FirstLoad() {
+        new Blackjack();
+    }
+
+    @Override
+    protected Collection<String> GetFirstPacks() {
+        return Arrays.asList("first","default","theme0");
     }
 }

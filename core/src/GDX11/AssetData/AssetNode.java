@@ -3,7 +3,6 @@ package GDX11.AssetData;
 import com.badlogic.gdx.files.FileHandle;
 
 public class AssetNode {
-
     public enum Kind {
         None,
         TextureAtlas,

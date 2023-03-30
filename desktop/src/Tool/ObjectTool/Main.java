@@ -26,7 +26,7 @@ public class Main {
     }
     private static void LoadGame()
     {
-        Config.data = Config.LoadData(new FileHandle("config.json").readString());
+        Config.Init(new FileHandle("config.json").readString());
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
 

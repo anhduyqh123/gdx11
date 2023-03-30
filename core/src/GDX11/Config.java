@@ -2,36 +2,50 @@ package GDX11;
 
 import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Config {
     public static GDX.Func2<Object,String,Object> getRemote = (key, vl0)->vl0;
-
-    public static JsonValue data = LoadData();
-
-    public static JsonValue LoadData(String data)
+    public static Config i;
+    private JsonValue data;
+    private Map<String,Object> map = new HashMap<>();
+    public Config(String stData)
+    {
+        data = LoadData(stData);
+        Install(data);
+    }
+    private JsonValue LoadData(String data)
     {
         return GDX.Try(()-> Json.StringToJson(data),
                 ()->new JsonValue(JsonValue.ValueType.object));
     }
-    private static JsonValue LoadData()
+    private void Install(JsonValue js)
     {
-        return GDX.Try(()->LoadData(GDX.GetString("config.json")),()->null);
+        Util.For(js,i->{
+            if (i.isObject()){
+                Install(i);
+                return;
+            }
+            if (i.isArray()) return;
+            map.put(i.name,Json.ToBaseType(i));
+        });
     }
-    public static JsonValue GetJson(String name)
+
+    public static void Init(String data)
     {
-        return data.get(name);
+        if (i!=null) return;
+        i =new Config(data);
     }
-    public static void Save()
+    public static void Init()
     {
-        try {
-            GDX.WriteToFile("config.json",data.toString());
-        }catch (Exception e){}
+        Init(GDX.GetString("config.json"));
     }
 
     //Set value
     public static void Set(String name, Object value)
     {
-        if (data.has(name)) data.get(name).set(value+"");
-        else data.addChild(name,new JsonValue(value+""));
+        i.map.put(name,value);
     }
     public static void SetPref(String name,Object value0)
     {
@@ -41,34 +55,29 @@ public class Config {
     //Get value
     public static <T> T GetPref(String name,T value0)
     {
-        String stValue = GetPref(name);
-        if (stValue.equals("")) return GetRemote(name, value0);
-        return Reflect.ToBaseType(stValue,value0);
+        T value = GetPref(name);
+        return value!=null?value:value0;
     }
-    public static String GetPref(String name)
+    public static <T> T GetPref(String name)
     {
-        return GDX.GetPrefString(name,"");
+        String str = GDX.GetPrefString(name,"");
+        T value0 = Get(name);
+        return str.equals("")?value0:Reflect.ToBaseType(str,value0);
     }
     public static <T> T GetRemote(String name,T value0)
     {
         return (T)getRemote.Run(name, Get(name,value0));
     }
-    public static  <T> T Get(String name, T value0)
+    public static <T> T Get(String name, T value0)
     {
-        return GDX.Try(()->{
-            String stValue = Get(name);
-            return Reflect.ToBaseType(stValue,value0);
-        },()->value0);
+        return Get(name)!=null?Get(name):value0;
     }
-    public static String Get(String name){
-        return data.getString(name);
+    public static <T> T Get(String name)
+    {
+        return (T)i.map.get(name);
     }
     public static boolean Has(String name)
     {
-        return data.has(name);
-    }
-    public static String ToString()
-    {
-        return data.toString();
+        return i.map.containsKey(name);
     }
 }

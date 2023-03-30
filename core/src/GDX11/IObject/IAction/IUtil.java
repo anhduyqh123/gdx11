@@ -16,7 +16,8 @@ public class IUtil extends IAction{
         ToFront,
         ToBack,
         ClearAction,
-        RefreshContent
+        RefreshContent,
+        Log
     }
     public Type type = Type.Visible;
 
@@ -55,6 +56,9 @@ public class IUtil extends IAction{
                 break;
             case RefreshContent:
                 GetIActor().RefreshContent();
+                break;
+            case Log:
+                GDX.Log(name);
                 break;
             default:
         }

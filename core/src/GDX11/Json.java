@@ -94,7 +94,10 @@ public class Json {
     }
     public static <T> T ToObject(JsonValue js)
     {
-        Class type = Reflect.GetClass(js.getString(stClass));
+        return ToObject(js,Reflect.GetClass(js.getString(stClass)));
+    }
+    public static <T> T ToObject(JsonValue js,Class type)
+    {
         return ToObject(js,Reflect.NewInstance(type),null);
     }
     private static <T> T ToObject(JsonValue js,Object object,Field field)
@@ -139,7 +142,18 @@ public class Json {
     private static final JsonReader jsonReader = new JsonReader();
     public static JsonValue StringToJson(String stJson)
     {
-        return jsonReader.parse(stJson);
+        return GDX.Try(()->jsonReader.parse(stJson),()->new JsonValue(stJson));
+    }
+    public static <T> T ToBaseType(JsonValue js)
+    {
+        if (js.isLong()) return (T)Integer.valueOf(js.asInt());
+        if (js.isDouble()) return (T)Float.valueOf(js.asFloat());
+        if (js.isBoolean()) return (T)Boolean.valueOf(js.asBoolean());
+        return (T)js.asString();
+    }
+    public static <T> T ToBaseType(String st)
+    {
+        return ToBaseType(StringToJson(st));
     }
     //</editor-fold>
     public interface JsonObject
