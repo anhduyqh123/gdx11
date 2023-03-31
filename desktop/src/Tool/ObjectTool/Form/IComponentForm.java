@@ -3,7 +3,6 @@ package Tool.ObjectTool.Form;
 import Extend.IShape.ICircle;
 import Extend.IShape.IPoints;
 import Extend.IShape.IPolygon;
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.Reflect;
@@ -41,7 +40,7 @@ public class IComponentForm {
     {
         pnInfo.setLayout(new WrapLayout());
 
-        String[] vl1 = {"GDX","Shape","Extend","Other"};
+        String[] vl1 = {"GDX","Shape", "Extend","Other"};
         Class[] types1 = {IComponent.class};
         Class[] types2 ={ICircle.class, IPoints.class, IPolygon.class};
         Class[] types3 ={};

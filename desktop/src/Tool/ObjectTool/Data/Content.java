@@ -2,13 +2,10 @@ package Tool.ObjectTool.Data;
 
 import Extend.PagedScroll.IPagedScroll;
 import GDX11.IObject.IActor.*;
-import GDX11.Reflect;
-import GDX11.Util;
 import Tool.JFrame.UI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
