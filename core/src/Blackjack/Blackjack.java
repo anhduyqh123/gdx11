@@ -3,6 +3,7 @@ package Blackjack;
 import Blackjack.Controller.GBoard;
 import Blackjack.Controller.GConfig;
 import Blackjack.Controller.GDeck;
+import Blackjack.Controller.GGame;
 import Blackjack.Controller.GPlayer;
 import Blackjack.Screen.GameScreen;
 import Extend.XItem;
@@ -11,10 +12,11 @@ import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IEvent;
 import GDX11.Screen;
+import SDK.SDK;
 
 public class Blackjack {
     {
-        GDX.ClearPreferences();
+        //GDX.i.ClearPreferences();
     }
     private GConfig gConfig = new GConfig();
     public Blackjack()
@@ -26,6 +28,7 @@ public class Blackjack {
 
         IEvent.SetGameRun("exp1", ia-> gConfig.CheckNextLevel());
         gConfig.nextLevel = this::NewLevel;
+        GConfig.CheckUnlock(1);
 
         GPlayer.onWin = gConfig::Win;
         GPlayer.onLose = gConfig::Lose;
@@ -58,8 +61,10 @@ public class Blackjack {
             screen.Hide();
         });
         screen.AddClick("btX2",()->{
-            XItem.Get("money").Add(coin);
-            screen.Hide();
+            GGame.ShowVideoReward(()->{
+                XItem.Get("money").Add(coin*2);
+                screen.Hide();
+            });
         });
         screen.Show();
     }

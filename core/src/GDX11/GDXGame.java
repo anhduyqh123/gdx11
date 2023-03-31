@@ -35,6 +35,7 @@ public class GDXGame extends ApplicationAdapter {
     }
     protected void Init()
     {
+        new GDX();
         Config.Init();
         audio = new GAudio();
         scene = NewScene();

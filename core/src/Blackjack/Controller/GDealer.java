@@ -84,7 +84,7 @@ public class GDealer extends GBot{
     private void CheckReview()
     {
         int score = model.BaseScore();
-        if (Config.GetPref("soft17",true)) score = model.GetScore();
+        if (!Config.GetPref("soft17",true)) score = model.GetScore();
         if (score<17) GetCardSet().GetCard(()->iGroup.Run(this::CheckReview,0.8f));
         else Review();
     }

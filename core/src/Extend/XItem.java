@@ -30,13 +30,13 @@ public class XItem {
     {
         this.name = name;
         this.txtName = name;
-        value = GDX.GetPrefInteger(name,value0);
+        value = GDX.i.GetPrefInteger(name,value0);
     }
     public XItem(String name, String txtName, int value0)
     {
         this.name = name;
         this.txtName = txtName;
-        value = GDX.GetPrefInteger(name,value0);
+        value = GDX.i.GetPrefInteger(name,value0);
     }
     public void Use()
     {
@@ -56,7 +56,7 @@ public class XItem {
     }
     public void SetValue(int value)
     {
-        GDX.SetPrefInteger(name,value);
+        GDX.i.SetPrefInteger(name,value);
         Util.For(changeMap.values(),cb->cb.Run(this.value,value));
         this.value = value;
     }
@@ -64,7 +64,7 @@ public class XItem {
     {
         int old = value;
         value+=add;
-        GDX.SetPrefInteger(name,value);
+        GDX.i.SetPrefInteger(name,value);
         Util.For(changeMap.values(),cb->cb.Run(old,value));
     }
     public XItem SetAddItem(int add)

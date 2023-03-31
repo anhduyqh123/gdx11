@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GCardSet {
-    public static final int[] coins = {10,20,50,100,200,500};
-
     public CardSet set = new CardSet();
     public IGroup iGroup,insure;
     private Runnable next;
@@ -179,8 +177,9 @@ public class GCardSet {
     }
     private IImage NewCoin(int index,String event)
     {
-        bet+=coins[index];
-        onBet.Run(coins[index]);
+        int coin = GConfig.GetCoin(index);
+        bet+=coin;
+        onBet.Run(coin);
         IImage clone = iGroup.FindIGroup("myBet").Clone(0);
         clone.texture = "chip_"+(index+1);
         clone.name = "clone";

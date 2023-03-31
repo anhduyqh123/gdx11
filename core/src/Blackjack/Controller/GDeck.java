@@ -23,12 +23,12 @@ public class GDeck {
         i = this;
         this.iGroup = iGroup;
 
-        Util.For(1,13, i->{
+        Util.Repeat(4,()-> Util.For(1,13, i->{
             NewCard(i+"_club");
             NewCard(i+"_diamond");
             NewCard(i+"_heart");
             NewCard(i+"_spade");
-        });
+        }));
         yellow = NewCard("card_yel");
         iGroup.Refresh();
         iGroup.FindActor("img").setVisible(false);

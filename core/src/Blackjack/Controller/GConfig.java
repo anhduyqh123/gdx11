@@ -1,10 +1,43 @@
 package Blackjack.Controller;
 
+import Extend.XItem;
 import GDX11.GDX;
+import GDX11.Util;
 
 public class GConfig {
-    public int level = GDX.GetPrefInteger("level",1);
-    public int exp = GDX.GetPrefInteger("exp",0);
+    private static final int[] unlockTheme = {1,10,20,30,50,80};
+    public static int GetUnlockLevel(int id)
+    {
+        return unlockTheme[id];
+    }
+    public static void CheckUnlock(int level)
+    {
+        Util.For(0,5,i->{
+            if (unlockTheme[i]==level)
+                GDX.i.SetPrefBoolean("theme"+i,true);
+        });
+    }
+    public static boolean IsUnlockTheme(int id)
+    {
+        return GDX.i.GetPrefBoolean("theme"+id,false);
+    }
+    private static final int[] minX = {10,500,20000,1000000,5000000,2000000000};
+    public static int GetMinCoin(int id)
+    {
+        return minX[id];
+    }
+    public static int GetCoin(int index)
+    {
+        int min = minX[XItem.Get("theme").value];
+        if (index==0) return min;
+        int preCoin = GetCoin(index-1);
+        String st = preCoin+"";
+        if (st.charAt(0)!='2') return preCoin*2;
+        return preCoin*2+preCoin/2;
+    }
+
+    public int level = GDX.i.GetPrefInteger("level",1);
+    public int exp = GDX.i.GetPrefInteger("exp",0);
     private GDX.Runnable2<Float,Float> cbExp; //old,new percent
     private GDX.Runnable1<Integer> cbLevel;
     public GDX.Runnable1<Integer> nextLevel;
@@ -12,11 +45,12 @@ public class GConfig {
     private void NextLevel()
     {
         level++;
-        GDX.SetPrefInteger("level",1);
+        GDX.i.SetPrefInteger("level",level);
         cbLevel.Run(level);
         nextLevel.Run(level);
         exp=0;
         AddExp(0);
+        CheckUnlock(level);
     }
     public void SetLevelEvent(GDX.Runnable1<Integer> cbLevel)
     {
@@ -35,7 +69,7 @@ public class GConfig {
         float maxExp = GetMaxExp(level);
         cbExp.Run(exp/maxExp,(exp+value)/maxExp);
         exp+=value;
-        GDX.SetPrefInteger("exp",exp);
+        GDX.i.SetPrefInteger("exp",exp);
     }
     private int GetMaxExp(int level)
     {

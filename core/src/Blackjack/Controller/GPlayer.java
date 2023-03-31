@@ -3,6 +3,7 @@ package Blackjack.Controller;
 import Blackjack.Screen.MoreCoinScreen;
 import Extend.XItem;
 import GDX11.Config;
+import GDX11.GAudio;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.Util;
@@ -54,6 +55,7 @@ public class GPlayer extends GBot {
         this.iBet = iBet;
         Util.For(0,5,i-> iBet.FindIActor("chip"+i).AddClick(()->Bet(i)));
         iBet.FindIActor("btClear").AddClick(()->{
+            totalBet = 0;
             betList.clear();
             gSet.Clear();
             iBet.Run("x0");
@@ -100,7 +102,7 @@ public class GPlayer extends GBot {
     {
         int total = 0;
         for (int id : betList)
-            total+=GCardSet.coins[id];
+            total+=GConfig.GetCoin(id);
         return total;
     }
 
@@ -123,6 +125,7 @@ public class GPlayer extends GBot {
     }
     private void Hint()
     {
+        iBt.Run("off");
         if (GetCardSet().CanSplit())
         {
             iBt.FindIActor("btSplit").RunAction("hint");
@@ -160,7 +163,11 @@ public class GPlayer extends GBot {
     }
     private boolean IsValidCoin(int index)
     {
-        if (totalBet+GCardSet.coins[index]>XItem.Get("money").value)
+        if (betList.size()>5){
+            GAudio.i.PlaySingleSound("wrong");
+            return false;
+        }
+        if (totalBet+GConfig.GetCoin(index)>XItem.Get("money").value)
         {
             new MoreCoinScreen().Show();
             return false;

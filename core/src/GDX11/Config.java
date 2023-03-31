@@ -49,7 +49,7 @@ public class Config {
     }
     public static void SetPref(String name,Object value0)
     {
-        GDX.SetPrefString(name,value0+"");
+        GDX.i.SetPrefString(name,value0+"");
     }
 
     //Get value
@@ -60,7 +60,7 @@ public class Config {
     }
     public static <T> T GetPref(String name)
     {
-        String str = GDX.GetPrefString(name,"");
+        String str = GDX.i.GetPrefString(name,"");
         T value0 = Get(name);
         return str.equals("")?value0:Reflect.ToBaseType(str,value0);
     }
