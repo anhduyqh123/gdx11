@@ -357,7 +357,7 @@ public class UI {
         frame.setLocationRelativeTo(null);
         return frame;
     }
-    private static JFrame NewJFrame(String name)
+    public static JFrame NewJFrame(String name)
     {
         JFrame frame = new JFrame(name);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

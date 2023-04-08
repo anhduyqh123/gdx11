@@ -58,6 +58,7 @@ public class GDXGame extends ApplicationAdapter {
     @Override
     public void dispose() {
         scene.Dispose();
+        asset.Dispose();
     }
 
     protected void LoadAssetData() //need to Override

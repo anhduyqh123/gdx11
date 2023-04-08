@@ -29,7 +29,7 @@ public class Asset extends Actor {
     public AssetManager manager = new AssetManager();
 
     private Runnable doneLoading;
-    private GDX.Runnable1<Float> cbAssetsUpdate;
+    private GDX.Runnable1<Float> cbProgress;
 
     public Asset()
     {
@@ -44,19 +44,17 @@ public class Asset extends Actor {
 
     @Override
     public void act(float delta) {
-        UpdateAssetLoading();
-        super.act(delta);
-    }
-
-    private void UpdateAssetLoading()
-    {
         if (doneLoading==null) return;
         if (manager.update()) {
             Runnable done = doneLoading;
             doneLoading = null;
             done.run();
         }
-        if (cbAssetsUpdate!=null) cbAssetsUpdate.Run(manager.getProgress());
+        if (cbProgress !=null) cbProgress.Run(manager.getProgress());
+    }
+    public void Dispose()
+    {
+        manager.dispose();
     }
 
     //LoadAsset
@@ -144,7 +142,7 @@ public class Asset extends Actor {
     {
         for(String pack : packs) LoadPackage(pack);
         doneLoading = onLoaded;
-        cbAssetsUpdate = cbProgress;
+        this.cbProgress = cbProgress;
     }
 
     public void UnloadPackage(String pack)

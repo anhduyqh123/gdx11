@@ -110,9 +110,9 @@ public class GDX {
     {
         return GetFile(path).readString();
     }
-    public static String GetStringFromNode(String name)//get string from node
+    public static String GetStringByKey(String key)//get string from node
     {
-        return GetString(Asset.i.GetNode(name).url);
+        return GetString(Asset.i.GetNode(key).url);
     }
     public static FileHandle GetFile(String path)
     {

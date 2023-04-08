@@ -119,7 +119,7 @@ public class Reflect {
         if (dataField.containsKey(type)) return dataField.get(type);
         Map<String, Field> map = new LinkedHashMap<>();
         for(Field f : GetAllFieldMap(type).values())
-            if (IsValidField(f)) map.put(f.getName(),f);
+            if (IsDataField(f)) map.put(f.getName(),f);
         dataField.put(type,map);
         return map;
     }
@@ -152,23 +152,20 @@ public class Reflect {
         }catch (Exception e){e.printStackTrace();}
         return null;
     }
-    public static boolean IsValidField(Field field)
+    public static boolean IsDataField(Field field)
     {
+        if (field.isTransient()) return false;//new
         if (field.isSynthetic()) return false;//new
         if (field.isStatic()) return false;
-        if (!IsValidClass(field.getType())) return false;
+        if (!IsDataClass(field.getType())) return false;
         return true;
     }
-    public static boolean IsValidClass(Class type)
+    public static boolean IsDataClass(Class type)
     {
-        if (IsInterface(type)) return false;
+        if (type == Map.class || type == List.class) return true;
+        if (type.isInterface()) return false;
         if (type.isAnonymousClass()) return false;//override class
         return true;
-    }
-    private static boolean IsInterface(Class type)
-    {
-        if (type == Map.class || type == List.class) return false;
-        return type.isInterface();
     }
 
     public static <T> T NewInstance (Class type) {

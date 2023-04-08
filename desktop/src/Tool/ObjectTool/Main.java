@@ -1,7 +1,7 @@
 package Tool.ObjectTool;
 
 import GDX11.Config;
-import Tool.JFrame.Frame;
+import Tool.JFrame.UI;
 import Tool.ObjectTool.Data.MyGame;
 import Tool.ObjectTool.Form.MainForm;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -15,7 +15,7 @@ public class Main {
     private static MainForm mainForm = new MainForm();
     public static void main (String[] arg) {
         SwingUtilities.invokeLater(()->{
-            JFrame frame = Frame.New("ui editor");
+            JFrame frame = UI.NewJFrame("ui editor");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.setLocation(0,0);
 

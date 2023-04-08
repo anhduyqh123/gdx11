@@ -9,6 +9,5 @@ import java.util.Map;
 public class Test {
 
     public int num = 1;
-    public IMap<IObject> iMap = new IMap<>();
-    public Map<String,IObject> map = new HashMap<>();
+    public transient String a = "123";
 }

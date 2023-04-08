@@ -93,9 +93,9 @@ public class Util {
 
 
     //readData
-    public static String[][] ReadCSVFromNode(String name)
+    public static String[][] ReadCSVByKey(String key)
     {
-        return ReadCSV(GDX.GetStringFromNode(name));
+        return ReadCSV(GDX.GetStringByKey(key));
     }
     public static String[][] ReadCSV(String data)//[row][column]
     {
