@@ -1,6 +1,5 @@
 package Tool.ObjectTool.Form;
 
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Translate;
 import Tool.JFrame.UI;
@@ -16,7 +15,7 @@ import javax.swing.*;
 
 public class OptionForm {
     private JButton BGColorButton;
-    private JButton editButton;
+    private JButton toolButton;
     private JComboBox cbCode;
     private JButton btGlyphs;
     private JCheckBox cbPhysics;
@@ -35,6 +34,9 @@ public class OptionForm {
         BGColorButton.addActionListener(e->{
             UI.NewColorChooserWindow(Color.WHITE, hex->
                     MyGame.bg.set(Color.valueOf(hex)));
+        });
+        UI.Button(toolButton,()->{
+            UI.NewJFrame("Tool",new ToolForm().panel1,()->{});
         });
         UI.Button(btResetCam,Event::ResetCamera);
         event = new InputListener(){

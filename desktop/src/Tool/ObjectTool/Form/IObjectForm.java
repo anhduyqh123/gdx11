@@ -66,13 +66,6 @@ public class IObjectForm {
             iActor.Dispose();
             iActor.Refresh();
         });
-
-        UI.Button(deleteButton,()->{
-            IPolygon iCircle = new IPolygon();
-            iCircle.name = "draw";
-            iActor.iComponents.Add(iCircle);
-            GDX.Log("add");
-        });
     }
     private void RefreshData()
     {

@@ -8,57 +8,19 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.tinify.Source;
 import com.tinify.Tinify;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class GDXTool {
     private static TexturePacker.Settings settings = GetSettings();
-    private final static List<String> encodeExtension = Arrays.asList("png","jpg");
-
-    public static void Encode(String path)
+    public static void Encode(FileHandle file)
     {
-        FileHandle dir = new FileHandle(path);
-        for (FileHandle f : dir.list())
-        {
-            if (f.isDirectory()) Encode(f.path());
-            else
-            if (encodeExtension.contains(f.extension())) GTextureLoader.Encode(f);
-        }
+        GTextureLoader.Encode(file);
     }
-    public static void Decode(String path)
-    {
-        FileHandle dir = new FileHandle(path);
-        for (FileHandle f : dir.list())
-        {
-            if (f.isDirectory()) Decode(f.path());
-            else
-                if (encodeExtension.contains(f.extension())) Decode(f);
-        }
-    }
-    private static void Decode(FileHandle file)
+    public static void Decode(FileHandle file)
     {
         file.writeBytes(GTextureLoader.Decode(file),false);
-    }
-    public static void GenerateMainAtlas(String path,String output)
-    {
-        GenerateMainAtlas(new FileHandle(path),output);
-    }
-    private static void GenerateMainAtlas(FileHandle dir,String output)
-    {
-        for(FileHandle f : dir.list())
-        {
-            if (!f.isDirectory()) continue;
-            if (f.name().charAt(0)!='a') continue;
-            GenerateAtlas(f,output);
-        }
     }
     public static void GenerateAtlas(String path,String output)
     {
         Pack(new FileHandle(path),output);
-    }
-    private static void GenerateAtlas(FileHandle dir,String output)
-    {
-        Pack(dir,output);
     }
     private static void Pack(FileHandle dir,String output)
     {
@@ -79,19 +41,10 @@ public class GDXTool {
     }
 
     //Tiny
-    public static void Tiny(String path)
-    {
-        FileHandle dir = new FileHandle(path);
-        for (FileHandle f : dir.list())
-        {
-            if (f.isDirectory()) Tiny(f.path());
-            else
-            if (encodeExtension.contains(f.extension())) Tiny(f);
-        }
-    }
-    private static void Tiny(FileHandle file)
+    public static void Tiny(FileHandle file)
     {
         try {
+            Tinify.setKey("cqKXRyMygkGcnQ988FL7gWt3J0fz8Qdy");
             GDX.Log(file.path()+"***tining!");
             Source source = Tinify.fromFile(file.path());
             source.toFile(file.path());

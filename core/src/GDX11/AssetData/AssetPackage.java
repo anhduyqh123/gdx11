@@ -39,6 +39,10 @@ public class AssetPackage {
     {
         list.addAll(nodes);
     }
+    public void Add(AssetNode node)
+    {
+        list.add(node);
+    }
     public boolean Contain(String name)
     {
         return map.containsKey(name);

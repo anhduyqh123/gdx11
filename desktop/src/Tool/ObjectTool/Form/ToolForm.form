@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.ObjectTool.Form.ToolForm">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="fe53b" class="javax.swing.JProgressBar" binding="progressBar1" default-binding="true">
+        <constraints/>
+        <properties>
+          <stringPainted value="true"/>
+        </properties>
+      </component>
+      <component id="1b20b" class="javax.swing.JComboBox" binding="cbPack">
+        <constraints/>
+        <properties>
+          <preferredSize width="150" height="30"/>
+        </properties>
+      </component>
+      <component id="42db" class="javax.swing.JButton" binding="btAndroid">
+        <constraints/>
+        <properties>
+          <text value="Generate Android Asset"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

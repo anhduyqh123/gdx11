@@ -16,11 +16,12 @@ public class DesktopLauncher {
 		config.width = 720;
 		config.height = 1280;
 
-		File file = Path.of("").toAbsolutePath().getParent().toFile();
-		File android = new File(file.getPath()+"/android/assets");
-		File cf = new File(android.getPath()+"/config.json");
-		FileHandle cfx = new FileHandle(cf);
-		//new LwjglApplication(new MyGame(), config);
+//		String path = Path.of("").toAbsolutePath().getParent().toString();
+//		FileHandle rootDir = new FileHandle(path+"/assets");
+//		FileHandle androidDir = new FileHandle(path+"/android/assets");
+//		androidDir.child("first").deleteDirectory();
+		//System.out.print(Path.of("").toAbsolutePath().getParent().toString());
+		new LwjglApplication(new MyGame(), config);
 
 	}
 }

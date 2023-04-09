@@ -6,6 +6,9 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Timer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GDX {
     public static GDX i;
     public GDX()
@@ -117,6 +120,20 @@ public class GDX {
     public static FileHandle GetFile(String path)
     {
         return Gdx.files.internal(path);
+    }
+    public static List<FileHandle> GetFiles(FileHandle dir, String extension)
+    {
+        List<FileHandle> files = new ArrayList<>();
+        for (FileHandle file : dir.list())
+        {
+            if (file.extension().equals("DS_Store")) continue;
+            if (file.isDirectory()) files.addAll(GetFiles(file,extension));
+            else {
+                if (extension.equals("") || file.extension().equals(extension))
+                    files.add(file);
+            }
+        }
+        return files;
     }
 
     //try catch
