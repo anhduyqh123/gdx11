@@ -5,6 +5,7 @@ import GDX11.GDX;
 import GDX11.IObject.*;
 import GDX11.IObject.IAction.IMulAction;
 import GDX11.IObject.IComponent.IComponents;
+import GDX11.Reflect;
 import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -178,7 +179,7 @@ public class IActor extends IObject {
         actor.setVisible(visible);
         InitParam0();
 
-        AddChangeEvent("base",()-> actor.setColor(GetColor()));
+        Reflect.AddEvent(this,"base",vl->actor.setColor(GetColor()));
     }
     private final static List<String> eventNames = Arrays.asList("enter","exit","clicked");
     private boolean ContainsEvent()
@@ -189,6 +190,7 @@ public class IActor extends IObject {
     }
     protected void InitEvent()
     {
+        iComponents.Refresh();
         RunEventAction("init");
         if (ContainsEvent())
         GetActor().addListener(new ClickListener(){

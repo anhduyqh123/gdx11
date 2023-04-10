@@ -16,7 +16,7 @@ public class AssetData {
     }
     public AssetPackage Get(String pack)
     {
-        if (!Contains(pack)) packs.put(pack,new AssetPackage());
+        if (!Contains(pack)) packs.put(pack,new AssetPackage(pack));
         return packs.get(pack);
     }
     public void For(GDX.Runnable1<AssetPackage> cb)

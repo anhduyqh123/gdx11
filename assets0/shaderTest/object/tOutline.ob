@@ -1,0 +1,1 @@
+{class:GDX11.IObject.IActor.IImage,iParam:{class:GDX11.IObject.IParam,dataMap:{f_borderSize:5,v2_imageSize:"(200,200)",cl_borderColor:ffffffff}},texture:block_1,iComponents:{class:GDX11.IObject.IComponent.IComponents,iMap:{list:[{class:GDX11.IObject.IComponent.IShader,name:draw,fragName:outline}]}},name:tOutline,iPos:{class:GDX11.IObject.IPos,x:396.0,y:966.0}}

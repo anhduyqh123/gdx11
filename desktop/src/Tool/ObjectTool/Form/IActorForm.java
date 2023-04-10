@@ -1,5 +1,6 @@
 package Tool.ObjectTool.Form;
 
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.ISize;
 import GDX11.Reflect;
@@ -48,7 +49,9 @@ public class IActorForm {
         UI.NewComboBox("height",iSize,SizeValues(iSize.height),pSize).setEditable(true);
         UI.NewAlignComboBox("origin",iSize,pSize).setEditable(true);
         UI.InitComponents(Arrays.asList("scale","rotate"),iSize,pSize);
-        UI.NewLabel("size:"+(int)iActor.GetActor().getWidth()+"-"+(int)iActor.GetActor().getHeight(),pSize);
+        GDX.Func<String> sizeLabel = ()->"size:"+(int)iActor.GetActor().getWidth()+"-"+(int)iActor.GetActor().getHeight();
+        JLabel lb = UI.NewLabel(sizeLabel.Run(),pSize);
+        Reflect.AddEvent(iSize,"actorForm",vl->lb.setText(sizeLabel.Run()));
     }
     private void InitPosition()
     {

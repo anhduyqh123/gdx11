@@ -12,12 +12,28 @@ Extend/Test.java
 SDK/SDK.java
  SDK.SDK
  SDK.SDK$1
+SDK/IZen.java
+ SDK.IZen
+Blackjack/Model/Card.java
+ Blackjack.Model.Card
+Extend/PagedScroll/PagedScroll.java
+ Extend.PagedScroll.PagedScroll
+Blackjack/Model/CardSet.java
+ Blackjack.Model.CardSet
+Blackjack/Controller/GConfig.java
+ Blackjack.Controller.GConfig
+com/game/MyGame.java
+ com.game.MyGame
+Blackjack/Blackjack.java
+ Blackjack.Blackjack
 Blackjack/Controller/GBoard.java
  Blackjack.Controller.GBoard
 Blackjack/Controller/GCardSet.java
  Blackjack.Controller.GCardSet
 Blackjack/Controller/GPlayer.java
  Blackjack.Controller.GPlayer
+Extend/IShape/ICircle.java
+ Extend.IShape.ICircle
 Extend/PagedScroll/IPagedScroll.java
  Extend.PagedScroll.IPagedScroll
 Extend/XItem.java
@@ -26,10 +42,6 @@ Blackjack/Screen/MoreCoinScreen.java
  Blackjack.Screen.MoreCoinScreen
 Extend/IShape/IShape.java
  Extend.IShape.IShape
-Blackjack/Controller/GConfig.java
- Blackjack.Controller.GConfig
-Blackjack/Model/CardSet.java
- Blackjack.Model.CardSet
 Extend/IShape/IPolygon.java
  Extend.IShape.IPolygon
 Blackjack/Screen/ThemeScreen.java
@@ -46,15 +58,14 @@ Blackjack/Controller/GDeck.java
  Blackjack.Controller.GDeck
 Blackjack/Controller/GGame.java
  Blackjack.Controller.GGame
-SDK/IZen.java
- SDK.IZen
-Blackjack/Blackjack.java
- Blackjack.Blackjack
-Extend/IShape/ICircle.java
- Extend.IShape.ICircle
-Extend/PagedScroll/PagedScroll.java
- Extend.PagedScroll.PagedScroll
-Blackjack/Model/Card.java
- Blackjack.Model.Card
-com/game/MyGame.java
- com.game.MyGame
+Extend/AI/ITest.java
+ Extend.AI.ITest
+Extend/AI/Scene2dLocation.java
+ Extend.AI.Scene2dLocation
+Extend/AI/SteeringAgent.java
+ Extend.AI.SteeringAgent
+Extend/AI/ISteering.java
+ Extend.AI.ISteering
+ Extend.AI.ISteering$1
+com/game/MyGdxGame.java
+ com.game.MyGdxGame

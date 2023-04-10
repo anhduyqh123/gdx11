@@ -17,16 +17,12 @@ public class IActionForm {
     private JComboBox cb;
     private JComboBox cbType;
     private JButton btNew;
-    private JButton btDelete;
     private JButton cloneButton;
-    private JButton upButton;
-    private JButton downButton;
     private JButton runButton;
-    private JButton btPaste;
-    private JButton stopButton;
     private JLabel lbType;
     public JPanel panel1;
     private JTextField tfName;
+    private JButton button1;
 
     private GTree<IAction> gTree = new GTree<>(tree,tfName);
     private Class selectedType;

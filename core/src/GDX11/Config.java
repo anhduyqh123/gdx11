@@ -1,5 +1,9 @@
 package GDX11;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.HashMap;
@@ -28,7 +32,8 @@ public class Config {
                 return;
             }
             if (i.isArray()) return;
-            map.put(i.name,Json.ToBaseType(i));
+            //map.put(i.name,Json.ToBaseType(i));
+            map.put(i.name,ToBaseType(i.name,i.asString()));
         });
     }
 
@@ -79,5 +84,25 @@ public class Config {
     public static boolean Has(String name)
     {
         return i.map.containsKey(name);
+    }
+
+
+    public static Object ToBaseType(String key,String stValue)
+    {
+        if (key.startsWith("i_")) return Integer.parseInt(stValue);
+        if (key.startsWith("f_")) return Float.parseFloat(stValue);
+        if (key.startsWith("v2_") || key.startsWith("v3_")) return ParseVector(stValue);
+        if (key.startsWith("cl_")) return Color.valueOf(stValue);
+        return Json.ToBaseType(stValue);//remove in the future
+        //return stValue;
+    }
+    //vector
+    private static Vector ParseVector(String value)//(1,2)
+    {
+        value = value.replace("(","").replace(")","");
+        String[] arr = value.split(",");
+        if (arr.length==2) return new Vector2(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]));
+        if (arr.length==3) return new Vector3(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]),Float.parseFloat(arr[2]));
+        return null;
     }
 }

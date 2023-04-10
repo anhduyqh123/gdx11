@@ -1,5 +1,6 @@
 package Tool.ObjectTool.Form;
 
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Translate;
 import Tool.JFrame.UI;

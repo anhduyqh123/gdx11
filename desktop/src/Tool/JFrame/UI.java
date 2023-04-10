@@ -133,10 +133,8 @@ public class UI {
     public static JComboBox NewAlignComboBox(String fieldName,Object object,JPanel panel)
     {
         String[] arr = {"","bottomLeft","bottom","bottomRight","left","center","right","topLeft","top","topRight"};
-        return NewComboBox(fieldName,arr, Reflect.GetValue(fieldName,object),panel, vl-> {
-            Reflect.SetValue(fieldName,object,vl);
-            if (object instanceof IPos) ((IPos) object).OnChange();
-        });
+        return NewComboBox(fieldName,arr, Reflect.GetValue(fieldName,object),panel,
+                vl-> Reflect.SetValue(fieldName,object,vl));
     }
     public static <T> JComboBox NewComboBox(T[] items, T value, int width,int height)
     {
@@ -162,10 +160,8 @@ public class UI {
     }
     public static <T> JComboBox NewComboBox(Field field,Object object,T[] items,JPanel panel)
     {
-        return NewComboBox(field.getName(),items,Reflect.GetValue(field,object),panel,vl->{
-            Reflect.SetValue(field,object,vl);
-            if (object instanceof IPos) ((IPos) object).OnChange();
-        });
+        return NewComboBox(field.getName(),items,Reflect.GetValue(field,object),panel,
+                vl-> Reflect.SetValue(field,object,vl));
     }
     public static <T> JComboBox NewComboBox(String fieldName,Object object,T[] items,JPanel panel)
     {
@@ -244,11 +240,9 @@ public class UI {
     }
     public static JTextField NewTextField(Field field,Object object,int width,int height,JPanel panel)
     {
-        JTextField tf = NewTextField(field.getName(),Reflect.GetValue(field,object),width,height,panel,st->{
-            SetField(field,object,st);
-            if (object instanceof IPos) ((IPos) object).OnChange();
-        });
-        if (object instanceof IPos) ((IPos) object).AddChangeEvent(field.getName(),()-> tf.setText(Reflect.GetValue(field,object)));
+        JTextField tf = NewTextField(field.getName(),Reflect.GetValue(field,object),width,height,panel,
+                st-> SetField(field,object,st));
+        Reflect.AddEvent(object,field,vl-> tf.setText(vl+""));
         return tf;
     }
     //TextArea
@@ -330,10 +324,7 @@ public class UI {
     }
     public static void NewColorPicker(Field field,Object object,JPanel panel)
     {
-        NewColorPicker(panel,Reflect.GetValue(field,object),st->{
-            Reflect.SetValue(field,object,st);
-            if (object instanceof IBase) ((IBase) object).OnChange();
-        });
+        NewColorPicker(panel,Reflect.GetValue(field,object),st-> Reflect.SetValue(field,object,st));
     }
     //</editor-fold>
 
@@ -382,9 +373,7 @@ public class UI {
     }
     public static JSlider NewSlider(Field field, Object object, JPanel panel)
     {
-        return NewSlider(field.getName(),Reflect.GetValue(field,object),panel,vl->{
-            Reflect.SetValue(field,object,vl);
-            if (object instanceof IBase) ((IBase) object).OnChange();
-        });
+        return NewSlider(field.getName(),Reflect.GetValue(field,object),panel,
+                vl-> Reflect.SetValue(field,object,vl));
     }
 }

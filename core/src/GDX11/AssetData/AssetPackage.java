@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 public class AssetPackage {
-    public String url = "";
+    public String name = "";
     public List<AssetNode> list = new ArrayList<>(); //all file
     private Map<String, AssetNode> map = new HashMap<>();
     public List<AssetNode> assetNodes = new ArrayList<>(); //main files not included atlas
     public List<AssetNode> loadableNode = new ArrayList<>(); //files to loaded
 
     public AssetPackage(){}
-    public AssetPackage(String url){
-        this.url = url;
+    public AssetPackage(String name){
+        this.name = name;
     }
     public void Clear()
     {
@@ -58,20 +58,8 @@ public class AssetPackage {
             if (n.kind==kind) l.add(n);
         return l;
     }
-    public String GetAtlasUrl()
-    {
-        return GetUrl("atlas");
-    }
-    public String GetTextureUrl()
-    {
-        return GetUrl("texture");
-    }
-    public String GetParticleUrl()
-    {
-        return GetUrl("particle");
-    }
     public String GetUrl(String extend)
     {
-        return url+"/"+extend;
+        return name+"/"+extend;
     }
 }

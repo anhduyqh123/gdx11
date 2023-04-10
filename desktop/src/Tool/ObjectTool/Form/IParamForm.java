@@ -1,6 +1,7 @@
 package Tool.ObjectTool.Form;
 
 import GDX11.IObject.IActor.IActor;
+import GDX11.Reflect;
 import GDX11.Util;
 import Tool.JFrame.UI;
 
@@ -41,8 +42,16 @@ public class IParamForm {
                 data.put(key,vl);
             }
         });
+        tfName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode()==KeyEvent.VK_ENTER)
+                    Rename();
+            }
+        });
         UI.Button(btNew,()->New(tfName.getText()));
         UI.Button(btDelete,this::Delete);
+        UI.Button(btClone,this::Clone);
     }
     public void SetIActor(IActor iActor)
     {
@@ -68,5 +77,24 @@ public class IParamForm {
         Util.For(list1.getSelectedValuesList(),i-> data.remove(i));
         RefreshData();
         if (data.size()>0) list1.setSelectedIndex(0);
+    }
+    private void Clone()
+    {
+        String name0 = list1.getSelectedValue()+"";
+        String name = tfName.getText();
+        Object ob = Reflect.Clone(data.get(name0));
+        data.put(name,ob+"");
+        RefreshData();
+        list1.setSelectedValue(name,true);
+    }
+    private void Rename()
+    {
+        String name0 = list1.getSelectedValue()+"";
+        String name = tfName.getText();
+        String ob = data.get(name0);
+        data.remove(name0);
+        data.put(name,ob);
+        RefreshData();
+        list1.setSelectedValue(name,true);
     }
 }

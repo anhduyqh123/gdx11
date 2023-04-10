@@ -98,7 +98,8 @@ project(":extend") {
     dependencies {
         api project(":core")
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        
+        api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
+
         api "com.esotericsoftware.spine:spine-libgdx:3.8.55.1"
     }
 }

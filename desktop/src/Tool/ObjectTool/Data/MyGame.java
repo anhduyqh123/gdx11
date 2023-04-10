@@ -3,6 +3,7 @@ package Tool.ObjectTool.Data;
 import GDX11.*;
 import GDX11.AssetData.AssetData;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.GdxAI;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -23,6 +24,7 @@ public class MyGame extends GDXGame {
 
     @Override
     public void render() {
+        GdxAI.getTimepiece().update(GDX.DeltaTime());
         scene.Act(GDX.DeltaTime());
         Gdx.gl.glClearColor(bg.r,bg.g,bg.b,bg.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

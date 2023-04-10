@@ -2,6 +2,7 @@ package GDX11.IObject;
 
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
+import GDX11.Reflect;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -18,6 +19,7 @@ public class ISize extends IBase {
         SetOrigin(origin);
         SetScale(scale);
         SetRotation(rotate);
+        Reflect.AddEvent(this,"iSize",vl->Refresh());
     }
     private void SetSize()
     {

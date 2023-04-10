@@ -1,6 +1,7 @@
 package GDX11.IObject;
 
 import GDX11.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 public class IParam extends IBase {
     public Map<String,String> dataMap = new HashMap<>();
-    protected GDX.Func<Map> getParam;
+    private GDX.Func<Map> getParam;
     private GDX.Func<Map> getEventMap;
 
     @Override
@@ -45,7 +46,9 @@ public class IParam extends IBase {
         {
             Map<String,Object> map = new HashMap<>();
             for (String key : dataMap.keySet())
-                map.put(key,Json.ToBaseType(dataMap.get(key)));
+                map.put(key,Config.ToBaseType(key,dataMap.get(key)));
+//            for (String key : dataMap.keySet())
+//                map.put(key,Json.ToBaseType(dataMap.get(key)));
             getParam = ()->map;
         }
         return getParam.Run();
@@ -120,15 +123,6 @@ public class IParam extends IBase {
     {
         if (key.equals("w")) return Asset.i.GetTexture(name).getRegionWidth();
         return Asset.i.GetTexture(name).getRegionHeight();
-    }
-    //vector
-    private static Vector GetVector(String value)//(1,2)
-    {
-        value = value.replace("(","").replace(")","");
-        String[] arr = value.split(",");
-        if (arr.length==2) return new Vector2(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]));
-        if (arr.length==3) return new Vector3(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]),Float.parseFloat(arr[2]));
-        return null;
     }
 
     //Align

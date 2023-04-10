@@ -1,10 +1,14 @@
 package Tool.ObjectTool.Form;
 
+import Extend.AI.ISteering;
+import Extend.AI.ITest;
 import Extend.IShape.ICircle;
 import Extend.IShape.IPoints;
 import Extend.IShape.IPolygon;
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IComponent.IComponent;
+import GDX11.IObject.IComponent.IShader;
 import GDX11.Reflect;
 import Tool.JFrame.GTree;
 import Tool.JFrame.UI;
@@ -40,12 +44,13 @@ public class IComponentForm {
     {
         pnInfo.setLayout(new WrapLayout());
 
-        String[] vl1 = {"GDX","Shape", "Extend","Other"};
-        Class[] types1 = {IComponent.class};
+        String[] vl1 = {"GDX","Shape", "Extend","AI","Other"};
+        Class[] types1 = {IComponent.class, IShader.class};
         Class[] types2 ={ICircle.class, IPoints.class, IPolygon.class};
         Class[] types3 ={};
-        Class[] types4 ={};
-        Class[][] types = {types1,types2,types3,types4};
+        Class[] types4 ={ISteering.class, ITest.class};
+        Class[] types5 ={};
+        Class[][] types = {types1,types2,types3,types4,types5};
 
         UI.ComboBox(cb,vl1,vl1[0], vl->{
             int index = cb.getSelectedIndex();

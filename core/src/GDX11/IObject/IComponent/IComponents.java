@@ -1,6 +1,7 @@
 package GDX11.IObject.IComponent;
 
 import GDX11.GDX;
+import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IMap;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -31,6 +32,12 @@ public class IComponents extends IComponent {
     }
 
     @Override
+    public void SetIActor(IActor iActor) {
+        super.SetIActor(iActor);
+        For(i->i.SetIActor(iActor));
+    }
+
+    @Override
     public void Update(float delta) {
         For(i->i.Update(delta));
     }
@@ -46,6 +53,11 @@ public class IComponents extends IComponent {
             }
         }
         if (defaultDraw) GDX.Try(onDraw::run);
+    }
+
+    @Override
+    public void Refresh() {
+        For(IComponent::Refresh);
     }
 
     @Override

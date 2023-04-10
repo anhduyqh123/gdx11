@@ -74,40 +74,10 @@
               <text value="Prefab"/>
             </properties>
           </component>
-          <component id="a22ab" class="javax.swing.JButton" binding="deleteButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Delete"/>
-            </properties>
-          </component>
-          <component id="222e4" class="javax.swing.JButton" binding="btPaste">
-            <constraints/>
-            <properties>
-              <text value="Paste"/>
-            </properties>
-          </component>
           <component id="45d77" class="javax.swing.JButton" binding="cloneButton" default-binding="true">
             <constraints/>
             <properties>
               <text value="Clone"/>
-            </properties>
-          </component>
-          <component id="d132b" class="javax.swing.JButton" binding="upButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Up"/>
-            </properties>
-          </component>
-          <component id="59708" class="javax.swing.JButton" binding="downButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Down"/>
-            </properties>
-          </component>
-          <component id="8de0a" class="javax.swing.JButton" binding="addToButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="AddTo"/>
             </properties>
           </component>
           <component id="1d15b" class="javax.swing.JButton" binding="saveButton" default-binding="true">

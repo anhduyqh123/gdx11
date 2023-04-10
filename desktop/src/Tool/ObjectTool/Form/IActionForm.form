@@ -69,28 +69,10 @@
               <text value="New"/>
             </properties>
           </component>
-          <component id="a190f" class="javax.swing.JButton" binding="btDelete">
-            <constraints/>
-            <properties>
-              <text value="Delete"/>
-            </properties>
-          </component>
           <component id="d65c5" class="javax.swing.JButton" binding="cloneButton" default-binding="true">
             <constraints/>
             <properties>
               <text value="Clone"/>
-            </properties>
-          </component>
-          <component id="e106" class="javax.swing.JButton" binding="upButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Up"/>
-            </properties>
-          </component>
-          <component id="f16a2" class="javax.swing.JButton" binding="downButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Down"/>
             </properties>
           </component>
           <component id="bfc0c" class="javax.swing.JButton" binding="runButton" default-binding="true">
@@ -99,16 +81,10 @@
               <text value="Run"/>
             </properties>
           </component>
-          <component id="74815" class="javax.swing.JButton" binding="btPaste">
+          <component id="15f9" class="javax.swing.JButton" binding="button1" default-binding="true">
             <constraints/>
             <properties>
-              <text value="Paste"/>
-            </properties>
-          </component>
-          <component id="af492" class="javax.swing.JButton" binding="stopButton" default-binding="true">
-            <constraints/>
-            <properties>
-              <text value="Stop"/>
+              <text value="Button"/>
             </properties>
           </component>
           <component id="69f0" class="javax.swing.JLabel" binding="lbType">

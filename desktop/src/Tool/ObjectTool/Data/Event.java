@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +79,7 @@ public class Event {
         Scene.i.ui.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (dragIActor ==null ||    button!=0) return false;
+                if (dragIActor ==null || button!=0) return false;
                 dragIActor.GetActor().setDebug(true);
                 IActor iActor = dragIActor;
                 p0.set(x,y);
@@ -101,7 +100,6 @@ public class Event {
                 Util.Int(pos);
                 IActor iActor = dragIActor;
                 iActor.iPos.SetPosition(pos);
-                iActor.iPos.OnChange();
             }
 
             @Override

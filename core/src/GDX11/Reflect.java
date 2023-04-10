@@ -10,6 +10,24 @@ public class Reflect {
     private static final Map<Class,Object> typeToDefaultObject = new HashMap<>();
     private static final Map<Class,Map<String,Field>> allField = new HashMap<>();
     private static final Map<Class,Map<String,Field>> dataField = new HashMap<>();
+    private static Map<Object,Map<Object, GDX.Runnable1<Object>>> event = new HashMap<>();
+    public static void AddEvent(Object object,Object field,GDX.Runnable1<Object> cb)
+    {
+        if (event.get(object)==null) event.put(object,new HashMap<>());
+        event.get(object).put(field,cb);
+    }
+    public static void OnChange(Object object)
+    {
+        if (event.get(object)==null) return;
+        for (Object field : event.get(object).keySet())
+            OnChange(object,field);
+    }
+    private static void OnChange(Object object,Object field)
+    {
+        if (event.get(object)==null || event.get(object).get(field)==null) return;
+        Object value = field instanceof Field?GetValue((Field) field,object):null;
+        event.get(object).get(field).Run(value);
+    }
 
     public static boolean IsAssignableFrom(Class type, Class superClass)
     {
@@ -46,6 +64,7 @@ public class Reflect {
     {
         try {
             field.set(object,value);
+            OnChange(object);
         }catch (Exception e){}
     }
     public static void SetValue(String filedName,Object object,Object value)

@@ -26,12 +26,7 @@ public class IObjectForm {
     private JComboBox cbType;
     private JButton btNew;
     private JButton btPrefab;
-    private JButton deleteButton;
-    private JButton btPaste;
     private JButton cloneButton;
-    private JButton upButton;
-    private JButton downButton;
-    private JButton addToButton;
     private JButton saveButton;
     private JButton btRefresh;
     public JPanel panel1;
@@ -65,13 +60,14 @@ public class IObjectForm {
         UI.Button(btRefresh,()->{
             iActor.Dispose();
             iActor.Refresh();
+            onSelectIActor.Run(iActor);
         });
     }
     private void RefreshData()
     {
         String[] pack = allPack.toArray(new String[0]);
         UI.ComboBox(cbPack,pack,pack[0], vl->{
-            Scene.i.ui.clear();
+            Scene.i.ui.clearChildren();
             Asset.i.ForceLoadPackages(null,vl);
             mainIActor = null;
             selectedPack = data.Get(vl);
