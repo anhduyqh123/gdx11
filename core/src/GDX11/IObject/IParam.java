@@ -74,7 +74,7 @@ public class IParam extends IBase {
         if (Has(name))
         {
             Object vl0 = Get(name);
-            if (vl0 instanceof Integer && value instanceof Float)
+            if (vl0 instanceof Integer && value instanceof Float)//ICount useful
                 vl = ((Float) value).intValue();
         }
         GetData().put(name,vl);
