@@ -58,8 +58,7 @@ public class IActor extends IObject {
 
             @Override
             public void draw(Batch batch, float parentAlpha) {
-                iEvent.SetRun("draw",()->super.draw(batch, parentAlpha));
-                OnDraw(batch,parentAlpha);
+                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
             }
 
             @Override
@@ -74,9 +73,9 @@ public class IActor extends IObject {
     {
         iComponents.Update(delta);
     }
-    protected void OnDraw(Batch batch, float parentAlpha)
+    protected void OnDraw(Batch batch, float parentAlpha, Runnable superDraw)
     {
-        iComponents.Draw(batch, parentAlpha);
+        iComponents.Draw(batch, parentAlpha, superDraw);
     }
     protected void OnRemove()
     {

@@ -15,8 +15,9 @@ public class IComponent extends IObject {
     {
 
     }
-    public void Draw(Batch batch, float parentAlpha)
+    public void Draw(Batch batch, float parentAlpha, Runnable superDraw)
     {
+        superDraw.run();
     }
 
     public void Refresh()

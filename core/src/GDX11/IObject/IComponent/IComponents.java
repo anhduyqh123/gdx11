@@ -42,17 +42,10 @@ public class IComponents extends IComponent {
         For(i->i.Update(delta));
     }
     @Override
-    public void Draw(Batch batch, float parentAlpha)
+    public void Draw(Batch batch, float parentAlpha, Runnable superDraw)
     {
-        boolean defaultDraw = true;
-        for (IComponent i : iMap.list)
-        {
-            if (i.name.startsWith("draw")){
-                i.Draw(batch, parentAlpha);
-                defaultDraw = false;
-            }
-        }
-        if (defaultDraw) GetIActor().iEvent.GetRun("draw").Run();
+        if (iMap.Contains("draw")) iMap.Get("draw").Draw(batch, parentAlpha, superDraw);
+        else superDraw.run();
     }
 
     @Override

@@ -3,9 +3,7 @@ package GDX11.IObject.IComponent;
 import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
@@ -31,18 +29,15 @@ public class IShader extends IComponent {
     }
 
     @Override
-    public void Draw(Batch batch, float parentAlpha) {
+    public void Draw(Batch batch, float parentAlpha, Runnable superDraw) {
         if (shader==null){
-            GetIActor().iEvent.GetRun("draw").Run();
+            superDraw.run();
             return;
         }
         batch.setShader(shader);
         shader.bind();
-//        Asset.i.GetTexture("bg_2").getTexture().bind(1);
-//        Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
-//        shader.setUniformi("i_texture", 1);
         UpdateValue();
-        GetIActor().iEvent.GetRun("draw").Run();
+        superDraw.run();
 
         batch.setShader(null);
     }

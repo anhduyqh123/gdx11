@@ -1,13 +1,16 @@
 package GDX11;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -170,4 +173,42 @@ public class Util {
         tr.flip(false,true);
         return tr;
     }
+    public static TextureRegion GetTextureRegion() {
+        final int w = Gdx.graphics.getBackBufferWidth();//screen_w
+        final int h = Gdx.graphics.getBackBufferHeight();//screen_h
+        return GetFrameBufferTexture(0,0,w,h);
+    }
+    private static TextureRegion GetFrameBufferTexture (int x, int y, int w, int h) {
+        final int potW = MathUtils.nextPowerOfTwo(w);
+        final int potH = MathUtils.nextPowerOfTwo(h);
+
+        final Pixmap pixmap = Pixmap.createFromFrameBuffer(x, y, w, h);
+        final Pixmap flipPixmap = FlipPixmap(pixmap,false,true);
+        final Pixmap potPixmap = new Pixmap(potW, potH, Pixmap.Format.RGBA8888);
+        potPixmap.setBlending(Pixmap.Blending.None);
+        potPixmap.drawPixmap(flipPixmap, 0, 0);
+        Texture texture = new Texture(potPixmap);
+        TextureRegion textureRegion = new TextureRegion(texture, 0, 0, w, h);
+        potPixmap.dispose();
+        pixmap.dispose();
+        flipPixmap.dispose();
+
+        return textureRegion;
+    }
+    private static Pixmap FlipPixmap(Pixmap src,boolean flipX, boolean flipY) {
+        final int width = src.getWidth();
+        final int height = src.getHeight();
+        Pixmap flipped = new Pixmap(width, height, src.getFormat());
+
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (flipX)
+                    flipped.drawPixel(x, y, src.getPixel(width - x - 1, y));
+                if (flipY)
+                    flipped.drawPixel(x, y, src.getPixel(x, height - y - 1));
+            }
+        }
+        return flipped;
+    }
+
 }

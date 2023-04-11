@@ -1,11 +1,14 @@
 package GDX11.IObject.IAction;
 
+import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.Util;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.ScreenUtils;
 
 public class IUtil extends IAction{
     public enum Type
@@ -21,7 +24,8 @@ public class IUtil extends IAction{
         RefreshContent,
         Log,
         Screenshot,
-        TextureBuffer
+        TextureBuffer,
+        Bind
     }
     public Type type = Type.Visible;
 
@@ -65,10 +69,16 @@ public class IUtil extends IAction{
                 GDX.Log(name);
                 break;
             case Screenshot:
-                GetIActor().iParam.Set(name,ScreenUtils.getFrameBufferTexture());
+                GetIActor().iParam.Set(name,Util.GetTextureRegion());
                 break;
             case TextureBuffer:
                 GetIActor().iParam.Set(name, Util.GetTextureRegion(GetActor()));
+                break;
+            case Bind://name->bg_1
+                String[] arr = name.split(":");
+                TextureRegion texture = GetIActor().iParam.Has(arr[0])?GetIActor().iParam.Get(arr[0]):Asset.i.GetTexture(arr[0]);
+                texture.getTexture().bind(Integer.parseInt(arr[1]));
+                Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
                 break;
             default:
         }

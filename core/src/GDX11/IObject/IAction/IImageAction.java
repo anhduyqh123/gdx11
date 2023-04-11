@@ -2,6 +2,7 @@ package GDX11.IObject.IAction;
 
 import GDX11.Asset;
 import GDX11.IObject.IActor.IImage;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -18,10 +19,10 @@ public class IImageAction extends IAction{
     @Override
     public void Run() {
         IImage iImage = GetIActor();
-        iImage.SetTexture(texture);
+        TextureRegion tr = GetIActor().iParam.Has(texture)?GetIActor().iParam.Get(texture):Asset.i.GetTexture(texture);
+        iImage.SetTexture(tr);
         if (sizeByTexture)
         {
-            TextureRegion tr = Asset.i.GetTexture(texture);
             Vector2 mid = iImage.GetPosition(Align.center);
             iImage.GetActor().setSize(tr.getRegionWidth(),tr.getRegionHeight());
             iImage.SetPosition(mid,Align.center);

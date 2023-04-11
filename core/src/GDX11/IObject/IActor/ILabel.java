@@ -41,8 +41,7 @@ public class ILabel extends IActor{
 
             @Override
             public void draw(Batch batch, float parentAlpha) {
-                iEvent.SetRun("draw",()->super.draw(batch, parentAlpha));
-                OnDraw(batch,parentAlpha);
+                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
             }
 
             @Override

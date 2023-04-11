@@ -30,8 +30,7 @@ public class IGroup extends IActor implements IFind {
 
             @Override
             public void draw(Batch batch, float parentAlpha) {
-                iEvent.SetRun("draw",()->super.draw(batch, parentAlpha));
-                OnDraw(batch,parentAlpha);
+                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
             }
 
             @Override
