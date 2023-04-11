@@ -81,6 +81,10 @@ public class GDX {
     {
         return Gdx.graphics.getDeltaTime();
     }
+    public static float GetFPS()
+    {
+        return Gdx.graphics.getFramesPerSecond();
+    }
 
     public static void Log(Object log)
     {

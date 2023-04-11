@@ -42,17 +42,17 @@ public class IComponents extends IComponent {
         For(i->i.Update(delta));
     }
     @Override
-    public void Draw(Batch batch, float parentAlpha, Runnable onDraw)
+    public void Draw(Batch batch, float parentAlpha)
     {
         boolean defaultDraw = true;
         for (IComponent i : iMap.list)
         {
             if (i.name.startsWith("draw")){
-                i.Draw(batch, parentAlpha, onDraw);
+                i.Draw(batch, parentAlpha);
                 defaultDraw = false;
             }
         }
-        if (defaultDraw) GDX.Try(onDraw::run);
+        if (defaultDraw) GetIActor().iEvent.GetRun("draw").Run();
     }
 
     @Override

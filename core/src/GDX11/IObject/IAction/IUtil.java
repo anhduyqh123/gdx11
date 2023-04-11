@@ -1,9 +1,11 @@
 package GDX11.IObject.IAction;
 
 import GDX11.GDX;
+import GDX11.Util;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.ScreenUtils;
 
 public class IUtil extends IAction{
     public enum Type
@@ -17,7 +19,9 @@ public class IUtil extends IAction{
         ToBack,
         ClearAction,
         RefreshContent,
-        Log
+        Log,
+        Screenshot,
+        TextureBuffer
     }
     public Type type = Type.Visible;
 
@@ -59,6 +63,12 @@ public class IUtil extends IAction{
                 break;
             case Log:
                 GDX.Log(name);
+                break;
+            case Screenshot:
+                GetIActor().iParam.Set(name,ScreenUtils.getFrameBufferTexture());
+                break;
+            case TextureBuffer:
+                GetIActor().iParam.Set(name, Util.GetTextureRegion(GetActor()));
                 break;
             default:
         }

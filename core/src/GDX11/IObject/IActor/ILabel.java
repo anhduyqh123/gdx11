@@ -9,20 +9,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class ILabel extends IActor{
 
-    public String font = "";
+    public String font = "font";
     public String text = "text";
     public String alignment = "center";
     public float fontScale = 1f;
-    public boolean bestFix,wrap,multiLanguage;
+    public boolean bestFix,wrap;
 
     public ILabel()
     {
@@ -42,7 +41,8 @@ public class ILabel extends IActor{
 
             @Override
             public void draw(Batch batch, float parentAlpha) {
-                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
+                iEvent.SetRun("draw",()->super.draw(batch, parentAlpha));
+                OnDraw(batch,parentAlpha);
             }
 
             @Override
@@ -55,8 +55,7 @@ public class ILabel extends IActor{
     @Override
     protected void Connect() {
         super.Connect();
-        iEvent.SetFunc("dw",()->GetLabel().getPrefWidth());
-        iEvent.SetFunc("dh",()->GetLabel().getPrefHeight());
+        DefaultEvent();
     }
 
     @Override
@@ -72,18 +71,17 @@ public class ILabel extends IActor{
 
     @Override
     public void RefreshLanguage() {
-        if (!multiLanguage) return;
         Label lb = GetActor();
         lb.setText(GetText());
         if (bestFix) BestFix(GetActor());
     }
 
     //ILabel
-
-    public Label GetActor() {
-        return super.GetActor();
+    protected void DefaultEvent()
+    {
+        iEvent.SetFunc("dw",()->GetLabel().getPrefWidth());
+        iEvent.SetFunc("dh",()->GetLabel().getPrefHeight());
     }
-
     public void SetText(Object text)
     {
         Label lb = GetActor();
@@ -108,14 +106,6 @@ public class ILabel extends IActor{
     {
         return GetRealText(text);
     }
-    private Label.LabelStyle GetStyle(String fontName)
-    {
-        return new Label.LabelStyle(GetFont(fontName), Color.WHITE);
-    }
-    private BitmapFont GetFont(String fontName)
-    {
-        return Asset.i.GetFont(fontName.equals("")?"font":fontName);
-    }
     public void SetFont(String fontName)
     {
         Label lb = GetActor();
@@ -135,7 +125,7 @@ public class ILabel extends IActor{
     protected String GetSingle(String text)
     {
         if (iParam.Has(text)){
-            iParam.AddChangeEvent(text,()-> GetActor().setText(GetText()));
+            iParam.AddChangeEvent(text,()-> GetLabel().setText(GetText()));
             return GetFormat(text);
         }
         if (Translate.i.HasKey(text)) return Translate.i.Get(text);
@@ -160,7 +150,16 @@ public class ILabel extends IActor{
     }
 
     //static
-    private static void BestFix(Label label)
+    private static Label.LabelStyle GetStyle(String fontName)
+    {
+        return new Label.LabelStyle(GetFont(fontName), Color.WHITE);
+    }
+    protected static BitmapFont GetFont(String fontName)
+    {
+        return Asset.i.GetFont(fontName.equals("")?"font":fontName);
+    }
+
+    protected static void BestFix(Label label)
     {
         if (label.getWidth()==0){
             GDX.Error(label.getText()+":can't fix cause width=0");
@@ -176,5 +175,13 @@ public class ILabel extends IActor{
         }
         if (scale>1) scale = 1;
         label.setFontScale(scale*label.getFontScaleX());
+    }
+    public static Label NewLabel(String text, float x, float y, int align, Group parent)
+    {
+        Label lb = new Label(text,GetStyle("font"));
+        lb.setSize(lb.getPrefWidth(),lb.getPrefHeight());
+        lb.setPosition(x,y,align);
+        parent.addActor(lb);
+        return lb;
     }
 }

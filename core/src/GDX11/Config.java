@@ -10,21 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Config {
-    public static GDX.Func2<Object,String,Object> getRemote = (key, vl0)->vl0;
-    public static Config i;
-    private JsonValue data;
-    private Map<String,Object> map = new HashMap<>();
-    public Config(String stData)
-    {
-        data = LoadData(stData);
-        Install(data);
-    }
-    private JsonValue LoadData(String data)
+    public static GDX.Func2<String,String,String> getRemote;
+    private static Map<String,Object> map = new HashMap<>();
+    private static JsonValue LoadData(String data)
     {
         return GDX.Try(()-> Json.StringToJson(data),
                 ()->new JsonValue(JsonValue.ValueType.object));
     }
-    private void Install(JsonValue js)
+    private static void Install(JsonValue js)
     {
         Util.For(js,i->{
             if (i.isObject()){
@@ -37,10 +30,9 @@ public class Config {
         });
     }
 
-    public static void Init(String data)
+    public static void Init(String stData)
     {
-        if (i!=null) return;
-        i =new Config(data);
+        Install(LoadData(stData));
     }
     public static void Init()
     {
@@ -50,7 +42,7 @@ public class Config {
     //Set value
     public static void Set(String name, Object value)
     {
-        i.map.put(name,value);
+        map.put(name,value);
     }
     public static void SetPref(String name,Object value0)
     {
@@ -71,7 +63,9 @@ public class Config {
     }
     public static <T> T GetRemote(String name,T value0)
     {
-        return (T)getRemote.Run(name, Get(name,value0));
+        String stValue = getRemote.Run(name,"");
+        if (stValue.equals("")) return Get(name,value0);
+        return Reflect.ToBaseType(stValue,Get(name,value0));
     }
     public static <T> T Get(String name, T value0)
     {
@@ -79,11 +73,11 @@ public class Config {
     }
     public static <T> T Get(String name)
     {
-        return (T)i.map.get(name);
+        return (T)map.get(name);
     }
     public static boolean Has(String name)
     {
-        return i.map.containsKey(name);
+        return map.containsKey(name);
     }
 
 

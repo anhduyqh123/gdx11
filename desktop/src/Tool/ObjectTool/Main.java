@@ -1,6 +1,7 @@
 package Tool.ObjectTool;
 
 import GDX11.Config;
+import SDK.SDK;
 import Tool.JFrame.UI;
 import Tool.ObjectTool.Data.MyGame;
 import Tool.ObjectTool.Form.MainForm;
@@ -26,6 +27,7 @@ public class Main {
     }
     private static void LoadGame()
     {
+        SDK.SetSDK(SDK.i);
         Config.Init(new FileHandle("config.json").readString());
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();

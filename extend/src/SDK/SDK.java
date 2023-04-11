@@ -1,5 +1,6 @@
 package SDK;
 
+import GDX11.Config;
 import GDX11.GDX;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -7,6 +8,18 @@ import java.util.Locale;
 
 public abstract class SDK implements IZen {
     public static IZen i = new SDK(){};
+
+    public static void SetSDK(IZen sdk)
+    {
+        i = sdk;
+        Config.getRemote = i::GetConfigString;
+        Config.Set("installationID",i.GetInstallationID());
+    }
+
+    @Override
+    public String GetInstallationID() {
+        return "installationID";
+    }
 
     @Override
     public void ShowFullscreen() {

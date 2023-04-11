@@ -1,5 +1,6 @@
 package Tool.ObjectTool.Data;
 
+import GDX11.IObject.IActor.ITextField;
 import Extend.PagedScroll.IPagedScroll;
 import GDX11.IObject.IActor.*;
 import Tool.JFrame.UI;
@@ -13,7 +14,7 @@ public class Content {
     public static Class[] GetTypes()
     {
         Class[] types = {IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class,
-        IScrollImage.class, IProgressBar.class,IScrollPane.class, IPagedScroll.class};
+        IScrollImage.class, IProgressBar.class,IScrollPane.class, IPagedScroll.class, ITextField.class};
         return types;
     }
 

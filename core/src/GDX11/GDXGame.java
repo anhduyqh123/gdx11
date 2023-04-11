@@ -1,16 +1,22 @@
 package GDX11;
 
 import GDX11.AssetData.AssetData;
+import GDX11.IObject.IActor.ILabel;
+import GDX11.IObject.IActor.ITextField;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonWriter;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public class GDXGame extends ApplicationAdapter {
     protected Scene scene;
@@ -41,6 +47,25 @@ public class GDXGame extends ApplicationAdapter {
         scene = NewScene();
         asset = NewAssets();
         Scene.i.GetStage().addActor(asset);
+        InitShowInfoEvent();
+    }
+    private void InitShowInfoEvent()
+    {
+        GDX.Ref<Long> ref = new GDX.Ref<>();
+        scene.GetStage().addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (x>100 || y>100) return false;
+                ref.Set(System.currentTimeMillis());
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                long left = System.currentTimeMillis() - ref.Get();
+                if (left>13000) ShowInfo();
+            }
+        });
     }
 
     @Override
@@ -102,5 +127,18 @@ public class GDXGame extends ApplicationAdapter {
             if (data!=null) return data;
         }catch (Exception e){e.printStackTrace(); }
         return new AssetData();
+    }
+    //Info
+    protected void ShowInfo()
+    {
+        Label lbFPS = ILabel.NewLabel("60FPS",0,Scene.i.height, Align.topLeft,Scene.i.ui2);
+        lbFPS.addAction(new Action() {
+            @Override
+            public boolean act(float delta) {
+                lbFPS.setText(GDX.GetFPS()+"FPS");
+                return false;
+            }
+        });
+        ITextField.NewTextField(Config.Get("installationID"),0,0, Align.bottomLeft,Scene.i.ui2);
     }
 }

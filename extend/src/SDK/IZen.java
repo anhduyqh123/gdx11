@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
  */
 
 public interface IZen {
+    String GetInstallationID();
     //ads
     void ShowFullscreen();
     void ShowBanner(boolean visible);

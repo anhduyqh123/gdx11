@@ -9,7 +9,6 @@ import GDX11.Reflect;
 import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -59,18 +58,14 @@ public class IActor extends IObject {
 
             @Override
             public void draw(Batch batch, float parentAlpha) {
-                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
+                iEvent.SetRun("draw",()->super.draw(batch, parentAlpha));
+                OnDraw(batch,parentAlpha);
             }
 
             @Override
             public boolean remove() {
                 OnRemove();
                 return super.remove();
-            }
-
-            @Override
-            public void drawDebug(ShapeRenderer shapes) {
-                super.drawDebug(shapes);
             }
         };
     }
@@ -79,9 +74,9 @@ public class IActor extends IObject {
     {
         iComponents.Update(delta);
     }
-    protected void OnDraw(Batch batch, float parentAlpha, Runnable onDraw)
+    protected void OnDraw(Batch batch, float parentAlpha)
     {
-        iComponents.Draw(batch, parentAlpha, onDraw);
+        iComponents.Draw(batch, parentAlpha);
     }
     protected void OnRemove()
     {
@@ -193,24 +188,24 @@ public class IActor extends IObject {
         iComponents.Refresh();
         RunEventAction("init");
         if (ContainsEvent())
-        GetActor().addListener(new ClickListener(){
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                Run("enter");
-            }
+            GetActor().addListener(new ClickListener(){
+                @Override
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    super.enter(event, x, y, pointer, fromActor);
+                    Run("enter");
+                }
 
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                Run("exit");
-            }
+                @Override
+                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                    super.exit(event, x, y, pointer, toActor);
+                    Run("exit");
+                }
 
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                Run("clicked");
-            }
-        });
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    Run("clicked");
+                }
+            });
     }
     protected void InitParam0()
     {

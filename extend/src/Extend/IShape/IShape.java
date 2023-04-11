@@ -24,7 +24,7 @@ public abstract class IShape extends IComponent {//all position is local of Acto
     }
 
     @Override
-    public void Draw(Batch batch, float parentAlpha, Runnable onDraw) {
+    public void Draw(Batch batch, float parentAlpha) {
         GetRenderer().setProjectionMatrix(batch.getProjectionMatrix());
         GetRenderer().setColor(GetActor().getColor());
         batch.end();

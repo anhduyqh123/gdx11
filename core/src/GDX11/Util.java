@@ -1,6 +1,12 @@
 package GDX11;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.Collection;
@@ -139,5 +145,29 @@ public class Util {
             s = FindString(str,c1,c2);
         }
         return str;
+    }
+
+    //FrameBuffer
+    private static Texture GetFrameBuffer(Actor actor)
+    {
+        Batch batch = Scene.i.GetStage().getBatch();
+        int width = (int)Scene.i.GetStage().getWidth();
+        int height = (int)Scene.i.GetStage().getHeight();
+        FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA8888, width, height, false);
+
+        fbo.begin();
+        batch.begin();
+        actor.draw(batch,1);
+        batch.end();
+        fbo.end();
+
+        return fbo.getColorBufferTexture();
+    }
+    public static TextureRegion GetTextureRegion(Actor actor)
+    {
+        TextureRegion tr = new TextureRegion(GetFrameBuffer(actor));
+        tr.setRegion((int)actor.getX(),(int)actor.getY(),(int)actor.getWidth(),(int)actor.getHeight());
+        tr.flip(false,true);
+        return tr;
     }
 }
