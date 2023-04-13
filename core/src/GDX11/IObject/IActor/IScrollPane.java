@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 
 public class IScrollPane extends IGroup {
     public String scrollToChild = "";
+    public boolean overscrollX = true,overscrollY = true;
     @Override
     protected Actor NewActor() {
         return new ScrollPane(null){
@@ -28,6 +29,8 @@ public class IScrollPane extends IGroup {
     }
     private void RefreshChild()
     {
+        ScrollPane scroll = GetActor();
+        scroll.setOverscroll(overscrollX,overscrollY);
         if (iMap.Size()<=0) return;
         IActor iActor = iMap.Get(0);
         iActor.Refresh();

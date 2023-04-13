@@ -14,6 +14,6 @@ public abstract class IAction extends IObject {
 
     protected float GetFloatValue(String stValue)
     {
-        return GetIActor().GetParam(stValue,0f);
+        return GetIActor().GetGlobalNum(stValue).floatValue();
     }
 }

@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -173,27 +173,29 @@ public class Util {
         tr.flip(false,true);
         return tr;
     }
-    public static TextureRegion GetTextureRegion() {
-        final int w = Gdx.graphics.getBackBufferWidth();//screen_w
-        final int h = Gdx.graphics.getBackBufferHeight();//screen_h
-        return GetFrameBufferTexture(0,0,w,h);
-    }
-    private static TextureRegion GetFrameBufferTexture (int x, int y, int w, int h) {
-        final int potW = MathUtils.nextPowerOfTwo(w);
-        final int potH = MathUtils.nextPowerOfTwo(h);
+    public static TextureRegion GetScreenshot()//real texture
+    {
+        Viewport viewport = Scene.i.GetStage().getViewport();
+        final Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(
+                viewport.getLeftGutterWidth(),
+                viewport.getTopGutterHeight(),
+                Gdx.graphics.getWidth() - viewport.getLeftGutterWidth() - viewport.getRightGutterWidth(),
+                Gdx.graphics.getHeight() - viewport.getTopGutterHeight() - viewport.getBottomGutterHeight());
 
-        final Pixmap pixmap = Pixmap.createFromFrameBuffer(x, y, w, h);
         final Pixmap flipPixmap = FlipPixmap(pixmap,false,true);
-        final Pixmap potPixmap = new Pixmap(potW, potH, Pixmap.Format.RGBA8888);
-        potPixmap.setBlending(Pixmap.Blending.None);
-        potPixmap.drawPixmap(flipPixmap, 0, 0);
+        final Pixmap potPixmap = new Pixmap(Scene.i.width, Scene.i.height,flipPixmap.getFormat());
+        potPixmap.drawPixmap(flipPixmap,
+                0, 0, flipPixmap.getWidth(), flipPixmap.getHeight(),
+                0, 0, potPixmap.getWidth(), potPixmap.getHeight()
+        );
+
         Texture texture = new Texture(potPixmap);
-        TextureRegion textureRegion = new TextureRegion(texture, 0, 0, w, h);
-        potPixmap.dispose();
+
         pixmap.dispose();
         flipPixmap.dispose();
+        potPixmap.dispose();
 
-        return textureRegion;
+        return new TextureRegion(texture);
     }
     private static Pixmap FlipPixmap(Pixmap src,boolean flipX, boolean flipY) {
         final int width = src.getWidth();

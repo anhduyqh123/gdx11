@@ -1,8 +1,5 @@
 package Tool.ObjectTool.Form;
 
-import Extend.IShape.ICircle;
-import Extend.IShape.IPoints;
-import Extend.IShape.IPolygon;
 import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;

@@ -8,6 +8,9 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -21,7 +24,10 @@ public class DesktopLauncher {
 //		FileHandle androidDir = new FileHandle(path+"/android/assets");
 //		androidDir.child("first").deleteDirectory();
 		//System.out.print(Path.of("").toAbsolutePath().getParent().toString());
-		new LwjglApplication(new MyGame(), config);
+		List<String> list = new ArrayList<>(Arrays.asList("0","1","2"));
+		list.set(1,"x");
+		System.out.println(list);
 
+		//new LwjglApplication(new MyGame(), config);
 	}
 }

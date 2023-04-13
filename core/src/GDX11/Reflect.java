@@ -64,7 +64,6 @@ public class Reflect {
     {
         try {
             field.set(object,value);
-            OnChange(object);
         }catch (Exception e){}
     }
     public static void SetValue(String filedName,Object object,Object value)

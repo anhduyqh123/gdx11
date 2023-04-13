@@ -1,5 +1,7 @@
 package Tool.ObjectTool.Form;
 
+import Extend.IExtend;
+import Extend.IPutEvent;
 import GDX11.IObject.IAction.*;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Reflect;
@@ -37,7 +39,7 @@ public class IActionForm {
         IUtil.class, IClone.class, IImageAction.class, IAddParent.class,ICountAction.class, IParamAction.class};
         Class[] types2 ={};
         Class[] types3 ={};
-        Class[] types4 ={};
+        Class[] types4 ={IExtend.class, IPutEvent.class};
         Class[][] types = {types1,types2,types3,types4};
 
         UI.ComboBox(cb,vl1,vl1[0],vl->{

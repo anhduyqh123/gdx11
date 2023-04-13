@@ -78,8 +78,10 @@ public class ILabel extends IActor{
     //ILabel
     protected void DefaultEvent()
     {
-        iEvent.SetFunc("dw",()->GetLabel().getPrefWidth());
-        iEvent.SetFunc("dh",()->GetLabel().getPrefHeight());
+//        iEvent.SetFunc("dw",()->GetLabel().getPrefWidth());
+//        iEvent.SetFunc("dh",()->GetLabel().getPrefHeight());
+        iParam.Set("dw",(GDX.Func<Object>) () ->GetLabel().getPrefWidth());
+        iParam.Set("dh",(GDX.Func<Object>) () ->GetLabel().getPrefHeight());
     }
     public void SetText(Object text)
     {

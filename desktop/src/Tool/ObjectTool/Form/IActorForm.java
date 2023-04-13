@@ -41,6 +41,7 @@ public class IActorForm {
         Content.InitIActor(iActor,pInfo);
         InitISize();
         InitPosition();
+        SetEvent();
     }
     private void InitISize()
     {
@@ -67,5 +68,11 @@ public class IActorForm {
             return list.toArray(new String[0]);
         }
         return new String[]{value0};
+    }
+    private void SetEvent()
+    {
+        Reflect.AddEvent(iActor,"actor",vl->iActor.Refresh());
+        Reflect.AddEvent(iActor.iPos,"actor",vl->iActor.Refresh());
+        Reflect.AddEvent(iActor.iSize,"actor",vl->iActor.Refresh());
     }
 }

@@ -5,7 +5,7 @@ import GDX11.Reflect;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class IComponent extends IObject {
-
+    public boolean active = true;
     public IComponent(){}
     public IComponent(String name){
         super(name);
@@ -27,5 +27,11 @@ public class IComponent extends IObject {
     public void Remove()
     {
 
+    }
+
+    //
+    public <T extends IComponent> T GetIComponent(String name)
+    {
+        return (T)GetIMap().Get(name);
     }
 }

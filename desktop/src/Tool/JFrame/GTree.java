@@ -8,8 +8,6 @@ import GDX11.Util;
 import Tool.ObjectTool.Data.ClipBoard;
 
 import javax.swing.*;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -41,12 +39,17 @@ public class GTree<T extends IObject> {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar()=='n') NewObject();//n
-                if (e.getKeyChar()=='s') Select();//s
-                if (e.getKeyChar()=='p') Paste();//p
-                if (e.getKeyChar()=='m') MoveTo();//m
+//                if (e.getKeyChar()=='s') Select();//s
+//                if (e.getKeyChar()=='p') Paste();//p
+//                if (e.getKeyChar()=='m') MoveTo();//m
                 if (e.getKeyChar()=='1') Move(-1);
                 if (e.getKeyChar()=='2') Move(1);
                 if (e.getKeyChar()==KeyEvent.VK_BACK_SPACE) Delete();
+
+                if (e.getKeyChar()=='') Clone();//ctr+c
+                if (e.getKeyChar()=='') Select();//ctr+s
+                if (e.getKeyChar()=='') Paste();//ctr+v
+                if (e.getKeyChar()=='') MoveTo();//ctr+d
             }
         });
         tfName.addKeyListener(new KeyAdapter() {
@@ -80,27 +83,6 @@ public class GTree<T extends IObject> {
     {
         map.clear();
         tree.setModel(new DefaultTreeModel(NewNodeModel(root)));
-        tree.getModel().addTreeModelListener(new TreeModelListener() {
-            @Override
-            public void treeNodesChanged(TreeModelEvent e) {
-                Rename(GetSelectedNode().toString());
-            }
-
-            @Override
-            public void treeNodesInserted(TreeModelEvent e) {
-
-            }
-
-            @Override
-            public void treeNodesRemoved(TreeModelEvent e) {
-
-            }
-
-            @Override
-            public void treeStructureChanged(TreeModelEvent e) {
-
-            }
-        });
     }
     public void SetSelection(IObject object)
     {
@@ -228,11 +210,20 @@ public class GTree<T extends IObject> {
     public void Clone()
     {
         IObject newOb = GetSelectedObject().Clone();
-        newOb.name = tfName.getText();
+        newOb.name = NewName();
         GetParentObject().GetIMap().Add(newOb);
         Refresh();
         refreshObject.Run((T)newOb);
         SetSelection(newOb);
+    }
+    private String NewName()
+    {
+        String name0 = GetSelectedObject().name;
+        if (!tfName.getText().equals(name0)) return tfName.getText();
+        String ex = name0.replaceAll("[^0-9]","");
+        if (ex.equals("")) ex = "0";
+        String name = name0.replace(ex,"");
+        return name+(Integer.parseInt(ex)+1);
     }
     public void Prefab()
     {

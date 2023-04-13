@@ -100,6 +100,7 @@ public class Event {
                 Util.Int(pos);
                 IActor iActor = dragIActor;
                 iActor.iPos.SetPosition(pos);
+                Reflect.OnChange(iActor.iPos);
             }
 
             @Override

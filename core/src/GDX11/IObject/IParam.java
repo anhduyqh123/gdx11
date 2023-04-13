@@ -1,10 +1,6 @@
 package GDX11.IObject;
 
 import GDX11.*;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 
@@ -98,7 +94,11 @@ public class IParam extends IBase {
     }
     private Number GetActorVariable(String stValue,Actor actor)
     {
-        if (Has(stValue)) return Get(stValue);
+        if (Has(stValue)){
+            Object ob = Get(stValue);
+            if (ob instanceof GDX.Func) return (Number) ((GDX.Func<?>) ob).Run();
+            return (Number) ob;
+        }
         if (stValue.equals("pSize")) return actor.getParent().getChildren().size;
         if (stValue.equals("i")) return actor.getZIndex();
         if (stValue.equals("w")) return actor.getWidth();

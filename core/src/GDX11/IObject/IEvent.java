@@ -22,32 +22,31 @@ public class IEvent {
     {
         return runMap.containsKey(name);
     }
-
-    private GDX.Func<Map> getFuncMap;
     private GDX.Func<Map> getRunMap;
 
     //Function
-    public Map<String, GDX.Func> GetFuncMap()
-    {
-        if (getFuncMap==null)
-        {
-            Map<String, GDX.Func> map = new HashMap<>();
-            getFuncMap = ()->map;
-        }
-        return getFuncMap.Run();
-    }
-    public void SetFunc(String name, GDX.Func func)
-    {
-        GetFuncMap().put(name, func);
-    }
-    public GDX.Func GetFunc(String name)
-    {
-        return GetFuncMap().get(name);
-    }
-    public boolean HasFunc(String name)
-    {
-        return GetFuncMap().containsKey(name);
-    }
+//    private GDX.Func<Map> getFuncMap;
+//    public Map<String, GDX.Func> GetFuncMap()
+//    {
+//        if (getFuncMap==null)
+//        {
+//            Map<String, GDX.Func> map = new HashMap<>();
+//            getFuncMap = ()->map;
+//        }
+//        return getFuncMap.Run();
+//    }
+//    public void SetFunc(String name, GDX.Func func)
+//    {
+//        GetFuncMap().put(name, func);
+//    }
+//    public GDX.Func GetFunc(String name)
+//    {
+//        return GetFuncMap().get(name);
+//    }
+//    public boolean HasFunc(String name)
+//    {
+//        return GetFuncMap().containsKey(name);
+//    }
 
     //Runnable
     public Map<String, GDX.Runnable> GetRunMap()

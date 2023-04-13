@@ -18,7 +18,7 @@ public class IProgressBar extends IScrollImage{
         super.SetTexture(texture);
         ProgressBar pro = GetActor();
         pro.SetValue(percent);
-        Reflect.AddEvent(this,"percent",vl->pro.SetValue(percent));
+        //Reflect.AddEvent(this,"percent",vl->pro.SetValue(percent));
         iParam.AddChangeEvent("percent",()-> pro.SetValue(iParam.Get("percent",0f)));
     }
     public ProgressBar GetActor()

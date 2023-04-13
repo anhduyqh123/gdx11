@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Config {
     public static GDX.Func2<String,String,String> getRemote;
-    private static Map<String,Object> map = new HashMap<>();
+    public static Map<String,Object> map = new HashMap<>();
     private static JsonValue LoadData(String data)
     {
         return GDX.Try(()-> Json.StringToJson(data),
@@ -83,12 +83,13 @@ public class Config {
 
     public static Object ToBaseType(String key,String stValue)
     {
-        if (key.startsWith("i_")) return Integer.parseInt(stValue);
-        if (key.startsWith("f_")) return Float.parseFloat(stValue);
-        if (key.startsWith("v2_") || key.startsWith("v3_")) return ParseVector(stValue);
-        if (key.startsWith("cl_")) return Color.valueOf(stValue);
-        return Json.ToBaseType(stValue);//remove in the future
-        //return stValue;
+        return GDX.Try(()->{
+            if (key.startsWith("i_")) return Integer.parseInt(stValue);
+            if (key.startsWith("f_")) return Float.parseFloat(stValue);
+            if (key.startsWith("v2_") || key.startsWith("v3_")) return ParseVector(stValue);
+            if (key.startsWith("cl_")) return Color.valueOf(stValue);
+            return Json.ToBaseType(stValue);
+        },()->stValue);
     }
     //vector
     private static Vector ParseVector(String value)//(1,2)
@@ -96,7 +97,6 @@ public class Config {
         value = value.replace("(","").replace(")","");
         String[] arr = value.split(",");
         if (arr.length==2) return new Vector2(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]));
-        if (arr.length==3) return new Vector3(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]),Float.parseFloat(arr[2]));
-        return null;
+        return new Vector3(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]),Float.parseFloat(arr[2]));
     }
 }

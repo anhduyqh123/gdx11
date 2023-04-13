@@ -19,7 +19,7 @@ public class ISize extends IBase {
         SetOrigin(origin);
         SetScale(scale);
         SetRotation(rotate);
-        Reflect.AddEvent(this,"iSize",vl->Refresh());
+        //Reflect.AddEvent(this,"iSize",vl->Refresh());
     }
     private void SetSize()
     {
@@ -29,12 +29,12 @@ public class ISize extends IBase {
     private void SetWidth(Actor actor)
     {
         if (SetWidthByChild(actor)) return;
-        actor.setWidth(GetIActor().GetParam(width,0f));
+        actor.setWidth(GetIActor().GetGlobalNum(width).floatValue());
     }
     private void SetHeight(Actor actor)
     {
         if (SetHeightByChild(actor)) return;
-        actor.setHeight(GetIActor().GetParam(height,0f));
+        actor.setHeight(GetIActor().GetGlobalNum(height).floatValue());
     }
     private boolean SetWidthByChild(Actor actor)
     {
@@ -61,8 +61,8 @@ public class ISize extends IBase {
         if (origin.contains(":"))
         {
             String[] arr = origin.split(":");
-            GetActor().setOriginX(GetIActor().GetParam(arr[0],0f));
-            GetActor().setOriginY(GetIActor().GetParam(arr[1],0f));
+            GetActor().setOriginX(GetIActor().GetGlobalNum(arr[0]).floatValue());
+            GetActor().setOriginY(GetIActor().GetGlobalNum(arr[1]).floatValue());
         }
         else GetActor().setOrigin(IParam.GetAlign(origin));
     }
@@ -77,16 +77,16 @@ public class ISize extends IBase {
         if (scale.contains(":"))
         {
             String[] arr = scale.split(":");
-            v.set(GetIActor().GetParam(arr[0],0f),GetIActor().GetParam(arr[1],0f));
+            v.set(GetIActor().GetGlobalNum(arr[0]).floatValue(),GetIActor().GetGlobalNum(arr[1]).floatValue());
         }
         else{
-            float x = GetIActor().GetParam(scale,0f);
+            float x = GetIActor().GetGlobalNum(scale).floatValue();
             v.set(x,x);
         }
         return v;
     }
     public void SetRotation(String rotate)
     {
-        GetActor().setRotation(GetIActor().GetParam(rotate,0f));
+        GetActor().setRotation(GetIActor().GetGlobalNum(rotate).floatValue());
     }
 }

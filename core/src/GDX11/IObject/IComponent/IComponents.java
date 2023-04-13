@@ -39,13 +39,16 @@ public class IComponents extends IComponent {
 
     @Override
     public void Update(float delta) {
-        For(i->i.Update(delta));
+        For(i->{
+            if (i.active) i.Update(delta);
+        });
     }
     @Override
     public void Draw(Batch batch, float parentAlpha, Runnable superDraw)
     {
-        if (iMap.Contains("draw")) iMap.Get("draw").Draw(batch, parentAlpha, superDraw);
-        else superDraw.run();
+        IComponent draw = iMap.Get("draw");
+        if (draw==null || !draw.active) superDraw.run();
+        else draw.Draw(batch, parentAlpha, superDraw);
     }
 
     @Override

@@ -1,9 +1,9 @@
 uniform sampler2D i_texture;
 varying vec2 v_texCoords;
 
-uniform float f_dis;//0->sqrt(2)*f_size
-uniform float f_size;//width of texture
+uniform float f_dis;//0->360
 
+const float f_size = 256.0;
 const float radius = 0.01;
 const float pi = 3.14159265359;
 

@@ -1,6 +1,5 @@
 package GDX11.IObject.IAction;
 
-import GDX11.GDX;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -39,20 +38,20 @@ public class IProperty extends IDelay{
                 GetActor().setColor(GetColor());
                 break;
             case Alpha:
-                GetActor().getColor().a = GetIActor().GetParam(value,0f);
+                GetActor().getColor().a = GetFloatValue(value);
         }
     }
 
     @Override
     public Action Get() {
-        if (type== Type.Rotate) return Actions.rotateTo(0,GetDuration(),iInter.value);
+        if (type== Type.Rotate) return Actions.rotateTo(GetFloatValue(value),GetDuration(),iInter.value);
         if (type== Type.Scale)
         {
             Vector2 scale  = GetIActor().iSize.GetScale(value);
             return Actions.scaleTo(scale.x,scale.y,GetDuration(),iInter.value);
         }
         if (type==Type.Color) return Actions.color(GetColor(),GetDuration(),iInter.value);
-        if (type==Type.Alpha) return Actions.alpha(GetIActor().GetParam(value,0f),GetDuration(),iInter.value);
+        if (type==Type.Alpha) return Actions.alpha(GetFloatValue(value),GetDuration(),iInter.value);
         return Actions.run(this::Run);
     }
     private Color GetColor()

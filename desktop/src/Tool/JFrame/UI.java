@@ -1,9 +1,6 @@
 package Tool.JFrame;
 
 import GDX11.GDX;
-//import GDX11.IObject.IBase;
-import GDX11.IObject.IBase;
-import GDX11.IObject.IPos;
 import GDX11.Reflect;
 import GDX11.Util;
 import com.badlogic.gdx.utils.reflect.Field;
@@ -53,6 +50,11 @@ public class UI {
         if (Reflect.IsAssignableFrom(type,List.class))
         {
             List list = (List)value;
+            if ( Reflect.IsAssignableFrom(field.getElementType(0),String.class))
+            {
+                panel.add(new ListForm(list).panel1);
+                return;
+            }
             if (list.size()<=5)
                 Util.ForIndex(list,i->InitComponents(list.get(i),NewPanel(name+i,panel)));
             return;
@@ -134,7 +136,10 @@ public class UI {
     {
         String[] arr = {"","bottomLeft","bottom","bottomRight","left","center","right","topLeft","top","topRight"};
         return NewComboBox(fieldName,arr, Reflect.GetValue(fieldName,object),panel,
-                vl-> Reflect.SetValue(fieldName,object,vl));
+                vl->{
+                    Reflect.SetValue(fieldName,object,vl);
+                    Reflect.OnChange(object);
+                });
     }
     public static <T> JComboBox NewComboBox(T[] items, T value, int width,int height)
     {
@@ -161,7 +166,10 @@ public class UI {
     public static <T> JComboBox NewComboBox(Field field,Object object,T[] items,JPanel panel)
     {
         return NewComboBox(field.getName(),items,Reflect.GetValue(field,object),panel,
-                vl-> Reflect.SetValue(field,object,vl));
+                vl-> {
+                    Reflect.SetValue(field,object,vl);
+                    Reflect.OnChange(object);
+                });
     }
     public static <T> JComboBox NewComboBox(String fieldName,Object object,T[] items,JPanel panel)
     {
@@ -213,8 +221,10 @@ public class UI {
     }
     public static JCheckBox NewCheckBox(Field field,Object object,JPanel panel)
     {
-        return NewCheckBox(field.getName(),Reflect.GetValue(field,object),panel,
-                vl-> Reflect.SetValue(field,object,vl));
+        return NewCheckBox(field.getName(),Reflect.GetValue(field,object),panel, vl-> {
+            Reflect.SetValue(field,object,vl);
+            Reflect.OnChange(object);
+        });
     }
     //TextField
     private static JTextField NewTextField(String value,int width,int height)
@@ -227,21 +237,19 @@ public class UI {
     {
         JTextField textField = NewTextField(value.toString(), width,height);
         LabelComponent(name,textField,panel);
-        if (onChange!=null)
-            textField.addKeyListener(new KeyAdapter() {
-                @Override
-                public void keyReleased(KeyEvent e) {
-                    try {
-                        onChange.Run(textField.getText());
-                    }catch (Exception x){}
-                }
-            });
+        textField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                GDX.Try(()->onChange.Run(textField.getText()));
+            }
+        });
         return textField;
     }
     public static JTextField NewTextField(Field field,Object object,int width,int height,JPanel panel)
     {
         JTextField tf = NewTextField(field.getName(),Reflect.GetValue(field,object),width,height,panel,
                 st-> SetField(field,object,st));
+        tf.addActionListener(actionEvent ->Reflect.OnChange(object));
         Reflect.AddEvent(object,field,vl-> tf.setText(vl+""));
         return tf;
     }
@@ -254,18 +262,18 @@ public class UI {
     }
     public static JTextArea NewTextArea(String name,Object value,int width,int height,JPanel panel,GDX.Runnable1<String> onChange)
     {
-        JTextArea textField = NewTextArea(value.toString(), width,height);
-        LabelComponent(name,textField,panel);
+        JTextArea textArea = NewTextArea(value.toString(), width,height);
+        LabelComponent(name,textArea,panel);
         if (onChange!=null)
-            textField.addKeyListener(new KeyAdapter() {
+            textArea.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
                     try {
-                        onChange.Run(textField.getText());
+                        onChange.Run(textArea.getText());
                     }catch (Exception x){}
                 }
             });
-        return textField;
+        return textArea;
     }
     public static JTextArea NewTextArea(Field field,Object object,JPanel panel)
     {
@@ -324,7 +332,10 @@ public class UI {
     }
     public static void NewColorPicker(Field field,Object object,JPanel panel)
     {
-        NewColorPicker(panel,Reflect.GetValue(field,object),st-> Reflect.SetValue(field,object,st));
+        NewColorPicker(panel,Reflect.GetValue(field,object),st-> {
+            Reflect.SetValue(field,object,st);
+            Reflect.OnChange(object);
+        });
     }
     //</editor-fold>
 
@@ -374,6 +385,9 @@ public class UI {
     public static JSlider NewSlider(Field field, Object object, JPanel panel)
     {
         return NewSlider(field.getName(),Reflect.GetValue(field,object),panel,
-                vl-> Reflect.SetValue(field,object,vl));
+                vl->{
+                    Reflect.SetValue(field,object,vl);
+                    Reflect.OnChange(object);
+                });
     }
 }
