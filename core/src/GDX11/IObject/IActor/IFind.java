@@ -4,7 +4,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 //Interface IFind
 public interface IFind {
-    <T extends IActor> T FindIActor(String name);
+    IGroup GetIGroup();
+    default <T extends IActor> T FindIActor(String name)
+    {
+        return (T)GetIGroup().iMap.Find(name);
+    }
     default <T extends IActor> T FindIActor(String name, Class<T> type)
     {
         return FindIActor(name);

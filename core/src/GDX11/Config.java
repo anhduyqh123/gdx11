@@ -75,6 +75,10 @@ public class Config {
     {
         return (T)map.get(name);
     }
+    public static <T> T Get(String name,Class<T> type)
+    {
+        return Get(name);
+    }
     public static boolean Has(String name)
     {
         return map.containsKey(name);

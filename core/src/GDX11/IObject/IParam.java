@@ -57,6 +57,10 @@ public class IParam extends IBase {
     {
         return Get(name)!=null?Get(name):value0;
     }
+    public <T> T Get(String name,Class<T> type)
+    {
+        return Get(name);
+    }
     public void Set(String name, Object value)
     {
         GDX.Try(()->{

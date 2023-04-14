@@ -1,6 +1,5 @@
 package com.game;
 
-import Blackjack.Blackjack;
 import GDX11.GDXGame;
 import SDK.SDK;
 
@@ -12,7 +11,6 @@ public class MyGame extends GDXGame {
     @Override
     protected void FirstLoad() {
         SDK.SetSDK(SDK.i);
-        new Blackjack();
     }
 
     @Override

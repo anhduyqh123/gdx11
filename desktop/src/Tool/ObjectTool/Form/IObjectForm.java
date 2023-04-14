@@ -56,6 +56,7 @@ public class IObjectForm {
         UI.Button(saveButton,this::Save);
         UI.Button(btRefresh,()->{
             iActor.Dispose();
+            iActor.SetIParent(iActor.GetIParent());
             iActor.Refresh();
             onSelectIActor.Run(iActor);
         });

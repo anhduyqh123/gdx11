@@ -107,10 +107,6 @@ public class IGroup extends IActor implements IFind {
     {
         return (T)iMap.Get(name);
     }
-    public <T extends IActor> T FindIActor(String name)
-    {
-        return (T)iMap.Find(name);
-    }
 
     public void ForIChild(GDX.Runnable1<IActor> cb)
     {

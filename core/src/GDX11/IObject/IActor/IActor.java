@@ -24,7 +24,6 @@ public class IActor extends IObject {
     public IParam iParam = new IParam();
     public ISize iSize = new ISize();
     public IPos iPos = new IPos();
-    public IEvent iEvent = new IEvent();
     public IMulAction iAction = new IMulAction();
     {
         iAction.name = "action";

@@ -1,11 +1,9 @@
 package GDX11;
 
-import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IFind;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IObject;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +23,12 @@ public class Screen extends Group implements IFind {
         iGroup.SetIRoot(null);
         iGroup.Refresh();
 
-        iGroup.iEvent.SetRun("startShow",()->TryRun(onShow));
-        iGroup.iEvent.SetRun("startHide",()->TryRun(onHide));
-        iGroup.iEvent.SetRun("showDone",()->TryRun(onShowDone));
-        iGroup.iEvent.SetRun("hideDone",()->TryRun(onHideDone));
-        iGroup.iEvent.SetRun("show",this::Show);
-        iGroup.iEvent.SetRun("hide",this::Hide);
+        iGroup.iParam.Set("startShow",(Runnable)()->TryRun(onShow));
+        iGroup.iParam.Set("startHide",(Runnable)()->TryRun(onHide));
+        iGroup.iParam.Set("showDone",(Runnable)()->TryRun(onShowDone));
+        iGroup.iParam.Set("hideDone",(Runnable)()->TryRun(onHideDone));
+        iGroup.iParam.Set("show",(Runnable)this::Show);
+        iGroup.iParam.Set("hide",(Runnable)this::Hide);
     }
     private void TryRun(GDX.Runnable event)
     {
@@ -63,7 +61,7 @@ public class Screen extends Group implements IFind {
     }
 
     @Override
-    public <T extends IActor> T FindIActor(String name) {
-        return iGroup.FindIActor(name);
+    public IGroup GetIGroup() {
+        return iGroup;
     }
 }

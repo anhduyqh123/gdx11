@@ -1,78 +1,50 @@
-Extend/AI/Scene2dLocation.java
- Extend.AI.Scene2dLocation
-com/game/Test.java
- game.Test
-Extend/AI/SteeringAgent.java
- Extend.AI.SteeringAgent
-Extend/Test.java
- Extend.Test
-com/game/A.java
- game.A
-com/game/B.java
- game.B
-com/game/C.java
- game.C
- game.C$E
-Blackjack/Controller/GConfig.java
- Blackjack.Controller.GConfig
-Blackjack/Model/CardSet.java
- Blackjack.Model.CardSet
-SDK/IZen.java
- SDK.IZen
-Blackjack/Model/Card.java
- Blackjack.Model.Card
-Extend/PagedScroll/PagedScroll.java
- Extend.PagedScroll.PagedScroll
 SDK/SDK.java
  SDK.SDK
  SDK.SDK$1
-Blackjack/Controller/GBoard.java
- Blackjack.Controller.GBoard
-Blackjack/Controller/GCardSet.java
- Blackjack.Controller.GCardSet
-Blackjack/Controller/GPlayer.java
- Blackjack.Controller.GPlayer
+com/game/B.java
+ game.B
 Extend/AI/ISteering.java
  Extend.AI.ISteering
  Extend.AI.ISteering$1
+Extend/AI/Scene2dLocation.java
+ Extend.AI.Scene2dLocation
 Extend/PagedScroll/IPagedScroll.java
  Extend.PagedScroll.IPagedScroll
 Extend/XItem.java
  Extend.XItem
-Blackjack/Screen/MoreCoinScreen.java
- Blackjack.Screen.MoreCoinScreen
 Extend/IShape/IShape.java
  Extend.IShape.IShape
 Extend/IExtend.java
  Extend.IExtend
  Extend.IExtend$1
  Extend.IExtend$Type
+com/game/C.java
+ game.C
+ game.C$E
+Extend/Test.java
+ Extend.Test
 com/game/MyGdxGame.java
  com.game.MyGdxGame
 Extend/IShape/IPolygon.java
  Extend.IShape.IPolygon
-Blackjack/Screen/ThemeScreen.java
- Blackjack.Screen.ThemeScreen
-Blackjack/Controller/GBot.java
- Blackjack.Controller.GBot
-Blackjack/Controller/GDealer.java
- Blackjack.Controller.GDealer
 Extend/AI/ITest.java
  Extend.AI.ITest
-Blackjack/Screen/GameScreen.java
- Blackjack.Screen.GameScreen
 Extend/IPutEvent.java
  Extend.IPutEvent
  Extend.IPutEvent$Type
 Extend/IShape/IPoints.java
  Extend.IShape.IPoints
-Blackjack/Controller/GDeck.java
- Blackjack.Controller.GDeck
-Blackjack/Controller/GGame.java
- Blackjack.Controller.GGame
-Blackjack/Blackjack.java
- Blackjack.Blackjack
+com/game/A.java
+ game.A
+Extend/AI/SteeringAgent.java
+ Extend.AI.SteeringAgent
+SDK/IZen.java
+ SDK.IZen
+com/game/Test.java
+ game.Test
 Extend/IShape/ICircle.java
  Extend.IShape.ICircle
+Extend/PagedScroll/PagedScroll.java
+ Extend.PagedScroll.PagedScroll
 com/game/MyGame.java
  com.game.MyGame
