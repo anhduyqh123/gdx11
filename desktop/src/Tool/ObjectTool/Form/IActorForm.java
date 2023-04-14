@@ -38,7 +38,10 @@ public class IActorForm {
         UI.ClearPanel(pSize);
         UI.ClearPanel(pPos);
 
-        Content.InitIActor(iActor,pInfo);
+        GDX.Try(()->{
+            Content.reselect = ()->SetIActor(iActor);
+            Content.InitIActor(iActor,pInfo);
+        });
         InitISize();
         InitPosition();
         SetEvent();

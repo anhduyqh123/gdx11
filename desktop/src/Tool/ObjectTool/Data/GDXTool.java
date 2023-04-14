@@ -41,10 +41,12 @@ public class GDXTool {
     }
 
     //Tiny
+    static {
+        Tinify.setKey("cqKXRyMygkGcnQ988FL7gWt3J0fz8Qdy");
+    }
     public static void Tiny(FileHandle file)
     {
         try {
-            Tinify.setKey("cqKXRyMygkGcnQ988FL7gWt3J0fz8Qdy");
             GDX.Log(file.path()+"***tining!");
             Source source = Tinify.fromFile(file.path());
             source.toFile(file.path());

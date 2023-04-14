@@ -1,5 +1,6 @@
 package Tool.ObjectTool.Data;
 
+import Extend.Spine.SpineAsset;
 import GDX11.*;
 import GDX11.AssetData.AssetData;
 import com.badlogic.gdx.Gdx;
@@ -57,5 +58,10 @@ public class MyGame extends GDXGame {
     @Override
     protected Scene NewScene() {
         return NewScene(new PolygonSpriteBatch());
+    }
+
+    @Override
+    protected Asset NewAssets() {
+        return new SpineAsset();
     }
 }

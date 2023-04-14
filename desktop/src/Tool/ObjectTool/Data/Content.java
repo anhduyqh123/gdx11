@@ -1,8 +1,11 @@
 package Tool.ObjectTool.Data;
 
+import Extend.Spine.GSpine;
+import Extend.Spine.ISpine;
 import GDX11.IObject.IActor.ITextField;
 import Extend.PagedScroll.IPagedScroll;
 import GDX11.IObject.IActor.*;
+import GDX11.Reflect;
 import Tool.JFrame.UI;
 
 import javax.swing.*;
@@ -11,9 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Content {
+    public static Runnable reselect;
     public static Class[] GetTypes()
     {
-        Class[] types = {IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class,
+        Class[] types = {IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class, ISpine.class,
         IScrollImage.class, IProgressBar.class,IScrollPane.class, IPagedScroll.class, ITextField.class};
         return types;
     }
@@ -21,6 +25,7 @@ public class Content {
     public static XActor InitIActor(IActor iActor, JPanel panel)
     {
         if (iActor instanceof IGroup) return new XGroup(iActor, panel);
+        if (iActor instanceof ISpine) return new XSpine(iActor, panel);
         return new XActor(iActor,panel);
     }
 
@@ -50,6 +55,31 @@ public class Content {
         protected void ExcludeFields() {
             super.ExcludeFields();
             fields.removeAll(Arrays.asList("iMap"));
+        }
+    }
+    static class XSpine extends XActor
+    {
+        public XSpine(IActor iActor, JPanel panel) {
+            super(iActor, panel);
+            ISpine iSpine = (ISpine)iActor;
+            GSpine gSpine = iSpine.GetActor();
+            Reflect.AddEvent(iSpine,Reflect.GetField(ISpine.class,"spine"),vl->{
+                iSpine.MakeNew();
+                reselect.run();
+            });
+            UI.NewComboBox("skin",gSpine.GetSkinNames(),iSpine.skin,panel,vl->{
+                iSpine.skin = vl;
+                gSpine.SetSkin(vl);
+            });
+            UI.NewComboBox("ani",gSpine.GetAnimationNames(),iSpine.animation,panel,vl->{
+                iSpine.animation = vl;
+                gSpine.SetAnimation(vl,true);
+            });
+        }
+        @Override
+        protected void ExcludeFields() {
+            super.ExcludeFields();
+            fields.removeAll(Arrays.asList("skin","animation"));
         }
     }
 }

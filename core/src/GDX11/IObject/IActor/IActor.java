@@ -81,7 +81,7 @@ public class IActor extends IObject {
     }
     public void InitActor()
     {
-        if (getActor==null) SetActor(NewActor());
+        if (getActor==null || GetActor()==null) SetActor(NewActor());
         Clear();
         GetActor().setUserObject(this);
         JointParent();

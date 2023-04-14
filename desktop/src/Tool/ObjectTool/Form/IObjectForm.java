@@ -57,6 +57,7 @@ public class IObjectForm {
         UI.Button(btRefresh,()->{
             iActor.Dispose();
             iActor.SetIParent(iActor.GetIParent());
+            iActor.SetActor(null);
             iActor.Refresh();
             onSelectIActor.Run(iActor);
         });

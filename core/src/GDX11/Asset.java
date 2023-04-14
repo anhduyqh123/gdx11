@@ -100,7 +100,12 @@ public class Asset extends Actor {
                 manager.load(as.url, ParticleEffect.class,pepParticle);
                 break;
             default:
+                DefaultLoad(as);
         }
+    }
+    protected void DefaultLoad(AssetNode node)
+    {
+
     }
     public List<AssetNode> GetLoaded(AssetNode.Kind kind)
     {

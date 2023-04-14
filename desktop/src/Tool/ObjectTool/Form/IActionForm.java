@@ -2,6 +2,7 @@ package Tool.ObjectTool.Form;
 
 import Extend.IExtend;
 import Extend.IPutEvent;
+import Extend.Spine.IAnimation;
 import GDX11.IObject.IAction.*;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Reflect;
@@ -38,7 +39,7 @@ public class IActionForm {
         Class[] types1 = {IDelay.class, IMove.class, IProperty.class, IMulAction.class, XAction.class, IRepeat.class, IAudioAction.class,
         IUtil.class, IClone.class, IImageAction.class, IAddParent.class,ICountAction.class, IParamAction.class};
         Class[] types2 ={};
-        Class[] types3 ={};
+        Class[] types3 ={IAnimation.class};
         Class[] types4 ={IExtend.class, IPutEvent.class};
         Class[][] types = {types1,types2,types3,types4};
 
