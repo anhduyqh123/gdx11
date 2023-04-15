@@ -75,7 +75,7 @@ public class IActorForm {
     private void SetEvent()
     {
         Reflect.AddEvent(iActor,"actor",vl->iActor.Refresh());
-        Reflect.AddEvent(iActor.iPos,"actor",vl->iActor.Refresh());
+        Reflect.AddEvent(iActor.iPos,"actor",vl->iActor.iPos.Refresh());
         Reflect.AddEvent(iActor.iSize,"actor",vl->iActor.Refresh());
     }
 }

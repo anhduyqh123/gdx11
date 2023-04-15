@@ -3,6 +3,7 @@ package GDX11.IObject.IComponent;
 import GDX11.Asset;
 import GDX11.Config;
 import GDX11.GDX;
+import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -16,21 +17,21 @@ public class IShader extends IComponent {
     public String fragName = "";
     public List<String> uniforms = new ArrayList<>();
     private transient ShaderProgram shader;
-    private transient Vector2 size = new Vector2();
+    private transient Vector2 resolution = new Vector2();
     @Override
     public void Refresh() {
         GDX.PostRunnable(this::Init);
     }
     private void Init()
     {
-        size.set(GetActor().getWidth(),GetActor().getHeight());
+        resolution.set(GetActor().getWidth(),GetActor().getHeight());
         GDX.Try(()->{
             ShaderProgram.pedantic = false;
             Batch batch = GetActor().getStage().getBatch();
             String fragment = GDX.GetString(Asset.i.GetNode(fragName).url);
-//            String vertex = GDX.GetStringFromName("vertex");
-//            ShaderProgram shader = new ShaderProgram(vertex,fragment);
-            shader = new ShaderProgram(batch.getShader().getVertexShaderSource(),fragment);
+            String vertex = GDX.GetStringByKey("vertex");
+            shader = new ShaderProgram(vertex,fragment);
+            //shader = new ShaderProgram(batch.getShader().getVertexShaderSource(),fragment);
         });
     }
 
@@ -49,7 +50,7 @@ public class IShader extends IComponent {
     }
     private void UpdateValue()
     {
-        shader.setUniformf("size",size);
+        shader.setUniformf("resolution", resolution);
 
         for (String n : uniforms)
         {
@@ -63,6 +64,11 @@ public class IShader extends IComponent {
                 shader.setUniformf(n,(Vector2) ob);
             if (n.startsWith("v3_"))
                 shader.setUniformf(n,(Vector3)ob);
+            if (n.startsWith("v4_"))
+            {
+                GDX.Vector4 v4 = (GDX.Vector4) ob;
+                shader.setUniformf(n,v4.x,v4.y,v4.z,v4.w);
+            }
             if (n.startsWith("cl_"))
                 shader.setUniformf(n,(Color) ob);
         }

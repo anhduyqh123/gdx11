@@ -1,6 +1,7 @@
 package GDX11.IObject.IAction;
 
 import GDX11.Asset;
+import GDX11.Config;
 import GDX11.IObject.IActor.IImage;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -19,7 +20,7 @@ public class IImageAction extends IAction{
     @Override
     public void Run() {
         IImage iImage = GetIActor();
-        TextureRegion tr = GetIActor().iParam.Has(texture)?GetIActor().iParam.Get(texture):Asset.i.GetTexture(texture);
+        TextureRegion tr = GetTexture();
         iImage.SetTexture(tr);
         if (sizeByTexture)
         {
@@ -27,6 +28,12 @@ public class IImageAction extends IAction{
             iImage.GetActor().setSize(tr.getRegionWidth(),tr.getRegionHeight());
             iImage.SetPosition(mid,Align.center);
         }
+    }
+    private TextureRegion GetTexture()
+    {
+        if (Config.Has(texture)) return Config.Get(texture);
+        if (GetIActor().iParam.Has(texture)) return GetIActor().iParam.Get(texture);
+        return Asset.i.GetTexture(texture);
     }
 
     @Override

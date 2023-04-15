@@ -28,6 +28,6 @@ public class DesktopLauncher {
 		list.set(1,"x");
 		System.out.println(list);
 
-		//new LwjglApplication(new MyGame(), config);
+		new LwjglApplication(new MyGdxGame(), config);
 	}
 }

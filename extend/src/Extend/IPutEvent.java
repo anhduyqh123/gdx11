@@ -31,9 +31,17 @@ public class IPutEvent extends IAction {
         InitMap();
         switch (value)
         {
+            case "pos":
+                GDX.Func<Object> fc = ()->new Vector2(GetActor().getX(),GetActor().getY());
+                map.put(name, func ?fc:fc.Run());
+                break;
             case "size":
-                Vector2 size = new Vector2(GetActor().getWidth(),GetActor().getHeight());
-                map.put(name, func ?(GDX.Func<Object>) () -> size:size);
+                fc = ()-> new Vector2(GetActor().getWidth(),GetActor().getHeight());
+                map.put(name, func ?fc:fc.Run());
+                break;
+            case "bound":
+                fc = ()-> new GDX.Vector4(GetActor().getX(),GetActor().getY(),GetActor().getWidth(),GetActor().getHeight());
+                map.put(name, func ?fc:fc.Run());
                 break;
             case "x":
                 map.put(name, func ?(GDX.Func<Object>) () -> GetActor().getX():GetActor().getX());
