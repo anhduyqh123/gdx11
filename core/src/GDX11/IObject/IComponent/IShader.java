@@ -3,7 +3,6 @@ package GDX11.IObject.IComponent;
 import GDX11.Asset;
 import GDX11.Config;
 import GDX11.GDX;
-import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -51,15 +50,18 @@ public class IShader extends IComponent {
         }
         batch.setShader(shader);
         shader.bind();
-        UpdateValue();
+        DefaultUniform();
+        UpdateUniform();
         superDraw.run();
 
         batch.setShader(null);
     }
-    protected void UpdateValue()
+    protected void DefaultUniform()
     {
         shader.setUniformf("resolution", resolution);
-
+    }
+    protected void UpdateUniform()
+    {
         for (String n : uniforms)
         {
             Object ob = GetUniform(n);

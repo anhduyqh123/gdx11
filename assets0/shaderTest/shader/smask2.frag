@@ -6,7 +6,6 @@ uniform vec2 resolution;
 uniform sampler2D u_texture; //default GL_TEXTURE0, expected by SpriteBatch
 uniform sampler2D i_mask;
 
-uniform vec4 v4_texture;
 uniform vec4 v4_mask;
 
 vec2 GetPoint()
@@ -30,7 +29,7 @@ vec4 GetColor(sampler2D txt,vec4 bound,vec4 defaultColor)
 void main() {
   vec4 color = vec4(1,1,1,0);
   vec4 maskColor = GetColor(i_mask, GetTxtBound(v4_mask), color);
-  vec4 txtColor = GetColor(u_texture,GetTxtBound(v4_texture),color);
+  vec4 txtColor = texture2D(u_texture,v_texCoords);
   txtColor.a*=maskColor.a;
 
   gl_FragColor = txtColor;

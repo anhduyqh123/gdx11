@@ -30,7 +30,9 @@ public class IGroup extends IActor implements IFind {
 
             @Override
             public void draw(Batch batch, float parentAlpha) {
-                OnDraw(batch,parentAlpha,()->super.draw(batch, parentAlpha));
+                if (isTransform()) applyTransform(batch, computeTransform());
+                OnDraw(batch,parentAlpha,()-> super.drawChildren(batch, parentAlpha));
+                if (isTransform()) resetTransform(batch);
             }
 
             @Override
