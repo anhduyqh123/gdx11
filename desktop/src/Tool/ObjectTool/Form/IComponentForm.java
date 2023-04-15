@@ -2,6 +2,7 @@ package Tool.ObjectTool.Form;
 
 import Extend.AI.ISteering;
 import Extend.AI.ITest;
+import Extend.IMask;
 import Extend.IShape.ICircle;
 import Extend.IShape.IPoints;
 import Extend.IShape.IPolygon;
@@ -47,7 +48,7 @@ public class IComponentForm {
         String[] vl1 = {"GDX","Shape", "Extend","AI","Other"};
         Class[] types1 = {IComponent.class, IShader.class};
         Class[] types2 ={ICircle.class, IPoints.class, IPolygon.class};
-        Class[] types3 ={};
+        Class[] types3 ={IMask.class};
         Class[] types4 ={ISteering.class, ITest.class};
         Class[] types5 ={};
         Class[][] types = {types1,types2,types3,types4,types5};

@@ -59,6 +59,6 @@ public class IMulAction extends IAction {
     }
     public boolean Contain(String name)
     {
-        return iMap.Contains(name);
+        return iMap.Has(name);
     }
 }

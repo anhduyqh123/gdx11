@@ -15,9 +15,10 @@ import java.util.List;
 
 public class IShader extends IComponent {
     public String fragName = "";
+    public String vertName = "";
     public List<String> uniforms = new ArrayList<>();
-    private transient ShaderProgram shader;
-    private transient Vector2 resolution = new Vector2();
+    protected transient ShaderProgram shader;
+    protected transient Vector2 resolution = new Vector2();
     @Override
     public void Refresh() {
         GDX.PostRunnable(this::Init);
@@ -27,12 +28,19 @@ public class IShader extends IComponent {
         resolution.set(GetActor().getWidth(),GetActor().getHeight());
         GDX.Try(()->{
             ShaderProgram.pedantic = false;
-            Batch batch = GetActor().getStage().getBatch();
-            String fragment = GDX.GetString(Asset.i.GetNode(fragName).url);
-            String vertex = GDX.GetStringByKey("vertex");
-            shader = new ShaderProgram(vertex,fragment);
-            //shader = new ShaderProgram(batch.getShader().getVertexShaderSource(),fragment);
+            shader = NewShader();
         });
+    }
+    protected ShaderProgram NewShader()
+    {
+        String fragment = GDX.GetString(Asset.i.GetNode(fragName).url);
+        if (vertName.equals(""))
+        {
+            Batch batch = GetActor().getStage().getBatch();
+            return new ShaderProgram(batch.getShader().getVertexShaderSource(),fragment);
+        }
+        String vertex = GDX.GetStringByKey(vertName);
+        return new ShaderProgram(vertex,fragment);
     }
 
     @Override
@@ -48,7 +56,7 @@ public class IShader extends IComponent {
 
         batch.setShader(null);
     }
-    private void UpdateValue()
+    protected void UpdateValue()
     {
         shader.setUniformf("resolution", resolution);
 

@@ -28,7 +28,7 @@ public class IMap<T extends IObject> implements Json.JsonObject {
         Util.For(list, i->map.put(i.name,i));
         getMap = ()->map;
     }
-    public boolean Contains(String name)
+    public boolean Has(String name)
     {
         return GetMap().containsKey(name);
     }

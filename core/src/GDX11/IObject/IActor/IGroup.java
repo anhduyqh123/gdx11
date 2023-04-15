@@ -64,8 +64,12 @@ public class IGroup extends IActor implements IFind {
 
     @Override
     public void Refresh() {
-        super.Refresh();
+//        super.Refresh();
+//        ForIChild(IActor::Refresh);
+
+        RefreshCore();
         ForIChild(IActor::Refresh);
+        InitEvent();
     }
 
     @Override
@@ -101,7 +105,7 @@ public class IGroup extends IActor implements IFind {
 
     public boolean Contains(String name)
     {
-        return iMap.Contains(name);
+        return iMap.Has(name);
     }
     public <T extends IActor> T GetIActor(String name)
     {
@@ -145,7 +149,7 @@ public class IGroup extends IActor implements IFind {
         }
         return getPool.Run();
     }
-    public boolean HasBool(String childName)
+    public boolean HasPool(String childName)
     {
         return GetPool().containsKey(childName);
     }

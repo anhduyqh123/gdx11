@@ -151,16 +151,22 @@ public class Util {
     }
 
     //FrameBuffer
-    private static Texture GetFrameBuffer(Actor actor)
+    public static FrameBuffer GetFrameBuffer(Runnable draw)
     {
         FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Scene.i.width, Scene.i.height, false);
-        Batch batch = Scene.i.GetStage().getBatch();
         fbo.begin();
-        batch.begin();
-        actor.draw(batch,1);
-        batch.end();
+        draw.run();
         fbo.end();
-        return fbo.getColorBufferTexture();
+        return fbo;
+    }
+    private static Texture GetFrameBuffer(Actor actor)
+    {
+        Batch batch = Scene.i.GetStage().getBatch();
+        return GetFrameBuffer(()->{
+            batch.begin();
+            actor.draw(batch,1);
+            batch.end();
+        }).getColorBufferTexture();
     }
     public static TextureRegion GetTextureRegion(Actor actor)
     {

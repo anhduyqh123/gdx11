@@ -49,7 +49,7 @@ public class GDXGame extends ApplicationAdapter {
         Scene.i.GetStage().addActor(asset);
         InitShowInfoEvent();
     }
-    private void InitShowInfoEvent()
+    protected void InitShowInfoEvent()
     {
         GDX.Ref<Long> ref = new GDX.Ref<>();
         scene.GetStage().addListener(new InputListener(){
@@ -131,14 +131,18 @@ public class GDXGame extends ApplicationAdapter {
     //Info
     protected void ShowInfo()
     {
+        ShowFPS();
+        ITextField.NewTextField(Config.Get("installationID"),0,0, Align.bottomLeft,Scene.i.ui2);
+    }
+    protected void ShowFPS()
+    {
         Label lbFPS = ILabel.NewLabel("60FPS",0,Scene.i.height, Align.topLeft,Scene.i.ui2);
         lbFPS.addAction(new Action() {
             @Override
             public boolean act(float delta) {
-                lbFPS.setText(GDX.GetFPS()+"FPS");
+                lbFPS.setText((int)GDX.GetFPS()+"FPS");
                 return false;
             }
         });
-        ITextField.NewTextField(Config.Get("installationID"),0,0, Align.bottomLeft,Scene.i.ui2);
     }
 }
