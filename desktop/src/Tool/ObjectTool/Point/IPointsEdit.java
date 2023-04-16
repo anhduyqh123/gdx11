@@ -1,5 +1,6 @@
 package Tool.ObjectTool.Point;
 
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IImage;
 import GDX11.IObject.IPos;
@@ -27,20 +28,20 @@ public class IPointsEdit extends Group {
     public IPointsEdit(IActor iActor)
     {
         Vector2 pos = iActor.GetStagePosition(Align.bottomLeft);
-        Actor actor = iActor.GetActor();
-        //setSize(actor.getWidth(),actor.getHeight());
         setPosition(pos.x,pos.y);
         Scene.i.ui.addActor(this);
-        setDebug(true);
-
         Event.AddKeyEvent("IPointsEdit",keyCode->{
-            if (keyCode== Input.Keys.EQUALS) Resize(1);
-            if (keyCode== Input.Keys.MINUS) Resize(-1);
-            if (Event.dragIActor ==null) return;
-            if (keyCode== Input.Keys.NUM_1) AddLeft(Event.dragIActor.iPos);
-            if (keyCode== Input.Keys.NUM_2) AddRight(Event.dragIActor.iPos);
-            if (keyCode== Input.Keys.SPACE) AddAt(Event.dragIActor.iPos);
+            if (keyCode== Input.Keys.EQUALS) Resize(1);//+
+            if (keyCode== Input.Keys.MINUS) Resize(-1);//-
+            AddKeyEvent(keyCode);
         });
+    }
+    protected void AddKeyEvent(int keyCode)
+    {
+        if (Event.dragIActor ==null) return;
+        if (keyCode== Input.Keys.NUM_1) AddLeft(Event.dragIActor.iPos);
+        if (keyCode== Input.Keys.NUM_2) AddRight(Event.dragIActor.iPos);
+        if (keyCode== Input.Keys.SPACE) AddAt(Event.dragIActor.iPos);
     }
     public void SetData(List<IPos> points)
     {
@@ -72,6 +73,7 @@ public class IPointsEdit extends Group {
             }
         });
 
+        Reflect.AddEvent(iPos,"edit",vl->iPos.Refresh());
         //iPos.AddChangeEvent("point", iPos::Refresh);
     }
     private void AddLeft(IPos iPos)
@@ -123,8 +125,9 @@ public class IPointsEdit extends Group {
         if (points==null) return;
         List<Vector2> list = new ArrayList<>();
         Util.For(points,i->list.add(i.GetPosition()));
+        shapes.set(ShapeRenderer.ShapeType.Filled);
         for (int i=0;i<list.size()-1;i++)
-            shapes.line(list.get(i),list.get(i+1));
+            shapes.rectLine(list.get(i),list.get(i+1),size*0.1f);
     }
 
     @Override

@@ -20,7 +20,7 @@ public class ISpine extends IActor {
     }
 
     @Override
-    protected void Connect() {
+    public void Connect() {
         super.Connect();
         SkeletonData data = GetData();
         iParam.Set("dw",(GDX.Func<Object>) data::getWidth);

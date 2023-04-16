@@ -10,7 +10,8 @@ import java.util.List;
 
 public class IPoints extends IShape {
     public List<IPos> list = new ArrayList<>();
-
+    public boolean close;
+    public void Init()
     {
         list.add(new IPos());
         list.add(new IPos(0, 100));
@@ -27,8 +28,7 @@ public class IPoints extends IShape {
     }
 
     @Override
-    protected void DrawShape() {
-        GetRenderer().set(ShapeRenderer.ShapeType.Filled);
-        Util.For(GetStagePoints(),pos-> GetRenderer().circle(pos.x, pos.y,10));
+    public void DrawShape(ShapeRenderer renderer) {
+        Util.For(GetStagePoints(),pos-> renderer.circle(pos.x, pos.y,10));
     }
 }

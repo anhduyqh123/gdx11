@@ -6,6 +6,8 @@ import Extend.IMask;
 import Extend.IShape.ICircle;
 import Extend.IShape.IPoints;
 import Extend.IShape.IPolygon;
+import Extend.IShape.IShape;
+import Extend.IShapeMask;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IComponent.IComponent;
@@ -14,6 +16,7 @@ import GDX11.Reflect;
 import Tool.JFrame.GTree;
 import Tool.JFrame.UI;
 import Tool.JFrame.WrapLayout;
+import Tool.ObjectTool.Point.ICircleEdit;
 import Tool.ObjectTool.Point.IPointsEdit;
 
 import javax.swing.*;
@@ -48,7 +51,7 @@ public class IComponentForm {
         String[] vl1 = {"GDX","Shape", "Extend","AI","Other"};
         Class[] types1 = {IComponent.class, IShader.class};
         Class[] types2 ={ICircle.class, IPoints.class, IPolygon.class};
-        Class[] types3 ={IMask.class};
+        Class[] types3 ={IMask.class, IShapeMask.class};
         Class[] types4 ={ISteering.class, ITest.class};
         Class[] types5 ={};
         Class[][] types = {types1,types2,types3,types4,types5};
@@ -71,7 +74,7 @@ public class IComponentForm {
 
         UI.Button(btNew,gTree::NewObject);
         UI.Button(cloneButton,()->gTree.Clone());
-        UI.CheckBox(edit,vl->CheckEdit());
+        UI.CheckBox(edit, vl->CheckEdit());
     }
     private void CheckEdit()
     {
@@ -89,7 +92,9 @@ public class IComponentForm {
     }
     private IComponent NewIComponent()
     {
-        return Reflect.NewInstance(selectedType);
+        IComponent icp = Reflect.NewInstance(selectedType);
+        if (icp instanceof IShape) ((IShape) icp).Init();
+        return icp;
     }
     private void OnSelect(IComponent cp)
     {
@@ -104,8 +109,22 @@ public class IComponentForm {
     private void NewEdit()
     {
         if (pointsEdit!=null) pointsEdit.remove();
-        pointsEdit = new IPointsEdit(iActor);
-        pointsEdit.onDataChange = ()->OnSelect(selected);
-        if (selected instanceof IPoints) pointsEdit.SetData(selected.Get(IPoints.class).list);
+        if (selected instanceof IShape)
+        {
+            GDX.Log("123");
+            pointsEdit = NewPointEdit();
+            pointsEdit.onDataChange = ()->OnSelect(selected);
+        }
+    }
+    private IPointsEdit NewPointEdit()
+    {
+        if (selected instanceof ICircle){
+            ICircleEdit editCircle = new ICircleEdit(iActor);
+            editCircle.SetData((ICircle) selected);
+            return editCircle;
+        }
+        IPointsEdit edit = new IPointsEdit(iActor);
+        edit.SetData(selected.Get(IPoints.class).list);
+        return edit;
     }
 }

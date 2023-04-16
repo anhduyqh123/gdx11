@@ -2,6 +2,7 @@ package Tool.ObjectTool.Form;
 
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
+import GDX11.IObject.IPos;
 import GDX11.IObject.ISize;
 import GDX11.Reflect;
 import Tool.JFrame.UI;

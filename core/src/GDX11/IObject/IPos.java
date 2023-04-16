@@ -23,14 +23,14 @@ public class IPos extends IBase {
     }
     public Vector2 GetPosition()
     {
-        Actor actor = GetIActor().GetActor();
         float x0 = GetIActor().GetGlobalNum(x).floatValue();
         float y0 = GetIActor().GetGlobalNum(y).floatValue();
         Vector2 pos = new Vector2(x0,y0);
         if (coordActor.equals("")) return pos;
+        Actor actor = GetIActor().GetActor();
         if (coordActor.equals("stage")) return actor.getParent().stageToLocalCoordinates(pos);
         Actor other = GetIActor().IRootFind(coordActor).GetActor();
-        return other.localToActorCoordinates(GetIActor().GetActor().getParent(),pos);
+        return other.localToActorCoordinates(actor.getParent(),pos);
     }
     public void SetPosition(Vector2 pos)//Align always bottom Left
     {

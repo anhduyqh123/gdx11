@@ -1,6 +1,7 @@
 package Extend.IShape;
 
 import GDX11.IObject.IPos;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public class ICircle extends IShape {
@@ -8,10 +9,10 @@ public class ICircle extends IShape {
     public float radius = 100;
 
     @Override
-    protected void DrawShape() {
+    public void DrawShape(ShapeRenderer renderer) {
         pos.SetIActor(GetIActor());
         Vector2 p = pos.GetPosition();
         GetActor().localToStageCoordinates(p);
-        GetRenderer().circle(p.x, p.y, radius);
+        renderer.circle(p.x, p.y, radius);
     }
 }

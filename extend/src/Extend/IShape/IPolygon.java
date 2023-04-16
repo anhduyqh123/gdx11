@@ -4,10 +4,14 @@ import GDX11.Util;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class IPolygon extends IPoints {
-    public ShapeRenderer.ShapeType shapeType = ShapeRenderer.ShapeType.Line;
     @Override
-    protected void DrawShape() {
-        GetRenderer().set(shapeType);
-        GetRenderer().polygon(Util.GetVertices(GetStagePoints()));
+    public void DrawShape(ShapeRenderer renderer) {
+        if (shapeType== ShapeRenderer.ShapeType.Filled) DrawFillShape(renderer);
+        else renderer.polygon(Util.GetVertices(GetStagePoints()));
+    }
+    private void DrawFillShape(ShapeRenderer renderer)
+    {
+        Util.ForTriangles(GetStagePoints(),arr->
+                renderer.triangle(arr[0].x,arr[0].y,arr[1].x,arr[1].y,arr[2].x,arr[2].y));
     }
 }

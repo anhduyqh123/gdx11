@@ -52,7 +52,7 @@ public class ILabel extends IActor{
         };
     }
     @Override
-    protected void Connect() {
+    public void Connect() {
         super.Connect();
         DefaultEvent();
     }

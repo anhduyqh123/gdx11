@@ -20,15 +20,13 @@ public class IShader extends IComponent {
     protected transient Vector2 resolution = new Vector2();
     @Override
     public void Refresh() {
-        GDX.PostRunnable(this::Init);
+        GDX.PostRunnable(()->GDX.Try(this::Init));
     }
-    private void Init()
+    protected void Init()
     {
         resolution.set(GetActor().getWidth(),GetActor().getHeight());
-        GDX.Try(()->{
-            ShaderProgram.pedantic = false;
-            shader = NewShader();
-        });
+        ShaderProgram.pedantic = false;
+        shader = NewShader();
     }
     protected ShaderProgram NewShader()
     {

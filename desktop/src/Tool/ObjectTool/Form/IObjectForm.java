@@ -55,9 +55,9 @@ public class IObjectForm {
         UI.Button(cloneButton,gTree::Clone);
         UI.Button(saveButton,this::Save);
         UI.Button(btRefresh,()->{
-            iActor.Dispose();
-            iActor.SetIParent(iActor.GetIParent());
+            iActor.iParam.Dispose();//reset param
             iActor.SetActor(null);
+            iActor.Connect();
             iActor.Refresh();
             onSelectIActor.Run(iActor);
         });

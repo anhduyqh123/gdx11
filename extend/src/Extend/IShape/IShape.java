@@ -1,6 +1,5 @@
 package Extend.IShape;
 
-import GDX11.GDX;
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.IObject.IPos;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,32 +8,33 @@ import com.badlogic.gdx.math.Vector2;
 
 public abstract class IShape extends IComponent {//all position is local of Actor
     public ShapeRenderer.ShapeType shapeType = ShapeRenderer.ShapeType.Line;
-    private GDX.Func<ShapeRenderer> getRenderer;
+    protected transient ShapeRenderer renderer;
 
-    public ShapeRenderer GetRenderer()
-    {
-        if (getRenderer==null) Install();
-        return getRenderer.Run();
-    }
     private void Install()
     {
-        ShapeRenderer renderer = new ShapeRenderer();
+        renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
-        getRenderer = ()->renderer;
+    }
+    public void Init()
+    {
+
     }
 
     @Override
     public void Draw(Batch batch, float parentAlpha, Runnable superDraw) {
-        GetRenderer().setProjectionMatrix(batch.getProjectionMatrix());
-        GetRenderer().setColor(GetActor().getColor());
-        batch.end();
-        GetRenderer().begin();
-        GetRenderer().set(shapeType);
-        DrawShape();
-        GetRenderer().end();
-        batch.begin();
+        Draw(batch, parentAlpha);
     }
-    protected abstract void DrawShape();
+    public void Draw(Batch batch, float parentAlpha)
+    {
+        if (renderer==null) Install();
+        renderer.setProjectionMatrix(batch.getProjectionMatrix());
+        renderer.setColor(GetActor().getColor());
+        renderer.begin();
+        renderer.set(shapeType);
+        DrawShape(renderer);
+        renderer.end();
+    }
+    public abstract void DrawShape(ShapeRenderer renderer);
 
     protected Vector2 GetStagePos(Vector2 pos)
     {

@@ -4,8 +4,6 @@ import GDX11.Asset;
 import GDX11.IObject.IAction.IAction;
 import GDX11.IObject.IActor.IImage;
 import GDX11.Util;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -52,7 +50,6 @@ public class IExtend extends IAction {
             IImage iImage = GetIActor();
             texture = Asset.i.GetTexture(iImage.texture);
         }
-        texture.getTexture().bind(unit);
-        Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
+        Util.Bind(texture.getTexture(),unit);
     }
 }

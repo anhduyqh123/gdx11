@@ -47,7 +47,7 @@ public class IImage extends IActor{
     }
 
     @Override
-    protected void Connect() {
+    public void Connect() {
         super.Connect();
 //        iEvent.SetFunc("dw",()->(float)GetTexture().getRegionWidth());//width of texture
 //        iEvent.SetFunc("dh",()->(float)GetTexture().getRegionHeight());//height of texture

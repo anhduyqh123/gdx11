@@ -6,7 +6,7 @@ uniform vec2 resolution;
 uniform sampler2D u_texture; //default GL_TEXTURE0, expected by SpriteBatch
 uniform sampler2D i_mask;
 
-uniform vec4 v4_mask;
+uniform vec4 v4_mask;//bound mask (x,y,w,h) x,y in u_texture
 
 vec2 GetPoint()
 {

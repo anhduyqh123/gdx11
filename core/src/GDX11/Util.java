@@ -1,11 +1,13 @@
 package GDX11;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
@@ -75,6 +77,20 @@ public class Util {
             vert[i*2+1] = list.get(i).y;
         });
         return vert;
+    }
+    public static short[] GetTriangles(float[] vert)
+    {
+        EarClippingTriangulator triangulate = new EarClippingTriangulator();
+        return triangulate.computeTriangles(vert).toArray();
+    }
+    public static void ForTriangles(List<Vector2> points, GDX.Runnable1<Vector2[]> cb)
+    {
+        short[] tri = GetTriangles(GetVertices(points));
+        for (int i=0;i<tri.length;i+=3)
+        {
+            Vector2[] arr = {points.get(tri[i]),points.get(tri[i+1]),points.get(tri[i+2])};
+            cb.Run(arr);
+        }
     }
     //for
     public static void Repeat(int count, GDX.Runnable cb)
@@ -149,24 +165,27 @@ public class Util {
         }
         return str;
     }
-
-    //FrameBuffer
-    public static FrameBuffer GetFrameBuffer(Runnable draw)
+    //Bind
+    public static void Bind(Texture texture, int unit)
     {
-        FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Scene.i.width, Scene.i.height, false);
-        fbo.begin();
-        draw.run();
-        fbo.end();
-        return fbo;
+        texture.bind(unit);
+        Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
     }
+    public static void Bind(String name,int unit)
+    {
+        Bind(Asset.i.GetTexture(name).getTexture(),unit);
+    }
+    //FrameBuffer
     private static Texture GetFrameBuffer(Actor actor)
     {
         Batch batch = Scene.i.GetStage().getBatch();
-        return GetFrameBuffer(()->{
-            batch.begin();
-            actor.draw(batch,1);
-            batch.end();
-        }).getColorBufferTexture();
+        FrameBuffer fbo = new FrameBuffer(Pixmap.Format.RGBA8888, Scene.i.width, Scene.i.height, false);
+        fbo.begin();
+        batch.begin();
+        actor.draw(batch,1);
+        batch.end();
+        fbo.end();
+        return fbo.getColorBufferTexture();
     }
     public static TextureRegion GetTextureRegion(Actor actor)
     {
