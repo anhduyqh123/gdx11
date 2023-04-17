@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GenerateAsset {
     private String path = Path.of("").toAbsolutePath().getParent().toString();
-    private FileHandle rootDir = new FileHandle(path+"/assets");
+    private FileHandle rootDir = new FileHandle(Path.of("").toAbsolutePath().toString());
     private FileHandle androidDir = new FileHandle(path+"/android/assets");
     private List<Runnable> process = new ArrayList<>();
     private List<Runnable> tinyProcess = new ArrayList<>();

@@ -1,23 +1,26 @@
 package Extend;
 
+import GDX11.Asset;
+import GDX11.GDX;
+import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IImage;
+import GDX11.IObject.IComponent.IComponent;
 import GDX11.IObject.IComponent.IShader;
 import GDX11.Util;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class IMask extends IShader {
     private final transient List<Actor> maskedActors = new ArrayList<>();
     private final transient List<Actor> actors = new ArrayList<>();
-    private final transient Map<Actor, ShaderProgram> map = new HashMap<>();
     private transient IImage mask;
 
     public IMask()
@@ -28,7 +31,10 @@ public class IMask extends IShader {
     @Override
     protected void Init() {
         InitMaskGroup();
-        InitTextureMode();
+        ShaderProgram.pedantic = false;
+        Util.Bind(mask.texture,1);
+        Util.For(maskedActors, this::InitMaskActor);
+        shader = NewShader();
     }
     protected void InitMaskGroup()
     {
@@ -45,52 +51,49 @@ public class IMask extends IShader {
             else actors.add(a.GetActor());
         });
     }
-
-    @Override
-    public void Draw(Batch batch, float parentAlpha, Runnable superDraw) {
-        if (mask==null){
-            superDraw.run();
+    private void InitMaskActor(Actor actor)
+    {
+        if (actor instanceof Group)
+        {
+            for (Actor a : ((Group) actor).getChildren())
+                InitMaskActor(a);
             return;
         }
-        DrawTextureMode(batch,parentAlpha,superDraw);
+        IActor iActor = IActor.GetIActor(actor);
+        iActor.iComponents.Add("draw",new IComponent(){
+            @Override
+            public void Draw(Batch batch, float parentAlpha, Runnable superDraw) {
+                if (mask==null || !IMask.this.active) superDraw.run();
+                else
+                    DrawMaskActor(actor,batch,parentAlpha,superDraw);
+            }
+        });
     }
 
     @Override
     protected void DefaultUniform() {
-        shader.setUniformi("i_mask", 1);
+        TextureRegion trMask = Asset.i.GetTexture(mask.texture);
+        shader.setUniformf("region_mask",trMask.getU(),trMask.getV(),trMask.getU2(),trMask.getV2());
+        shader.setUniformi("u_mask", 1);
     }
-
-    private void DrawChildren(List<Actor> list,Batch batch,float parentAlpha)
+    private void DrawMaskActor(Actor a,Batch batch,float parentAlpha,Runnable superDraw)
     {
-        Util.For(list,a->{
-            if (a.isVisible()) a.draw(batch, parentAlpha);
-        });
-    }
+        batch.setShader(shader);
+        shader.bind();
 
-    private void InitTextureMode()
-    {
-        ShaderProgram.pedantic = false;
-        Util.Bind(mask.texture,1);
-        Util.For(maskedActors,a-> map.put(a,NewShader()));
-    }
-    private void DrawTextureMode(Batch batch, float parentAlpha, Runnable superDraw)
-    {
-        Util.For(maskedActors,a->{
-            shader = map.get(a);
-            batch.setShader(shader);
-            shader.bind();
-            DefaultUniform();
-            UpdateUniform();
+        DefaultUniform();
+        UpdateUniform();
 
-            Vector2 pos = new Vector2();
-            Actor maskActor = mask.GetActor();
-            maskActor.localToActorCoordinates(a,pos);
-            shader.setUniformf("resolution", new Vector2(a.getWidth(),a.getHeight()));
-            shader.setUniformf("v4_mask", pos.x,pos.y,maskActor.getWidth(),maskActor.getHeight());
+        Vector2 pos = new Vector2();
+        Actor maskActor = mask.GetActor();
+        maskActor.localToActorCoordinates(a,pos);
+        shader.setUniformf("resolution", new Vector2(a.getWidth(),a.getHeight()));
+        shader.setUniformf("bound_mask", pos.x,pos.y,maskActor.getWidth(),maskActor.getHeight());
+        IImage iImage = IActor.GetIActor(a);
+        TextureRegion tr = Asset.i.GetTexture(iImage.texture);
+        shader.setUniformf("region_txt",tr.getU(),tr.getV(),tr.getU2(),tr.getV2());
 
-            if (a.isVisible()) a.draw(batch, parentAlpha);
-            batch.setShader(null);
-        });
-        DrawChildren(actors,batch,parentAlpha);
+        superDraw.run();
+        batch.setShader(null);
     }
 }

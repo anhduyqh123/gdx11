@@ -170,8 +170,6 @@ public class IActor extends IObject {
         actor.setTouchable(touchable);
         actor.setVisible(visible);
         InitParam0();
-
-        //Reflect.AddEvent(this,"base",vl->actor.setColor(GetColor()));
     }
     private final static List<String> eventNames = Arrays.asList("enter","exit","clicked");
     private boolean ContainsEvent()
@@ -209,18 +207,6 @@ public class IActor extends IObject {
         iParam.Set("x0",GetActor().getX());
         iParam.Set("y0",GetActor().getY());
     }
-//    protected  <T> T GetParam(String st)
-//    {
-//        //if (iEvent.HasFunc(st)) return (T) iEvent.GetFunc(st).Run();
-//        return (T)iParam.GetValueFromString(st);
-//    }
-//    public <T> T GetParam(String st,T value0)
-//    {
-//        if (Config.Has(st)) return Config.Get(st,value0);
-//        Number num = GetParam(st);
-//        if (value0 instanceof Integer) return (T)Integer.valueOf(num.intValue());
-//        return (T)Float.valueOf(num.floatValue());
-//    }
     public Number GetGlobalNum(String name)
     {
         if (Config.Has(name)) return Config.Get(name);

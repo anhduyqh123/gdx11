@@ -19,14 +19,12 @@ public class DesktopLauncher {
 		config.width = 720;
 		config.height = 1280;
 
-//		String path = Path.of("").toAbsolutePath().getParent().toString();
+		String path = Path.of("").toAbsolutePath().toString();
 //		FileHandle rootDir = new FileHandle(path+"/assets");
 //		FileHandle androidDir = new FileHandle(path+"/android/assets");
 //		androidDir.child("first").deleteDirectory();
 		//System.out.print(Path.of("").toAbsolutePath().getParent().toString());
-		List<String> list = new ArrayList<>(Arrays.asList("0","1","2"));
-		list.set(1,"x");
-		System.out.println(list);
+		System.out.println(path);
 
 		new LwjglApplication(new MyGdxGame(), config);
 	}

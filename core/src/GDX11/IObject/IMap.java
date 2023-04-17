@@ -17,6 +17,12 @@ public class IMap<T extends IObject> implements Json.JsonObject {
     public GDX.Runnable1<T> onAdd,onRemove;
     private GDX.Func<Map<String, T>> getMap;
 
+    public IMap(){}
+    public IMap(IMap iMap)
+    {
+        list.addAll(iMap.list);
+    }
+
     public Map<String, T> GetMap()
     {
         if (getMap==null) Install();

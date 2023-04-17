@@ -56,6 +56,7 @@ public class IObjectForm {
         UI.Button(saveButton,this::Save);
         UI.Button(btRefresh,()->{
             iActor.iParam.Dispose();//reset param
+            iActor.GetActor().remove();
             iActor.SetActor(null);
             iActor.Connect();
             iActor.Refresh();

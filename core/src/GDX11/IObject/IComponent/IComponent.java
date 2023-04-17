@@ -28,10 +28,4 @@ public class IComponent extends IObject {
     {
 
     }
-
-    //
-    public <T extends IComponent> T GetIComponent(String name)
-    {
-        return (T)GetIMap().Get(name);
-    }
 }
