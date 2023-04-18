@@ -99,7 +99,7 @@ public class IPointsEdit extends Group {
     }
     private void AddNewPoint(IPos iPos1,IPos iPos2)
     {
-        Vector2 mid = Util.GetMidPosition(iPos1.GetPosition(),iPos2.GetPosition());
+        Vector2 mid = Util.GetMidPos(iPos1.GetPosition(),iPos2.GetPosition());
         IPos newIPos = Reflect.Clone(iPos1);
         newIPos.SetPosition(mid);
         NewPoint(newIPos);

@@ -15,6 +15,10 @@ public abstract class SDK implements IZen {
         Config.getRemote = i::GetConfigString;
         Config.Set("installationID",i.GetInstallationID());
     }
+    public static void SetDesktopSDK()
+    {
+        SetSDK(i);
+    }
 
     @Override
     public String GetInstallationID() {

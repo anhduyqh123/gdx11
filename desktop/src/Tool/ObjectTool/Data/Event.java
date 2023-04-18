@@ -48,7 +48,7 @@ public class Event {
             @Override
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 Vector2 p = new Vector2(Gdx.input.getX(),Gdx.input.getY());
-                Vector2 dir = Util.GetDirect(p,pos0);
+                Vector2 dir = p.sub(pos0);
                 float len = dir.len()*camera.zoom*1.5f;
                 dir.setLength(len);
                 Vector2 cPos = new Vector2(camPos).add(dir.x,-dir.y);

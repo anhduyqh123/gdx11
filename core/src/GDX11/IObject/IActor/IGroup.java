@@ -113,6 +113,10 @@ public class IGroup extends IActor implements IFind {
     {
         return (T)iMap.Get(name);
     }
+    public <T extends IActor> T GetIActor(int index)
+    {
+        return (T)iMap.Get(index);
+    }
 
     public void ForIChild(GDX.Runnable1<IActor> cb)
     {

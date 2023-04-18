@@ -20,47 +20,19 @@ import java.util.List;
 import java.util.Map;
 
 public class Util {
+    //Scale
+    public static float GetFitScale(Actor actor,Actor parent)
+    {
+        float scaleX = parent.getWidth()/actor.getWidth();
+        float scaleY = parent.getHeight()/actor.getHeight();
+        return Math.min(scaleX,scaleY);
+    }
     //vector
-    public static float GetAngle(Vector2 p1, Vector2 p2, Vector2 p3)
+    public static Vector2 GetMidPos(Vector2 pos1,Vector2 pos2)
     {
-        Vector2 dir1 = GetDirect(p2,p1);
-        Vector2 dir2 = GetDirect(p2,p3);
-        return dir1.angleDeg(dir2);
-    }
-    public static Vector2 GetMidPosition(Vector2 pos1, Vector2 pos2)
-    {
-        Vector2 pos = new Vector2(pos1);
-        pos.add(pos2);
-        return pos.scl(0.5f);
-    }
-    public static Vector2 GetDirect(Vector2 pos1, Vector2 pos2)
-    {
-        Vector2 pos = new Vector2(pos2);
-        return pos.sub(pos1);
-    }
-    public static float GetDistance(Vector2 pos1, Vector2 pos2)
-    {
-        return GetDirect(pos1,pos2).len();
-    }
-    public static float GetDistance(Vector2 pos,Vector2 p1, Vector2 p2)//p1,p2 is points of line
-    {
-        float a = GetDistance(p1,p2);
-        float b = GetDistance(p1,pos);
-        float c = GetDistance(pos,p2);
-        float p = (a+b+c)/2;
-        return 2*((float)Math.sqrt(p*(p-a)*(p-b)*(p-c))/a);
-    }
-    public static Vector2 GetNormalPos(Vector2 pos1, Vector2 pos2, float percent)
-    {
-        Vector2 dir = new Vector2(pos1);
-        dir.sub(pos2);
-        float l = dir.len()/2;
-        if (percent>0) dir.set(-dir.y,dir.x);
-        else dir.set(dir.y,-dir.x);
         Vector2 mid = new Vector2(pos1);
         mid.add(pos2);
         mid.scl(0.5f);
-        mid.add(dir.setLength(l*Math.abs(percent)));
         return mid;
     }
     public static void Int(Vector2 v)

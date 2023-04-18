@@ -3,6 +3,7 @@ package GDX11.IObject.IActor;
 import GDX11.GDX;
 import GDX11.IObject.IParam;
 import GDX11.Util;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -32,7 +33,7 @@ public class ITable extends IGroup{
     @Override
     protected void RefreshCore() {
         super.RefreshCore();
-        if (clone>0) CloneChild(clone);
+        if (clone>0) FillChildrenByClone(clone);
         else FillChildren(iMap.GetObjects());
     }
 
@@ -53,8 +54,9 @@ public class ITable extends IGroup{
     {
         return GetActor();
     }
-    private void CloneChild(int clone)
+    private void FillChildrenByClone(int clone)
     {
+        iMap.Get(0).Refresh();
         List<IActor> list = new ArrayList<>();
         Util.Repeat(clone,()-> list.add(Clone(0)));
         FillChildren(list);
@@ -125,4 +127,24 @@ public class ITable extends IGroup{
         return iActor;
     }
 
+    //util
+    public <T extends IActor> T Get(int x,int y)//origin of bottomLeft
+    {
+        int row = GetTable().getChildren().size/column;
+        int index = (row-1-y)*column+x;
+        Actor actor = GetTable().getChild(index);
+        return IActor.GetIActor(actor);
+    }
+    public <T extends IActor> T Get(Vector2 cell)//origin of bottomLeft
+    {
+        return Get((int)cell.x,(int)cell.y);
+    }
+    public Vector2 GetCell(Actor actor)
+    {
+        int row = GetTable().getChildren().size/column;
+        int index= actor.getZIndex();
+        int x = index%column;
+        int y = index/column;
+        return new Vector2(x,row-1-y);
+    }
 }
