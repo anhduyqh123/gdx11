@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.Puzzle.Form.BoardForm">
+  <grid id="27dc6" binding="panel1" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+    <constraints>
+      <xy x="20" y="20" width="653" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <scrollpane id="38a13">
+        <constraints/>
+        <properties>
+          <preferredSize width="100" height="400"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="f6e84" class="javax.swing.JTree" binding="tree1" default-binding="true">
+            <constraints/>
+            <properties>
+              <editable value="true"/>
+              <rootVisible value="false"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <grid id="be930" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints/>
+        <properties>
+          <minimumSize width="50" height="40"/>
+          <preferredSize width="100" height="400"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="bc121" class="javax.swing.JButton" binding="btNew">
+            <constraints/>
+            <properties>
+              <text value="New"/>
+            </properties>
+          </component>
+          <component id="9a41c" class="javax.swing.JButton" binding="btDelete">
+            <constraints/>
+            <properties>
+              <text value="Delete"/>
+            </properties>
+          </component>
+          <component id="1ab52" class="javax.swing.JButton" binding="btClone">
+            <constraints/>
+            <properties>
+              <text value="Clone"/>
+            </properties>
+          </component>
+          <component id="dfbf" class="javax.swing.JButton" binding="saveButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Save"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="caf7e" binding="pnInfo" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints/>
+        <properties>
+          <preferredSize width="200" height="400"/>
+        </properties>
+        <border type="none" title="info"/>
+        <children>
+          <component id="8675c" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="width"/>
+            </properties>
+          </component>
+          <component id="aeb12" class="javax.swing.JTextField" binding="tfWidth">
+            <constraints/>
+            <properties>
+              <preferredSize width="50" height="30"/>
+            </properties>
+          </component>
+          <component id="acdce" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <requestFocusEnabled value="true"/>
+              <text value="height"/>
+            </properties>
+          </component>
+          <component id="6ebc6" class="javax.swing.JTextField" binding="tfHeight">
+            <constraints/>
+            <properties>
+              <preferredSize width="50" height="30"/>
+            </properties>
+          </component>
+          <component id="24b09" class="javax.swing.JButton" binding="createButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="30"/>
+              <text value="Create"/>
+            </properties>
+          </component>
+          <grid id="c55a9" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints/>
+            <properties>
+              <preferredSize width="180" height="210"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <scrollpane id="8de71">
+                <constraints/>
+                <properties>
+                  <preferredSize width="80" height="200"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="94c30" class="javax.swing.JTree" binding="shapeTree">
+                    <constraints/>
+                    <properties>
+                      <editable value="true"/>
+                      <rootVisible value="false"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+              <grid id="1e43b" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints/>
+                <properties>
+                  <preferredSize width="80" height="150"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="49771" class="javax.swing.JButton" binding="sNew">
+                    <constraints/>
+                    <properties>
+                      <text value="New"/>
+                    </properties>
+                  </component>
+                  <component id="2bcdd" class="javax.swing.JButton" binding="sDelete">
+                    <constraints/>
+                    <properties>
+                      <text value="Delete"/>
+                    </properties>
+                  </component>
+                  <component id="2fe16" class="javax.swing.JButton" binding="sClone">
+                    <constraints/>
+                    <properties>
+                      <text value="Clone"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
+          </grid>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

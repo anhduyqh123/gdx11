@@ -39,9 +39,6 @@ public class GTree<T extends IObject> {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar()=='n') NewObject();//n
-//                if (e.getKeyChar()=='s') Select();//s
-//                if (e.getKeyChar()=='p') Paste();//p
-//                if (e.getKeyChar()=='m') MoveTo();//m
                 if (e.getKeyChar()=='1') Move(-1);
                 if (e.getKeyChar()=='2') Move(1);
                 if (e.getKeyChar()==KeyEvent.VK_BACK_SPACE) Delete();

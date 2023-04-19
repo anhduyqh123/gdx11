@@ -10,10 +10,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.utils.JsonWriter;
-
-import java.util.Collection;
-import java.util.List;
 
 public class MyGame extends GDXGame {
     public static Color bg = Color.BLACK;
@@ -39,9 +35,6 @@ public class MyGame extends GDXGame {
         Event.InitControlCamera();
         Event.DebugBorder();
         Event.InitDrag();
-    }
-    protected Collection<String> GetFirstPacks() {
-        return asset.data.GetKeys();
     }
 
     @Override

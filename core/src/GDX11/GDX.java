@@ -94,6 +94,10 @@ public class GDX {
     {
         Gdx.app.error("error",log+"");
     }
+    public static void Exit()
+    {
+        GDX.PostRunnable(()->Gdx.app.exit());
+    }
     //PostRunnable
     public static void PostRunnable(java.lang.Runnable runnable)
     {

@@ -111,7 +111,7 @@ public class ITable extends IGroup{
         if (childWidth!=0) cell.width(childWidth);
         if (childHeight!=0) cell.height(childHeight);
     }
-    private void ForActor(GDX.Runnable1<Actor> cb)
+    public void ForActor(GDX.Runnable1<Actor> cb)
     {
         for (Actor actor : GetTable().getChildren())
             cb.Run(actor);

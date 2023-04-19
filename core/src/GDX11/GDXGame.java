@@ -55,6 +55,7 @@ public class GDXGame extends ApplicationAdapter {
         scene.GetStage().addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                Config.Set("button",button);
                 if (x>100 || y>100) return false;
                 ref.Set(System.currentTimeMillis());
                 return true;
@@ -63,7 +64,7 @@ public class GDXGame extends ApplicationAdapter {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 long left = System.currentTimeMillis() - ref.Get();
-                if (left>13000) ShowInfo();
+                if (left>3000) ShowInfo();
             }
         });
     }
@@ -91,9 +92,8 @@ public class GDXGame extends ApplicationAdapter {
         asset.SetData(GetGameData());
         asset.LoadPackages(()-> FirstLoad(), GetFirstPacks().toArray(new String[0]));//load first package
     }
-    protected Collection<String> GetFirstPacks()
-    {
-        return Arrays.asList("first");
+    protected Collection<String> GetFirstPacks() {
+        return asset.data.GetKeys();
     }
     protected void FirstLoad()
     {

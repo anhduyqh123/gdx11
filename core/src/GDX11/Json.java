@@ -88,6 +88,11 @@ public class Json {
         }
         return json;
     }
+    public static <T> T ToObjectFomKey(String name,Class<T> type)
+    {
+        String stData = GDX.GetStringByKey(name);
+        return Json.ToObject(Json.StringToJson(stData),type);
+    }
     public static <T> T ToObject(String data)
     {
         return ToObject(StringToJson(data));
@@ -159,6 +164,6 @@ public class Json {
     public interface JsonObject
     {
         JsonValue ToJson(Object object0);
-        Object ToObject(JsonValue js);
+        <T> T ToObject(JsonValue js);
     }
 }

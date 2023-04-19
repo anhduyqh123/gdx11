@@ -7,10 +7,7 @@ import GDX11.IObject.IObject;
 import GDX11.Util;
 import JigsawWood.Model.Shape;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.Align;
 
 public class VShape extends Group {
@@ -48,7 +45,7 @@ public class VShape extends Group {
     private void RefreshShape()
     {
         ITable table = iGroup.FindITable("table");
-        shape.For(p-> table.Get(p).GetActor().setVisible(shape.Get(p)));
+        shape.For(p-> table.Get(p).GetActor().setVisible(shape.HasValue(p)));
     }
     public Actor GetBlockView(Vector2 pos)
     {

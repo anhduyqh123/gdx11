@@ -1,22 +1,21 @@
 package Tool.Puzzle.Core;
 
 import GDX11.Config;
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
 import GDX11.IObject.IObject;
 import GDX11.Scene;
-import JigsawWood.Model.Shape;
-import com.badlogic.gdx.Gdx;
+import JigsawWood.Model.Board;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
 
-public class PuzzleShapeEditor {
-    public PuzzleShapeEditor(Shape shape)
+public class BoardEditor {
+
+    public BoardEditor(Board shape)
     {
         Scene.i.ui.clearChildren();
         IGroup iGroup = IObject.Get("ShapeEdit").Clone();

@@ -351,7 +351,7 @@ public class UI {
         });
         return frame;
     }
-    private static JFrame NewJFrame(String name,JComponent content)
+    public static JFrame NewJFrame(String name,JComponent content)
     {
         JFrame frame = NewJFrame(name);
         frame.add(content);

@@ -10,7 +10,7 @@
       <scrollpane id="cdf34">
         <constraints/>
         <properties>
-          <preferredSize width="100" height="300"/>
+          <preferredSize width="100" height="400"/>
         </properties>
         <border type="none"/>
         <children>
@@ -27,7 +27,7 @@
         <constraints/>
         <properties>
           <minimumSize width="50" height="40"/>
-          <preferredSize width="100" height="300"/>
+          <preferredSize width="100" height="400"/>
         </properties>
         <border type="none"/>
         <children>
@@ -49,12 +49,18 @@
               <text value="Clone"/>
             </properties>
           </component>
+          <component id="f89ea" class="javax.swing.JButton" binding="saveButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Save"/>
+            </properties>
+          </component>
         </children>
       </grid>
       <grid id="e89a6" binding="pnInfo" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints/>
         <properties>
-          <preferredSize width="100" height="300"/>
+          <preferredSize width="200" height="400"/>
         </properties>
         <border type="none" title="info"/>
         <children>
@@ -81,6 +87,13 @@
             <constraints/>
             <properties>
               <preferredSize width="50" height="30"/>
+            </properties>
+          </component>
+          <component id="ed898" class="javax.swing.JButton" binding="createButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="30"/>
+              <text value="Create"/>
             </properties>
           </component>
         </children>

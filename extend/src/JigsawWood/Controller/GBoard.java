@@ -2,9 +2,11 @@ package JigsawWood.Controller;
 
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
+import GDX11.Json;
 import GDX11.Scene;
 import GDX11.Util;
-import JigsawWood.Model.Board;
+import JigsawWood.Model.SudoBoard;
+import JigsawWood.Model.PuzzleShape;
 import JigsawWood.Model.Shape;
 import JigsawWood.View.VShape;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +20,8 @@ import java.util.Map;
 
 public class GBoard {
     private IGroup game;
-    private Board board = new Board(9,9);
+    private SudoBoard board = new SudoBoard(9,9);
+    private PuzzleShape shapeData = Json.ToObjectFomKey("puzzleShape",PuzzleShape.class);
     private Map<Shape, VShape> map = new HashMap<>();
     private Map<Vector2,Actor> blockMap = new HashMap<>();
     private final List<Vector2> highlightPos = new ArrayList<>();
@@ -39,7 +42,7 @@ public class GBoard {
     }
     private void NewShape(IGroup slot)//footer
     {
-        Shape shape = Shape.NewShape2();
+        Shape shape = shapeData.GetRandomShape();
         VShape vShape = new VShape(shape,slot.GetActor());
         vShape.onClick = ()->dragShape = shape;
         map.put(shape,vShape);

@@ -111,7 +111,6 @@ public class IComponentForm {
         if (pointsEdit!=null) pointsEdit.remove();
         if (selected instanceof IShape)
         {
-            GDX.Log("123");
             pointsEdit = NewPointEdit();
             pointsEdit.onDataChange = ()->OnSelect(selected);
         }
