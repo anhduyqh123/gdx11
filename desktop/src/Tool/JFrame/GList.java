@@ -4,6 +4,7 @@ import GDX11.GDX;
 import GDX11.Util;
 
 import javax.swing.*;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
@@ -14,12 +15,12 @@ import java.util.List;
 import java.util.Map;
 
 public class GList {
-
+    private static TreeSelectionListener selectionListener;
     private JTree tree;
     private Map<TreeNode, String> map = new HashMap<>();
     private Map<String, TreeNode> map0 = new HashMap<>();
     //event
-    public GDX.Func<List<String>> getData;
+    protected GDX.Func<List<String>> getData;
     public GDX.Runnable1<String> onSelect, deleteID;
     public GDX.Func<String> newID, cloneID;
 
@@ -32,12 +33,18 @@ public class GList {
     {
         this.tree = tree;
         this.getData = getData;
-        tree.addTreeSelectionListener(e->{
+
+        tree.removeTreeSelectionListener(selectionListener);
+        selectionListener = e->{
             DefaultMutableTreeNode node = GetSelectedNode();
             if (node==null || node.isRoot()) return;
             onSelect.Run(GetID(node));
-        });
+        };
+        tree.addTreeSelectionListener(selectionListener);
+
         Refresh();
+        List<String> list = getData.Run();
+        if (list.size()>0) SetSelection(list.get(0));
     }
     private DefaultMutableTreeNode NewNode(String id)
     {

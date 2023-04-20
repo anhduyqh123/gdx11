@@ -24,7 +24,6 @@ public class JObList<T> extends GList{
     public void Init(JTree tree,List<T> list)
     {
         this.list = list;
-        Init(tree, this::GetData);
         onSelect = id->onSelectObject.Run(GetObject(id));
         newID = ()->{
             String name = "i"+list.size();
@@ -38,7 +37,7 @@ public class JObList<T> extends GList{
             return name;
         };
         deleteID = n-> list.remove(GetSelectedObject());
-        if (list.size()>0) SetSelection("i0");
+        Init(tree, this::GetData);
     }
 
     private List<String> GetData()

@@ -7,12 +7,16 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 public class Shape implements Json.JsonObject {
     public int width=4,height=4;
     protected int[][] grid = new int[width][height];
-    //0 is null
-    //1 is empty
-    //2 is value
+    //-1 is null
+    //0 is empty
+    //1 is value
     public Shape(){
         Create();
     }
@@ -32,7 +36,7 @@ public class Shape implements Json.JsonObject {
     public void Create()
     {
         grid = new int[width][height];
-        For(p->Set(p,1));
+        For(p->Set(p,0));
     }
     public boolean ForIf(GDX.Func1<Boolean,Vector2> cb)//cb true ->return
     {
@@ -51,13 +55,13 @@ public class Shape implements Json.JsonObject {
     public void ForTrue(GDX.Runnable1<Vector2> cb)
     {
         For(p->{
-            if (Get(p)==2) cb.Run(p);
+            if (Get(p)==1) cb.Run(p);
         });
     }
     public void ForBlock(GDX.Runnable1<Vector2> cb)
     {
         For(p->{
-            if (Get(p)>0) cb.Run(p);
+            if (Get(p)>=0) cb.Run(p);
         });
     }
     public boolean Valid(Vector2 pos)
@@ -82,15 +86,18 @@ public class Shape implements Json.JsonObject {
     }
     public boolean HasValue(int x,int y)
     {
-        return Get(x,y)>1;
+        return Get(x,y)>=1;
     }
     public boolean HasValue(Vector2 pos)
     {
-        return Get(pos)>1;
+        return Get(pos)>=1;
     }
     public boolean Empty(Vector2 pos)
     {
-        return Get(pos)==1;
+        return Get(pos)==0;
+    }
+    public boolean Null(Vector2 pos){
+        return Get(pos)==-1;
     }
     public String ToString()//width:height:data
     {
@@ -100,13 +107,14 @@ public class Shape implements Json.JsonObject {
     {
         String st = "";
         for (int j=0;j<height;j++)
-            for (int i=0;i<width;i++) st=st+Get(i,j);
-        return st;
+            for (int i=0;i<width;i++) st=st+Get(i,j)+",";
+        return st.substring(0,st.length()-1);
     }
     private void SetData(String data)
     {
-        for (int i=0;i<data.length();i++)
-            Set(i,data.charAt(i)-'0');
+        String[] arr = data.split(",");
+        for (int i=0;i<arr.length;i++)
+            Set(i,Integer.parseInt(arr[i]));
     }
     @Override
     public JsonValue ToJson(Object object0) {
@@ -139,5 +147,13 @@ public class Shape implements Json.JsonObject {
     private Vector2 RotateRight(Vector2 pos)
     {
         return new Vector2(height-1-pos.y,pos.x);
+    }
+    public List<String> GetShapeIDs()
+    {
+        HashSet<String> set = new HashSet<>();
+        For(p->{
+            if (Get(p)>0) set.add(Get(p)+"");
+        });
+        return new ArrayList<>(set);
     }
 }

@@ -1,6 +1,5 @@
 package Tool.Puzzle.Form;
 
-import JigsawWood.Screen.GameScreen;
 import SDK.SDK;
 import Tool.Puzzle.Core.MyGame;
 import com.badlogic.gdx.backends.lwjgl.LwjglCanvas;
@@ -11,7 +10,6 @@ public class MainForm {
     public JPanel panel1;
     private JTabbedPane tabbedPane;
     private JPanel pnGame;
-
     public MainForm()
     {
         LoadGame();

@@ -20,8 +20,7 @@ public class ITextField extends ILabel {
 
     }
     @Override
-    protected void Clear() {
-        //Text Field has Input Event
+    protected void Clear() {//don't clear event listener, because of textField input listener
     }
 
     @Override

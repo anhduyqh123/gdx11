@@ -21,10 +21,10 @@ import java.util.Map;
 
 public class Util {
     //Scale
-    public static float GetFitScale(Actor actor,Actor parent)
+    public static float GetFitScale(Actor actor,Actor fitActor)
     {
-        float scaleX = parent.getWidth()/actor.getWidth();
-        float scaleY = parent.getHeight()/actor.getHeight();
+        float scaleX = fitActor.getWidth()/actor.getWidth();
+        float scaleY = fitActor.getHeight()/actor.getHeight();
         return Math.min(scaleX,scaleY);
     }
     //vector
@@ -52,8 +52,7 @@ public class Util {
     }
     public static short[] GetTriangles(float[] vert)
     {
-        EarClippingTriangulator triangulate = new EarClippingTriangulator();
-        return triangulate.computeTriangles(vert).toArray();
+        return new EarClippingTriangulator().computeTriangles(vert).toArray();
     }
     public static void ForTriangles(List<Vector2> points, GDX.Runnable1<Vector2[]> cb)
     {

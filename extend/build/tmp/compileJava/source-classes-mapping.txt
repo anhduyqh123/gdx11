@@ -48,19 +48,18 @@ Extend/IExtend.java
  Extend.IExtend
  Extend.IExtend$1
  Extend.IExtend$Type
-JigsawWood/Model/Shape.java
- JigsawWood.Model.Shape
+JigsawWood/JigsawWood.java
+ JigsawWood.JigsawWood
 Extend/IMask.java
  Extend.IMask
  Extend.IMask$1
-JigsawWood/Model/PuzzleShape.java
- JigsawWood.Model.PuzzleShape
+Extend/IShapeMask.java
+ Extend.IShapeMask
 Extend/Spine/IAnimation.java
  Extend.Spine.IAnimation
  Extend.Spine.IAnimation$AniAction
-JigsawWood/View/VShape.java
- JigsawWood.View.VShape
- JigsawWood.View.VShape$1
+JigsawWood/Screen/GameScreen.java
+ JigsawWood.Screen.GameScreen
 Extend/IShape/IPolygon.java
  Extend.IShape.IPolygon
 Extend/AI/ITest.java
@@ -70,10 +69,6 @@ Extend/IPutEvent.java
  Extend.IPutEvent$Type
 Extend/IShape/IPoints.java
  Extend.IShape.IPoints
-JigsawWood/Screen/GameScreen.java
- JigsawWood.Screen.GameScreen
-Extend/IShapeMask.java
- Extend.IShapeMask
 JigsawWood/Controller/GBoard.java
  JigsawWood.Controller.GBoard
  JigsawWood.Controller.GBoard$1
@@ -83,5 +78,10 @@ JigsawWood/Model/SudoBoard.java
  JigsawWood.Model.SudoBoard
 JigsawWood/Model/Board.java
  JigsawWood.Model.Board
-JigsawWood/JigsawWood.java
- JigsawWood.JigsawWood
+JigsawWood/Model/Shape.java
+ JigsawWood.Model.Shape
+JigsawWood/Model/PuzzleShape.java
+ JigsawWood.Model.PuzzleShape
+JigsawWood/View/VShape.java
+ JigsawWood.View.VShape
+ JigsawWood.View.VShape$1

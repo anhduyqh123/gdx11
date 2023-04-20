@@ -32,9 +32,10 @@ public class OptionForm {
     {
         Translate.Init();
         new ClipBoard(cbClipboard);
+
         BGColorButton.addActionListener(e->{
-            UI.NewColorChooserWindow(Color.WHITE, hex->
-                    MyGame.bg.set(Color.valueOf(hex)));
+            UI.NewColorChooserWindow(UI.GDXColorToColor(MyGame.bg), cl->
+                    MyGame.bg.set(UI.ColorToGDXColor(cl)));
         });
         UI.Button(toolButton,()->{
             UI.NewJFrame("Tool",new ToolForm().panel1,()->{});

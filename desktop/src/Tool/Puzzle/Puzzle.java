@@ -8,6 +8,9 @@ import javax.swing.*;
 
 public class Puzzle {
     public static void main (String[] arg) {
-        SwingUtilities.invokeLater(()-> UI.NewJFrame("ui editor",new MainForm().panel1, GDX::Exit));
+        SwingUtilities.invokeLater(()->{
+            UI.NewJFrame("ui editor",new MainForm().panel1, GDX::Exit)
+                    .setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        });
     }
 }

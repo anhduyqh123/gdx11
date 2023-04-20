@@ -101,19 +101,19 @@
             <properties>
               <preferredSize width="180" height="210"/>
             </properties>
-            <border type="none"/>
+            <border type="none" title="shape"/>
             <children>
               <scrollpane id="8de71">
                 <constraints/>
                 <properties>
-                  <preferredSize width="80" height="200"/>
+                  <preferredSize width="80" height="180"/>
                 </properties>
                 <border type="none"/>
                 <children>
                   <component id="94c30" class="javax.swing.JTree" binding="shapeTree">
                     <constraints/>
                     <properties>
-                      <editable value="true"/>
+                      <editable value="false"/>
                       <rootVisible value="false"/>
                     </properties>
                   </component>
@@ -136,12 +136,6 @@
                     <constraints/>
                     <properties>
                       <text value="Delete"/>
-                    </properties>
-                  </component>
-                  <component id="2fe16" class="javax.swing.JButton" binding="sClone">
-                    <constraints/>
-                    <properties>
-                      <text value="Clone"/>
                     </properties>
                   </component>
                 </children>

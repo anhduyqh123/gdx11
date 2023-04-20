@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UI {
@@ -119,6 +120,8 @@ public class UI {
     public static JPanel NewPanel(String name,JPanel panel)
     {
         JPanel pn = NewPanel(panel);
+        panel.setMaximumSize(new Dimension(panel.getWidth(),1000));
+        panel.setLayout(new WrapLayout());
         pn.setBorder(BorderFactory.createTitledBorder(pn.getBorder(),name));
         return pn;
     }
@@ -127,8 +130,6 @@ public class UI {
         JPanel panel = new JPanel();
         parent.add(panel);
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        panel.setMaximumSize(new Dimension(panel.getWidth(),1000));
-        panel.setLayout(new WrapLayout());
         return panel;
     }
     //ComboBox
@@ -202,6 +203,7 @@ public class UI {
     }
     public static void Button(JButton bt, GDX.Runnable run)
     {
+        Util.For(Arrays.asList(bt.getActionListeners()), bt::removeActionListener);
         bt.addActionListener(e->GDX.Try(run,true));
     }
 
@@ -307,28 +309,38 @@ public class UI {
     }
 
     //<editor-fold desc="ColorChooser">
-    private static Color GDXColorToColor(com.badlogic.gdx.graphics.Color cl)
+    public static Color GDXColorToColor(com.badlogic.gdx.graphics.Color cl)
     {
         return new Color(cl.r,cl.g,cl.b,cl.a);
     }
-    private static com.badlogic.gdx.graphics.Color ColorToGDXColor(Color cl)
+    public static com.badlogic.gdx.graphics.Color ColorToGDXColor(Color cl)
     {
         return new com.badlogic.gdx.graphics.Color(
                 cl.getRed()/255f,cl.getGreen()/255f,cl.getBlue()/255f,cl.getAlpha()/255f);
     }
-    private static void NewColorChooserWindow(String hex, GDX.Runnable1<String> onClose)
-    {
-        NewColorChooserWindow(com.badlogic.gdx.graphics.Color.valueOf(hex),onClose);
-    }
-    public static void NewColorChooserWindow(com.badlogic.gdx.graphics.Color color, GDX.Runnable1<String> onClose)
+    public static void NewColorChooserWindow(Color color, GDX.Runnable1<Color> onClose)
     {
         JColorChooser chooser = new JColorChooser();
-        chooser.setColor(GDXColorToColor(color));
-        NewJFrame("Color",chooser,()->onClose.Run(ColorToGDXColor(chooser.getColor()).toString()));
+        chooser.setColor(color);
+        NewJFrame("Color",chooser,()->onClose.Run(chooser.getColor()));
     }
     public static void NewColorPicker(JPanel panel,String hexColor ,GDX.Runnable1<String> onChance)
     {
-        NewButton("Color",panel,()->NewColorChooserWindow(hexColor,onChance));
+        JPanel pn = NewPanel(panel);
+        SetSize(pn,30,30);
+        com.badlogic.gdx.graphics.Color gdxColor = com.badlogic.gdx.graphics.Color.valueOf(hexColor);
+        Color color = GDXColorToColor(gdxColor);
+        pn.setBackground(color);
+        LabelComponent("color",pn,panel);
+        pn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                NewColorChooserWindow(color,cl->{
+                    pn.setBackground(cl);
+                    onChance.Run(ColorToGDXColor(cl).toString());
+                });
+            }
+        });
     }
     public static void NewColorPicker(Field field,Object object,JPanel panel)
     {
@@ -345,8 +357,9 @@ public class UI {
         JFrame frame = NewJFrame(name,content);
         frame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosed(WindowEvent e) {
+            public void windowClosing(WindowEvent e) {
                 onClosed.run();
+                frame.dispose();
             }
         });
         return frame;

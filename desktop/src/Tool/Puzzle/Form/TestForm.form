@@ -7,14 +7,24 @@
     <properties>
       <preferredSize width="100" height="150"/>
     </properties>
-    <border type="none" title="test"/>
+    <border type="none"/>
     <children>
       <component id="ea0f4" class="javax.swing.JButton" binding="button1" default-binding="true">
         <constraints/>
         <properties>
+          <contentAreaFilled value="true"/>
           <text value="Button"/>
         </properties>
       </component>
+      <grid id="93ed" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints/>
+        <properties>
+          <background color="-12515584"/>
+          <preferredSize width="30" height="30"/>
+        </properties>
+        <border type="line"/>
+        <children/>
+      </grid>
     </children>
   </grid>
 </form>
