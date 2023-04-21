@@ -21,7 +21,7 @@ public class ShapeData implements Json.JsonObject {
     @Override
     public JsonValue ToJson(Object object0) {
         JsonValue js = new JsonValue(JsonValue.ValueType.array);
-        Util.For(shapes,shape->js.addChild(shape.ToJson(null)));
+        Util.For(shapes,shape->js.addChild(shape.ToJson()));
         return js;
     }
 

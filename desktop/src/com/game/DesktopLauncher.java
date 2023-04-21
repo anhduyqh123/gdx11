@@ -9,9 +9,7 @@ import com.badlogic.gdx.utils.JsonValue;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -21,6 +19,15 @@ public class DesktopLauncher {
 		config.height = 1280;
 
 		SDK.SetDesktopSDK();
-		new LwjglApplication(new MyGame(), config);
+		//new LwjglApplication(new MyGame(), config);
+		JsonValue js = new JsonValue(JsonValue.ValueType.object);
+		js.addChild("aaa",new JsonValue("xxx"));
+		js.addChild("bbb",new JsonValue("yyy"));
+		System.out.println(js);
+		JsonValue i = js.get("bbb");
+		System.out.println(i);
+		i.set("zzz");
+		System.out.println(js);
+
 	}
 }

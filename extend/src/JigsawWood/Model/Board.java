@@ -20,7 +20,7 @@ public class Board extends Shape{
     public JsonValue ToJson(Object object0) {
         JsonValue js = super.ToJson(object0);
         JsonValue arr = new JsonValue(JsonValue.ValueType.array);
-        Util.For(shapes,shape->arr.addChild(shape.ToJson(null)));
+        Util.For(shapes,shape->arr.addChild(shape.ToJson()));
         js.addChild("shapes",arr);
         return js;
     }

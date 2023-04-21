@@ -23,8 +23,8 @@ import java.util.*;
 public class Asset extends Actor {
     public static Asset i;
 
-    private HashSet<String> packLoaded = new HashSet<>();// loaded package
-    private Map<String, AssetNode> mapAssets = new HashMap<>(); //loaded node
+    private final HashSet<String> packLoaded = new HashSet<>();// loaded package
+    private final Map<String, AssetNode> mapAssets = new HashMap<>(); //loaded node
     public AssetData data;
     public AssetManager manager = new AssetManager();
 
@@ -34,12 +34,16 @@ public class Asset extends Actor {
     public Asset()
     {
         i = this;
-        manager.setLoader(Texture.class,new GTextureLoader(manager.getFileHandleResolver()));
+        InitLoader();
     }
     public void SetData(AssetData data)
     {
         this.data = data;
         data.Install();
+    }
+    protected void InitLoader()
+    {
+        manager.setLoader(Texture.class,new GTextureLoader(manager.getFileHandleResolver()));
     }
 
     @Override
@@ -63,7 +67,7 @@ public class Asset extends Actor {
         for (AssetNode as : list)
             Load(as);
     }
-    protected void Load(AssetNode as)
+    public void Load(AssetNode as)
     {
         if (manager.isLoaded(as.url)) return;
         switch (as.kind)
@@ -199,8 +203,7 @@ public class Asset extends Actor {
         return Get(name, ParticleEffect.class);
     }
     public <T> T Get(String name,Class<T> type){
-        AssetNode as = GetNode(name);
-        return manager.get(as.url,type);
+        return manager.get(GetNode(name).url,type);
     }
     public AssetNode GetNode(String name)
     {

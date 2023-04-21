@@ -24,7 +24,7 @@ public class PuzzleShape implements Json.JsonObject {
     public JsonValue ToJson(Object object0) {
         JsonValue js = new JsonValue(JsonValue.ValueType.object);
         for (String key : map.keySet())
-            js.addChild(key,map.get(key).ToJson(null));
+            js.addChild(key,map.get(key).ToJson());
         return js;
     }
 

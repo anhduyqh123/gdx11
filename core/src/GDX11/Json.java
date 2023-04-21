@@ -163,6 +163,10 @@ public class Json {
     //</editor-fold>
     public interface JsonObject
     {
+        default JsonValue ToJson()
+        {
+            return ToJson(null);
+        }
         JsonValue ToJson(Object object0);
         <T> T ToObject(JsonValue js);
     }
