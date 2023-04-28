@@ -10,7 +10,6 @@ public class MainForm {
 
     public MainForm()
     {
-
     }
     public void Install()
     {

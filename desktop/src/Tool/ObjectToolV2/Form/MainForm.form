@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.ObjectToolV2.Form.MainForm">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="700" height="700"/>
+    </constraints>
+    <properties>
+      <preferredSize width="1000" height="720"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="47040" binding="pnHeader" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+      <splitpane id="49c7">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <orientation value="0"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <splitpane id="5bc91" binding="pnTop">
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties>
+              <autoscrolls value="false"/>
+              <inheritsPopupMenu value="false"/>
+              <minimumSize width="200" height="200"/>
+              <resizeWeight value="1.0"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </splitpane>
+          <splitpane id="a0464" binding="pnBot">
+            <constraints>
+              <splitpane position="right"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <tabbedpane id="3c2e0" binding="tabbedPane1" default-binding="true">
+                <constraints>
+                  <splitpane position="left"/>
+                </constraints>
+                <properties>
+                  <minimumSize width="400" height="200"/>
+                  <preferredSize width="700" height="400"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </tabbedpane>
+            </children>
+          </splitpane>
+        </children>
+      </splitpane>
+    </children>
+  </grid>
+</form>

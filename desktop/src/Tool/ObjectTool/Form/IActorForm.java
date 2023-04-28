@@ -2,12 +2,11 @@ package Tool.ObjectTool.Form;
 
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
-import GDX11.IObject.IPos;
 import GDX11.IObject.ISize;
 import GDX11.Reflect;
-import Tool.JFrame.UI;
-import Tool.JFrame.WrapLayout;
-import Tool.ObjectTool.Data.Content;
+import Tool.Swing.UI;
+import Tool.Swing.WrapLayout;
+import Tool.ObjectTool.Core.Content;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -26,11 +25,6 @@ public class IActorForm {
     public IActorForm()
     {
         pInfo.setLayout(new WrapLayout());
-
-//        UI.Button(btRefresh,()-> {
-//            iActor.Refresh();
-//            SetIActor(iActor);
-//        });
     }
     public void SetIActor(IActor iActor)
     {

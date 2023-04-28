@@ -1,13 +1,11 @@
 package Tool.ObjectTool.Form;
 
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Translate;
-import Tool.JFrame.UI;
-import Tool.ObjectTool.Data.ClipBoard;
-import Tool.ObjectTool.Data.Event;
-import Tool.ObjectTool.Data.MyGame;
-import com.badlogic.gdx.graphics.Color;
+import Tool.Swing.UI;
+import Tool.ObjectTool.Core.ClipBoard;
+import Tool.ObjectTool.Core.Event;
+import Tool.ObjectTool.Core.MyGame;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

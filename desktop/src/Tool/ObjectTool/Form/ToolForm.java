@@ -1,12 +1,9 @@
 package Tool.ObjectTool.Form;
 
-import GDX11.Asset;
-import Tool.JFrame.UI;
-import Tool.ObjectTool.Data.GenerateAsset;
+import Tool.Swing.UI;
+import Tool.ObjectTool.Core.GenerateAsset;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ToolForm {
     private JButton btAndroid;

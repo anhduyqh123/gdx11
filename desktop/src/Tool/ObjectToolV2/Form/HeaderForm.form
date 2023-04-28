@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.ObjectToolV2.Form.HeaderForm">
+  <grid id="27dc6" binding="panel1" layout-manager="FlowLayout" hgap="5" vgap="0" flow-align="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <component id="7baf8" class="javax.swing.JComboBox" binding="cbPack">
+        <constraints/>
+        <properties/>
+      </component>
+      <component id="2c22e" class="javax.swing.JCheckBox" binding="cbDrag">
+        <constraints/>
+        <properties>
+          <text value="Drag"/>
+        </properties>
+      </component>
+      <component id="fb215" class="javax.swing.JButton" binding="btResetCam">
+        <constraints/>
+        <properties>
+          <text value="ResetCam"/>
+        </properties>
+      </component>
+      <component id="2380c" class="javax.swing.JButton" binding="btColor">
+        <constraints/>
+        <properties>
+          <text value="BG Color"/>
+        </properties>
+      </component>
+      <component id="f82d8" class="javax.swing.JButton" binding="toolButton" default-binding="true">
+        <constraints/>
+        <properties>
+          <text value="Tool"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

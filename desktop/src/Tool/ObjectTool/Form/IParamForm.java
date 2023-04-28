@@ -3,12 +3,11 @@ package Tool.ObjectTool.Form;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Reflect;
 import GDX11.Util;
-import Tool.JFrame.UI;
+import Tool.Swing.UI;
 
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
 import java.util.Map;
 
 public class IParamForm {

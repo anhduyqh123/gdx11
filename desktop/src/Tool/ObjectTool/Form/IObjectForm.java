@@ -5,14 +5,15 @@ import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Reflect;
 import GDX11.Scene;
-import Tool.JFrame.GTree;
-import Tool.JFrame.UI;
-import Tool.ObjectTool.Data.Content;
-import Tool.ObjectTool.Data.ObjectData;
-import Tool.ObjectTool.Data.ObjectPack;
+import Tool.Swing.GTree;
+import Tool.Swing.UI;
+import Tool.ObjectTool.Core.Content;
+import Tool.ObjectTool.Core.ObjectData;
+import Tool.ObjectTool.Core.ObjectPack;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class IObjectForm {
 
         UI.ComboBox(cbType,UI.ClassToNames(types));
 
+        gTree.SetMenuData(Arrays.asList(Content.GetTypes()));
         gTree.newObject = this::NewIActor;
         gTree.onSelect = this::OnSelectIActor;
         gTree.refreshObject = IActor::Refresh;

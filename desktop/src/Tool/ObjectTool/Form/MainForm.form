@@ -10,29 +10,38 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="a9c97" binding="pnTop" layout-manager="FlowLayout" hgap="5" vgap="0" flow-align="1">
+      <grid id="ef76b" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints/>
         <properties>
-          <preferredSize width="820" height="310"/>
-        </properties>
-        <border type="line"/>
-        <children/>
-      </grid>
-      <grid id="c76af" binding="pnBot" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-        <constraints/>
-        <properties>
-          <preferredSize width="820" height="400"/>
+          <preferredSize width="820" height="700"/>
         </properties>
         <border type="none"/>
         <children>
-          <tabbedpane id="1170b" binding="tabbedPane">
+          <grid id="a9c97" binding="pnTop" layout-manager="FlowLayout" hgap="5" vgap="0" flow-align="1">
             <constraints/>
             <properties>
-              <preferredSize width="800" height="700"/>
+              <preferredSize width="820" height="310"/>
+            </properties>
+            <border type="line"/>
+            <children/>
+          </grid>
+          <grid id="c76af" binding="pnBot" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints/>
+            <properties>
+              <preferredSize width="820" height="400"/>
             </properties>
             <border type="none"/>
-            <children/>
-          </tabbedpane>
+            <children>
+              <tabbedpane id="1170b" binding="tabbedPane">
+                <constraints/>
+                <properties>
+                  <preferredSize width="800" height="700"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </tabbedpane>
+            </children>
+          </grid>
         </children>
       </grid>
     </children>

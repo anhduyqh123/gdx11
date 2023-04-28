@@ -5,8 +5,8 @@ import GDX11.Json;
 import GDX11.Reflect;
 import JigsawWood.Model.PuzzleShape;
 import JigsawWood.Model.Shape;
-import Tool.JFrame.GList;
-import Tool.JFrame.UI;
+import Tool.Swing.GList;
+import Tool.Swing.UI;
 import Tool.Puzzle.Core.PuzzleShapeEditor;
 import com.badlogic.gdx.utils.JsonWriter;
 

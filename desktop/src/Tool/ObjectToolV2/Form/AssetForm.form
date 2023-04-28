@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.ObjectToolV2.Form.AssetForm">
+  <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <scrollpane id="89495">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="e98df" class="javax.swing.JTree" binding="tree1" default-binding="true">
+            <constraints/>
+            <properties>
+              <dragEnabled value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <grid id="cfd8d" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints border-constraint="East"/>
+        <properties>
+          <preferredSize width="100" height="300"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="25910" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="Pack"/>
+            </properties>
+          </component>
+          <component id="f6ae7" class="javax.swing.JComboBox" binding="cbPack">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="30"/>
+            </properties>
+          </component>
+          <component id="c078e" class="javax.swing.JLabel">
+            <constraints/>
+            <properties>
+              <text value="Kind"/>
+            </properties>
+          </component>
+          <component id="1fec9" class="javax.swing.JComboBox" binding="cbKind">
+            <constraints/>
+            <properties>
+              <preferredSize width="100" height="30"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonWriter;
 
-import java.util.Arrays;
 import java.util.Collection;
 
 public class GDXGame extends ApplicationAdapter {

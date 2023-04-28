@@ -1,7 +1,7 @@
 package Tool.Puzzle;
 
 import GDX11.GDX;
-import Tool.JFrame.UI;
+import Tool.Swing.UI;
 import Tool.Puzzle.Form.MainForm;
 
 import javax.swing.*;

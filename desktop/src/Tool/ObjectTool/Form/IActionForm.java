@@ -6,9 +6,9 @@ import Extend.Spine.IAnimation;
 import GDX11.IObject.IAction.*;
 import GDX11.IObject.IActor.IActor;
 import GDX11.Reflect;
-import Tool.JFrame.GTree;
-import Tool.JFrame.UI;
-import Tool.JFrame.WrapLayout;
+import Tool.Swing.GTree;
+import Tool.Swing.UI;
+import Tool.Swing.WrapLayout;
 
 import javax.swing.*;
 import java.util.*;

@@ -8,14 +8,13 @@ import Extend.IShape.IPoints;
 import Extend.IShape.IPolygon;
 import Extend.IShape.IShape;
 import Extend.IShapeMask;
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.IObject.IComponent.IShader;
 import GDX11.Reflect;
-import Tool.JFrame.GTree;
-import Tool.JFrame.UI;
-import Tool.JFrame.WrapLayout;
+import Tool.Swing.GTree;
+import Tool.Swing.UI;
+import Tool.Swing.WrapLayout;
 import Tool.ObjectTool.Point.ICircleEdit;
 import Tool.ObjectTool.Point.IPointsEdit;
 

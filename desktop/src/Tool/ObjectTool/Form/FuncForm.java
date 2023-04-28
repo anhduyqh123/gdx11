@@ -3,7 +3,7 @@ package Tool.ObjectTool.Form;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
-import Tool.JFrame.UI;
+import Tool.Swing.UI;
 
 import javax.swing.*;
 import java.util.Collections;

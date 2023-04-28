@@ -38,7 +38,7 @@ public class IMap<T extends IObject> implements Json.JsonObject {
     {
         return GetMap().containsKey(name);
     }
-    public List<T> GetObjects()
+    public List<T> GetObjects()//remove
     {
         return list;
     }

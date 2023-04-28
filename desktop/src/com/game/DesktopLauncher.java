@@ -1,10 +1,16 @@
 package com.game;
 
+import GDX11.GDXGame;
 import GDX11.Json;
+import GDX11.Scene;
+import GDX11.Screen;
+import JigsawWood.Screen.GameScreen;
 import SDK.SDK;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.JsonValue;
 
 import java.io.File;
@@ -19,15 +25,25 @@ public class DesktopLauncher {
 		config.height = 1280;
 
 		SDK.SetDesktopSDK();
-		//new LwjglApplication(new MyGame(), config);
-		JsonValue js = new JsonValue(JsonValue.ValueType.object);
-		js.addChild("aaa",new JsonValue("xxx"));
-		js.addChild("bbb",new JsonValue("yyy"));
-		System.out.println(js);
-		JsonValue i = js.get("bbb");
-		System.out.println(i);
-		i.set("zzz");
-		System.out.println(js);
+		new LwjglApplication(new GDXGame(){
+			@Override
+			protected void FirstLoad() {
+				Screen screen = new GameScreen();
+				screen.Show();
+				screen.FindActor("bg").debug();
+				Scene.i.GetStage().addListener(new InputListener(){
+					@Override
+					public boolean keyTyped(InputEvent event, char character) {
+						if (character=='a')
+						{
+							Scene.i.ui.clearChildren();
+							new GameScreen().Show();
+						}
+						return true;
+					}
+				});
+			}
+		}, config);
 
 	}
 }

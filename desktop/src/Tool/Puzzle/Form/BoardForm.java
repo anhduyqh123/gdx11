@@ -2,18 +2,15 @@ package Tool.Puzzle.Form;
 
 import GDX11.GDX;
 import GDX11.Json;
-import JigsawWood.Model.Board;
 import JigsawWood.Model.Shape;
 import JigsawWood.Model.ShapeData;
-import Tool.JFrame.GList;
-import Tool.JFrame.UI;
-import Tool.JFrame.JObList;
+import Tool.Swing.GList;
+import Tool.Swing.UI;
+import Tool.Swing.JObList;
 import Tool.Puzzle.Core.BoardEditor;
-import Tool.Puzzle.Core.PuzzleShapeEditor;
 import com.badlogic.gdx.utils.JsonWriter;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BoardForm {
