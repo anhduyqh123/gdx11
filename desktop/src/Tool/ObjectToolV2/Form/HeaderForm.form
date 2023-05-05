@@ -17,6 +17,12 @@
           <text value="Drag"/>
         </properties>
       </component>
+      <component id="e292e" class="javax.swing.JButton" binding="btSave">
+        <constraints/>
+        <properties>
+          <text value="Save"/>
+        </properties>
+      </component>
       <component id="fb215" class="javax.swing.JButton" binding="btResetCam">
         <constraints/>
         <properties>

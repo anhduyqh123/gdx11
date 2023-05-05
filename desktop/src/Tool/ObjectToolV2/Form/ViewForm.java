@@ -3,6 +3,7 @@ package Tool.ObjectToolV2.Form;
 import GDX11.*;
 import Tool.ObjectToolV2.Core.MyGame;
 import com.badlogic.gdx.backends.lwjgl.LwjglCanvas;
+import com.badlogic.gdx.math.Vector2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +25,7 @@ public class ViewForm {
             }
         });
         panel1.add(game.getCanvas(),BorderLayout.CENTER);
+        Config.Set("screenSize",(GDX.Func)()->new Vector2(panel1.getWidth(),panel1.getHeight()));
     }
     private void FitSize()
     {

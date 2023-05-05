@@ -6,6 +6,7 @@ import SDK.SDK;
 import Tool.Swing.UI;
 import Tool.ObjectToolV2.Form.MainForm;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 
 import javax.swing.*;
 
@@ -18,6 +19,8 @@ public class Main2 {
 
             JFrame frame = UI.NewJFrame("ui editor",new MainForm().panel1,GDX::Exit);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            frame.setLocation(Config.Get("screen_x"),Config.Get("screen_y"));
+            Config.Set("framePos",(GDX.Func)()->new Vector2(frame.getX(),frame.getY()));
         });
     }
 }

@@ -1,8 +1,10 @@
 {
-	screen_width:720,
-	screen_height:1280,
-	game_width:720,
-	game_height:1280,
-	sound:true,
-	music:true
+screen_x: 0
+screen_y: 0
+screen_width: 290
+screen_height: 439
+game_width: 720
+game_height: 1280
+sound: true
+music: true
 }

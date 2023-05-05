@@ -151,8 +151,8 @@ public class GTree2<T extends IObject> extends BaseTree<T> {
 
         if (e.getKeyChar()=='') Clone();
         if (e.getKeyChar()=='') Select();
-        if (e.getKeyChar()=='') Paste();
-        if (e.getKeyChar()=='') MoveTo();
+        if (e.getKeyChar()=='' && GetClipSelected().size()>0) Paste();
+        if (e.getKeyChar()=='' && GetClipSelected().size()>0) MoveTo();
     }
 
     @Override

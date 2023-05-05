@@ -4,8 +4,11 @@ import Extend.PagedScroll.IPagedScroll;
 import Extend.Spine.ISpine;
 import GDX11.GDX;
 import GDX11.IObject.IActor.*;
+import GDX11.Json;
+import GDX11.Reflect;
 import Tool.Swing.GTree2;
 import Tool.ObjectToolV2.Core.PackObject;
+import Tool.Swing.UI;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -23,6 +26,13 @@ public class IObjectForm {
         protected void OnKeyTyped(KeyEvent e) {
             super.OnKeyTyped(e);
             if (e.getKeyChar()=='') RefreshIActor();
+            if (e.getKeyChar()=='' && IsMainChanged()) Save();
+        }
+
+        @Override
+        protected void OnShowPopupMenu() {
+            super.OnShowPopupMenu();
+            GetItem("Save").setEnabled(IsMainChanged());
         }
     };
 
@@ -32,8 +42,9 @@ public class IObjectForm {
         gTree.onSelect = this::OnSelectIActor;
         gTree.refreshObject = IActor::Refresh;
         gTree.SetTypes(GetTypes());
-        gTree.NewMenuItemBySelect(2,"Refresh","Ctrl+F",this::RefreshIActor);
+        gTree.NewMenuItem(2,"Refresh","Ctrl+F",this::RefreshIActor);
         gTree.NewMenuItemBySelect(2,"Prefab","",gTree::Prefab);
+        gTree.NewMenuItem("Save","Ctrl+S",this::Save);
     }
     private List<Class> GetTypes()
     {
@@ -69,5 +80,14 @@ public class IObjectForm {
         if (mainIActor!=null) mainIActor.GetActor().remove();
         mainIActor = iActor;
         iActor.Refresh();
+    }
+    public void Save()
+    {
+        pack.Save(mainIActor.name,()-> UI.NewDialog("Save success!",panel1));
+    }
+    private boolean IsMainChanged()
+    {
+        IActor mainFromData = Json.ToObject(GDX.GetStringByKey(mainIActor.name));
+        return !mainIActor.equals(mainFromData);
     }
 }
