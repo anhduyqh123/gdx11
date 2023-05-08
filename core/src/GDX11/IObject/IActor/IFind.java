@@ -17,6 +17,10 @@ public interface IFind {
     {
         return FindIActor(name).GetActor();
     }
+    default <T extends Actor> T FindActor(String name,Class<T> type)
+    {
+        return FindIActor(name).GetActor();
+    }
 
     default IGroup FindIGroup(String name)
     {

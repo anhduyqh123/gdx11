@@ -77,6 +77,7 @@ public class GTree2<T extends IObject> extends BaseTree<T> {
         IObject parent = GetParentObject();
         parent.GetIMap().Move(object,dir);
         Refresh();
+        refreshObject.Run((T) parent);
         SetSelection((T)object);
     }
     protected void Rename()

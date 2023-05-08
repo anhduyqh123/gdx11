@@ -87,7 +87,9 @@ public class IObjectForm {
     }
     private boolean IsMainChanged()
     {
-        IActor mainFromData = Json.ToObject(GDX.GetStringByKey(mainIActor.name));
+        String data = GDX.GetStringByKey(mainIActor.name);
+        if (data==null) return true;
+        IActor mainFromData = Json.ToObject(data);
         return !mainIActor.equals(mainFromData);
     }
 }

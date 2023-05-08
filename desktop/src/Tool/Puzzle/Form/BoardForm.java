@@ -27,9 +27,11 @@ public class BoardForm {
     public JPanel panel1;
     private JButton sNew;
     private JButton sDelete;
+    private JTextField tfTexture;
 
     //data
     private ShapeData data = LoadData();
+    private Shape shape;
     public BoardForm()
     {
         JObList<Shape> jObList = new JObList<>();
@@ -49,8 +51,11 @@ public class BoardForm {
             shape.width = Integer.parseInt(tfWidth.getText());
             shape.height = Integer.parseInt(tfHeight.getText());
             shape.Create();
-            new BoardEditor(shape);
+            shape.texture = tfTexture.getText();
+            OnSelect(shape);
+            //new BoardEditor(shape);
         });
+        UI.TextField(tfTexture,vl->shape.texture = vl);
     }
     public void OnTab()
     {
@@ -58,9 +63,11 @@ public class BoardForm {
     }
     private void OnSelect(Shape shape)
     {
+        this.shape = shape;
         InitShapeList(shape);
         tfWidth.setText(shape.width+"");
         tfHeight.setText(shape.height+"");
+        tfTexture.setText(shape.texture);
         new BoardEditor(shape);
     }
     private void InitShapeList(Shape shape)//check

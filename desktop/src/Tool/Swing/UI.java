@@ -229,6 +229,15 @@ public class UI {
         });
     }
     //TextField
+    public static void TextField(JTextField tf, GDX.Runnable1<String> onChange)
+    {
+        tf.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                GDX.Try(()->onChange.Run(tf.getText()));
+            }
+        });
+    }
     private static JTextField NewTextField(String value,int width,int height)
     {
         JTextField textField = new JTextField(value);
@@ -239,12 +248,7 @@ public class UI {
     {
         JTextField textField = NewTextField(value.toString(), width,height);
         LabelComponent(name,textField,panel);
-        textField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                GDX.Try(()->onChange.Run(textField.getText()));
-            }
-        });
+        TextField(textField,onChange);
         return textField;
     }
     public static JTextField NewTextField(Field field,Object object,int width,int height,JPanel panel)

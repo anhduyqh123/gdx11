@@ -176,6 +176,7 @@ public class Asset extends Actor {
     //get value
     public TextureRegion GetTexture(String name)
     {
+        if (name.equals("")) return new TextureRegion(emptyTexture);
         AssetNode node = GetNode(name);
         AssetPackage pack = GetAssetPackage(node.pack);
         if (pack.Contain(node.atlas))

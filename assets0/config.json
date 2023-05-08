@@ -1,6 +1,6 @@
 {
-	screen_width:720,
-	screen_height:1280,
+	screen_width:250,
+	screen_height:400,
 	game_width:1080,
 	game_height:1920
 }

@@ -19,22 +19,26 @@ com/game/MyGdxGame.java
 SDK/SDK.java
  SDK.SDK
  SDK.SDK$1
-Extend/PagedScroll/PagedScroll.java
- Extend.PagedScroll.PagedScroll
+JigsawWood/Model/JigsawBoard.java
+ JigsawWood.Model.JigsawBoard
 Extend/Spine/SpineAsset.java
  Extend.Spine.SpineAsset
-JigsawWood/Model/ShapeData.java
- JigsawWood.Model.ShapeData
+JigsawWood/Model/Piece.java
+ JigsawWood.Model.Piece
 JigsawWood/Model/Board.java
  JigsawWood.Model.Board
-JigsawWood/Model/PuzzleShape.java
- JigsawWood.Model.PuzzleShape
-JigsawWood/Model/Shape.java
- JigsawWood.Model.Shape
 Extend/Spine/GSpine.java
  Extend.Spine.GSpine
  Extend.Spine.GSpine$1
  Extend.Spine.GSpine$2
+JigsawWood/Model/Shape.java
+ JigsawWood.Model.Shape
+Extend/PagedScroll/PagedScroll.java
+ Extend.PagedScroll.PagedScroll
+JigsawWood/Model/PuzzleShape.java
+ JigsawWood.Model.PuzzleShape
+JigsawWood/Model/ShapeData.java
+ JigsawWood.Model.ShapeData
 JigsawWood/Model/SudoBoard.java
  JigsawWood.Model.SudoBoard
 SDK/IZen.java
@@ -42,6 +46,8 @@ SDK/IZen.java
 JigsawWood/Controller/GBoard.java
  JigsawWood.Controller.GBoard
  JigsawWood.Controller.GBoard$1
+JigsawWood/View/VPiece.java
+ JigsawWood.View.VPiece
 Extend/AI/ISteering.java
  Extend.AI.ISteering
  Extend.AI.ISteering$1
@@ -75,13 +81,15 @@ Extend/IShape/IPoints.java
  Extend.IShape.IPoints
 JigsawWood/Screen/GameScreen.java
  JigsawWood.Screen.GameScreen
+com/game/MyGame.java
+ com.game.MyGame
 Extend/IShapeMask.java
  Extend.IShapeMask
 Extend/Spine/ISpine.java
  Extend.Spine.ISpine
 Extend/IShape/ICircle.java
  Extend.IShape.ICircle
-com/game/MyGame.java
- com.game.MyGame
+JigsawWood/Controller/GJigsawBoard.java
+ JigsawWood.Controller.GJigsawBoard
 JigsawWood/JigsawWood.java
  JigsawWood.JigsawWood

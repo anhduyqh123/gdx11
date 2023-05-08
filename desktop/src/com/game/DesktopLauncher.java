@@ -25,25 +25,7 @@ public class DesktopLauncher {
 		config.height = 1280;
 
 		SDK.SetDesktopSDK();
-		new LwjglApplication(new GDXGame(){
-			@Override
-			protected void FirstLoad() {
-				Screen screen = new GameScreen();
-				screen.Show();
-				screen.FindActor("bg").debug();
-				Scene.i.GetStage().addListener(new InputListener(){
-					@Override
-					public boolean keyTyped(InputEvent event, char character) {
-						if (character=='a')
-						{
-							Scene.i.ui.clearChildren();
-							new GameScreen().Show();
-						}
-						return true;
-					}
-				});
-			}
-		}, config);
+		new LwjglApplication(new MyGame(), config);
 
 	}
 }

@@ -61,7 +61,7 @@ public class ITable extends IGroup{
         Util.Repeat(clone,()-> list.add(Clone(0)));
         FillChildren(list);
     }
-    private void FillChildren(Collection<IActor> children)
+    private <T extends IActor> void FillChildren(Collection<T> children)
     {
         List<Actor> actors = new ArrayList<>();
         Util.For(children,iActor->{
@@ -125,6 +125,25 @@ public class ITable extends IGroup{
         list.add(iActor.GetActor());
         RefreshGrid(list);
         return iActor;
+    }
+    //Clone
+    public <T extends IActor> List<T> CloneChild(int amount)
+    {
+        List<T> iActors = new ArrayList<>();
+        Util.Repeat(amount,()->iActors.add(Clone(0)));
+        FillChildren(iActors);
+        return iActors;
+    }
+    public <T,E extends IActor> List<E> CloneChild(List<T> list, GDX.Runnable2<T,E> cb)
+    {
+        return CloneChild(list,(i,t,e)->cb.Run(t,e));
+    }
+    public <T,E extends IActor> List<E> CloneChild(List<T> list, GDX.Runnable3<Integer,T,E> cb)
+    {
+        List<E> iActors = CloneChild(list.size());
+        for(int i=0;i<list.size();i++)
+            cb.Run(i,list.get(i),iActors.get(i));
+        return iActors;
     }
 
     //util

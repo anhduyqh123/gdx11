@@ -91,6 +91,7 @@ public class IMask extends IShader {
         shader.setUniformf("bound_mask", pos.x,pos.y,maskActor.getWidth(),maskActor.getHeight());
         IImage iImage = IActor.GetIActor(a);
         TextureRegion tr = Asset.i.GetTexture(iImage.texture);
+        shader.setUniformf("actor_color",a.getColor());
         shader.setUniformf("region_txt",tr.getU(),tr.getV(),tr.getU2(),tr.getV2());
 
         superDraw.run();

@@ -14,6 +14,7 @@ import java.util.List;
 public class Shape implements Json.JsonObject {
     public int width=4,height=4;
     protected int[][] grid = new int[width][height];
+    public String texture = "";
     //-1 is null
     //0 is empty
     //1 is value
@@ -101,7 +102,7 @@ public class Shape implements Json.JsonObject {
     }
     public String ToString()//width:height:data
     {
-        return width+":"+height+":"+ToData();
+        return width+":"+height+":"+ToData()+":"+texture;
     }
     private String ToData()
     {
@@ -123,11 +124,12 @@ public class Shape implements Json.JsonObject {
 
     @Override
     public Shape ToObject(JsonValue js) {
-        String[] st = js.asString().split(":");
+        String[] st = js.asString().split(":",4);
         width = Integer.parseInt(st[0]);
         height = Integer.parseInt(st[1]);
         grid = new int[width][height];
         SetData(st[2]);
+        texture = st[3];
         return this;
     }
 

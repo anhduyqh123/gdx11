@@ -1,5 +1,6 @@
 package GDX11;
 
+import GDX11.AssetData.AssetNode;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -123,7 +124,9 @@ public class GDX {
     }
     public static String GetStringByKey(String key)//get string from node
     {
-        return GetString(Asset.i.GetNode(key).url);
+        AssetNode node = Asset.i.GetNode(key);
+        if (node==null) return null;
+        return GetString(node.url);
     }
     public static FileHandle GetFile(String path)
     {
