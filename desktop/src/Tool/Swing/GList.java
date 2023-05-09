@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 public class GList {
-    private static TreeSelectionListener selectionListener;
     private JTree tree;
     private Map<TreeNode, String> map = new HashMap<>();
     private Map<String, TreeNode> map0 = new HashMap<>();
@@ -34,13 +33,11 @@ public class GList {
         this.tree = tree;
         this.getData = getData;
 
-        tree.removeTreeSelectionListener(selectionListener);
-        selectionListener = e->{
+        tree.addTreeSelectionListener(e->{
             DefaultMutableTreeNode node = GetSelectedNode();
             if (node==null || node.isRoot()) return;
             onSelect.Run(GetID(node));
-        };
-        tree.addTreeSelectionListener(selectionListener);
+        });
 
         Refresh();
         List<String> list = getData.Run();

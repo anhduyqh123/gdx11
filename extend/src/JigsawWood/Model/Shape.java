@@ -3,7 +3,6 @@ package JigsawWood.Model;
 import GDX11.GDX;
 import GDX11.Json;
 import GDX11.Util;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.JsonValue;
 
@@ -12,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Shape implements Json.JsonObject {
-    public int width=4,height=4;
+    public int width=4,height=4,x,y;
     protected int[][] grid = new int[width][height];
     public String texture = "";
     //-1 is null
@@ -21,46 +20,41 @@ public class Shape implements Json.JsonObject {
     public Shape(){
         Create();
     }
-    public Shape(int width,int height)
-    {
+    public Shape(int width,int height) {
         this.width = width;
         this.height = height;
         Create();
     }
-    public Shape(Shape shape)
-    {
+    public Shape(Shape shape) {
         width = shape.width;
         height = shape.height;
         Create();
         shape.For(p->Set(p,shape.Get(p)));
+        this.texture = shape.texture;;
     }
-    public void Create()
-    {
+    public void Create() {
         grid = new int[width][height];
         For(p->Set(p,0));
     }
-    public boolean ForIf(GDX.Func1<Boolean,Vector2> cb)//cb true ->return
-    {
+    public boolean ForIf(GDX.Func1<Boolean,Vector2> cb) {//cb true ->return
         for (int i=0;i<width;i++)
             for (int j=0;j<height;j++)
                 if (!cb.Run(new Vector2(i,j))) return false;
         return true;
     }
-    public void For(GDX.Runnable1<Vector2> cb)
-    {
+    public void For(GDX.Runnable1<Vector2> cb) {
         ForIf(p->{
             cb.Run(p);
             return true;
         });
     }
-    public void ForTrue(GDX.Runnable1<Vector2> cb)
+    public void ForValue(GDX.Runnable1<Vector2> cb)
     {
         For(p->{
-            if (Get(p)==1) cb.Run(p);
+            if (Get(p)>0) cb.Run(p);
         });
     }
-    public void ForBlock(GDX.Runnable1<Vector2> cb)
-    {
+    public void ForBlock(GDX.Runnable1<Vector2> cb) {
         For(p->{
             if (Get(p)>=0) cb.Run(p);
         });
@@ -68,6 +62,11 @@ public class Shape implements Json.JsonObject {
     public boolean Valid(Vector2 pos)
     {
         return pos.x<width && pos.y < height;
+    }
+    public void SetPos(Vector2 pos)
+    {
+        x = (int)pos.x;
+        y = (int)pos.y;
     }
     public void Set(Vector2 pos,int vl){
         grid[(int)pos.x][(int)pos.y]=vl;
@@ -78,6 +77,24 @@ public class Shape implements Json.JsonObject {
     public void Set(int index,int vl)
     {
         Set(index%width,index/width,vl);
+    }
+    public void Set(Shape shape) {
+        shape.ForValue(p->{
+            int vl = shape.Get(p);
+            Set(p.add(shape.x,shape.y),vl);
+        });
+    }
+    public void Remove(Shape shape)
+    {
+        shape.ForValue(p->{
+            Vector2 pos = p.add(shape.x,shape.y);
+            if (Null(pos)) return;
+            Set(pos,0);
+        });
+    }
+    public Vector2 GetPos()
+    {
+        return new Vector2(x,y);
     }
     public int Get(int x,int y){
         return grid[x][y];
@@ -100,19 +117,16 @@ public class Shape implements Json.JsonObject {
     public boolean Null(Vector2 pos){
         return Get(pos)==-1;
     }
-    public String ToString()//width:height:data
-    {
+    public String ToString() {
         return width+":"+height+":"+ToData()+":"+texture;
     }
-    private String ToData()
-    {
+    private String ToData() {
         String st = "";
         for (int j=0;j<height;j++)
             for (int i=0;i<width;i++) st=st+Get(i,j)+",";
         return st.substring(0,st.length()-1);
     }
-    private void SetData(String data)
-    {
+    private void SetData(String data) {
         String[] arr = data.split(",");
         for (int i=0;i<arr.length;i++)
             Set(i,Integer.parseInt(arr[i]));
@@ -133,8 +147,7 @@ public class Shape implements Json.JsonObject {
         return this;
     }
 
-    public Shape RotateRight()
-    {
+    public Shape RotateRight() {
         int[][] newGrid = new int[height][width];
         For(p->{
             Vector2 pos = RotateRight(p);
@@ -150,12 +163,24 @@ public class Shape implements Json.JsonObject {
     {
         return new Vector2(height-1-pos.y,pos.x);
     }
-    public List<String> GetShapeIDs()
-    {
+    public List<String> GetShapeIDs() {
         HashSet<String> set = new HashSet<>();
         For(p->{
             if (Get(p)>0) set.add(Get(p)+"");
         });
         return new ArrayList<>(set);
+    }
+    public boolean IsFit(Vector2 pos,Shape shape) {
+        return shape.ForIf(p->{
+            Vector2 bPos = new Vector2(p).add(pos);
+            if (!Valid(bPos)) return false;
+            return Empty(bPos) || !shape.HasValue(p);
+        });
+    }
+    public List<List<Vector2>> GetDestroyList(){
+        return new ArrayList<>();
+    }
+    public void Destroy(List<Vector2> list){
+        Util.For(list, p->Set(p,0));
     }
 }

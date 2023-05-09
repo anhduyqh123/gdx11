@@ -1,16 +1,16 @@
 package JigsawWood.Controller;
 
+import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
-import GDX11.Json;
 import GDX11.Scene;
 import GDX11.Util;
-import JigsawWood.Model.SudoBoard;
-import JigsawWood.Model.PuzzleShape;
+import JigsawWood.Model.ShapeData;
 import JigsawWood.Model.Shape;
 import JigsawWood.View.VShape;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
@@ -19,41 +19,58 @@ import java.util.List;
 import java.util.Map;
 
 public class GBoard {
-    private IGroup game;
-    private SudoBoard board = new SudoBoard(9,9);
-    private PuzzleShape shapeData = Json.ToObjectFomKey("puzzleShape",PuzzleShape.class);
-    private Map<Shape, VShape> map = new HashMap<>();
-    private Map<Vector2,Actor> blockMap = new HashMap<>();
-    private final List<Vector2> highlightPos = new ArrayList<>();
-    private List<Shape> newShapes = new ArrayList<>();
-    private Shape dragShape;
-    private Vector2 hitCell;
+    protected IGroup game;
+    protected Shape model;
+    protected final ShapeData shapeData = LoadData();
+    protected final Map<Shape, VShape> map = new HashMap<>();
+    protected final Map<Vector2,Actor> blockMap = new HashMap<>();
+    protected final List<Vector2> highlightPos = new ArrayList<>();
+    protected final List<Shape> newShapes = new ArrayList<>();
+    protected List<IGroup> slots = new ArrayList<>();
+    protected Shape dragShape;
+    protected Vector2 hitCell;
     public GBoard(IGroup game)
     {
         this.game = game;
-
-        NewShapes();
+        InitModel();
         InitEvent();
     }
-    private void NewShapes()
+    protected void InitModel(){}
+    protected ShapeData LoadData()
+    {
+        return new ShapeData();
+    }
+    public void Start()
+    {
+        NewShapes();
+    }
+    public void Start(int level) {
+        Start();
+    }
+    protected void NewShapes()
     {
         IGroup footer = game.FindIGroup("footer");
-        Util.For(0,2,i->NewShape(footer.FindIGroup("slot"+i)));
+        Util.For(0,2,i->slots.add(footer.FindIGroup("slot"+i)));
+        Util.For(slots, this::NewShape);
     }
     private void NewShape(IGroup slot)//footer
     {
         Shape shape = shapeData.GetRandomShape();
-        VShape vShape = new VShape(shape,slot.GetActor());
+        VShape vShape = new VShape(shape,game.FindITable("table"),slot.GetActor());
         vShape.onClick = ()->dragShape = shape;
         map.put(shape,vShape);
         newShapes.add(shape);
     }
     private void InitEvent()
     {
+        ScrollPane scroll = game.FindActor("scroll");
         game.GetActor().addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (pointer!=0 || dragShape==null) return false;
+                if (!newShapes.contains(dragShape)) model.Remove(dragShape);;
+                if (scroll!=null) scroll.cancel();
+                Scene.AddActorKeepTransform(GetView(dragShape),game.FindActor("footer"));
                 return true;
             }
 
@@ -68,7 +85,7 @@ public class GBoard {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (hitCell!=null) PutShape(hitCell,dragShape);
-                else GetView(dragShape).Back();
+                else BackShape(dragShape);
                 dragShape = null;
                 hitCell = null;
                 HighLightOff();
@@ -92,12 +109,13 @@ public class GBoard {
         }
         if (hit instanceof Group) return;
         hitCell = table.GetCell(hit);
-        if (!board.IsFit(hitCell,shape)) hitCell = null;
+        boolean fit = model.IsFit(hitCell,shape);
+        if (!fit) hitCell = null;
     }
-    private void HighLight(Vector2 pos,Shape shape)
+    protected void HighLight(Vector2 pos,Shape shape)
     {
         ITable table = game.FindIGroup("board").FindITable("table");
-        shape.ForTrue(p-> highlightPos.add(p.add(pos)));
+        shape.ForValue(p-> highlightPos.add(p.add(pos)));
         Util.For(highlightPos,p->table.Get(p).GetActor().getColor().a=0.5f);
     }
     private void HighLightOff()
@@ -106,21 +124,45 @@ public class GBoard {
         Util.For(highlightPos,p->table.Get(p).GetActor().getColor().a=0);
         highlightPos.clear();
     }
-    private void PutShape(Vector2 pos,Shape shape)
+    protected void BackShape(Shape shape)
+    {
+        if (!newShapes.contains(shape)){
+            newShapes.add(shape);
+            GetView(shape).parent.setVisible(true);
+            RefreshFooter();
+        }
+        else GetView(shape).Back();
+    }
+    protected void PutShape(Vector2 pos,Shape shape)
     {
         Scene.AddActorKeepTransform(GetView(shape),game.FindIGroup("board").GetActor());
         Vector2 vPos = game.FindIGroup("board").FindITable("table").Get(pos).GetPosition(Align.bottomLeft);
         GetView(shape).Drop(vPos);
-        board.Set(pos,shape);
-        shape.ForTrue(p-> blockMap.put(new Vector2(pos).add(p),GetView(shape).GetBlockView(p)));
-        newShapes.remove(shape);
-        if (newShapes.size() == 0) NewShapes();
+        shape.SetPos(pos);
+        model.Set(shape);
+        shape.ForValue(p-> blockMap.put(new Vector2(pos).add(p),GetView(shape).GetBlockView(p)));
+        RemoveShape(shape);
         Destroy();
     }
-    private void Destroy()
+    protected void RefreshFooter()
     {
-        Util.For(board.GetDestroyList(),list->{
-            board.Destroy(list);
+        Util.For(newShapes,shape->Scene.AddActorKeepTransform(GetView(shape),game.FindActor("footer")));
+        List<Actor> list = new ArrayList<>();
+        Util.For(slots,ia->list.add(ia.GetActor()));
+        game.FindIGroup("footer").FindITable("table").RefreshGrid(list);
+        Util.For(newShapes,shape->GetView(shape).Back());
+    }
+    protected void RemoveShape(Shape shape)
+    {
+        newShapes.remove(shape);
+        if (newShapes.size() == 0) NewShapes();
+        GetView(shape).parent.setVisible(false);
+        RefreshFooter();
+    }
+    protected void Destroy()
+    {
+        Util.For(model.GetDestroyList(), list->{
+            model.Destroy(list);
             Util.For(list,p-> blockMap.get(p).setVisible(false));
         });
     }

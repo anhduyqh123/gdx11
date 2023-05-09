@@ -12,24 +12,9 @@ public class SudoBoard extends Shape {
         this.width = width;
         this.height = height;
         grid = new int[width][height];
-        For(p->Set(p,1));
+        For(p->Set(p,0));
     }
-    public boolean IsFit(Vector2 pos,Shape shape) {
-        return shape.ForIf(p->{
-            Vector2 bPos = new Vector2(p).add(pos);
-            if (!Valid(bPos)) return false;
-            return Empty(bPos) || !shape.HasValue(p);
-        });
-    }
-    public void Set(Vector2 pos,Shape shape) {
-        shape.ForTrue(p->{
-            int vl = shape.Get(p);
-            Set(p.add(pos),vl);
-        });
-    }
-    public void Destroy(List<Vector2> list){
-        Util.For(list,p->Set(p,1));
-    }
+    @Override
     public List<List<Vector2>> GetDestroyList() {
         List<List<Vector2>> list = new ArrayList<>();
         Util.For(0,width-1,col->{

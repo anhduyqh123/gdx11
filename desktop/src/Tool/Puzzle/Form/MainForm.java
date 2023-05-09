@@ -29,11 +29,14 @@ public class MainForm {
     private void Install()
     {
         //ShapeForm shapeForm = new ShapeForm();
-        BoardForm boardForm = new BoardForm();
+        BoardForm boardForm = new BoardForm("boardData");
+        BoardForm sudoForm = new BoardForm("sudoData");
         tabbedPane.addChangeListener(changeEvent -> {
             int index = tabbedPane.getSelectedIndex();
-            if (index==0) boardForm.OnTab();
+//            if (index==0) boardForm.OnTab();
+//            if (index==1) sudoForm.OnTab();
         });
-        tabbedPane.add("Board", boardForm.panel1);
+        tabbedPane.add("Jigsaw", boardForm.panel1);
+        tabbedPane.add("sudoForm", sudoForm.panel1);
     }
 }

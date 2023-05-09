@@ -1,48 +1,64 @@
 package JigsawWood.Controller;
 
 import GDX11.Asset;
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
-import GDX11.IObject.IObject;
 import GDX11.Json;
 import GDX11.Util;
-import JigsawWood.Model.JigsawBoard;
-import JigsawWood.Model.Piece;
-import JigsawWood.Model.Shape;
-import JigsawWood.Model.ShapeData;
+import JigsawWood.Model.*;
+import JigsawWood.View.VPiece;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.utils.Align;
 
-public class GJigsawBoard {
-    private IGroup game;
-    private ShapeData shapeData = Json.ToObjectFomKey("boardData",ShapeData.class);
-    private JigsawBoard board;
-
-    public GJigsawBoard(IGroup game)
-    {
-        this.game = game;
-        SetBoard(shapeData.GetShape(2));
+public class GJigsawBoard extends GBoard {
+    public GJigsawBoard(IGroup game) {
+        super(game);
     }
+
+    protected ShapeData LoadData()
+    {
+        return Json.ToObjectFomKey("jigsawData",ShapeData.class);
+    }
+    protected JigsawBoard GetModel()
+    {
+        return (JigsawBoard)model;
+    }
+
+    @Override
+    public void Start(int level) {
+        SetBoard(shapeData.GetShape(level-1));
+        Start();
+    }
+
+    @Override
+    protected void NewShapes() {
+        slots = game.FindIGroup("footer").FindITable("table").CloneChild(GetModel().pieces,(piece,iGroup)->{
+            NewView(piece,(IGroup) iGroup);
+            //iGroup.GetActor().debug();
+        });
+    }
+
     private void SetBoard(Shape board)
     {
-        this.board = new JigsawBoard(board);
-        this.board.CutShapes();
+        this.model = new JigsawBoard(board);
+        GetModel().CutShapes();
 
         IGroup iBoard = game.FindIGroup("board");
         iBoard.FindIImage("mask").texture = board.texture;
         iBoard.FindIImage("front").texture = board.texture+"x";
-        ITable iTable = iBoard.FindITable("table");
+        FitTable(iBoard.FindITable("table0"),board);
+        FitTable(iBoard.FindITable("table"),board);
+        iBoard.Refresh();
+        InitBoard();
+    }
+    private void FitTable(ITable iTable,Shape board)
+    {
         iTable.column = board.width;
         iTable.clone = board.width*board.height;
         FitSize(iTable.GetIActor("empty"),board);
-        iBoard.Refresh();
-        InitBoard();
     }
     private void FitSize(IActor iActor,Shape shape)
     {
@@ -59,47 +75,42 @@ public class GJigsawBoard {
     }
     private void InitBoard()
     {
-        ITable iTable = game.FindIGroup("board").FindITable("table");
-        board.For(p->{
+        ITable iTable = game.FindIGroup("board").FindITable("table0");
+        model.For(p->{
             Actor a = iTable.Get(p).GetActor();
-            if (board.Get(p)>=0) a.setColor(Color.BROWN);
-        });
-        game.FindIGroup("footer").FindITable("table").CloneChild(board.pieces,(piece,iGroup)->{
-            NewView(piece,(IGroup) iGroup);
-            iGroup.GetActor().debug();
+            if (model.Get(p)>=0) a.setColor(Color.BROWN);
         });
     }
-    private void NewView(Piece piece,IGroup slot)
+    private void NewView(Shape shape,IGroup slot)
     {
         ITable iTable0 = game.FindIGroup("board").FindITable("table");
-
-        IGroup iGroup = IObject.Get("vPiece").Clone();
-        ITable iTable = iGroup.FindITable("table");
-        iTable.column = piece.width;
-        iTable.clone = piece.width*piece.height;
-        iTable.GetIActor("empty").iSize.width = iTable0.GetIActor("empty").iSize.width;
-        iTable.GetIActor("empty").iSize.height = iTable0.GetIActor("empty").iSize.height;
-
-        iGroup.SetIRoot(slot.GetActor());
-        iGroup.Refresh();
-        iGroup.GetActor().setSize(iTable.GetTable().getPrefWidth(),iTable.GetTable().getPrefHeight());
-        iGroup.GetActor().setPosition(0,0);
-        Vector2 maskPos = GetMaskPos(piece);
-        iGroup.FindIActor("mask").SetPosition(maskPos, Align.bottomLeft);
-        iTable.GetTable().setSize(iTable.GetTable().getPrefWidth(),iTable.GetTable().getPrefHeight());
-
-        piece.For(p->{
-            Actor a = iTable.Get(p).GetActor();
-            if (piece.Get(p)>=0) a.setColor(Color.GOLD);
-        });
-        //iGroup.GetGroup().debug();
+        VPiece vPiece = new VPiece(shape,iTable0,slot.GetActor());
+        vPiece.onClick = ()->dragShape = shape;
+        vPiece.SetMaskPos(GetMaskPos(shape));
+        map.put(shape,vPiece);
+        newShapes.add(shape);
     }
-    private Vector2 GetMaskPos(Piece piece)
+    private Vector2 GetMaskPos(Shape shape)
     {
         ITable iTable0 = game.FindIGroup("board").FindITable("table");
         Actor mask = game.FindIGroup("board").FindActor("mask");
-        Vector2 pos = new Vector2(piece.x,piece.y);
+        Vector2 pos = new Vector2(shape.x,shape.y);
         Actor cell = iTable0.Get(pos).GetActor();
         return mask.localToActorCoordinates(cell,new Vector2());
+    }
+    private VPiece GetVPiece(Shape shape)
+    {
+        return (VPiece) GetView(shape);
+    }
+
+    @Override
+    protected void HighLight(Vector2 pos, Shape shape) {
+
+    }
+    protected void RemoveShape(Shape shape)
+    {
+        newShapes.remove(shape);
+        GetView(shape).parent.setVisible(false);
+        RefreshFooter();
     }
 }

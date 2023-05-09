@@ -76,7 +76,7 @@ public class ITable extends IGroup{
         Util.For(iMap.GetObjects(),ia->list.add(ia.GetActor()));
         RefreshGrid(list);
     }
-    private void RefreshGrid(List<Actor> children)
+    public void RefreshGrid(List<Actor> children)
     {
         Table table = GetActor();
         table.clearChildren();

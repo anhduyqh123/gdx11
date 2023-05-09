@@ -21,6 +21,38 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class BaseTree<T> {
+    private final static Map<JTree,Runnable> treeSelectedEvent = new HashMap<>();
+    private final static Map<JTree, GDX.Runnable1<MouseEvent>> treeClickedEvent = new HashMap<>();
+    private final static Map<JTree,GDX.Runnable1<KeyEvent>> treeKeyTypeEvent = new HashMap<>();
+    private static void SetTreeSelectedEvent(JTree tree, Runnable event)
+    {
+        if (!treeSelectedEvent.containsKey(tree))
+            tree.addTreeSelectionListener(e-> treeSelectedEvent.get(tree).run());
+        treeSelectedEvent.put(tree,event);
+    }
+    private static void SetTreeClickedEvent(JTree tree, GDX.Runnable1<MouseEvent> event)
+    {
+        if (!treeClickedEvent.containsKey(tree))
+            tree.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    event.Run(e);
+                }
+            });
+        treeClickedEvent.put(tree,event);
+    }
+    private static void SetTreeKeyTypeEvent(JTree tree, GDX.Runnable1<KeyEvent> event)
+    {
+        if (!treeKeyTypeEvent.containsKey(tree))
+            tree.addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyTyped(KeyEvent e) {
+                    event.Run(e);
+                }
+            });
+        treeKeyTypeEvent.put(tree,event);
+    }
+
     protected JTree tree;
     protected T root;
     private Map<TreeNode, T> map = new HashMap<>();
@@ -32,40 +64,32 @@ public abstract class BaseTree<T> {
     public BaseTree(JTree tree)
     {
         this.tree = tree;
-        tree.addTreeSelectionListener(e->{
+        SetTreeSelectedEvent(tree,()->{
             DefaultMutableTreeNode node = GetSelectedNode();
             if (node==null || node.isRoot()) return;
             onSelect.Run(GetObject(node));
         });
-        tree.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton()!=3 || root==null) return;
-                if (GetSelectedNodes().size()>1)
-                {
-                    popupMenu.show(tree,e.getX(),e.getY());
-                    return;
-                }
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
-                TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-                tree.setSelectionPath(selPath);
-                if (selRow>-1 &&  selPath.getPathCount()>1){
-                    tree.setSelectionRow(selRow);
-                    OnShowPopupMenu();
-                    popupMenu.show(tree,e.getX(),e.getY());
-                    return;
-                }
-                SetSelection(root);
+        SetTreeClickedEvent(tree,e->{
+            if (e.getButton()!=3 || root==null) return;
+            if (GetSelectedNodes().size()>1)
+            {
+                popupMenu.show(tree,e.getX(),e.getY());
+                return;
+            }
+            int selRow = tree.getRowForLocation(e.getX(), e.getY());
+            TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+            tree.setSelectionPath(selPath);
+            if (selRow>-1 &&  selPath.getPathCount()>1){
+                tree.setSelectionRow(selRow);
                 OnShowPopupMenu();
-                popupMenu.show(tree,0,0);
+                popupMenu.show(tree,e.getX(),e.getY());
+                return;
             }
+            SetSelection(root);
+            OnShowPopupMenu();
+            popupMenu.show(tree,0,0);
         });
-        tree.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                OnKeyTyped(e);
-            }
-        });
+        SetTreeKeyTypeEvent(tree, this::OnKeyTyped);
     }
     protected void Select()
     {
