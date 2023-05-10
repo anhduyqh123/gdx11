@@ -24,8 +24,7 @@ public class IActor extends IObject {
     public IParam iParam = new IParam();
     public ISize iSize = new ISize();
     public IPos iPos = new IPos();
-    public IMulAction iAction = new IMulAction();
-    {
+    public IMulAction iAction = new IMulAction();{
         iAction.name = "action";
     }
     public IComponents iComponents = new IComponents();
@@ -36,8 +35,7 @@ public class IActor extends IObject {
     protected GDX.Func<Group> getParentOfRoot;
 
     //actor
-    public <T extends Actor> T GetActor()
-    {
+    public <T extends Actor> T GetActor() {
         if (getActor==null) return null;
         return (T)getActor.Run();
     }
@@ -45,8 +43,7 @@ public class IActor extends IObject {
     {
         getActor = ()->actor;
     }
-    protected Actor NewActor()
-    {
+    protected Actor NewActor() {
         return new Actor(){
             @Override
             public void act(float delta) {
@@ -71,16 +68,14 @@ public class IActor extends IObject {
     {
         iComponents.Update(delta);
     }
-    protected void OnDraw(Batch batch, float parentAlpha, Runnable superDraw)
-    {
+    protected void OnDraw(Batch batch, float parentAlpha, Runnable superDraw) {
         iComponents.Draw(batch, parentAlpha, superDraw);
     }
     protected void OnRemove()
     {
         iComponents.Remove();
     }
-    public void InitActor()
-    {
+    public void InitActor() {
         if (getActor==null || GetActor()==null) SetActor(NewActor());
         Clear();
         GetActor().setUserObject(this);
@@ -90,12 +85,11 @@ public class IActor extends IObject {
     {
         GetActor().clear();
     }
-    protected void JointParent()
-    {
-        try {
+    protected void JointParent() {
+        GDX.Try(()->{
             Group parent = getParentOfRoot!=null?getParentOfRoot.Run():GetIParent().GetActor();
             parent.addActor(GetActor());
-        }catch (Exception e){}
+        });
     }
 
     public IGroup GetIGroup()
@@ -106,8 +100,7 @@ public class IActor extends IObject {
     {
         return getIParent.Run();
     }
-    public void SetIParent(IGroup iParent)
-    {
+    public void SetIParent(IGroup iParent) {
         getIParent = ()->iParent;
         getIRoot = iParent.getIRoot;
         Connect();
@@ -120,49 +113,39 @@ public class IActor extends IObject {
     {
         return (T)getIRoot.Run();
     }
-    public void SetIRoot(Group group)
-    {
+    public void SetIRoot(Group group) {
         getParentOfRoot = ()->group;
         getIRoot = ()->this;
         Connect();
     }
-    public void Connect()
-    {
+    public void Connect() {
         iParam.SetIActor(this);
         iSize.SetIActor(this);
         iPos.SetIActor(this);
         iAction.SetIActor(this);
         iComponents.SetIActor(this);
     }
-    public <T extends IActor> T IRootFind(String name)
-    {
+    public <T extends IActor> T IRootFind(String name) {
         IGroup iRoot = GetIRoot();
         return iRoot.FindIActor(name);
     }
 
 
     //refresh
-    public void RefreshContent()
-    {
-
+    public void RefreshContent() {
     }
-    public void RefreshLanguage()
-    {
-
+    public void RefreshLanguage() {
     }
-    public void Refresh()
-    {
+    public void Refresh() {
         RefreshCore();
         InitEvent();
     }
-    protected void RefreshCore()
-    {
+    protected void RefreshCore() {
         InitActor();
         BaseRefresh();
         RefreshContent();
     }
-    public void BaseRefresh()
-    {
+    public void BaseRefresh() {
         iSize.Refresh();
         iPos.Refresh();
         Actor actor = GetActor();
@@ -172,14 +155,12 @@ public class IActor extends IObject {
         InitParam0();
     }
     private final static List<String> eventNames = Arrays.asList("enter","exit","clicked");
-    private boolean ContainsEvent()
-    {
+    private boolean ContainsEvent() {
         for (String ev : eventNames)
             if (iAction.Contain(ev)) return true;
         return false;
     }
-    protected void InitEvent()
-    {
+    protected void InitEvent() {
         iComponents.Refresh();
         RunEventAction("init");
         if (ContainsEvent())
@@ -187,64 +168,55 @@ public class IActor extends IObject {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     super.enter(event, x, y, pointer, fromActor);
-                    Run("enter");
+                    RunEvent("enter");
                 }
 
                 @Override
                 public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                     super.exit(event, x, y, pointer, toActor);
-                    Run("exit");
+                    RunEvent("exit");
                 }
 
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Run("clicked");
+                    RunEvent("clicked");
                 }
             });
     }
-    protected void InitParam0()
-    {
+    protected void InitParam0() {
         iParam.Set("x0",GetActor().getX());
         iParam.Set("y0",GetActor().getY());
     }
-    public Number GetGlobalNum(String name)
-    {
+    public Number GetGlobalNum(String name) {
         if (Config.Has(name)) return Config.Get(name);
         return iParam.GetValueFromString(name);
     }
     //Action
-    public void Run(String name)
-    {
+    public void Run(String name) {
         RunEvent(name);
     }
-    public void RunAction(String name)
-    {
+    public void RunAction(String name) {
         RunEventAction(name);
     }
-    protected void RunEventAction(String name)
-    {
+    protected void RunEventAction(String name) {
         if (!iAction.Contain(name)) return;
         GetActor().addAction(iAction.Find(name).Get());
     }
-    protected void RunEvent(String name)
-    {
+    protected void RunEvent(String name) {
         if (!iAction.Contain(name)) return;
         iAction.Find(name).Run();
     }
 
     //Get Data
-    protected Color GetColor()
-    {
+    protected Color GetColor() {
         return Color.valueOf(hexColor);
     }
 
     //extend
-    public void Runnable(GDX.Runnable1<IActor> cb)
-    {
+    public void Runnable(GDX.Runnable1<IActor> cb) {
         cb.Run(this);
     }
-    public void AddClick(Runnable onClick)
-    {
+    public void AddClick(Runnable onClick) {
         GetActor().addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -255,38 +227,31 @@ public class IActor extends IObject {
     }
 
     //Position
-    public Vector2 GetLocalPosition(int align)
-    {
+    public Vector2 GetLocalPosition(int align) {
         return new Vector2(GetActor().getX(align),GetActor().getY(align));
     }
-    public Vector2 GetPosition(int align)
-    {
+    public Vector2 GetPosition(int align) {
         return new Vector2(GetActor().getX(align),GetActor().getY(align));
     }
-    public Vector2 GetStagePosition(int align)
-    {
+    public Vector2 GetStagePosition(int align) {
         return Scene.GetStagePosition(GetActor(),align);
     }
 
-    public void SetPosition(Vector2 pos,int align)
-    {
+    public void SetPosition(Vector2 pos,int align) {
         Scene.SetPosition(GetActor(),pos,align);
     }
-    public void SetStagePosition(Vector2 pos,int align)
-    {
+    public void SetStagePosition(Vector2 pos,int align) {
         Scene.SetStagePosition(GetActor(),pos,align);
     }
 
     //Extend
-    public void Run(Runnable cb,float delay)
-    {
+    public void Run(Runnable cb,float delay) {
         Action ac1 = Actions.delay(delay);
         Action ac2 = Actions.run(cb);
         GetActor().addAction(Actions.sequence(ac1,ac2));
     }
     //static
-    public static <T extends IActor> T GetIActor(Actor actor)
-    {
+    public static <T extends IActor> T GetIActor(Actor actor) {
         return (T)actor.getUserObject();
     }
 }

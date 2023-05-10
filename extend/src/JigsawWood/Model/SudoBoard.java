@@ -11,8 +11,8 @@ public class SudoBoard extends Shape {
     public SudoBoard(int width, int height) {
         this.width = width;
         this.height = height;
-        grid = new int[width][height];
-        For(p->Set(p,0));
+        grid = new char[width][height];
+        For(p->Set(p,emptyChar));
     }
     @Override
     public List<List<Vector2>> GetDestroyList() {

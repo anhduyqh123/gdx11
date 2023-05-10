@@ -1,17 +1,17 @@
 package JigsawWood.Controller;
 
-import GDX11.Asset;
+import GDX11.*;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
-import GDX11.Json;
-import GDX11.Util;
 import JigsawWood.Model.*;
 import JigsawWood.View.VPiece;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 
 public class GJigsawBoard extends GBoard {
     public GJigsawBoard(IGroup game) {
@@ -78,7 +78,7 @@ public class GJigsawBoard extends GBoard {
         ITable iTable = game.FindIGroup("board").FindITable("table0");
         model.For(p->{
             Actor a = iTable.Get(p).GetActor();
-            if (model.Get(p)>=0) a.setColor(Color.BROWN);
+            if (model.Empty(p)) a.setColor(Color.BROWN);
         });
     }
     private void NewView(Shape shape,IGroup slot)
@@ -107,6 +107,13 @@ public class GJigsawBoard extends GBoard {
     protected void HighLight(Vector2 pos, Shape shape) {
 
     }
+
+    @Override
+    protected void PutShape(Vector2 pos, Shape shape) {
+        super.PutShape(pos, shape);
+        game.FindIGroup("board").FindActor("front").toFront();
+    }
+
     protected void RemoveShape(Shape shape)
     {
         newShapes.remove(shape);

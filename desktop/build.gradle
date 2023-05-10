@@ -2,10 +2,10 @@ apply plugin: "java"
 
 sourceCompatibility = 11
 sourceSets.main.java.srcDirs = [ "src/" ]
-//sourceSets.main.resources.srcDirs = ["../android/assets"]
+//sourceSets.main.resources.srcDirs = ["../assets"]
 
-project.ext.mainClassName = "Tool.ObjectTool.Main"
-project.ext.assetsDir = new File("../android/Empty");
+project.ext.mainClassName = "Tool.Puzzle.Puzzle"
+project.ext.assetsDir = new File("../empty");
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName

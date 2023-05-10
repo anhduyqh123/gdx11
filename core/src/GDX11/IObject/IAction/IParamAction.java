@@ -1,6 +1,7 @@
 package GDX11.IObject.IAction;
 
 import GDX11.Config;
+import GDX11.GDX;
 import GDX11.IObject.IParam;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;

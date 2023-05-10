@@ -29,6 +29,7 @@ public class BoardForm {
     private JButton sNew;
     private JButton sDelete;
     private JTextField tfTexture;
+    private JCheckBox cbWall;
 
     //data
     private String name;
@@ -36,6 +37,7 @@ public class BoardForm {
     private Shape shape;
     public BoardForm(String name)
     {
+        UI.SetUserObject(panel1,this);
         this.name = name;
         data = LoadData();
         GListX gList = new GListX("i",tree1);
@@ -62,7 +64,8 @@ public class BoardForm {
     }
     public void OnTab()
     {
-
+        if (shape!=null)
+            OnSelect(shape);
     }
     private void OnSelect(Shape shape)
     {
@@ -76,24 +79,36 @@ public class BoardForm {
     private void InitShapeList(Shape shape)//check
     {
         List<String> list = shape.GetShapeIDs();
-        if (list.size()==0) list.add("1");
-        GDX.Func<String> newID = ()->{
-            for (int i=1;i<=list.size();i++)
-                if (!list.get(i-1).equals(i+"")) return i+"";
-            return (list.size()+1)+"";
-        };
+        if (list.size()==0) list.add("a");
+        GDX.Func<String> newID = ()-> cbWall.isSelected()? GetNextChar(list,'A','Z')+"": GetNextChar(list,'a','z')+"";
         GList2 gList = new GList2(shapeTree){
             @Override
             public void New() {
                 New(newID.Run());
             }
+
+            @Override
+            public void Delete() {
+                Util.For(GetSelectedNodes(), n->{
+                    char id = GetObject(n).charAt(0);
+                    shape.Remove(id);
+                });
+                OnSelect(shape);
+            }
         };
-        gList.onSelect = id->BoardEditor.numID = Integer.parseInt(id);
+        gList.onSelect = id->BoardEditor.numID = id.charAt(0);
         gList.SetData(list);
-        gList.SetSelection("1");
+        gList.SetSelection("a");
         UI.Button(sNew,gList::New);
-        //UI.Button(sDelete,gList::Delete);
+        UI.Button(sDelete,gList::Delete);
     }
+    private char GetNextChar(List<String> list, char start, char end) {
+        if (!list.contains(start+"")) return start;
+        for (String s : list)
+            if (s.charAt(0)>start && s.charAt(0)<=end) start = s.charAt(0);
+        return (char) (start+1);
+    }
+
     //data
     private ShapeData LoadData()
     {

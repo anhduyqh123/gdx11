@@ -3,6 +3,7 @@ package Tool.ObjectToolV2.Form;
 import Extend.IExtend;
 import Extend.IPutEvent;
 import Extend.Spine.IAnimation;
+import GDX11.GDX;
 import GDX11.IObject.IAction.*;
 import GDX11.IObject.IActor.IActor;
 import Tool.Swing.GTree2;
@@ -11,6 +12,7 @@ import Tool.Swing.WrapLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,7 +21,13 @@ public class IActionForm {
     private JPanel pnInfo;
     public JPanel panel1;
 
-    private GTree2<IAction> gTree = new GTree2<>(tree);
+    private GTree2<IAction> gTree = new GTree2<>(tree){
+        @Override
+        protected void OnKeyTyped(KeyEvent e) {
+            super.OnKeyTyped(e);
+            if (e.getKeyChar()=='') Run();
+        }
+    };
     private IActor iActor;
 
     public IActionForm()

@@ -8,11 +8,19 @@ import com.badlogic.gdx.utils.reflect.Field;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 public class UI {
+    private static final Map map = new HashMap();
+    public static void SetUserObject(Object ob,Object user)
+    {
+        map.put(ob,user);
+    }
+    public static <T> T GetUserObject(Object ob)
+    {
+        return (T)map.get(ob);
+    }
     //Data
     public static String[] ClassToNames(Class[] arr)
     {
@@ -361,6 +369,12 @@ public class UI {
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+                onClosed.run();
+                frame.dispose();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
                 onClosed.run();
                 frame.dispose();
             }

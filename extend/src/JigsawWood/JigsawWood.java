@@ -26,6 +26,6 @@ public class JigsawWood{
         screen.Show();
 
         GBoard gBoard = new GJigsawBoard(screen.iGroup);
-        gBoard.Start(3);
+        gBoard.Start(1);
     }
 }

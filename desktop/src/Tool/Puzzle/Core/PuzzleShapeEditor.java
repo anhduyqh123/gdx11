@@ -38,12 +38,12 @@ public class PuzzleShapeEditor {
             a.addListener(new InputListener(){
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    if (pointer!=0) return;
-                    int button = Config.Get("button");
-                    int vl = shape.Get(cell);
-                    if (button==1) shape.Set(cell,vl==0?1:0);
-                    else shape.Set(cell,vl==2?1:2);
-                    Refresh(shape.Get(cell),iActor);
+//                    if (pointer!=0) return;
+//                    int button = Config.Get("button");
+//                    int vl = shape.Get(cell);
+//                    if (button==1) shape.Set(cell,vl==0?1:0);
+//                    else shape.Set(cell,vl==2?1:2);
+//                    Refresh(shape.Get(cell),iActor);
                 }
             });
         });

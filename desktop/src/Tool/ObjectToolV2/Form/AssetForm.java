@@ -11,7 +11,11 @@ import GDX11.Util;
 import Tool.Swing.GTree2;
 import Tool.Swing.UI;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,11 +25,13 @@ public class AssetForm {
     private JTree tree1;
     private JComboBox cbPack;
     private JComboBox cbKind;
+    private JPanel pnDraw;
     private AssetData data = Asset.i.data;
     private GTree2 gTree = new GTree2(tree1);
 
     public AssetForm()
     {
+        gTree.onSelect = this::OnSelect;
         List<String> packs = new ArrayList<>(data.GetKeys());
         packs.add(0,"all");
         UI.ComboBox(cbPack,packs.toArray(),packs.get(0),vl-> GDX.Try(()->gTree.SetRoot(GetData())));
@@ -43,6 +49,32 @@ public class AssetForm {
         if (pack.equals("all")) return new IGroupNode(AssetNode.Kind.valueOf(kind+""));
         if (kind.equals("all")) return new IGroupNode(pack);
         return new IGroupNode(pack,AssetNode.Kind.valueOf(kind+""));
+    }
+    private void OnSelect(Object object) {
+        if (!(object instanceof INode)) return;
+        INode iNode = (INode) object;
+        if (iNode.node.kind== AssetNode.Kind.Texture)
+            DrawTexture(iNode.node);
+    }
+    private void DrawTexture(AssetNode node) {
+        try {
+            final BufferedImage image = ImageIO.read(new File(node.url));
+            float scaleX = pnDraw.getWidth()*1f/image.getWidth();
+            float scaleY = pnDraw.getHeight()*1f/image.getHeight();
+            float scale = Math.min(scaleX,scaleY);
+            int w = (int)(image.getWidth()*scale);int h = (int)(image.getHeight()*scale);
+            int x = (pnDraw.getWidth()-w)/2;int y = (pnDraw.getHeight()-h)/2;
+            JPanel jPanel = new JPanel(){
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(image, x, y,(int)(image.getWidth()*scale),(int)(image.getHeight()*scale), null);
+                }
+            };
+            pnDraw.removeAll();
+            pnDraw.add(jPanel);
+            UI.Repaint(pnDraw);
+        }catch (Exception e){}
     }
 
     public class INode extends IObject

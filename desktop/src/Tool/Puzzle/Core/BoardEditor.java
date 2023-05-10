@@ -10,6 +10,7 @@ import GDX11.IObject.IActor.ITable;
 import GDX11.IObject.IObject;
 import GDX11.Scene;
 import JigsawWood.Model.Shape;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -18,9 +19,17 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
 
-public class BoardEditor {
-    public static int numID = 1;
-    private final String[] arrHex = {"0048BA","B0BF1A","7CB9E8","B284BE","72A0C1","DB2D43","C46210","EFDECD","9F2B68","F19CBB"};
+import java.util.ArrayList;
+import java.util.List;
+
+public class BoardEditor extends Shape {
+    public static char numID = 'a';
+    private static final List<Color> colors = new ArrayList<>();
+    {
+        FileHandle file = new FileHandle("colors.txt");
+        for (String s : file.readString().split("\n"))
+            colors.add(Color.valueOf(s));
+    }
 
     public BoardEditor(Shape shape)
     {
@@ -45,28 +54,34 @@ public class BoardEditor {
 
         table.ForActor(a->{
             a.debug();
-            IActor iActor = IActor.GetIActor(a);
+            IImage iActor = IActor.GetIActor(a);
             Vector2 cell = table.GetCell(a);
-            int value = shape.Get(cell);
-            Refresh(value,iActor);
+            char id = shape.Get(cell);
+            Refresh(id,iActor);
             a.addListener(new InputListener(){
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     if (pointer!=0) return;
                     int button = Config.Get("button");
-                    int vl = shape.Get(cell);
-                    if (button==1) shape.Set(cell,vl==-1?0:-1);
-                    else shape.Set(cell,vl==numID?0:numID);
+                    char vl = shape.Get(cell);
+                    if (button==1) shape.Set(cell,vl==nullChar?emptyChar:nullChar);
+                    else shape.Set(cell,vl==numID?emptyChar:numID);
                     Refresh(shape.Get(cell),iActor);
                 }
             });
         });
     }
-    private void Refresh(int value,IActor iActor)
+    private void Refresh(char id,IImage iActor)
     {
-        if (value==-1) iActor.Run("disable");
-        if (value==0) iActor.Run("empty");
-        if (value>=1) iActor.GetActor().setColor(Color.valueOf(arrHex[value-1]));
+        iActor.SetTexture("");
+        iActor.GetActor().clearActions();
+        if (id==nullChar) iActor.Run("disable");
+        if (id==emptyChar) iActor.Run("empty");
+        if (id>=valueChar){
+            int id0 = id<='a'?id+32:id;
+            iActor.GetActor().setColor(colors.get(id0-'a'));
+            if (id>='A' && (id<='Z')) iActor.RunAction("wall");
+        }
     }
     private void FitSize(IActor iActor,String texture,Shape shape)
     {

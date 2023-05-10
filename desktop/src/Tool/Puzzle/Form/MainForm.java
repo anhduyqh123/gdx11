@@ -2,6 +2,7 @@ package Tool.Puzzle.Form;
 
 import SDK.SDK;
 import Tool.Puzzle.Core.MyGame;
+import Tool.Swing.UI;
 import com.badlogic.gdx.backends.lwjgl.LwjglCanvas;
 
 import javax.swing.*;
@@ -29,14 +30,15 @@ public class MainForm {
     private void Install()
     {
         //ShapeForm shapeForm = new ShapeForm();
-        BoardForm boardForm = new BoardForm("boardData");
+        BoardForm jigsawForm = new BoardForm("jigsawData");
         BoardForm sudoForm = new BoardForm("sudoData");
+        BoardForm puzzForm = new BoardForm("puzzData");
         tabbedPane.addChangeListener(changeEvent -> {
-            int index = tabbedPane.getSelectedIndex();
-//            if (index==0) boardForm.OnTab();
-//            if (index==1) sudoForm.OnTab();
+            BoardForm boardForm = UI.GetUserObject(tabbedPane.getSelectedComponent());
+            boardForm.OnTab();
         });
-        tabbedPane.add("Jigsaw", boardForm.panel1);
-        tabbedPane.add("sudoForm", sudoForm.panel1);
+        tabbedPane.add("Jigsaw", jigsawForm.panel1);
+        //tabbedPane.add("sudoForm", sudoForm.panel1);
+        tabbedPane.add("PuzzForm", puzzForm.panel1);
     }
 }
