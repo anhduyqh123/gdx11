@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.ParticleViewer.ViewForm">
+  <grid id="27dc6" binding="panel1" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="510" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <splitpane id="54d1f">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <scrollpane id="1d211">
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties>
+              <minimumSize width="200" height="400"/>
+              <preferredSize width="200" height="400"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="5c40d" class="javax.swing.JTree" binding="tree1" default-binding="true">
+                <constraints/>
+                <properties>
+                  <rootVisible value="false"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+          <grid id="d66c2" binding="pnView" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints>
+              <splitpane position="right"/>
+            </constraints>
+            <properties>
+              <minimumSize width="300" height="400"/>
+              <preferredSize width="300" height="400"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+        </children>
+      </splitpane>
+    </children>
+  </grid>
+</form>

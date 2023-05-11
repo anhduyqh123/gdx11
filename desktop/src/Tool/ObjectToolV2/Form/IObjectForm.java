@@ -55,6 +55,7 @@ public class IObjectForm {
     private void RefreshIActor()
     {
         iActor.iParam.Dispose();
+        iActor.Connect();
         iActor.Refresh();
     }
     public void SetData(PackObject pack)

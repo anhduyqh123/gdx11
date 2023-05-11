@@ -372,12 +372,6 @@ public class UI {
                 onClosed.run();
                 frame.dispose();
             }
-
-            @Override
-            public void windowClosed(WindowEvent e) {
-                onClosed.run();
-                frame.dispose();
-            }
         });
         return frame;
     }

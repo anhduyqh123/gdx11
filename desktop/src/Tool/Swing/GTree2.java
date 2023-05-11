@@ -37,7 +37,7 @@ public class GTree2<T extends IObject> extends BaseTree<T> {
         return new DefaultMutableTreeNode(ob.name);
     }
 
-    private void Delete()
+    protected void Delete()
     {
         T parent = GetParentObject();
         Util.For(GetSelectedNodes(), n-> parent.GetIMap().Remove(GetObject(n)));

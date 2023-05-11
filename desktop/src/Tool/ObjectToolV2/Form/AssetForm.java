@@ -34,12 +34,12 @@ public class AssetForm {
         gTree.onSelect = this::OnSelect;
         List<String> packs = new ArrayList<>(data.GetKeys());
         packs.add(0,"all");
-        UI.ComboBox(cbPack,packs.toArray(),packs.get(0),vl-> GDX.Try(()->gTree.SetRoot(GetData())));
+        UI.ComboBox(cbPack,packs.toArray(),packs.get(1),vl-> GDX.Try(()->gTree.SetRoot(GetData())));
 
         List kinds = new ArrayList<>();
         kinds.add("all");
         kinds.addAll(Arrays.asList(AssetNode.Kind.values()));
-        UI.ComboBox(cbKind,kinds.toArray(),kinds.get(0),vl-> gTree.SetRoot(GetData()));
+        UI.ComboBox(cbKind,kinds.toArray(),AssetNode.Kind.Texture,vl-> gTree.SetRoot(GetData()));
     }
     private IObject GetData()
     {

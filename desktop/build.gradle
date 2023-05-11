@@ -4,7 +4,7 @@ sourceCompatibility = 11
 sourceSets.main.java.srcDirs = [ "src/" ]
 //sourceSets.main.resources.srcDirs = ["../assets"]
 
-project.ext.mainClassName = "Tool.Puzzle.Puzzle"
+project.ext.mainClassName = "Tool.ParticleViewer.ParticleViewer"
 project.ext.assetsDir = new File("../empty");
 
 task run(dependsOn: classes, type: JavaExec) {

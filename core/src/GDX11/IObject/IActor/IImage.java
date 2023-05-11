@@ -16,7 +16,6 @@ public class IImage extends IActor{
 
     public String texture = "";
     public int left,right,top,bottom;
-    public boolean multiLanguage;
 
     public IImage()
     {
@@ -49,8 +48,6 @@ public class IImage extends IActor{
     @Override
     public void Connect() {
         super.Connect();
-//        iEvent.SetFunc("dw",()->(float)GetTexture().getRegionWidth());//width of texture
-//        iEvent.SetFunc("dh",()->(float)GetTexture().getRegionHeight());//height of texture
         iParam.Set("dw",(GDX.Func<Object>) () ->(float)GetTexture().getRegionWidth());
         iParam.Set("dh",(GDX.Func<Object>) () ->(float)GetTexture().getRegionHeight());
     }
