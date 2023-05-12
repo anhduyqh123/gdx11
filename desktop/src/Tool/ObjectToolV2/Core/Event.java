@@ -68,10 +68,12 @@ public class Event {
     {
         Vector2 p0 = new Vector2();
         Vector2 p = new Vector2();
+        GDX.Ref<Boolean> debug = new GDX.Ref<>();
         Scene.i.ui.addListener(new ClickListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (dragIActor ==null || button!=0) return false;
+                debug.Set(dragIActor.GetActor().getDebug());
                 dragIActor.GetActor().setDebug(true);
                 IActor iActor = dragIActor;
                 p0.set(x,y);
@@ -98,7 +100,7 @@ public class Event {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 if (dragIActor ==null) return;
-                dragIActor.GetActor().setDebug(false);
+                dragIActor.GetActor().setDebug(debug.Get());
                 dragIActor = null;
             }
         });

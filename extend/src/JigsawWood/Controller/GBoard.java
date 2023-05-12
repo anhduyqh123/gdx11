@@ -1,7 +1,10 @@
 package JigsawWood.Controller;
 
+import GDX11.GAudio;
 import GDX11.GDX;
+import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
+import GDX11.IObject.IActor.IParticle;
 import GDX11.IObject.IActor.ITable;
 import GDX11.Scene;
 import GDX11.Util;
@@ -49,12 +52,16 @@ public class GBoard {
     }
     protected void NewShapes()
     {
-        IGroup footer = game.FindIGroup("footer");
-        Util.For(0,2,i->slots.add(footer.FindIGroup("slot"+i)));
+        if (slots.size()<=0)
+        {
+            IGroup footer = game.FindIGroup("footer");
+            Util.For(0,2,i->slots.add(footer.FindIGroup("slot"+i)));
+        }
         Util.For(slots, this::NewShape);
     }
     private void NewShape(IGroup slot)//footer
     {
+        slot.GetGroup().clearChildren();
         Shape shape = shapeData.GetRandomShape();
         VShape vShape = new VShape(shape,game.FindITable("table"),slot.GetActor());
         vShape.onClick = ()->dragShape = shape;
@@ -63,13 +70,13 @@ public class GBoard {
     }
     private void InitEvent()
     {
-        ScrollPane scroll = game.FindActor("scroll");
+        IActor scroll = game.FindIActor("scroll");
         game.GetActor().addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (pointer!=0 || dragShape==null) return false;
                 if (!newShapes.contains(dragShape)) model.Remove(dragShape);;
-                if (scroll!=null) scroll.cancel();
+                if (scroll!=null) scroll.GetActor(ScrollPane.class).cancel();
                 Scene.AddActorKeepTransform(GetView(dragShape),game.FindActor("footer"));
                 return true;
             }
@@ -163,7 +170,18 @@ public class GBoard {
     {
         Util.For(model.GetDestroyList(), list->{
             model.Destroy(list);
-            Util.For(list,p-> blockMap.get(p).setVisible(false));
+            game.Run(()->Util.For(list,p->DestroyEffect(blockMap.get(p))),0.1f);
+            GAudio.i.PlaySingleSound("glass2");
+            //Util.For(list,p->DestroyEffect(blockMap.get(p)));
         });
+    }
+    protected void DestroyEffect(Actor actor)
+    {
+        actor.setVisible(false);
+        IParticle eff = game.FindIGroup("board").Clone("eff");
+        eff.Refresh();
+        Vector2 pos = actor.localToActorCoordinates(game.FindActor("board"),Scene.GetLocal(actor,Align.center));
+        eff.SetPosition(pos);
+        eff.GetParticle().Start();
     }
 }

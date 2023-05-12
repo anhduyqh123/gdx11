@@ -48,7 +48,7 @@ public class IObjectForm {
     }
     private List<Class> GetTypes()
     {
-        return Arrays.asList(IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class, ISpine.class,
+        return Arrays.asList(IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class, IParticle.class, ISpine.class,
                 IScrollImage.class, IProgressBar.class,IScrollPane.class, IPagedScroll.class, ITextField.class);
     }
 

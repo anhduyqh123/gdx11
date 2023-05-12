@@ -2,6 +2,7 @@ package Tool.ObjectToolV2.Core;
 
 import Extend.Spine.GSpine;
 import Extend.Spine.ISpine;
+import GDX11.Actors.Particle;
 import GDX11.IObject.IActor.*;
 import GDX11.Reflect;
 import Tool.Swing.UI;
@@ -17,6 +18,7 @@ public class JActor {
     {
         if (iActor instanceof IGroup) return new JGroup(iActor, panel);
         if (iActor instanceof ISpine) return new JSpine(iActor, panel);
+        if (iActor instanceof IParticle) return new JParticle(iActor, panel);
         return new JActor(iActor,panel);
     }
     protected List<String> fields;
@@ -68,6 +70,14 @@ public class JActor {
         protected void ExcludeFields() {
             super.ExcludeFields();
             fields.removeAll(Arrays.asList("skin","animation"));
+        }
+    }
+    static class JParticle extends JActor{
+
+        public JParticle(IActor iActor, JPanel panel) {
+            super(iActor, panel);
+            Particle par = iActor.GetActor();
+            UI.NewButton("Play",panel, par::Start);
         }
     }
 }

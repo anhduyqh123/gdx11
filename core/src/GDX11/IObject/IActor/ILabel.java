@@ -58,6 +58,15 @@ public class ILabel extends IActor{
     }
 
     @Override
+    public void BaseRefresh() {
+        Label lb = GetActor();
+        lb.setText(GetText());
+        SetFont(font);
+        lb.setFontScale(fontScale);
+        super.BaseRefresh();
+    }
+
+    @Override
     public void RefreshContent() {
         Label lb = GetActor();
         lb.setText(GetText());
@@ -78,8 +87,6 @@ public class ILabel extends IActor{
     //ILabel
     protected void DefaultEvent()
     {
-//        iEvent.SetFunc("dw",()->GetLabel().getPrefWidth());
-//        iEvent.SetFunc("dh",()->GetLabel().getPrefHeight());
         iParam.Set("dw",(GDX.Func<Object>) () ->GetLabel().getPrefWidth());
         iParam.Set("dh",(GDX.Func<Object>) () ->GetLabel().getPrefHeight());
     }

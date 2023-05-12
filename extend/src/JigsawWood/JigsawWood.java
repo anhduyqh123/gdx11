@@ -1,17 +1,18 @@
 package JigsawWood;
 
+import GDX11.Json;
 import GDX11.Screen;
 import JigsawWood.Controller.GBoard;
 import JigsawWood.Controller.GJigsawBoard;
 import JigsawWood.Controller.GSudoBoard;
-import JigsawWood.Model.Shape;
+import JigsawWood.Model.ShapeData;
 import JigsawWood.Screen.GameScreen;
-import JigsawWood.View.VShape;
 
 public class JigsawWood{
     public JigsawWood(){
-        //Sudo();
-        JigSaw();
+        Sudo();
+        //JigSaw();
+        //Puzz();
     }
     private void Sudo()
     {
@@ -24,8 +25,20 @@ public class JigsawWood{
     {
         Screen screen = new GameScreen("JigsawGame");
         screen.Show();
-
         GBoard gBoard = new GJigsawBoard(screen.iGroup);
+        gBoard.Start(1);
+    }
+    private void Puzz()
+    {
+        Screen screen = new GameScreen("JigsawGame");
+        screen.Show();
+
+        GBoard gBoard = new GJigsawBoard(screen.iGroup){
+            @Override
+            protected ShapeData LoadData() {
+                return Json.ToObjectFomKey("puzzData",ShapeData.class);
+            }
+        };
         gBoard.Start(1);
     }
 }

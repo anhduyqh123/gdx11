@@ -21,7 +21,9 @@ public class GSudoBoard extends GBoard{
     }
 
     @Override
-    protected void BackShape(Shape shape) {}
+    protected void BackShape(Shape shape) {
+        GetView(shape).Back();
+    }
 
     @Override
     protected void RemoveShape(Shape shape) {

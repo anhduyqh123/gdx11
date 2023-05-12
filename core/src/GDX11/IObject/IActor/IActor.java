@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +39,9 @@ public class IActor extends IObject {
     public <T extends Actor> T GetActor() {
         if (getActor==null) return null;
         return (T)getActor.Run();
+    }
+    public <T extends Actor> T GetActor(Class<T> type){
+        return GetActor();
     }
     public void SetActor(Actor actor)
     {
@@ -239,6 +243,9 @@ public class IActor extends IObject {
 
     public void SetPosition(Vector2 pos,int align) {
         Scene.SetPosition(GetActor(),pos,align);
+    }
+    public void SetPosition(Vector2 pos) {
+        SetPosition(pos, Align.bottomLeft);
     }
     public void SetStagePosition(Vector2 pos,int align) {
         Scene.SetStagePosition(GetActor(),pos,align);

@@ -67,6 +67,7 @@ public class VShape extends Group {
         shape.For(p->{
             Actor a = table.Get(p).GetActor();
             if (shape.Null(p)) a.getColor().a = 0;
+            //if (shape.Get(p)>=0) a.setColor(Color.valueOf("#FFC779"));
             if (shape.Get(p)>=0) a.setColor(Color.valueOf("#FFFFCC"));
         });
         shape.For(p-> table.Get(p).GetActor().setVisible(shape.HasValue(p)));

@@ -29,7 +29,6 @@ public class MainForm {
     }
     private void Install()
     {
-        //ShapeForm shapeForm = new ShapeForm();
         BoardForm jigsawForm = new BoardForm("jigsawData");
         BoardForm sudoForm = new BoardForm("sudoData");
         BoardForm puzzForm = new BoardForm("puzzData");
@@ -38,7 +37,7 @@ public class MainForm {
             boardForm.OnTab();
         });
         tabbedPane.add("Jigsaw", jigsawForm.panel1);
-        //tabbedPane.add("sudoForm", sudoForm.panel1);
         tabbedPane.add("PuzzForm", puzzForm.panel1);
+        tabbedPane.add("sudoForm", sudoForm.panel1);
     }
 }

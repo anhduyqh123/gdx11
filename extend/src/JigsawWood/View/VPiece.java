@@ -1,5 +1,6 @@
 package JigsawWood.View;
 
+import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
 import GDX11.IObject.IObject;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 public class VPiece extends VShape {
     public VPiece(Shape shape, ITable table0, Group parent) {
         super(shape, table0, parent);
+        iGroup.iComponents.GetIComponent("draw").active = !shape.texture.equals("");
     }
 
     @Override

@@ -5,6 +5,7 @@ import GDX11.Json;
 import GDX11.Util;
 import JigsawWood.Model.Shape;
 import JigsawWood.Model.ShapeData;
+import Tool.Puzzle.Core.TestGame;
 import Tool.Swing.GList2;
 import Tool.Swing.UI;
 import Tool.Puzzle.Core.BoardEditor;
@@ -30,6 +31,7 @@ public class BoardForm {
     private JButton sDelete;
     private JTextField tfTexture;
     private JCheckBox cbWall;
+    private JButton btTest;
 
     //data
     private String name;
@@ -58,9 +60,9 @@ public class BoardForm {
             shape.Create();
             shape.texture = tfTexture.getText();
             OnSelect(shape);
-            //new BoardEditor(shape);
         });
         UI.TextField(tfTexture,vl->shape.texture = vl);
+        UI.Button(btTest,()-> TestGame.TestJigsaw(shape));
     }
     public void OnTab()
     {
@@ -98,7 +100,7 @@ public class BoardForm {
         };
         gList.onSelect = id->BoardEditor.numID = id.charAt(0);
         gList.SetData(list);
-        gList.SetSelection("a");
+        gList.SetSelection(list.get(0));
         UI.Button(sNew,gList::New);
         UI.Button(sDelete,gList::Delete);
     }

@@ -37,8 +37,12 @@ public class JigsawBoard extends Shape{
             PutMax(maxY,id,p.y);
         });
         for (char id : listPos.keySet())
+        {
+            if (id<varChar) continue;
             pieces.add(NewPiece(id,listPos.get(id),minX.get(id),maxX.get(id),minY.get(id),maxY.get(id)));
-        ForBlock(p->Set(p,emptyChar));
+        }
+        for (char id : listPos.keySet())
+            if (id>=varChar) Util.For(listPos.get(id),p->Set(p,emptyChar));
     }
     private void PutMin(Map<Character, Integer> map,char id,float value)
     {

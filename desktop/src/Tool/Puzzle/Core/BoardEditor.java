@@ -2,13 +2,13 @@ package Tool.Puzzle.Core;
 
 import GDX11.Asset;
 import GDX11.Config;
-import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IImage;
 import GDX11.IObject.IActor.ITable;
 import GDX11.IObject.IObject;
 import GDX11.Scene;
+import JigsawWood.Controller.GJigsawBoard;
 import JigsawWood.Model.Shape;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -17,7 +17,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,42 +30,40 @@ public class BoardEditor extends Shape {
             colors.add(Color.valueOf(s));
     }
 
-    public BoardEditor(Shape shape)
+    public BoardEditor(Shape board)
     {
         Scene.i.ui.clearChildren();
         IGroup iGroup = IObject.Get("ShapeEdit").Clone();
         iGroup.SetIRoot(Scene.i.ui);
-
-        IGroup iShape = iGroup.FindIGroup("shape");
-        ITable table = iGroup.FindITable("table");
-        table.column = shape.width;
-        table.clone = shape.height*shape.width;
-        if (!shape.texture.equals("")) FitSize(table.GetIActor("empty"),shape.texture,shape);
-
-        IImage img = iGroup.FindIImage("img");
-        img.texture = shape.texture;
-
         iGroup.Refresh();
-        iShape.GetActor().setSize(table.GetTable().getPrefWidth(),table.GetTable().getPrefHeight());
-        iShape.GetActor().setPosition(Scene.i.width/2,Scene.i.height/2, Align.center);
 
-        if (shape.texture.equals("")) img.GetActor().setVisible(false);
+        IGroup iBoard = iGroup.FindIGroup("board");
+        Vector2 fitSize = new Vector2(iBoard.GetActor().getWidth(),iBoard.GetActor().getHeight());
+        if (board.IsJigsaw()){
+            iBoard.FindIImage("mask").visible = true;
+            iBoard.FindIImage("mask").texture = board.texture;
+            TextureRegion tr = Asset.i.GetTexture(board.texture);
+            fitSize.set(tr.getRegionWidth(),tr.getRegionHeight());
+        }
+        GJigsawBoard.FitTable(iBoard.FindITable("table0"),board,fitSize);
+        GJigsawBoard.FitTable(iBoard.FindITable("table"),board,fitSize);
+        iBoard.Refresh();
 
+        ITable table = iBoard.FindITable("table");
         table.ForActor(a->{
-            a.debug();
             IImage iActor = IActor.GetIActor(a);
             Vector2 cell = table.GetCell(a);
-            char id = shape.Get(cell);
+            char id = board.Get(cell);
             Refresh(id,iActor);
             a.addListener(new InputListener(){
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     if (pointer!=0) return;
                     int button = Config.Get("button");
-                    char vl = shape.Get(cell);
-                    if (button==1) shape.Set(cell,vl==nullChar?emptyChar:nullChar);
-                    else shape.Set(cell,vl==numID?emptyChar:numID);
-                    Refresh(shape.Get(cell),iActor);
+                    char vl = board.Get(cell);
+                    if (button==1) board.Set(cell,vl==nullChar?emptyChar:nullChar);
+                    else board.Set(cell,vl==numID?emptyChar:numID);
+                    Refresh(board.Get(cell),iActor);
                 }
             });
         });
@@ -82,18 +79,5 @@ public class BoardEditor extends Shape {
             iActor.GetActor().setColor(colors.get(id0-'a'));
             if (id>='A' && (id<='Z')) iActor.RunAction("wall");
         }
-    }
-    private void FitSize(IActor iActor,String texture,Shape shape)
-    {
-        TextureRegion tr = Asset.i.GetTexture(texture);
-        float aWidth = Float.parseFloat(iActor.iSize.width);
-        float aHeight = Float.parseFloat(iActor.iSize.height);
-        float width = shape.width*aWidth;
-        float height = shape.height*aHeight;
-        float scaleX = tr.getRegionWidth()/width;
-        float scaleY = tr.getRegionHeight()/height;
-        float scale = Math.max(scaleX,scaleY);
-        iActor.iSize.width = scale*aWidth+"";
-        iActor.iSize.height = scale*aHeight+"";
     }
 }

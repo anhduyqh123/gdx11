@@ -18,6 +18,7 @@ public class Shape implements Json.JsonObject {
     protected final char nullChar = '*';
     protected final char emptyChar = '0';
     protected final char valueChar = 'A';
+    protected final char varChar = 'a';
 
 
     public int width=4,height=4,x,y;
@@ -177,5 +178,9 @@ public class Shape implements Json.JsonObject {
     }
     public void Destroy(List<Vector2> list){
         Util.For(list, p->Set(p,emptyChar));
+    }
+    public boolean IsJigsaw()
+    {
+        return !texture.equals("");
     }
 }
