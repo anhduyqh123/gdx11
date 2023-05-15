@@ -24,6 +24,7 @@ public class IAudioAction extends IAction{
     public State state = State.Play;
     public float volume = 1;
     public String random = "";
+    public String effName = "";
 
     public IAudioAction() {
         super("audio");
@@ -52,7 +53,7 @@ public class IAudioAction extends IAction{
     }
     private String GetName()
     {
-        return name+GetRandom();
+        return effName+GetRandom();
     }
 
     //sound
@@ -63,17 +64,17 @@ public class IAudioAction extends IAction{
             case Play: GAudio.i.PlaySound(GetName()); break;
             case PlaySingle: GAudio.i.PlaySingleSound(GetName()); break;
             case Loop: break;
-            case Stop: GAudio.i.StopSound(name); break;
+            case Stop: GAudio.i.StopSound(effName); break;
         }
     }
     private void Music()
     {
         switch (state)
         {
-            case Play: GAudio.i.StartMusic(name); break;
+            case Play: GAudio.i.StartMusic(effName); break;
             case PlaySingle:
             case Loop: break;
-            case Stop: GAudio.i.StopMusic(name); break;
+            case Stop: GAudio.i.StopMusic(effName); break;
         }
     }
     private void Vibrate()

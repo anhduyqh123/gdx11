@@ -61,6 +61,14 @@ public class IParam extends IBase {
     {
         return Get(name);
     }
+    public Runnable GetRun(String name)
+    {
+        return Get(name);
+    }
+    public void SetRun(String name,Runnable run)
+    {
+        GetData().put(name,run);
+    }
     public void Set(String name, Object value)
     {
         GDX.Try(()->{

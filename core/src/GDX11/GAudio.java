@@ -128,6 +128,7 @@ public class GAudio {
     }
     public void PlaySound(String name)
     {
+        if (name.equals("")) return;
         if (IsSound())
             Asset.i.GetSound(name).play(GetSoundVolume());
     }

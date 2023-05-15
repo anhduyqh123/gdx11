@@ -1,5 +1,6 @@
 package GDX11;
 
+import GDX11.IObject.IActor.IActor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
@@ -76,6 +77,10 @@ public class Config {
         return (T)map.get(name);
     }
     public static <T> T Get(String name,Class<T> type)
+    {
+        return Get(name);
+    }
+    public static GDX.Runnable1<IActor> GetRun(String name)
     {
         return Get(name);
     }

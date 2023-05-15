@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BoardForm {
     private JTree tree1;
@@ -32,11 +33,14 @@ public class BoardForm {
     private JTextField tfTexture;
     private JCheckBox cbWall;
     private JButton btTest;
+    private JCheckBox cbHide;
 
     //data
     private String name;
     private ShapeData data;
     private Shape shape;
+    private BoardEditor editor;
+    private List<Character> hideList = new ArrayList<>();
     public BoardForm(String name)
     {
         UI.SetUserObject(panel1,this);
@@ -76,7 +80,8 @@ public class BoardForm {
         tfWidth.setText(shape.width+"");
         tfHeight.setText(shape.height+"");
         tfTexture.setText(shape.texture);
-        new BoardEditor(shape);
+        editor = new BoardEditor(shape);
+        if (TestGame.test) TestGame.TestJigsaw(shape);
     }
     private void InitShapeList(Shape shape)//check
     {
@@ -98,11 +103,29 @@ public class BoardForm {
                 OnSelect(shape);
             }
         };
-        gList.onSelect = id->BoardEditor.numID = id.charAt(0);
+        gList.onSelect = id->{
+            BoardEditor.numID = id.charAt(0);
+            CheckHide(id.charAt(0));
+        };
         gList.SetData(list);
         gList.SetSelection(list.get(0));
         UI.Button(sNew,gList::New);
         UI.Button(sDelete,gList::Delete);
+        UI.CheckBox(cbHide,vl->CheckHide(gList.GetMainObject().charAt(0)));
+    }
+    private void CheckHide(char id)
+    {
+        if (editor==null) return;
+        if (hideList.contains(id) && !cbHide.isSelected())
+        {
+            editor.Hide(id,false);
+            hideList.remove((Object)id);
+        }
+        if (!hideList.contains(id) && cbHide.isSelected())
+        {
+            editor.Hide(id,true);
+            hideList.add(id);
+        }
     }
     private char GetNextChar(List<String> list, char start, char end) {
         if (!list.contains(start+"")) return start;

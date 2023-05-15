@@ -12,10 +12,11 @@ public class XAction extends IAction{
         DoAction
     }
     public Type type = Type.Runnable;
+    public String xName = "";
 
     @Override
     public void Run() {
-        if (type==Type.DoAction) GetIActor().RunAction(name);
+        if (type==Type.DoAction) GetIActor().RunAction(xName);
         else RunEvent();
     }
 
@@ -25,13 +26,13 @@ public class XAction extends IAction{
     }
     private void RunEvent()
     {
-        if (Config.Has(name)){
-            Config.Get(name,GDX.Runnable1.class).Run(GetIActor());
+        if (Config.Has(xName)){
+            Config.GetRun(xName).Run(GetIActor());
         }
         else {
             IActor iActor = GetIActor();
-            if (iActor.GetIRoot().iParam.Has(name)) iActor = iActor.GetIRoot();
-            if (iActor.iParam.Has(name)) iActor.iParam.Get(name,Runnable.class).run();
+            if (iActor.GetIRoot().iParam.Has(xName)) iActor = iActor.GetIRoot();
+            if (iActor.iParam.Has(xName)) iActor.iParam.GetRun(xName).run();
         }
     }
 }

@@ -36,8 +36,8 @@ public class IActionForm {
 
         gTree.onSelect = this::OnSelectIAction;
         gTree.SetTypes("GDX",Arrays.asList(IDelay.class, IMove.class, IProperty.class, IMulAction.class, XAction.class,
-                IRepeat.class, IAudioAction.class, IUtil.class, IClone.class, IImageAction.class, IAddParent.class,ICountAction.class,
-                IParamAction.class));
+                IRepeat.class, IParAction.class,IAudioAction.class, IUtil.class, IClone.class, IImageAction.class, IAddParent.class,
+                ICountAction.class, IParamAction.class));
         gTree.SetTypes("Spine",Arrays.asList(IAnimation.class));
         gTree.SetTypes("Extend",Arrays.asList(IExtend.class, IPutEvent.class));
         gTree.NewMenuItem(0,"Run","Ctrl+R",this::Run);

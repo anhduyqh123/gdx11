@@ -25,6 +25,10 @@ public class SudoBoard extends Shape {
             List<Vector2> full = GetFullRow(row);
             if (full!=null) list.add(full);
         });
+        Util.For(0,height-1,mini->{
+            List<Vector2> full = GetFullMini(mini);
+            if (full!=null) list.add(full);
+        });
         return list;
     }
     private List<Vector2> GetFullColum(int column) {
@@ -42,5 +46,27 @@ public class SudoBoard extends Shape {
             list.add(new Vector2(i,row));
         }
         return list;
+    }
+    private List<Vector2> GetFullMini(int mini) {
+        List<Vector2> list = GetMini(mini);
+        for (Vector2 p : list)
+            if (!HasValue(p)) return null;
+        return list;
+    }
+    public List<Vector2> GetMini(int index)
+    {
+        List<Vector2> list = new ArrayList<>();
+        int startX = (index % 3) * 3;
+        int startY = (index / 3) * 3;
+        for (int i = startX; i < startX + 3; i++)
+            for (int j = startY; j < startY + 3; j++)
+                list.add(new Vector2(i, j));
+        return list;
+    }
+    public Vector2 GetMidPos(int mini)
+    {
+        int startX = (mini % 3) * 3;
+        int startY = (mini / 3) * 3;
+        return new Vector2(startX+1,startY+1);
     }
 }

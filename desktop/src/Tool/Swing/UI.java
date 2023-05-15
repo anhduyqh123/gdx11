@@ -218,6 +218,7 @@ public class UI {
     //CheckBox
     public static void CheckBox(JCheckBox cb, GDX.Runnable1<Boolean> onChange)
     {
+        Util.For(Arrays.asList(cb.getActionListeners()), cb::removeActionListener);
         cb.addActionListener(e->onChange.Run(cb.isSelected()));
     }
     public static JCheckBox NewCheckBox(String name,boolean value,JPanel panel,GDX.Runnable1<Boolean> onChange)

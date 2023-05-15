@@ -1,5 +1,6 @@
 package JigsawWood.View;
 
+import GDX11.GAudio;
 import GDX11.IObject.IAction.IMove;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
@@ -36,11 +37,9 @@ public class VShape extends Group {
         setSize(table.GetTable().getPrefWidth(),table.GetTable().getPrefHeight());
         setPosition(parent.getWidth()/2,parent.getHeight()/2,Align.center);
         setOrigin(Align.center);
-        setScale(0.6f);
+        setScale(0);
+
         //setScale(Math.min(Util.GetFitScale(this,parent),1f));
-        iGroup.iParam.Set("x0",getX());
-        iGroup.iParam.Set("y0",getY());
-        iGroup.iParam.Set("scale0",getScaleX());
 
         RefreshShape();
 
@@ -52,6 +51,13 @@ public class VShape extends Group {
                 return true;
             }
         });
+    }
+    public void SetScale0(float scale)
+    {
+        iGroup.iParam.Set("x0",getX());
+        iGroup.iParam.Set("y0",getY());
+        iGroup.iParam.Set("scale0",scale);
+        iGroup.RunAction("pre");
     }
     protected void InitData()
     {
@@ -68,7 +74,7 @@ public class VShape extends Group {
             Actor a = table.Get(p).GetActor();
             if (shape.Null(p)) a.getColor().a = 0;
             //if (shape.Get(p)>=0) a.setColor(Color.valueOf("#FFC779"));
-            if (shape.Get(p)>=0) a.setColor(Color.valueOf("#FFFFCC"));
+            if (shape.HasValue(p)) a.setColor(Color.valueOf("#FFFFCC"));
         });
         shape.For(p-> table.Get(p).GetActor().setVisible(shape.HasValue(p)));
     }
@@ -90,7 +96,23 @@ public class VShape extends Group {
     }
     public void Drop(Vector2 vPos)
     {
+        GAudio.i.PlaySingleSound("drop_ball");
         iGroup.iAction.FindIMul("drop").Find("move", IMove.class).iPos.SetPosition(vPos);
         iGroup.RunAction("drop");
+    }
+    public void SetColor(Color color)
+    {
+        ITable table = iGroup.FindITable("table");
+        shape.For(p->{
+            Actor a = table.Get(p).GetActor();
+            if (shape.HasValue(p)) a.setColor(color);
+        });
+    }
+    public float GetBaseScale()
+    {
+        float scaleX = parent.getWidth()/getWidth();
+        float scaleY = parent.getHeight()/getHeight();
+        float scale = Math.min(scaleX,scaleY);
+        return Math.min(scale,0.6f);
     }
 }

@@ -32,6 +32,7 @@ public class IObjectForm {
         @Override
         protected void OnShowPopupMenu() {
             super.OnShowPopupMenu();
+            GetItem("Prefab").setEnabled(GetClipSelected().size()>0);
             GetItem("Save").setEnabled(IsMainChanged());
         }
     };
@@ -89,9 +90,10 @@ public class IObjectForm {
     private boolean IsMainChanged()
     {
         if (mainIActor==null) return false;
-        String data = GDX.GetStringByKey(mainIActor.name);
-        if (data==null) return true;
-        IActor mainFromData = Json.ToObject(data);
-        return !mainIActor.equals(mainFromData);
+        return GDX.Try(()->{
+            String data = GDX.GetStringByKey(mainIActor.name);
+            IActor mainFromData = Json.ToObject(data);
+            return !mainIActor.equals(mainFromData);
+        },()->true);
     }
 }

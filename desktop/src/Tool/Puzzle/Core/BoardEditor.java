@@ -29,9 +29,12 @@ public class BoardEditor extends Shape {
         for (String s : file.readString().split("\n"))
             colors.add(Color.valueOf(s));
     }
+    private Shape board;
+    private ITable table;
 
     public BoardEditor(Shape board)
     {
+        this.board = board;
         Scene.i.ui.clearChildren();
         IGroup iGroup = IObject.Get("ShapeEdit").Clone();
         iGroup.SetIRoot(Scene.i.ui);
@@ -49,12 +52,12 @@ public class BoardEditor extends Shape {
         GJigsawBoard.FitTable(iBoard.FindITable("table"),board,fitSize);
         iBoard.Refresh();
 
-        ITable table = iBoard.FindITable("table");
+        table = iBoard.FindITable("table");
         table.ForActor(a->{
             IImage iActor = IActor.GetIActor(a);
             Vector2 cell = table.GetCell(a);
             char id = board.Get(cell);
-            Refresh(id,iActor);
+            Refresh(id,iActor,false);
             a.addListener(new InputListener(){
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -63,21 +66,35 @@ public class BoardEditor extends Shape {
                     char vl = board.Get(cell);
                     if (button==1) board.Set(cell,vl==nullChar?emptyChar:nullChar);
                     else board.Set(cell,vl==numID?emptyChar:numID);
-                    Refresh(board.Get(cell),iActor);
+                    Refresh(board.Get(cell),iActor,false);
                 }
             });
         });
     }
-    private void Refresh(char id,IImage iActor)
+    private void Refresh(char id,IImage iActor,boolean hide)
     {
         iActor.SetTexture("");
         iActor.GetActor().clearActions();
         if (id==nullChar) iActor.Run("disable");
         if (id==emptyChar) iActor.Run("empty");
+        if (hide)
+        {
+            iActor.Run("empty");
+            return;
+        }
         if (id>=valueChar){
             int id0 = id<='a'?id+32:id;
             iActor.GetActor().setColor(colors.get(id0-'a'));
             if (id>='A' && (id<='Z')) iActor.RunAction("wall");
         }
+    }
+    public void Hide(char id,boolean hide)
+    {
+        board.For(p->{
+            if (board.Get(p)==id){
+                IImage iActor = table.Get(p);
+                Refresh(id,iActor,hide);
+            }
+        });
     }
 }

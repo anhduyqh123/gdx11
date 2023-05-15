@@ -54,14 +54,16 @@ public class Screen extends Group implements IFind {
     {
         iGroup.FindIActor(name).AddClick(onClick);
     }
+    @Override
+    public IGroup GetIGroup() {
+        return iGroup;
+    }
+    public void Run(Runnable cb,float delay){
+        iGroup.Run(cb,delay);
+    }
     //static
     public static Screen GetLatest()
     {
         return screens.get(screens.size()-1);
-    }
-
-    @Override
-    public IGroup GetIGroup() {
-        return iGroup;
     }
 }

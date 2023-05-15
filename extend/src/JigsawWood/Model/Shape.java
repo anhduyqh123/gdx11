@@ -15,10 +15,10 @@ public class Shape implements Json.JsonObject {
     //0 is empty
     //X is wall
     //a,b,c,d is value
-    protected final char nullChar = '*';
-    protected final char emptyChar = '0';
-    protected final char valueChar = 'A';
-    protected final char varChar = 'a';
+    public final char nullChar = '*';
+    public final char emptyChar = '0';
+    public final char valueChar = 'A';
+    public final char varChar = 'a';
 
 
     public int width=4,height=4,x,y;
@@ -182,5 +182,13 @@ public class Shape implements Json.JsonObject {
     public boolean IsJigsaw()
     {
         return !texture.equals("");
+    }
+    public List<Vector2> GetEmptyList()
+    {
+        List<Vector2> list = new ArrayList<>();
+        ForBlock(p->{
+            if (Empty(p)) list.add(p);
+        });
+        return list;
     }
 }

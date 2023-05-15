@@ -50,6 +50,12 @@ public class GBoard {
     public void Start(int level) {
         Start();
     }
+    protected void Restart()
+    {
+        game.FindIActor("board").Refresh();
+        InitModel();
+        Start();
+    }
     protected void NewShapes()
     {
         if (slots.size()<=0)
@@ -57,7 +63,15 @@ public class GBoard {
             IGroup footer = game.FindIGroup("footer");
             Util.For(0,2,i->slots.add(footer.FindIGroup("slot"+i)));
         }
+        newShapes.clear();
         Util.For(slots, this::NewShape);
+        FitShapeView();
+    }
+    protected void FitShapeView()
+    {
+        float scale = 1;
+        for (Shape shape : newShapes) scale = Math.min(scale,GetView(shape).GetBaseScale());
+        for (Shape shape : newShapes) GetView(shape).SetScale0(scale);
     }
     private void NewShape(IGroup slot)//footer
     {
@@ -121,15 +135,18 @@ public class GBoard {
     }
     protected void HighLight(Vector2 pos,Shape shape)
     {
-        ITable table = game.FindIGroup("board").FindITable("table");
         shape.ForValue(p-> highlightPos.add(p.add(pos)));
-        Util.For(highlightPos,p->table.Get(p).GetActor().getColor().a=0.5f);
+        ForCell(highlightPos,a->a.getColor().a=0.5f);
     }
     private void HighLightOff()
     {
-        ITable table = game.FindIGroup("board").FindITable("table");
-        Util.For(highlightPos,p->table.Get(p).GetActor().getColor().a=0);
+        ForCell(highlightPos,a->a.getColor().a=0);
         highlightPos.clear();
+    }
+    protected void ForCell(List<Vector2> list,GDX.Runnable1<Actor> cb)
+    {
+        ITable table = game.FindIGroup("board").FindITable("table");
+        Util.For(list,p->cb.Run(table.Get(p).GetActor()));
     }
     protected void BackShape(Shape shape)
     {
@@ -149,7 +166,7 @@ public class GBoard {
         model.Set(shape);
         shape.ForValue(p-> blockMap.put(new Vector2(pos).add(p),GetView(shape).GetBlockView(p)));
         RemoveShape(shape);
-        Destroy();
+        Destroy(model.GetDestroyList());
     }
     protected void RefreshFooter()
     {
@@ -166,9 +183,9 @@ public class GBoard {
         GetView(shape).parent.setVisible(false);
         RefreshFooter();
     }
-    protected void Destroy()
+    protected void Destroy(List<List<Vector2>> lists)
     {
-        Util.For(model.GetDestroyList(), list->{
+        Util.For(lists, list->{
             model.Destroy(list);
             game.Run(()->Util.For(list,p->DestroyEffect(blockMap.get(p))),0.1f);
             GAudio.i.PlaySingleSound("glass2");

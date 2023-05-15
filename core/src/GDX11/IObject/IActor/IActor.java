@@ -231,8 +231,12 @@ public class IActor extends IObject {
     }
 
     //Position
+    public Vector2 GetLocalToActor(Actor actor,int align)
+    {
+        return GetActor().localToActorCoordinates(actor,GetLocalPosition(align));
+    }
     public Vector2 GetLocalPosition(int align) {
-        return new Vector2(GetActor().getX(align),GetActor().getY(align));
+        return Scene.GetLocal(GetActor(),align);
     }
     public Vector2 GetPosition(int align) {
         return new Vector2(GetActor().getX(align),GetActor().getY(align));

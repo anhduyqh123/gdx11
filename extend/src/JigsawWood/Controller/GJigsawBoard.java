@@ -1,6 +1,7 @@
 package JigsawWood.Controller;
 
 import GDX11.Asset;
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
@@ -43,6 +44,7 @@ public class GJigsawBoard extends GBoard {
             NewView(piece,(IGroup) iGroup);
             //iGroup.GetActor().debug();
         });
+        FitShapeView();
     }
 
     private void SetBoard(Shape board)
@@ -132,7 +134,10 @@ public class GJigsawBoard extends GBoard {
         float scaleX = fitSize.x/width;
         float scaleY = fitSize.y/height;
         float scale = Math.max(scaleX,scaleY);
-        if (!shape.IsJigsaw()) scale = Math.min(scale,1);
+        if (!shape.IsJigsaw()){
+            scale = Math.min(scaleX,scaleY);
+            scale = Math.min(scale,1);
+        }
         iActor.iSize.width = scale*aWidth+"";
         iActor.iSize.height = scale*aHeight+"";
     }

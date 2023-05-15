@@ -127,6 +127,7 @@ public class GTree2<T extends IObject> extends BaseTree<T> {
         Refresh();
         refreshObject.Run((T)newOb);
         SetSelection((T)newOb);
+        StartEditing();
     }
 
     //MenuItem
