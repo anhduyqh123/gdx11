@@ -1,1 +1,0 @@
-{class:GDX11.IObject.IActor.IImage,texture:badlogic,iComponents:{class:GDX11.IObject.IComponent.IComponents,iMap:{list:[{class:Extend.AI.ITest,name:ai}]}},name:path,iPos:{class:GDX11.IObject.IPos,x:385.0,y:1020.0}}

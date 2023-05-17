@@ -18,16 +18,18 @@ public class VShape extends Group {
     public Group parent;
     public Shape shape;
     public Runnable onClick;
-    public VShape(Shape shape,ITable table0, Group parent)
+    public VShape(Shape shape,IGroup iBoard, Group parent)
     {
         this.parent = parent;
         this.shape = shape;
         ITable table = iGroup.FindITable("table");
         table.column = shape.width;
         table.clone = shape.width*shape.height;
+
+        ITable table0 = iBoard.FindITable("table");
         table.GetIActor("empty").iSize.width = table0.GetIActor("empty").iSize.width;
         table.GetIActor("empty").iSize.height = table0.GetIActor("empty").iSize.height;
-        InitData();
+        InitData(iBoard);
 
         iGroup.SetActor(this);
         iGroup.SetIRoot(parent);
@@ -38,8 +40,6 @@ public class VShape extends Group {
         setPosition(parent.getWidth()/2,parent.getHeight()/2,Align.center);
         setOrigin(Align.center);
         setScale(0);
-
-        //setScale(Math.min(Util.GetFitScale(this,parent),1f));
 
         RefreshShape();
 
@@ -59,9 +59,7 @@ public class VShape extends Group {
         iGroup.iParam.Set("scale0",scale);
         iGroup.RunAction("pre");
     }
-    protected void InitData()
-    {
-
+    protected void InitData(IGroup iBoard) {
     }
     protected IGroup NewIGroup()
     {

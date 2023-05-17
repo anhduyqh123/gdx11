@@ -46,13 +46,13 @@ public class IGroup extends IActor implements IFind {
     @Override
     public void SetIRoot(Group group) {
         super.SetIRoot(group);
-        ForIChild(i->i.SetIParent(this));
+        ForIChild(i-> i.SetIParent(this));
     }
 
     @Override
     public void SetIParent(IGroup iParent) {
         super.SetIParent(iParent);
-        ForIChild(i->i.SetIParent(this));
+        ForIChild(i-> i.SetIParent(this));
     }
     @Override
     public void RefreshContent() {
@@ -83,13 +83,13 @@ public class IGroup extends IActor implements IFind {
     @Override
     public void RunAction(String name) {
         super.RunAction(name);
-        ForIChild(i->i.RunAction(name));
+        ForIChild(i-> i.RunAction(name));
     }
 
     @Override
     public void Run(String name) {
         super.Run(name);
-        ForIChild(i->i.Run(name));
+        ForIChild(i-> i.Run(name));
     }
 
     //IGroup
@@ -162,11 +162,12 @@ public class IGroup extends IActor implements IFind {
     public void NewPool(String childName,int size)
     {
         IActor iChild = GetIActor(childName);
-        Pool<IActor> pool = new Pool<IActor>() {
+        Pool<IActor> pool = new Pool<>() {
             @Override
             protected IActor newObject() {
                 IActor iClone = iChild.Clone();
                 iClone.InitActor();
+                iClone.SetIParent(iChild.GetIParent());
                 iClone.iComponents.Add(new IComponent("remove"){
                     @Override
                     public void Remove() {
@@ -181,9 +182,7 @@ public class IGroup extends IActor implements IFind {
     }
     public  <T extends IActor> T Obtain(String childName)
     {
-        IActor iChild = GetIActor(childName);
         IActor iClone = (IActor) GetPool().get(childName).obtain();
-        iClone.SetIParent(iChild.GetIParent());
         iClone.Refresh();
         //iClone.GetActor().setZIndex(iChild.GetActor().getZIndex()+1);
         return (T)iClone;

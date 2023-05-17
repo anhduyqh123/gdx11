@@ -1,5 +1,5 @@
 //"in" attributes from our vertex shader
-varying vec2 v_texCoords;//uv
+varying vec2 v_texCoords;//uv of atlas
 
 uniform vec2 resolution;
 //our different texture units

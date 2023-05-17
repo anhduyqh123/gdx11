@@ -1,23 +1,22 @@
 package JigsawWood.View;
 
-import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
-import GDX11.IObject.IActor.ITable;
 import GDX11.IObject.IObject;
 import JigsawWood.Model.Shape;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.utils.Align;
 
 public class VPiece extends VShape {
-    public VPiece(Shape shape, ITable table0, Group parent) {
-        super(shape, table0, parent);
+    public VPiece(Shape shape, IGroup iBoard, Group parent) {
+        super(shape, iBoard, parent);
         iGroup.iComponents.GetIComponent("draw").active = !shape.texture.equals("");
     }
 
     @Override
-    protected void InitData() {
+    protected void InitData(IGroup iBoard) {
         iGroup.FindIImage("mask").texture = shape.texture;
+        iGroup.FindIActor("mask").iSize.width = iBoard.FindIActor("mask").iSize.width;
+        iGroup.FindIActor("mask").iSize.height = iBoard.FindIActor("mask").iSize.height;
     }
 
     @Override
@@ -26,6 +25,6 @@ public class VPiece extends VShape {
     }
     public void SetMaskPos(Vector2 maskPos)
     {
-        iGroup.FindIActor("mask").SetPosition(maskPos, Align.bottomLeft);
+        iGroup.FindIActor("mask").SetPosition(maskPos);
     }
 }

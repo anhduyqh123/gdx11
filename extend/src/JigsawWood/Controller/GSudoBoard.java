@@ -28,6 +28,12 @@ public class GSudoBoard extends GBoard{
         game.FindIActor("btShuffle").AddClick(()->NewShapes());
         game.FindIActor("btReset").AddClick(this::Restart);
     }
+
+    @Override
+    protected void InitItem() {
+
+    }
+
     protected ShapeData LoadData() {
         return Json.ToObjectFomKey("sudoData",ShapeData.class);
     }

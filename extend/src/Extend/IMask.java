@@ -8,6 +8,7 @@ import GDX11.IObject.IActor.IImage;
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.IObject.IComponent.IShader;
 import GDX11.Util;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -91,7 +92,8 @@ public class IMask extends IShader {
         shader.setUniformf("bound_mask", pos.x,pos.y,maskActor.getWidth(),maskActor.getHeight());
         IImage iImage = IActor.GetIActor(a);
         TextureRegion tr = Asset.i.GetTexture(iImage.texture);
-        shader.setUniformf("actor_color",a.getColor());
+        Color color = a.getColor();
+        shader.setUniformf("actor_color",color.r,color.g,color.b,color.a*parentAlpha);
         shader.setUniformf("region_txt",tr.getU(),tr.getV(),tr.getU2(),tr.getV2());
 
         superDraw.run();

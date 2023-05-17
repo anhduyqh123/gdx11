@@ -254,7 +254,15 @@ public class IActor extends IObject {
     public void SetStagePosition(Vector2 pos,int align) {
         Scene.SetStagePosition(GetActor(),pos,align);
     }
-
+    public void AddToParent(IGroup iParent,boolean keepTransform)
+    {
+        if (keepTransform) Scene.AddActorKeepTransform(GetActor(),iParent.GetGroup());
+        else iParent.GetGroup().addActor(GetActor());
+    }
+    public void AddToParent(IGroup iParent)
+    {
+        AddToParent(iParent,true);
+    }
     //Extend
     public void Run(Runnable cb,float delay) {
         Action ac1 = Actions.delay(delay);

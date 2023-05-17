@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GBoard {
+public abstract class GBoard {
     protected IGroup game;
     protected Shape model;
     protected final ShapeData shapeData = LoadData();
@@ -32,12 +32,13 @@ public class GBoard {
     protected List<IGroup> slots = new ArrayList<>();
     protected Shape dragShape;
     protected Vector2 hitCell;
-    public GBoard(IGroup game)
-    {
+    public GBoard(IGroup game) {
         this.game = game;
+        InitItem();
         InitModel();
         InitEvent();
     }
+    protected abstract void InitItem();
     protected void InitModel(){}
     protected ShapeData LoadData()
     {

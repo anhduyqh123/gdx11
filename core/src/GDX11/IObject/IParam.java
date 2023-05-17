@@ -1,6 +1,7 @@
 package GDX11.IObject;
 
 import GDX11.*;
+import GDX11.IObject.IActor.IActor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 
@@ -16,6 +17,12 @@ public class IParam extends IBase {
     public void Dispose() {
         getParam = null;
         getEventMap = null;
+    }
+
+    @Override
+    public void SetIActor(IActor iActor) {
+        Dispose();
+        super.SetIActor(iActor);
     }
 
     private Map<String, Runnable> GetEventMap()

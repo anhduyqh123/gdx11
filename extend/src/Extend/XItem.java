@@ -16,7 +16,7 @@ public class XItem {
 
     public String name,txtName;
     public int value;
-    private Map<String, GDX.Runnable2<Integer,Integer>> changeMap = new HashMap<>();//old,new
+    private final Map<String, GDX.Runnable2<Integer,Integer>> changeMap = new HashMap<>();//old,new
     public GDX.Func1<String,Integer> zero = vl->vl<=0?"+":vl+"";
     public GDX.Runnable1<GDX.Runnable> onUse;//Run(done)
     public XItem addItem;//add value when out value

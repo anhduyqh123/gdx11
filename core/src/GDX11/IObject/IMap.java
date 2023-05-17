@@ -127,11 +127,15 @@ public class IMap<T extends IObject> implements Json.JsonObject {
     @Override
     public Object ToObject(JsonValue js)
     {
+        List list1 = new ArrayList();
         Util.For(js.get("list"),i->{
             Object ob = Get(i.getString("name"));
             if (ob!=null) Json.JsonToObject(i,ob);
-            else Add(Json.ToObject(i));
+            else ob = Json.ToObject(i);
+            list1.add(ob);
         });
+        list.clear();
+        Util.For(list1,this::Add);
         return this;
     }
 

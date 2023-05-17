@@ -183,7 +183,10 @@ public class BoardForm {
 
         @Override
         public void New() {
-            data.shapes.add(new Shape());
+            Shape shape = new Shape();
+            data.shapes.add(shape);
+            if (name.equals("jigsawData")) shape.texture = "shape"+data.shapes.size();
+            tfTexture.setText(shape.texture);
             Refresh();
             SetSelection(id+(data.shapes.size()-1));
         }

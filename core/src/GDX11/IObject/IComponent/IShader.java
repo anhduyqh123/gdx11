@@ -3,8 +3,11 @@ package GDX11.IObject.IComponent;
 import GDX11.Asset;
 import GDX11.Config;
 import GDX11.GDX;
+import GDX11.IObject.IActor.IImage;
+import GDX11.Scene;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -15,9 +18,8 @@ import java.util.List;
 public class IShader extends IComponent {
     public String fragName = "";
     public String vertName = "";
-    public List<String> uniforms = new ArrayList<>();
     protected transient ShaderProgram shader;
-    protected transient Vector2 resolution = new Vector2();
+    protected transient Vector2 resolution = new Vector2(),uv = new Vector2(),uv2 = new Vector2();
     @Override
     public void Refresh() {
         GDX.PostRunnable(()->GDX.Try(this::Init));
@@ -25,6 +27,14 @@ public class IShader extends IComponent {
     protected void Init()
     {
         resolution.set(GetActor().getWidth(),GetActor().getHeight());
+        if (GetIActor() instanceof IImage)
+        {
+            IImage iImage = GetIActor();
+            TextureRegion tr = Asset.i.GetTexture(iImage.texture);
+            uv.set(tr.getU(),tr.getV());
+            uv2.set(tr.getU2(),tr.getV2());
+        }
+
         ShaderProgram.pedantic = false;
         shader = NewShader();
     }
@@ -33,7 +43,7 @@ public class IShader extends IComponent {
         String fragment = GDX.GetString(Asset.i.GetNode(fragName).url);
         if (vertName.equals(""))
         {
-            Batch batch = GetActor().getStage().getBatch();
+            Batch batch = Scene.i.GetStage().getBatch();
             return new ShaderProgram(batch.getShader().getVertexShaderSource(),fragment);
         }
         String vertex = GDX.GetStringByKey(vertName);
@@ -57,33 +67,29 @@ public class IShader extends IComponent {
     protected void DefaultUniform()
     {
         shader.setUniformf("resolution", resolution);
+        shader.setUniformf("uv", uv);
+        shader.setUniformf("uv2", uv2);
     }
     protected void UpdateUniform()
     {
-        for (String n : uniforms)
+        for (String key : GetIActor().iParam.GetData().keySet())
         {
-            Object ob = GetUniform(n);
+            Object ob = GetUniform(key);
             if (ob==null) continue;
-            if (n.startsWith("i_"))
-                shader.setUniformi(n,(int) ob);
-            if (n.startsWith("f_"))
-                shader.setUniformf(n,(float)ob);
-            if (n.startsWith("v2_"))
-                shader.setUniformf(n,(Vector2) ob);
-            if (n.startsWith("v3_"))
-                shader.setUniformf(n,(Vector3)ob);
-            if (n.startsWith("v4_"))
-            {
+            if (key.startsWith("i_")) shader.setUniformi(key,(int)ob);
+            if (key.startsWith("f_")) shader.setUniformf(key,(float)ob);
+            if (key.startsWith("v2_")) shader.setUniformf(key,(Vector2)ob);
+            if (key.startsWith("v3_")) shader.setUniformf(key,(Vector3)ob);
+            if (key.startsWith("v4_")){
                 GDX.Vector4 v4 = (GDX.Vector4) ob;
-                shader.setUniformf(n,v4.x,v4.y,v4.z,v4.w);
+                shader.setUniformf(key,v4.x,v4.y,v4.z,v4.w);
             }
-            if (n.startsWith("cl_"))
-                shader.setUniformf(n,(Color) ob);
+            if (key.startsWith("cl_")) shader.setUniformf(key,(Color) ob);
         }
     }
-    private <T> T GetUniform(String uni)
+    private <T> T GetUniform(String key)
     {
-        Object ob = Config.Has(uni)?Config.Get(uni):GetIActor().iParam.Get(uni);
+        Object ob = Config.Has(key)?Config.Get(key):GetIActor().iParam.Get(key);
         if (ob instanceof String) return GetUniform((String) ob);
         if (ob instanceof GDX.Func) return (T)((GDX.Func<?>) ob).Run();
         return (T)ob;

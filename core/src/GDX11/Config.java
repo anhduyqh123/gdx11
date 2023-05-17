@@ -41,6 +41,14 @@ public class Config {
     }
 
     //Set value
+    public static void SetRun(String name,Runnable cb)
+    {
+        Set(name,cb);
+    }
+    public static void SetRun(String name, GDX.Runnable1 cb)
+    {
+        Set(name,cb);
+    }
     public static void Set(String name, Object value)
     {
         map.put(name,value);
@@ -80,7 +88,7 @@ public class Config {
     {
         return Get(name);
     }
-    public static GDX.Runnable1<IActor> GetRun(String name)
+    public static Runnable GetRun(String name)
     {
         return Get(name);
     }
