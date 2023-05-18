@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JigsawBoard extends Shape{
-    public List<Shape> pieces = new ArrayList<>();
+    public Map<Character,Shape> map = new HashMap<>();
 
     public JigsawBoard() {
         super();
@@ -39,7 +39,7 @@ public class JigsawBoard extends Shape{
         for (char id : listPos.keySet())
         {
             if (id<varChar) continue;
-            pieces.add(NewPiece(id,listPos.get(id),minX.get(id),maxX.get(id),minY.get(id),maxY.get(id)));
+            map.put(id,NewPiece(id,listPos.get(id),minX.get(id),maxX.get(id),minY.get(id),maxY.get(id)));
         }
         for (char id : listPos.keySet())
             if (id>=varChar) Util.For(listPos.get(id),p->Set(p,emptyChar));

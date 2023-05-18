@@ -1,8 +1,11 @@
 package Tool.ObjectTool.Core;
 
+import GDX11.AssetData.AssetData;
 import GDX11.GDX;
+import GDX11.Json;
 import GDX11.Util;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.JsonWriter;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -18,6 +21,7 @@ public class GenerateAsset {
     private List<Runnable> encodeProcess = new ArrayList<>();
     public GDX.Runnable1<String> cbProgress;
     public Runnable onFinish;
+    public GDX.Func<Boolean> tiny;
 
     public void Run(String pack)
     {
@@ -25,10 +29,15 @@ public class GenerateAsset {
         else Generate(pack);
         new Thread(()->{
             Run("atlas",process);
-            Tiny(pack);
-            Run("tiny",tinyProcess);
+            if (tiny.Run())
+            {
+                Tiny(pack);
+                Run("tiny",tinyProcess);
+            }
             Encode(pack);
             Run("encode",encodeProcess);
+
+            WritePackages();
             onFinish.run();
         }).start();
     }
@@ -126,5 +135,12 @@ public class GenerateAsset {
         for (FileHandle dir : rootDir.list())
             if (dir.isDirectory()) list.add(dir.nameWithoutExtension());
         return list;
+    }
+    private void WritePackages() {
+        AssetData data = new AssetData();
+        data.LoadPackages(androidDir);
+        FileHandle assetFile = androidDir.child("gameAssets.txt");
+        String stData = Json.ToJson(data).toJson(JsonWriter.OutputType.minimal);
+        assetFile.writeString(stData.replace(androidDir.path()+"/",""),false);
     }
 }

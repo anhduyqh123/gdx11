@@ -27,8 +27,11 @@ public class VShape extends Group {
         table.clone = shape.width*shape.height;
 
         ITable table0 = iBoard.FindITable("table");
-        table.GetIActor("empty").iSize.width = table0.GetIActor("empty").iSize.width;
-        table.GetIActor("empty").iSize.height = table0.GetIActor("empty").iSize.height;
+        if (table0!=null)
+        {
+            table.GetIActor("empty").iSize.width = table0.GetIActor("empty").iSize.width;
+            table.GetIActor("empty").iSize.height = table0.GetIActor("empty").iSize.height;
+        }
         InitData(iBoard);
 
         iGroup.SetActor(this);

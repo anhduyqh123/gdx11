@@ -16,23 +16,27 @@ import JigsawWood.View.VPiece;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GJigsawBoard extends GBoard {
     protected static final List<Color> colors = new ArrayList<>();
     {
-        FileHandle file = new FileHandle("colors.txt");
-        for (String s : file.readString().split("\n"))
+        for (String s : GDX.GetStringByKey("colors").split("\n"))
             colors.add(Color.valueOf(s));
     }
     private int level;
     public GJigsawBoard(IGroup game) {
         super(game);
+        game.FindIActor("btReset").AddClick(this::Restart);
+        game.FindIActor("btHint").AddClick(this::Hint);
     }
 
     @Override
@@ -44,9 +48,9 @@ public class GJigsawBoard extends GBoard {
     {
         return Json.ToObjectFomKey("jigsawData",ShapeData.class);
     }
-    protected JigsawWood.Model.JigsawBoard GetModel()
+    protected JigsawBoard GetModel()
     {
-        return (JigsawWood.Model.JigsawBoard)model;
+        return (JigsawBoard)model;
     }
 
     @Override
@@ -62,11 +66,16 @@ public class GJigsawBoard extends GBoard {
     }
 
     @Override
+    protected void Restart() {
+        game.FindIActor("board").Refresh();
+        Start(level);
+    }
+
+    @Override
     protected void NewShapes() {
-        slots = game.FindIGroup("footer").FindITable("table").CloneChild(GetModel().pieces,(piece,iGroup)->{
-            NewView(piece,(IGroup) iGroup);
-            //iGroup.GetActor().debug();
-        });
+        newShapes.clear();
+        List<Shape> shapes = new ArrayList<>(GetModel().map.values());
+        slots = game.FindIGroup("footer").FindITable("table").CloneChild(shapes, this::NewView);
         FitShapeView();
     }
 
@@ -81,7 +90,7 @@ public class GJigsawBoard extends GBoard {
     private void InitBoard()
     {
         IGroup iBoard = game.FindIGroup("board");
-        ITable iTable = iBoard.FindITable("table0");
+        ITable iTable = iBoard.FindITable("table");
         model.For(p->{
             Actor a = iTable.Get(p).GetActor();
             if (model.Null(p)) a.getColor().a = 0f;
@@ -133,6 +142,13 @@ public class GJigsawBoard extends GBoard {
         IGroup coin = game.FindIGroup("top").FindIGroup("coin");
         WinScreen screen = new WinScreen(level);
         InitBoard(screen.FindIGroup("board"),model);
+        ITable table = screen.FindITable("table");
+        ITable table0 = game.FindIGroup("board").FindITable("table");
+        model.For(p->{
+            IActor cell = table.Get(p);
+            Actor a = blockMap.get(p)!=null?blockMap.get(p):table0.Get(p).GetActor();
+            cell.GetActor().setColor(a.getColor());
+        });
         screen.AddClick("btNext",()->{
             screen.Hide();
             Start(level+1);
@@ -145,6 +161,19 @@ public class GJigsawBoard extends GBoard {
             screen.Show();
             game.GetGroup().setTouchable(Touchable.enabled);
         },0.4f);
+    }
+    private void Hint()
+    {
+        Shape shape = Util.Random(newShapes);
+        shape.ForValue(p->{
+            Vector2 pos = p.add(shape.GetPos());
+            if (model.Empty(pos)) return;
+            Shape other = GetModel().map.get(model.Get(pos));
+            model.Remove(other);
+            newShapes.add(other);
+            GetView(other).parent.setVisible(true);
+        });
+        PutShape(shape.GetPos(),shape);
     }
 
     //static

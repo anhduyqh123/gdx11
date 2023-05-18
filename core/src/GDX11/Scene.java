@@ -41,7 +41,7 @@ public class Scene {
         height = (int)GetStage().getViewport().getWorldHeight();
         scaleX = width*1f/ width0;
         scaleY = height*1f/ height0;
-        scale = Math.max(scaleX,scaleY);
+        scale = Math.max(Math.max(scaleX,scaleY),1);
     }
     public Stage NewStage(String name)
     {

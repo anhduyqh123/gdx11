@@ -39,9 +39,8 @@ public class AssetData {
         for(AssetPackage assetPackage : packs.values())
             assetPackage.Install();
     }
-    public void LoadPackages()
+    public void LoadPackages(FileHandle root)
     {
-        FileHandle root = GDX.GetFile(".");
         List<String> defaultPackages = Arrays.asList("atlas","atlas0","texture");
         for (FileHandle dir : root.list())
         {
@@ -55,6 +54,10 @@ public class AssetData {
             LoadAsset(dir.nameWithoutExtension(), AssetNode.Kind.Texture,dir,"");
         for (FileHandle file : GDX.GetFiles(root.child("atlas"),"atlas"))
             LoadAtlasData(file.nameWithoutExtension(),file);
+    }
+    public void LoadPackages()
+    {
+        LoadPackages(GDX.GetFile("."));
     }
     private void LoadPackage(FileHandle dir)
     {

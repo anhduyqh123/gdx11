@@ -1,5 +1,7 @@
 package GDX11.IObject.IActor;
 
+import GDX11.GDX;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 
@@ -43,7 +45,7 @@ public class IScrollPane extends IGroup {
     {
         ScrollPane scroll = GetActor();
         scroll.layout();
-        scroll.scrollTo(child.getX(),child.getY()
-                ,child.getWidth(),child.getHeight(),true,true);
+        Vector2 pos = child.localToActorCoordinates(scroll.getActor(),new Vector2());
+        scroll.scrollTo(pos.x,pos.y,child.getWidth(),child.getHeight(),true,true);
     }
 }

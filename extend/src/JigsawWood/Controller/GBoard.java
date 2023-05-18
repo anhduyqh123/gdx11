@@ -2,10 +2,7 @@ package JigsawWood.Controller;
 
 import GDX11.GAudio;
 import GDX11.GDX;
-import GDX11.IObject.IActor.IActor;
-import GDX11.IObject.IActor.IGroup;
-import GDX11.IObject.IActor.IParticle;
-import GDX11.IObject.IActor.ITable;
+import GDX11.IObject.IActor.*;
 import GDX11.Scene;
 import GDX11.Util;
 import JigsawWood.Model.ShapeData;
@@ -151,19 +148,23 @@ public abstract class GBoard {
     }
     protected void BackShape(Shape shape)
     {
-        if (!newShapes.contains(shape)){
-            newShapes.add(shape);
-            GetView(shape).parent.setVisible(true);
-            RefreshFooter();
-        }
+        if (!newShapes.contains(shape)) PutBack(shape);
         else GetView(shape).Back();
+    }
+    protected void PutBack(Shape shape)
+    {
+        newShapes.add(shape);
+        GetView(shape).parent.setVisible(true);
+        RefreshFooter();
+        IScrollPane scroll = game.FindIGroup("footer").FindIActor("scroll");
+        game.Run(()->scroll.ScrollTo(GetView(shape)),0.2f);
     }
     protected void PutShape(Vector2 pos,Shape shape)
     {
         Scene.AddActorKeepTransform(GetView(shape),game.FindIGroup("board").GetActor());
         Vector2 vPos = game.FindIGroup("board").FindITable("table").Get(pos).GetPosition(Align.bottomLeft);
         GetView(shape).Drop(vPos);
-        shape.SetPos(pos);
+        shape.tempPos.set(pos);
         model.Set(shape);
         shape.ForValue(p-> blockMap.put(new Vector2(pos).add(p),GetView(shape).GetBlockView(p)));
         RemoveShape(shape);

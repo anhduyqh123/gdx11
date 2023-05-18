@@ -37,12 +37,12 @@ public class Screen extends Group implements IFind {
     public void Show()
     {
         Scene.i.ui.addActor(this);
-        iGroup.Run("show");
+        iGroup.Run("preShow");
         screens.add(this);
     }
     public void Hide()
     {
-        iGroup.Run("hide");
+        iGroup.Run("preHide");
         screens.remove(this);
     }
     public boolean IsLatest()

@@ -5,15 +5,13 @@ import GDX11.Config;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IImage;
 import GDX11.Scene;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class IShader extends IComponent {
     public String fragName = "";
@@ -37,6 +35,7 @@ public class IShader extends IComponent {
 
         ShaderProgram.pedantic = false;
         shader = NewShader();
+        if (!shader.isCompiled()) GDX.Error(shader.getLog());
     }
     protected ShaderProgram NewShader()
     {

@@ -1,11 +1,9 @@
 package JigsawWood.Screen;
 
 import Extend.XItem;
-import GDX11.Config;
+import GDX11.*;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
-import GDX11.Screen;
-import GDX11.Util;
 
 public class GameScreen extends Screen {
     public GameScreen() {
@@ -22,6 +20,7 @@ public class GameScreen extends Screen {
 
     public static void SetCoinEvent(IGroup coin)
     {
+        coin.AddClick(()-> new ShopScreen().Show());
         XItem.Get("coin").AddChangeEvent("game",(o, n)->coin.FindILabel("lb").SetText(n));
         Config.SetRun("addCoin",ia->XItem.Get("coin").Add(10));
         Config.SetRun("videoCoin",()->{//add 100coin

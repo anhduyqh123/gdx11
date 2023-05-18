@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.EarClippingTriangulator;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.JsonValue;
@@ -84,6 +85,11 @@ public class Util {
     {
         for (JsonValue js : json)
             cb.Run(js);
+    }
+    //List
+    public static <T> T Random(List<T> list)
+    {
+        return list.get(MathUtils.random(0,list.size()-1));
     }
     //convert
 

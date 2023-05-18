@@ -23,8 +23,6 @@ public class MenuScreen extends Screen {
         AddClick("btJigsaw",this::JigSaw);
         AddClick("btPuzz",this::Puzz);
         AddClick("btSudo",this::Sudo);
-
-        AddClick("coin",()-> new ShopScreen().Show());
     }
     private void Sudo()
     {
@@ -63,6 +61,6 @@ public class MenuScreen extends Screen {
                 GetView(shape).SetColor(color);
             }
         };
-        gBoard.Start(1);
+        gBoard.Start(10);
     }
 }

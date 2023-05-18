@@ -24,7 +24,7 @@ public class GSudoBoard extends GBoard{
     private int score = 0;
     public GSudoBoard(IGroup game) {
         super(game);
-        game.FindIActor("btKill").AddClick(()->DestroyMini(MathUtils.random(0,8)));
+        game.FindIActor("btKill").AddClick(()->Kill());
         game.FindIActor("btShuffle").AddClick(()->NewShapes());
         game.FindIActor("btReset").AddClick(this::Restart);
     }
@@ -117,6 +117,22 @@ public class GSudoBoard extends GBoard{
         eff.SetPosition(mid);
         eff.RunAction("play");
         game.Run(()->DestroyMini(sudoBoard.GetMini(mini)),0.4f);
+    }
+    private void Kill()
+    {
+        SudoBoard sudoBoard = (SudoBoard) model;
+        List<Integer> list = new ArrayList<>();
+        Util.For(0,8,list::add);
+        Collections.shuffle(list);
+        for (int i : list)
+        {
+            for (Vector2 p : sudoBoard.GetMini(i))
+                if (sudoBoard.HasValue(p))
+                {
+                    DestroyMini(i);
+                    return;
+                }
+        }
     }
     private void DestroyMini(List<Vector2> list)
     {

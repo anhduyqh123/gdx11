@@ -31,6 +31,7 @@ public class HeaderForm {
 
     public HeaderForm(GDX.Runnable1<PackObject> onLoadPack)
     {
+        UI.Button(toolButton, ToolForm::new);
         UI.Button(btResetCam, Event::ResetCamera);
         UI.Button(btColor,()->{
             UI.NewColorChooserWindow(UI.GDXColorToColor(MyGame.bg), cl->

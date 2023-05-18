@@ -36,6 +36,7 @@ public class IMask extends IShader {
         Util.Bind(mask.texture,1);
         Util.For(maskedActors, this::InitMaskActor);
         shader = NewShader();
+        if (!shader.isCompiled()) GDX.Error(shader.getLog());
     }
     protected void InitMaskGroup()
     {

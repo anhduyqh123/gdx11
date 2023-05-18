@@ -121,8 +121,9 @@ public class GDXGame extends ApplicationAdapter {
     {
         String path = "gameAssets.txt";
         try {
-            AssetData data = GDX.IsDesktop()?LoadPackages(path):
-                    Json.ToObject(GDX.GetString(path));
+            AssetData data = Json.ToObject(GDX.GetString(path));
+//            AssetData data = GDX.IsDesktop()?LoadPackages(path):
+//                    Json.ToObject(GDX.GetString(path));
             if (data!=null) return data;
         }catch (Exception e){e.printStackTrace(); }
         return new AssetData();

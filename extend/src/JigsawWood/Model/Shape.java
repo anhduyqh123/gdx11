@@ -24,6 +24,8 @@ public class Shape implements Json.JsonObject {
     public int width=4,height=4,x,y;
     protected char[][] grid = new char[width][height];
     public String texture = "";
+    public Vector2 tempPos = new Vector2();
+
     public Shape(){
         Create();
     }
@@ -88,13 +90,13 @@ public class Shape implements Json.JsonObject {
     public void Set(Shape shape) {
         shape.ForValue(p->{
             char vl = shape.Get(p);
-            Set(p.add(shape.x,shape.y),vl);
+            Set(p.add(shape.tempPos),vl);
         });
     }
     public void Remove(Shape shape)
     {
         shape.ForValue(p->{
-            Vector2 pos = p.add(shape.x,shape.y);
+            Vector2 pos = p.add(shape.tempPos);
             if (Null(pos)) return;
             Set(pos,emptyChar);
         });
