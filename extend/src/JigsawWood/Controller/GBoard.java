@@ -1,12 +1,10 @@
 package JigsawWood.Controller;
 
-import GDX11.GAudio;
-import GDX11.GDX;
+import GDX11.*;
 import GDX11.IObject.IActor.*;
-import GDX11.Scene;
-import GDX11.Util;
 import JigsawWood.Model.ShapeData;
 import JigsawWood.Model.Shape;
+import JigsawWood.Screen.GameScreen;
 import JigsawWood.View.VShape;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -19,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class GBoard {
-    protected IGroup game;
+    public Screen game = NewScreen();
     protected Shape model;
     protected final ShapeData shapeData = LoadData();
     protected final Map<Shape, VShape> map = new HashMap<>();
@@ -29,11 +27,15 @@ public abstract class GBoard {
     protected List<IGroup> slots = new ArrayList<>();
     protected Shape dragShape;
     protected Vector2 hitCell;
-    public GBoard(IGroup game) {
-        this.game = game;
+    public GBoard() {
+        game.Show();
         InitItem();
         InitModel();
         InitEvent();
+    }
+    protected Screen NewScreen()
+    {
+        return new GameScreen();
     }
     protected abstract void InitItem();
     protected void InitModel(){}
@@ -83,7 +85,7 @@ public abstract class GBoard {
     private void InitEvent()
     {
         IActor scroll = game.FindIActor("scroll");
-        game.GetActor().addListener(new InputListener(){
+        game.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (pointer!=0 || dragShape==null) return false;
@@ -119,7 +121,7 @@ public abstract class GBoard {
     {
         ITable table = game.FindIGroup("board").FindITable("table");
         float blockSize = table.GetTable().getChild(0).getWidth();
-        Vector2 vPos = GetView(shape).localToActorCoordinates(game.FindActor("board"),new Vector2(blockSize/2,0));
+        Vector2 vPos = GetView(shape).localToActorCoordinates(game.FindActor("board"),new Vector2(blockSize/2,blockSize/2));
         Actor hit = table.GetTable().hit(vPos.x,vPos.y,false);
         if (hit==null)
         {
@@ -128,15 +130,15 @@ public abstract class GBoard {
         }
         if (hit instanceof Group) return;
         hitCell = table.GetCell(hit);
-        boolean fit = model.IsFit(hitCell,shape);
-        if (!fit) hitCell = null;
+        if (model.IsFit(hitCell,shape)) shape.tempPos.set(hitCell);
+        else hitCell = null;
     }
     protected void HighLight(Vector2 pos,Shape shape)
     {
         shape.ForValue(p-> highlightPos.add(p.add(pos)));
         ForCell(highlightPos,a->a.getColor().a=0.5f);
     }
-    private void HighLightOff()
+    protected void HighLightOff()
     {
         ForCell(highlightPos,a->a.getColor().a=0);
         highlightPos.clear();
@@ -164,7 +166,6 @@ public abstract class GBoard {
         Scene.AddActorKeepTransform(GetView(shape),game.FindIGroup("board").GetActor());
         Vector2 vPos = game.FindIGroup("board").FindITable("table").Get(pos).GetPosition(Align.bottomLeft);
         GetView(shape).Drop(vPos);
-        shape.tempPos.set(pos);
         model.Set(shape);
         shape.ForValue(p-> blockMap.put(new Vector2(pos).add(p),GetView(shape).GetBlockView(p)));
         RemoveShape(shape);
@@ -201,6 +202,6 @@ public abstract class GBoard {
         eff.Refresh();
         Vector2 pos = actor.localToActorCoordinates(game.FindActor("board"),Scene.GetLocal(actor,Align.center));
         eff.SetPosition(pos);
-        eff.GetParticle().Start();
+        eff.GetParticle().Play();
     }
 }

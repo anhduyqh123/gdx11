@@ -27,7 +27,7 @@ public class IParticle extends IActor{
             par.SetEffect(parName);
             par.resetOnStart = resetOnStart;
             par.autoRemove = autoRemove;
-            if (start) par.Start();
+            if (start) par.Play();
         });
     }
     public Particle GetParticle()

@@ -1,7 +1,7 @@
 package Tool.Puzzle.Form;
 
+import GDX11.GDXGame;
 import SDK.SDK;
-import Tool.Puzzle.Core.MyGame;
 import Tool.Swing.UI;
 import com.badlogic.gdx.backends.lwjgl.LwjglCanvas;
 
@@ -18,7 +18,7 @@ public class MainForm {
     private void LoadGame()
     {
         SDK.SetDesktopSDK();
-        LwjglCanvas game = new LwjglCanvas(new MyGame(){
+        LwjglCanvas game = new LwjglCanvas(new GDXGame(){
             @Override
             protected void FirstLoad() {
                 Install();

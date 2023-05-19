@@ -77,7 +77,7 @@ public class JActor {
         public JParticle(IActor iActor, JPanel panel) {
             super(iActor, panel);
             Particle par = iActor.GetActor();
-            UI.NewButton("Play",panel, par::Start);
+            UI.NewButton("Play",panel, par::Play);
         }
     }
 }

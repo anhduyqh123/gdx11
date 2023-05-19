@@ -1,16 +1,14 @@
 package JigsawWood.Controller;
 
-import GDX11.Asset;
-import GDX11.GDX;
+import GDX11.*;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IImage;
 import GDX11.IObject.IActor.ITable;
-import GDX11.Json;
-import GDX11.Util;
 import JigsawWood.Model.JigsawBoard;
 import JigsawWood.Model.Shape;
 import JigsawWood.Model.ShapeData;
+import JigsawWood.Screen.GameScreen;
 import JigsawWood.Screen.WinScreen;
 import JigsawWood.View.VPiece;
 import com.badlogic.gdx.files.FileHandle;
@@ -33,10 +31,15 @@ public class GJigsawBoard extends GBoard {
             colors.add(Color.valueOf(s));
     }
     private int level;
-    public GJigsawBoard(IGroup game) {
-        super(game);
+    private WinScreen winScreen = NewWinScreen();
+    public GJigsawBoard() {
         game.FindIActor("btReset").AddClick(this::Restart);
         game.FindIActor("btHint").AddClick(this::Hint);
+    }
+
+    @Override
+    protected Screen NewScreen() {
+        return new GameScreen("JigsawGame");
     }
 
     @Override
@@ -137,29 +140,42 @@ public class GJigsawBoard extends GBoard {
         GetView(shape).parent.setVisible(false);
         RefreshFooter();
     }
-    private void Win()
+
+    private int reward;
+    private WinScreen NewWinScreen()
     {
         IGroup coin = game.FindIGroup("top").FindIGroup("coin");
-        WinScreen screen = new WinScreen(level);
-        InitBoard(screen.FindIGroup("board"),model);
-        ITable table = screen.FindITable("table");
+        WinScreen screen = new WinScreen();
+        screen.AddClick("btNext",()->{
+            screen.Hide();
+            Global.AddCoin(reward);
+            Start(level+1);
+        });
+        screen.AddClick("btAd",()->{
+            screen.Hide();
+            Global.AddCoin(reward*2);
+            Start(level+1);
+        });
+        screen.onShow = ()->coin.AddToParent(screen.iGroup);
+        screen.onHideDone = ()->coin.AddToParent(game.FindIGroup("top"));
+        return screen;
+    }
+    private void Win()
+    {
+        InitBoard(winScreen.FindIGroup("board"),model);
+        ITable table = winScreen.FindITable("table");
         ITable table0 = game.FindIGroup("board").FindITable("table");
         model.For(p->{
             IActor cell = table.Get(p);
             Actor a = blockMap.get(p)!=null?blockMap.get(p):table0.Get(p).GetActor();
             cell.GetActor().setColor(a.getColor());
         });
-        screen.AddClick("btNext",()->{
-            screen.Hide();
-            Start(level+1);
-        });
-        screen.onHideDone = ()->coin.AddToParent(game.FindIGroup("top"));
+        reward = GetModel().map.size()*10;
 
-        game.GetGroup().setTouchable(Touchable.disabled);
+        game.setTouchable(Touchable.disabled);
         game.Run(()->{
-            coin.AddToParent(screen.iGroup);
-            screen.Show();
-            game.GetGroup().setTouchable(Touchable.enabled);
+            winScreen.Show(level,reward);
+            game.setTouchable(Touchable.enabled);
         },0.4f);
     }
     private void Hint()

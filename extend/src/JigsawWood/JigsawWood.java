@@ -17,11 +17,4 @@ public class JigsawWood{
     {
         XItem.InitItem(new XItem("coin",100));
     }
-    private void Sudo()
-    {
-        Screen screen = new GameScreen();
-        screen.Show();
-        GBoard gBoard = new GSudoBoard(screen.iGroup);
-        gBoard.Start();
-    }
 }

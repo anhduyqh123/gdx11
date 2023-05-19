@@ -2,6 +2,7 @@ package Tool.Puzzle.Core;
 
 import GDX11.Asset;
 import GDX11.Config;
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IImage;
@@ -23,10 +24,9 @@ import java.util.List;
 
 public class BoardEditor extends Shape {
     public static char numID = 'a';
-    private static final List<Color> colors = new ArrayList<>();
+    protected static final List<Color> colors = new ArrayList<>();
     {
-        FileHandle file = new FileHandle("colors.txt");
-        for (String s : file.readString().split("\n"))
+        for (String s : GDX.GetStringByKey("colors").split("\n"))
             colors.add(Color.valueOf(s));
     }
     private Shape board;

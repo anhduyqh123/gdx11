@@ -24,7 +24,7 @@ public class GameScreen extends Screen {
         XItem.Get("coin").AddChangeEvent("game",(o, n)->coin.FindILabel("lb").SetText(n));
         Config.SetRun("addCoin",ia->XItem.Get("coin").Add(10));
         Config.SetRun("videoCoin",()->{//add 100coin
-            Util.For(0,9, i->{
+            Util.For(1,Config.Get("coinNum"), i->{
                 IActor c = coin.Obtain("icon");
                 c.iParam.Set("delay",(i/2)*0.1f);
                 c.RunAction("add");

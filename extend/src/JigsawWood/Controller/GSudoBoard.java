@@ -13,6 +13,7 @@ import JigsawWood.Screen.LoseScreen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
 
@@ -22,8 +23,7 @@ import java.util.List;
 
 public class GSudoBoard extends GBoard{
     private int score = 0;
-    public GSudoBoard(IGroup game) {
-        super(game);
+    public GSudoBoard() {
         game.FindIActor("btKill").AddClick(()->Kill());
         game.FindIActor("btShuffle").AddClick(()->NewShapes());
         game.FindIActor("btReset").AddClick(this::Restart);
@@ -31,7 +31,6 @@ public class GSudoBoard extends GBoard{
 
     @Override
     protected void InitItem() {
-
     }
 
     protected ShapeData LoadData() {
@@ -41,6 +40,10 @@ public class GSudoBoard extends GBoard{
     @Override
     protected void InitModel() {
         this.model = new SudoBoard(9,9);
+    }
+    private SudoBoard GetModel()
+    {
+        return (SudoBoard)model;
     }
 
     @Override
@@ -79,7 +82,7 @@ public class GSudoBoard extends GBoard{
         if (lose.Get()) Lose();
     }
     private void Lose() {
-        game.GetGroup().setTouchable(Touchable.disabled);
+        game.setTouchable(Touchable.disabled);
         Screen loseScreen = new LoseScreen(score,560);
         loseScreen.AddClick("btAd",()->{
             loseScreen.Hide();
@@ -90,7 +93,7 @@ public class GSudoBoard extends GBoard{
             Restart();
         });
 
-        loseScreen.onShowDone = ()->game.GetGroup().setTouchable(Touchable.enabled);
+        loseScreen.onShowDone = ()->game.setTouchable(Touchable.enabled);
 
         game.FindIGroup("noti").RunAction("noti");
         game.FindIGroup("noti").iParam.SetRun("notiDone",()->{
@@ -100,23 +103,22 @@ public class GSudoBoard extends GBoard{
     }
     private void Continue() {
         NewShapes();
-        game.GetGroup().setTouchable(Touchable.disabled);
+        game.setTouchable(Touchable.disabled);
         List<Integer> list = new ArrayList<>();
         Util.For(0,8, list::add);
         Collections.shuffle(list);
         Util.For(0,2,i-> game.Run(()->DestroyMini(list.get(i)),i*0.4f));
-        game.Run(()->game.GetGroup().setTouchable(Touchable.enabled),1.2f);
+        game.Run(()->game.setTouchable(Touchable.enabled),1.2f);
     }
     private void DestroyMini(int mini)//delay 0.4f
     {
-        SudoBoard sudoBoard = (SudoBoard)model;
         IGroup iBoard = game.FindIGroup("board");
-        Vector2 mid = iBoard.FindITable("table").Get(sudoBoard.GetMidPos(mini)).GetLocalToActor(iBoard.GetActor(), Align.center);
+        Vector2 mid = iBoard.FindITable("table").Get(GetModel().GetMidPos(mini)).GetLocalToActor(iBoard.GetActor(), Align.center);
         IParticle eff = game.FindIGroup("board").Clone("thunder");
         eff.Refresh();
         eff.SetPosition(mid);
         eff.RunAction("play");
-        game.Run(()->DestroyMini(sudoBoard.GetMini(mini)),0.4f);
+        game.Run(()->DestroyMini(GetModel().GetMini(mini)),0.4f);
     }
     private void Kill()
     {
@@ -146,5 +148,32 @@ public class GSudoBoard extends GBoard{
             }
         }
         if (destroy.Get()) GAudio.i.PlaySingleSound("glass2");
+    }
+
+    private final List<Actor> hlCell = new ArrayList<>();
+
+    @Override
+    protected void HighLightOff() {
+        super.HighLightOff();
+        Util.For(hlCell,a->a.setColor(Color.valueOf("#FFFFCC")));
+        hlCell.clear();
+    }
+
+    @Override
+    protected void HighLight(Vector2 pos, Shape shape) {
+        super.HighLight(pos, shape);
+        HighLightDestroy(shape);
+    }
+
+    private void HighLightDestroy(Shape shape) {
+        model.Set(shape);
+        Util.For(GetModel().GetDestroyList(),list->
+                Util.For(list,p->{
+                    Actor a = blockMap.get(p);
+                    if (a==null) return;
+                    a.setColor(Color.WHITE);
+                    hlCell.add(a);
+                }));
+        model.Remove(shape);
     }
 }

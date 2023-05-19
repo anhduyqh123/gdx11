@@ -1,21 +1,3 @@
-Extend/Spine/SkeletonDataLoader.java
- Extend.Spine.SkeletonDataLoader
- Extend.Spine.SkeletonDataLoader$SkeletonDataLoaderParameter
-com/game/Test.java
- game.Test
-Extend/AI/SteeringAgent.java
- Extend.AI.SteeringAgent
-com/game/A.java
- game.A
-com/game/C.java
- game.C
- game.C$E
-Extend/AI/Scene2dLocation.java
- Extend.AI.Scene2dLocation
-com/game/B.java
- game.B
-com/game/MyGdxGame.java
- com.game.MyGdxGame
 SDK/SDK.java
  SDK.SDK
  SDK.SDK$1
@@ -43,6 +25,9 @@ Extend/IMask.java
  Extend.IMask$1
 JigsawWood/Screen/ShopScreen.java
  JigsawWood.Screen.ShopScreen
+com/game/C.java
+ game.C
+ game.C$E
 JigsawWood/Screen/LoseScreen.java
  JigsawWood.Screen.LoseScreen
 Extend/Spine/IAnimation.java
@@ -50,24 +35,31 @@ Extend/Spine/IAnimation.java
  Extend.Spine.IAnimation$AniAction
 Extend/IShape/IPolygon.java
  Extend.IShape.IPolygon
-JigsawWood/Controller/GSudoBoard.java
- JigsawWood.Controller.GSudoBoard
-JigsawWood/Screen/WinScreen.java
- JigsawWood.Screen.WinScreen
+Extend/IShape/ICircle.java
+ Extend.IShape.ICircle
+Extend/IShape/IPoints.java
+ Extend.IShape.IPoints
 Extend/AI/ITest.java
  Extend.AI.ITest
-JigsawWood/Screen/GameScreen.java
- JigsawWood.Screen.GameScreen
+Extend/Spine/SkeletonDataLoader.java
+ Extend.Spine.SkeletonDataLoader
+ Extend.Spine.SkeletonDataLoader$SkeletonDataLoaderParameter
+JigsawWood/Screen/WinScreen.java
+ JigsawWood.Screen.WinScreen
 Extend/Spine/GSpine.java
  Extend.Spine.GSpine
  Extend.Spine.GSpine$1
  Extend.Spine.GSpine$2
+Extend/AI/SteeringAgent.java
+ Extend.AI.SteeringAgent
 SDK/IZen.java
  SDK.IZen
 Extend/IShapeMask.java
  Extend.IShapeMask
 Extend/Spine/ISpine.java
  Extend.Spine.ISpine
+com/game/Test.java
+ game.Test
 JigsawWood/Model/JigsawBoard.java
  JigsawWood.Model.JigsawBoard
 Extend/PagedScroll/PagedScroll.java
@@ -78,9 +70,12 @@ com/game/MyGame.java
  com.game.MyGame
 JigsawWood/JigsawWood.java
  JigsawWood.JigsawWood
-JigsawWood/Controller/GBoard.java
- JigsawWood.Controller.GBoard
- JigsawWood.Controller.GBoard$1
+com/game/A.java
+ game.A
+com/game/B.java
+ game.B
+Extend/AI/Scene2dLocation.java
+ Extend.AI.Scene2dLocation
 JigsawWood/Model/SudoBoard.java
  JigsawWood.Model.SudoBoard
 Extend/IShape/IShape.java
@@ -88,17 +83,25 @@ Extend/IShape/IShape.java
 JigsawWood/View/VShape.java
  JigsawWood.View.VShape
  JigsawWood.View.VShape$1
+com/game/MyGdxGame.java
+ com.game.MyGdxGame
 JigsawWood/Model/ShapeData.java
  JigsawWood.Model.ShapeData
 Extend/IPutEvent.java
  Extend.IPutEvent
  Extend.IPutEvent$Type
-Extend/IShape/IPoints.java
- Extend.IShape.IPoints
+JigsawWood/Controller/Global.java
+ JigsawWood.Controller.Global
+JigsawWood/Screen/GameScreen.java
+ JigsawWood.Screen.GameScreen
+JigsawWood/Controller/GBoard.java
+ JigsawWood.Controller.GBoard
+ JigsawWood.Controller.GBoard$1
+JigsawWood/Controller/GPuzzBoard.java
+ JigsawWood.Controller.GPuzzBoard
 JigsawWood/Controller/GJigsawBoard.java
  JigsawWood.Controller.GJigsawBoard
-Extend/IShape/ICircle.java
- Extend.IShape.ICircle
+JigsawWood/Controller/GSudoBoard.java
+ JigsawWood.Controller.GSudoBoard
 JigsawWood/Screen/MenuScreen.java
  JigsawWood.Screen.MenuScreen
- JigsawWood.Screen.MenuScreen$1
