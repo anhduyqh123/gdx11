@@ -2,8 +2,11 @@ package JigsawWood.Screen;
 
 import Extend.XItem;
 import GDX11.*;
+import GDX11.IObject.IAction.ICountAction;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
+import GDX11.IObject.IActor.ILabel;
+import JigsawWood.Controller.Global;
 
 public class GameScreen extends Screen {
     public GameScreen() {
@@ -15,20 +18,23 @@ public class GameScreen extends Screen {
             Hide();
             new MenuScreen().Show();
         });
-        SetCoinEvent(FindIGroup("top").FindIGroup("coin"));
+        Global.SetCoinEvent(FindIGroup("top").FindIGroup("coin"));
     }
-
-    public static void SetCoinEvent(IGroup coin)
+    public void SetBest(int value) {
+        FindIGroup("top").FindIGroup("best").FindILabel("lb").SetText(value);
+    }
+    public void SetScore(int oldVL,int newVL){
+        IActor lbScore = FindIGroup("top").FindIGroup("score").FindIActor("lb");
+        lbScore.iAction.Find("count", ICountAction.class).Set(oldVL,newVL);
+        lbScore.RunAction("count");
+    }
+    public void SetScore(int value){
+        ILabel lbScore = FindIGroup("top").FindIGroup("score").FindIActor("lb");
+        lbScore.SetText(value);
+    }
+    public void SetLevel(int value)
     {
-        coin.AddClick(()-> new ShopScreen().Show());
-        XItem.Get("coin").AddChangeEvent("game",(o, n)->coin.FindILabel("lb").SetText(n));
-        Config.SetRun("addCoin",ia->XItem.Get("coin").Add(10));
-        Config.SetRun("videoCoin",()->{//add 100coin
-            Util.For(1,Config.Get("coinNum"), i->{
-                IActor c = coin.Obtain("icon");
-                c.iParam.Set("delay",(i/2)*0.1f);
-                c.RunAction("add");
-            });
-        });
+        ILabel lbScore = FindIGroup("top").FindIGroup("level").FindIActor("lb");
+        lbScore.SetText("LEVEL "+value);
     }
 }

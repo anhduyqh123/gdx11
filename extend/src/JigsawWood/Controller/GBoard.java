@@ -1,10 +1,12 @@
 package JigsawWood.Controller;
 
+import Extend.XItem;
 import GDX11.*;
 import GDX11.IObject.IActor.*;
 import JigsawWood.Model.ShapeData;
 import JigsawWood.Model.Shape;
 import JigsawWood.Screen.GameScreen;
+import JigsawWood.Screen.ShopScreen;
 import JigsawWood.View.VShape;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -17,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class GBoard {
-    public Screen game = NewScreen();
+    public GameScreen game = NewScreen();
     protected Shape model;
     protected final ShapeData shapeData = LoadData();
     protected final Map<Shape, VShape> map = new HashMap<>();
@@ -29,15 +31,19 @@ public abstract class GBoard {
     protected Vector2 hitCell;
     public GBoard() {
         game.Show();
-        InitItem();
         InitModel();
         InitEvent();
     }
-    protected Screen NewScreen()
+    protected void InitItem(XItem item, IGroup iGroup, GDX.Func<Boolean> use)
+    {
+        item.SetChangeEvent("game",(o, n)->iGroup.FindILabel("lb").SetText(n<=0?"+":n));
+        item.onUse = use;
+        item.outValue = ()->new ShopScreen().Show();
+    }
+    protected GameScreen NewScreen()
     {
         return new GameScreen();
     }
-    protected abstract void InitItem();
     protected void InitModel(){}
     protected ShapeData LoadData()
     {
@@ -159,7 +165,8 @@ public abstract class GBoard {
         GetView(shape).parent.setVisible(true);
         RefreshFooter();
         IScrollPane scroll = game.FindIGroup("footer").FindIActor("scroll");
-        game.Run(()->scroll.ScrollTo(GetView(shape)),0.2f);
+        if (scroll!=null)
+            game.Run(()->scroll.ScrollTo(GetView(shape)),0.2f);
     }
     protected void PutShape(Vector2 pos,Shape shape)
     {

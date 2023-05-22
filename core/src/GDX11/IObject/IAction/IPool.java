@@ -6,17 +6,17 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class IPool extends IMulAction{
-    public enum Type{
+    public enum State{
         Init,
         Obtain
     }
-    public Type type = Type.Init;
+    public State state = State.Init;
     public String childName = "";
     public int fillSize = 1;
 
     @Override
     public void Run() {
-        switch (type){
+        switch (state){
             case Init:
                 GetIGroup().NewPool(childName,fillSize);
                 break;
@@ -35,7 +35,7 @@ public class IPool extends IMulAction{
     {
         IActor iClone = GetIGroup().Obtain(childName);
         iMap.For(i->i.SetIActor(iClone));
-        iClone.GetActor().addAction(super.Get());
+        iClone.GetActor().addAction(super.Get());//only DoAction
     }
     private IGroup GetIGroup()
     {

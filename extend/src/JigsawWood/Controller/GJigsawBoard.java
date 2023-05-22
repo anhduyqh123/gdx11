@@ -33,18 +33,18 @@ public class GJigsawBoard extends GBoard {
     private int level;
     private WinScreen winScreen = NewWinScreen();
     public GJigsawBoard() {
+        InitItem(Global.itemHint,game.FindIGroup("btHint"),()->{
+            Hint();
+            return true;
+        });
+
         game.FindIActor("btReset").AddClick(this::Restart);
-        game.FindIActor("btHint").AddClick(this::Hint);
+        game.FindIActor("btHint").AddClick(Global.itemHint::Use);
     }
 
     @Override
-    protected Screen NewScreen() {
+    protected GameScreen NewScreen() {
         return new GameScreen("JigsawGame");
-    }
-
-    @Override
-    protected void InitItem() {
-
     }
 
     protected ShapeData LoadData()
@@ -60,7 +60,7 @@ public class GJigsawBoard extends GBoard {
     public void Start(int level) {
         this.level = level;
         Start(shapeData.GetShape(level-1));
-        game.FindIGroup("top").FindIGroup("level").FindILabel("lb").SetText("LEVEL "+level);
+        game.SetLevel(level);
     }
     public void Start(Shape board)
     {
@@ -144,7 +144,6 @@ public class GJigsawBoard extends GBoard {
     private int reward;
     private WinScreen NewWinScreen()
     {
-        IGroup coin = game.FindIGroup("top").FindIGroup("coin");
         WinScreen screen = new WinScreen();
         screen.AddClick("btNext",()->{
             screen.Hide();
@@ -153,11 +152,9 @@ public class GJigsawBoard extends GBoard {
         });
         screen.AddClick("btAd",()->{
             screen.Hide();
-            Global.AddCoin(reward*2);
+            Global.AddCoin(reward*3);
             Start(level+1);
         });
-        screen.onShow = ()->coin.AddToParent(screen.iGroup);
-        screen.onHideDone = ()->coin.AddToParent(game.FindIGroup("top"));
         return screen;
     }
     private void Win()
@@ -182,6 +179,7 @@ public class GJigsawBoard extends GBoard {
     {
         Shape shape = Util.Random(newShapes);
         shape.ForValue(p->{
+            if (!shape.HasValue(p)) return;
             Vector2 pos = p.add(shape.GetPos());
             if (model.Empty(pos)) return;
             Shape other = GetModel().map.get(model.Get(pos));
@@ -189,6 +187,7 @@ public class GJigsawBoard extends GBoard {
             newShapes.add(other);
             GetView(other).parent.setVisible(true);
         });
+        shape.tempPos.set(shape.GetPos());
         PutShape(shape.GetPos(),shape);
     }
 

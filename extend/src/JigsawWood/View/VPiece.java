@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 public class VPiece extends VShape {
+
     public VPiece(Shape shape, IGroup iBoard, Group parent) {
         super(shape, iBoard, parent);
         iGroup.iComponents.GetIComponent("draw").active = !shape.texture.equals("");

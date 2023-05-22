@@ -1,7 +1,6 @@
 package JigsawWood.Controller;
 
 import GDX11.*;
-import GDX11.Actors.Particle;
 import GDX11.IObject.IAction.ICountAction;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
@@ -10,8 +9,8 @@ import JigsawWood.Model.Shape;
 import JigsawWood.Model.ShapeData;
 import JigsawWood.Model.SudoBoard;
 import JigsawWood.Screen.LoseScreen;
+import JigsawWood.View.VShape;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -22,15 +21,18 @@ import java.util.Collections;
 import java.util.List;
 
 public class GSudoBoard extends GBoard{
-    private int score = 0;
+    private int score = 0,best;
     public GSudoBoard() {
-        game.FindIActor("btKill").AddClick(()->Kill());
-        game.FindIActor("btShuffle").AddClick(()->NewShapes());
-        game.FindIActor("btReset").AddClick(this::Restart);
-    }
+        InitItem(Global.itemKill,game.FindIGroup("btKill"),this::Kill);
+        InitItem(Global.itemShuffle,game.FindIGroup("btShuffle"),()->{
+            NewShapes();
+            return true;
+        });
 
-    @Override
-    protected void InitItem() {
+        game.FindIActor("btKill").AddClick(Global.itemKill::Use);
+        game.FindIActor("btShuffle").AddClick(Global.itemShuffle::Use);
+        game.FindIActor("btReset").AddClick(this::Restart);
+        best = Config.GetPref("sudo_best",0);
     }
 
     protected ShapeData LoadData() {
@@ -41,6 +43,15 @@ public class GSudoBoard extends GBoard{
     protected void InitModel() {
         this.model = new SudoBoard(9,9);
     }
+
+    @Override
+    public void Start() {
+        super.Start();
+        score = 0;
+        game.SetBest(best);
+        game.SetScore(score);
+    }
+
     private SudoBoard GetModel()
     {
         return (SudoBoard)model;
@@ -68,22 +79,26 @@ public class GSudoBoard extends GBoard{
         int score0 = score;
         for (List l : lists) len+=l.size();
         score+=len*5;
-        IActor lbScore = game.FindIGroup("top").FindIGroup("score").FindIActor("lb");
-        lbScore.iAction.Find("count",ICountAction.class).Set(score0,score);
-        lbScore.RunAction("count");
+        game.SetScore(score0,score0);
 
         super.Destroy(lists);
         GDX.Ref<Boolean> lose = new GDX.Ref<>(true);
         Util.For(newShapes,shape->{
             boolean valid = ValidShape(shape);
             if (valid) lose.Set(false);
-            GetView(shape).SetColor(valid?Color.valueOf("#FFFFCC"):Color.LIGHT_GRAY);
+            GetView(shape).SetColor(valid? VShape.normal :VShape.unFit);
         });
         if (lose.Get()) Lose();
     }
     private void Lose() {
         game.setTouchable(Touchable.disabled);
-        Screen loseScreen = new LoseScreen(score,560);
+        if (best<score)
+        {
+            best = score;
+            Config.Set("sudo_best",best);
+            game.SetBest(best);
+        }
+        Screen loseScreen = new LoseScreen(score,best);
         loseScreen.AddClick("btAd",()->{
             loseScreen.Hide();
             Continue();
@@ -120,7 +135,7 @@ public class GSudoBoard extends GBoard{
         eff.RunAction("play");
         game.Run(()->DestroyMini(GetModel().GetMini(mini)),0.4f);
     }
-    private void Kill()
+    private boolean Kill()
     {
         SudoBoard sudoBoard = (SudoBoard) model;
         List<Integer> list = new ArrayList<>();
@@ -132,9 +147,10 @@ public class GSudoBoard extends GBoard{
                 if (sudoBoard.HasValue(p))
                 {
                     DestroyMini(i);
-                    return;
+                    return true;
                 }
         }
+        return false;
     }
     private void DestroyMini(List<Vector2> list)
     {
@@ -171,7 +187,7 @@ public class GSudoBoard extends GBoard{
                 Util.For(list,p->{
                     Actor a = blockMap.get(p);
                     if (a==null) return;
-                    a.setColor(Color.WHITE);
+                    a.setColor(VShape.highLight);
                     hlCell.add(a);
                 }));
         model.Remove(shape);

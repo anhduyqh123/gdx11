@@ -14,6 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.Align;
 
 public class VShape extends Group {
+    public static final Color normal = Color.valueOf("#FFFFCC");//Color.valueOf("#FFC779")
+    public static final Color highLight = Color.WHITE;
+    public static final Color unFit = Color.DARK_GRAY;
     protected final IGroup iGroup = NewIGroup();
     public Group parent;
     public Shape shape;
@@ -74,8 +77,7 @@ public class VShape extends Group {
         shape.For(p->{
             Actor a = table.Get(p).GetActor();
             if (shape.Null(p)) a.getColor().a = 0;
-            //if (shape.Get(p)>=0) a.setColor(Color.valueOf("#FFC779"));
-            if (shape.HasValue(p)) a.setColor(Color.valueOf("#FFFFCC"));
+            if (shape.HasValue(p)) a.setColor(normal);
         });
         shape.For(p-> table.Get(p).GetActor().setVisible(shape.HasValue(p)));
     }

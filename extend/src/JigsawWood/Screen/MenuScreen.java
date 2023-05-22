@@ -1,15 +1,12 @@
 package JigsawWood.Screen;
 
 import GDX11.*;
-import JigsawWood.Controller.GBoard;
-import JigsawWood.Controller.GJigsawBoard;
-import JigsawWood.Controller.GPuzzBoard;
-import JigsawWood.Controller.GSudoBoard;
+import JigsawWood.Controller.*;
 
 public class MenuScreen extends Screen {
     public MenuScreen() {
         super("Menu");
-        GameScreen.SetCoinEvent(FindIGroup("coin"));
+        Global.SetCoinEvent(FindIGroup("coin"));
 
         FindIGroup("btJigsaw").FindIActor("lb").iParam.Set("value", Config.GetPref("level_jigsaw",1));
         FindIGroup("btPuzz").FindIActor("lb").iParam.Set("value", Config.GetPref("level_puzz",1));

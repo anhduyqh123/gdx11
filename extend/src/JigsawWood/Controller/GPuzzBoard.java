@@ -4,7 +4,6 @@ import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
 import GDX11.Json;
-import GDX11.Screen;
 import JigsawWood.Model.Shape;
 import JigsawWood.Model.ShapeData;
 import JigsawWood.Screen.GameScreen;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class GPuzzBoard extends GJigsawBoard{
     @Override
-    protected Screen NewScreen() {
+    protected GameScreen NewScreen() {
         return new GameScreen("PuzzGame");
     }
     @Override

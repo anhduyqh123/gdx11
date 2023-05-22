@@ -4,17 +4,14 @@ import Extend.XItem;
 import GDX11.Screen;
 import JigsawWood.Controller.GBoard;
 import JigsawWood.Controller.GSudoBoard;
+import JigsawWood.Controller.Global;
 import JigsawWood.Screen.GameScreen;
 import JigsawWood.Screen.MenuScreen;
 
 public class JigsawWood{
     public JigsawWood(){
-        InitItem();
+        Global.InitItem();
 
         new MenuScreen().Show();
-    }
-    private void InitItem()
-    {
-        XItem.InitItem(new XItem("coin",100));
     }
 }
