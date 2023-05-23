@@ -1,8 +1,6 @@
 package JigsawWood.Controller;
 
 import GDX11.*;
-import GDX11.IObject.IAction.ICountAction;
-import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.IParticle;
 import JigsawWood.Model.Shape;
@@ -21,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class GSudoBoard extends GBoard{
-    private int score = 0,best;
+    private int score = 0,best = Config.GetPref("sudo_best",0);
     public GSudoBoard() {
         InitItem(Global.itemKill,game.FindIGroup("btKill"),this::Kill);
         InitItem(Global.itemShuffle,game.FindIGroup("btShuffle"),()->{
@@ -32,7 +30,6 @@ public class GSudoBoard extends GBoard{
         game.FindIActor("btKill").AddClick(Global.itemKill::Use);
         game.FindIActor("btShuffle").AddClick(Global.itemShuffle::Use);
         game.FindIActor("btReset").AddClick(this::Restart);
-        best = Config.GetPref("sudo_best",0);
     }
 
     protected ShapeData LoadData() {
@@ -45,11 +42,16 @@ public class GSudoBoard extends GBoard{
     }
 
     @Override
-    public void Start() {
-        super.Start();
+    public void OnStart() {
+        super.OnStart();
         score = 0;
         game.SetBest(best);
         game.SetScore(score);
+    }
+
+    @Override
+    public void Start() {
+        OnStart();
     }
 
     private SudoBoard GetModel()
@@ -68,7 +70,8 @@ public class GSudoBoard extends GBoard{
         if (newShapes.size() == 0) NewShapes();
     }
     private boolean ValidShape(Shape shape) {
-        for (Vector2 p : model.GetEmptyList())
+
+        for (Vector2 p : model.GetPosList())
             if (model.IsFit(p,shape)) return true;
         return false;
     }
@@ -79,9 +82,13 @@ public class GSudoBoard extends GBoard{
         int score0 = score;
         for (List l : lists) len+=l.size();
         score+=len*5;
-        game.SetScore(score0,score0);
+        game.SetScore(score0,score);
 
         super.Destroy(lists);
+        CheckValidShapes();
+    }
+    private void CheckValidShapes()
+    {
         GDX.Ref<Boolean> lose = new GDX.Ref<>(true);
         Util.For(newShapes,shape->{
             boolean valid = ValidShape(shape);
@@ -95,7 +102,7 @@ public class GSudoBoard extends GBoard{
         if (best<score)
         {
             best = score;
-            Config.Set("sudo_best",best);
+            Config.SetPref("sudo_best",best);
             game.SetBest(best);
         }
         Screen loseScreen = new LoseScreen(score,best);
@@ -163,7 +170,10 @@ public class GSudoBoard extends GBoard{
                 DestroyEffect(blockMap.get(p));
             }
         }
-        if (destroy.Get()) GAudio.i.PlaySingleSound("glass2");
+        if (destroy.Get()){
+            GAudio.i.PlaySingleSound("glass2");
+            CheckValidShapes();
+        }
     }
 
     private final List<Actor> hlCell = new ArrayList<>();

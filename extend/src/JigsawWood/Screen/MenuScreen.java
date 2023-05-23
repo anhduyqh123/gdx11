@@ -8,30 +8,24 @@ public class MenuScreen extends Screen {
         super("Menu");
         Global.SetCoinEvent(FindIGroup("coin"));
 
-        FindIGroup("btJigsaw").FindIActor("lb").iParam.Set("value", Config.GetPref("level_jigsaw",1));
-        FindIGroup("btPuzz").FindIActor("lb").iParam.Set("value", Config.GetPref("level_puzz",1));
-        FindIGroup("btSudo").FindIActor("lb").iParam.Set("value", Config.GetPref("best_sudo",0));
+        FindIGroup("btJigsaw").FindIActor("lb").iParam.Set("value", Config.GetPref("JigsawGame",1));
+        FindIGroup("btPuzz").FindIActor("lb").iParam.Set("value", Config.GetPref("PuzzGame",1));
+        FindIGroup("btSudo").FindIActor("lb").iParam.Set("value", Config.GetPref("sudo_best",0));
 
         AddClick("btJigsaw",this::JigSaw);
         AddClick("btPuzz",this::Puzz);
         AddClick("btSudo",this::Sudo);
     }
-    private void Sudo()
-    {
+    private void Sudo() {
         Hide();
-        GBoard gBoard = new GSudoBoard();
-        gBoard.Start();
+        new GSudoBoard().Start();
     }
-    private void JigSaw()
-    {
+    private void JigSaw() {
         Hide();
-        GBoard gBoard = new GJigsawBoard();
-        gBoard.Start(1);
+        new GJigsawBoard().Start();
     }
-    private void Puzz()
-    {
+    private void Puzz() {
         Hide();
-        GBoard gBoard = new GPuzzBoard();
-        gBoard.Start(1);
+        new GPuzzBoard().Start();
     }
 }

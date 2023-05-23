@@ -1,6 +1,5 @@
 package GDX11;
 
-import GDX11.IObject.IActor.IActor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
@@ -61,14 +60,12 @@ public class Config {
     //Get value
     public static <T> T GetPref(String name,T value0)
     {
-        T value = GetPref(name);
-        return value!=null?value:value0;
+        String str = GDX.i.GetPrefString(name,"");
+        return str.equals("")?value0:Reflect.ToBaseType(str,value0);
     }
     public static <T> T GetPref(String name)
     {
-        String str = GDX.i.GetPrefString(name,"");
-        T value0 = Get(name);
-        return str.equals("")?value0:Reflect.ToBaseType(str,value0);
+        return GetPref(name,Get(name));
     }
     public static <T> T GetRemote(String name,T value0)
     {
@@ -84,13 +81,17 @@ public class Config {
     {
         return (T)map.get(name);
     }
-    public static <T> T Get(String name,Class<T> type)
+    public static <T> T Get(String name,Class<T> tpye)
     {
         return Get(name);
     }
     public static Runnable GetRun(String name)
     {
         return Get(name);
+    }
+    public static void Run(String name)
+    {
+        if (Get(name)!=null) GetRun(name).run();
     }
     public static boolean Has(String name)
     {

@@ -49,18 +49,20 @@ public abstract class GBoard {
     {
         return new ShapeData();
     }
-    public void Start()
+    public void OnStart()
     {
+        blockMap.clear();
         NewShapes();
     }
     public void Start(int level) {
-        Start();
+        OnStart();
     }
+    public abstract void Start();
     protected void Restart()
     {
         game.FindIActor("board").Refresh();
         InitModel();
-        Start();
+        OnStart();
     }
     protected void NewShapes()
     {

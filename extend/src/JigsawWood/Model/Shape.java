@@ -172,7 +172,7 @@ public class Shape implements Json.JsonObject {
         return shape.ForIf(p->{
             Vector2 bPos = new Vector2(p).add(pos);
             if (!Valid(bPos)) return false;
-            return Empty(bPos) || !shape.HasValue(p);
+            return !(HasValue(bPos) && shape.HasValue(p));
         });
     }
     public List<List<Vector2>> GetDestroyList(){
@@ -191,6 +191,12 @@ public class Shape implements Json.JsonObject {
         ForBlock(p->{
             if (Empty(p)) list.add(p);
         });
+        return list;
+    }
+    public List<Vector2> GetPosList()
+    {
+        List<Vector2> list = new ArrayList<>();
+        For(list::add);
         return list;
     }
 }

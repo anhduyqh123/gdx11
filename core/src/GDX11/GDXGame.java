@@ -130,6 +130,7 @@ public class GDXGame extends ApplicationAdapter {
     //Info
     protected void ShowInfo()
     {
+        Config.Set("testMode",true);
         ShowFPS();
         ITextField.NewTextField(Config.Get("installationID"),0,0, Align.bottomLeft,Scene.i.ui2);
     }

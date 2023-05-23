@@ -1,12 +1,14 @@
 package GDX11;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
@@ -28,12 +30,14 @@ public class Scene {
         InitStage();
         InitSize();
         Gdx.input.setInputProcessor(GetStage());
+        Gdx.input.setCatchKey(Input.Keys.BACK,true);//lock backKey
     }
     private void InitStage()
     {
         NewStage("ui");
         GetStage().addActor(ui);
         GetStage().addActor(ui2);
+        ui2.setTouchable(Touchable.disabled);
     }
     private void InitSize()
     {

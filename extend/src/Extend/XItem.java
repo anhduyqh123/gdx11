@@ -12,7 +12,7 @@ public class XItem {
     private static final Map<String,XItem> map = new HashMap<>();
     public String name;
     public int value;
-    private final Map<String, GDX.Runnable2<Integer,Integer>> changeMap = new HashMap<>();//old,new
+    private transient final Map<String, GDX.Runnable2<Integer,Integer>> changeMap = new HashMap<>();//old,new
     //public GDX.Func1<String,Integer> zero = vl->vl<=0?"+":vl+"";
     public GDX.Func<Boolean> onUse = ()->true;
     public Runnable outValue = ()->{};

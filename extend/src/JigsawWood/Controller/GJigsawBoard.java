@@ -11,7 +11,6 @@ import JigsawWood.Model.ShapeData;
 import JigsawWood.Screen.GameScreen;
 import JigsawWood.Screen.WinScreen;
 import JigsawWood.View.VPiece;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -20,9 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class GJigsawBoard extends GBoard {
     protected static final List<Color> colors = new ArrayList<>();
@@ -30,16 +28,19 @@ public class GJigsawBoard extends GBoard {
         for (String s : GDX.GetStringByKey("colors").split("\n"))
             colors.add(Color.valueOf(s));
     }
-    private int level;
-    private WinScreen winScreen = NewWinScreen();
+    private int curLevel=1,level = Config.GetPref(game.name,1);
+    private final WinScreen winScreen = NewWinScreen();
     public GJigsawBoard() {
         InitItem(Global.itemHint,game.FindIGroup("btHint"),()->{
             Hint();
             return true;
         });
 
+        game.FindIActor("btNext").AddClick(()->Start(curLevel+1));
         game.FindIActor("btReset").AddClick(this::Restart);
         game.FindIActor("btHint").AddClick(Global.itemHint::Use);
+
+        game.FindActor("btNext").setVisible(Config.Get("testMode",false));
     }
 
     @Override
@@ -58,26 +59,38 @@ public class GJigsawBoard extends GBoard {
 
     @Override
     public void Start(int level) {
-        this.level = level;
-        Start(shapeData.GetShape(level-1));
+        this.curLevel = level;
+        Start(GetLevel(level));
         game.SetLevel(level);
     }
+    protected Shape GetLevel(int level)
+    {
+        if (level>shapeData.shapes.size()) return GetLevel(MathUtils.random(100,300));
+        return shapeData.GetShape(level-1);
+    }
+
+    @Override
+    public void Start() {
+        Start(level);
+    }
+
     public void Start(Shape board)
     {
         SetBoard(board);
-        Start();
+        OnStart();
     }
 
     @Override
     protected void Restart() {
         game.FindIActor("board").Refresh();
-        Start(level);
+        Start(curLevel);
     }
 
     @Override
     protected void NewShapes() {
         newShapes.clear();
         List<Shape> shapes = new ArrayList<>(GetModel().map.values());
+        Collections.shuffle(shapes);
         slots = game.FindIGroup("footer").FindITable("table").CloneChild(shapes, this::NewView);
         FitShapeView();
     }
@@ -148,17 +161,25 @@ public class GJigsawBoard extends GBoard {
         screen.AddClick("btNext",()->{
             screen.Hide();
             Global.AddCoin(reward);
-            Start(level+1);
+            Start(curLevel+1);
         });
         screen.AddClick("btAd",()->{
             screen.Hide();
             Global.AddCoin(reward*3);
-            Start(level+1);
+            Start(curLevel+1);
         });
         return screen;
     }
+    private void SaveBestLevel()
+    {
+        if (curLevel+1>level){
+            level = curLevel+1;
+            Config.SetPref(game.name,level);
+        }
+    }
     private void Win()
     {
+        SaveBestLevel();
         InitBoard(winScreen.FindIGroup("board"),model);
         ITable table = winScreen.FindITable("table");
         ITable table0 = game.FindIGroup("board").FindITable("table");
@@ -171,7 +192,7 @@ public class GJigsawBoard extends GBoard {
 
         game.setTouchable(Touchable.disabled);
         game.Run(()->{
-            winScreen.Show(level,reward);
+            winScreen.Show(curLevel,reward);
             game.setTouchable(Touchable.enabled);
         },0.4f);
     }
