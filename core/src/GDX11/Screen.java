@@ -36,7 +36,6 @@ public class Screen extends Group implements IFind {
     }
     public void Show()
     {
-        Scene.i.ui.addActor(this);
         iGroup.Run("preShow");
         screens.add(this);
     }

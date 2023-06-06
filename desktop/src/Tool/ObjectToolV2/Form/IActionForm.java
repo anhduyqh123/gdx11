@@ -3,7 +3,6 @@ package Tool.ObjectToolV2.Form;
 import Extend.IExtend;
 import Extend.IPutEvent;
 import Extend.Spine.IAnimation;
-import GDX11.GDX;
 import GDX11.IObject.IAction.*;
 import GDX11.IObject.IActor.IActor;
 import Tool.Swing.GTree2;
@@ -25,7 +24,8 @@ public class IActionForm {
         @Override
         protected void OnKeyTyped(KeyEvent e) {
             super.OnKeyTyped(e);
-            if (e.getKeyChar()=='') Run();
+            if (e.getKeyChar()=='') RunAction();
+            if (e.getKeyChar()=='r') Run();
         }
     };
     private IActor iActor;
@@ -36,11 +36,12 @@ public class IActionForm {
 
         gTree.onSelect = this::OnSelectIAction;
         gTree.SetTypes("GDX",Arrays.asList(IDelay.class, IMove.class, IProperty.class, IMulAction.class, XAction.class,
-                IRepeat.class, IParAction.class,IAudioAction.class, IUtil.class, IPool.class, IImageAction.class, IAddParent.class,
+                IRepeat.class, IParAction.class,IAudioAction.class, IUtil.class, IPool.class, IImageAction.class, IToParent.class,
                 ICountAction.class, IParamAction.class));
         gTree.SetTypes("Spine",Arrays.asList(IAnimation.class));
         gTree.SetTypes("Extend",Arrays.asList(IExtend.class, IPutEvent.class));
-        gTree.NewMenuItem(0,"Run","Ctrl+R",this::Run);
+        gTree.NewMenuItem(0,"RunAction","Ctrl+R",this::RunAction);
+        gTree.NewMenuItem(0,"Run","R",this::Run);
     }
     public void SetIActor(IActor iActor)
     {
@@ -57,8 +58,12 @@ public class IActionForm {
         UI.NewLabel(iAction.getClass().getSimpleName(),pnInfo).setForeground(Color.BLUE);
         UI.Repaint(pnInfo);
     }
-    private void Run()
+    private void RunAction()
     {
         iActor.RunAction(gTree.GetMainObject().name);
+    }
+    private void Run()
+    {
+        iActor.Run(gTree.GetMainObject().name);
     }
 }

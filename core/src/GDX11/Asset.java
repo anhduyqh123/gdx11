@@ -189,8 +189,8 @@ public class Asset extends Actor {
 
     public BitmapFont GetFont(String name)
     {
-        BitmapFont font = Get(name, BitmapFont.class);
-        return font!=null?font:new BitmapFont();
+        AssetNode node = GetNode(name);
+        return node==null?new BitmapFont():Get(name, BitmapFont.class);
     }
     public Sound GetSound(String name)
     {

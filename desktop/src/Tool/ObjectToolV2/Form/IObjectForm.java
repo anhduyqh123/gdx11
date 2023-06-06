@@ -5,10 +5,10 @@ import Extend.Spine.ISpine;
 import GDX11.GDX;
 import GDX11.IObject.IActor.*;
 import GDX11.Json;
-import GDX11.Reflect;
 import Tool.Swing.GTree2;
 import Tool.ObjectToolV2.Core.PackObject;
 import Tool.Swing.UI;
+import com.badlogic.gdx.utils.JsonWriter;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -60,6 +60,7 @@ public class IObjectForm {
     }
     public void SetData(PackObject pack)
     {
+        if (mainIActor!=null) mainIActor.GetActor().remove();
         mainIActor = null;
         this.pack = pack;
         pack.Renew();
@@ -90,9 +91,9 @@ public class IObjectForm {
     {
         if (mainIActor==null) return false;
         return GDX.Try(()->{
-            String data = GDX.GetStringByKey(mainIActor.name);
-            IActor mainFromData = Json.ToObject(data);
-            return !mainIActor.equals(mainFromData);
+            String data0 = GDX.GetStringByKey(mainIActor.name);
+            String data = Json.ToJson(mainIActor).toJson(JsonWriter.OutputType.minimal);
+            return !data.equals(data0);
         },()->true);
     }
 }

@@ -191,18 +191,15 @@ public class SteeringAgent implements Steerable<Vector2> {
             // Apply steering acceleration
             applySteering(steeringOutput, delta);
 
-            //wrapAround(position, getParent().getWidth(), getParent().getHeight());
+            wrapAround(position, getParent().getWidth(), getParent().getHeight());
             setPosition(position.x, position.y, Align.center);
         }
     }
-    protected static void wrapAround (Vector2 pos, float maxX, float maxY) {
-        if (pos.x > maxX) pos.x = 0.0f;
-
+    protected void wrapAround (Vector2 pos, float maxX, float maxY) {
         if (pos.x < 0) pos.x = maxX;
-
+        if (pos.x > maxX) pos.x = 0;
         if (pos.y < 0) pos.y = maxY;
-
-        if (pos.y > maxY) pos.y = 0.0f;
+        if (pos.y > maxY) pos.y = 0;
     }
 
     private void applySteering (SteeringAcceleration<Vector2> steering, float time) {

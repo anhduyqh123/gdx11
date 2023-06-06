@@ -2,6 +2,7 @@ package Tool.ObjectToolV2.Form;
 
 import Extend.AI.ISteering;
 import Extend.AI.ITest;
+import Extend.IDropDown;
 import Extend.IMask;
 import Extend.IShape.ICircle;
 import Extend.IShape.IPoints;
@@ -18,6 +19,7 @@ import Tool.ObjectTool.Point.ICircleEdit;
 import Tool.ObjectTool.Point.IPointsEdit;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class IComponentForm {
         gTree.onSelect = this::OnSelect;
         gTree.SetTypes("GDX",Arrays.asList(IComponent.class, IShader.class));
         gTree.SetTypes("Shape",Arrays.asList(ICircle.class, IPoints.class, IPolygon.class));
-        gTree.SetTypes("Extend",Arrays.asList(IMask.class, IShapeMask.class));
+        gTree.SetTypes("Extend",Arrays.asList(IMask.class, IShapeMask.class, IDropDown.class));
         gTree.SetTypes("AI",Arrays.asList(ISteering.class, ITest.class));
 
         gTree.onSelect = cp->{
@@ -69,6 +71,7 @@ public class IComponentForm {
         List<String> list = UI.GetFields(cp);
         list.removeAll(Arrays.asList("name"));
         UI.InitComponents(list,cp,pnInfo);
+        UI.NewLabel("type:"+cp.getClass().getSimpleName(),pnInfo).setForeground(Color.BLUE);
         UI.Repaint(pnInfo);
     }
     private void OnNew(IComponent cp)

@@ -238,8 +238,7 @@ public class UI {
         });
     }
     //TextField
-    public static void TextField(JTextField tf, GDX.Runnable1<String> onChange)
-    {
+    public static void TextField(JTextField tf, GDX.Runnable1<String> onChange) {
         tf.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {

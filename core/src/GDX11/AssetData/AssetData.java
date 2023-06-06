@@ -62,6 +62,7 @@ public class AssetData {
     private void LoadPackage(FileHandle dir)
     {
         String pack = dir.nameWithoutExtension();
+        packs.put(pack,new AssetPackage(pack));
         LoadAtlas(pack,dir.child("atlas"));
         LoadAsset(pack, AssetNode.Kind.Texture,dir.child("atlas0"),"");
         LoadAsset(pack, AssetNode.Kind.Texture,dir.child("texture"),"");

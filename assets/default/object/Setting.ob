@@ -1,0 +1,1 @@
+{class:GDX11.IObject.IActor.IGroup,iMap:{list:[{class:GDX11.IObject.IActor.IImage,iSize:{class:GDX11.IObject.ISize,width:pw,height:ph},hexColor:006666ff,name:img},{class:GDX11.IObject.IActor.ILabel,iParam:{class:GDX11.IObject.IParam,dataMap:{count:30}},name:lbTotal,text:"Số người chơi tổng cộng : {count}"}]},prefab:Screen,name:Setting}
