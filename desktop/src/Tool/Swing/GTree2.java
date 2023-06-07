@@ -53,7 +53,7 @@ public class GTree2<T extends IObject> extends BaseTree<T> {
 //    }
     private void MoveTo()
     {
-        List<IObject> list = (List<IObject>) GetClipSelected();
+        List<IObject> list = (List<IObject>) GetClipSelectedList();
         TreeNode node = GetNode((T)list.get(0));
         IObject parent = GetObject(node.getParent());
         Util.For(list,i->parent.GetIMap().Remove(i));
@@ -120,7 +120,7 @@ public class GTree2<T extends IObject> extends BaseTree<T> {
     }
     public void Prefab()
     {
-        IObject newOb = GetClipSelected().get(0).Clone();
+        IObject newOb = GetClipSelectedList().get(0).Clone();
         Reflect.SetValue("prefab",newOb,newOb.name);
         newOb.name = newOb.name+"prefab";
         GetSelectedObject().GetIMap().Add(newOb);
@@ -153,13 +153,13 @@ public class GTree2<T extends IObject> extends BaseTree<T> {
 
         if (e.getKeyChar()=='') Clone();
         if (e.getKeyChar()=='') Select();
-        if (e.getKeyChar()=='' && GetClipSelected().size()>0) Paste();
-        if (e.getKeyChar()=='' && GetClipSelected().size()>0) MoveTo();
+        if (e.getKeyChar()=='' && GetClipSelectedList().size()>0) Paste();
+        if (e.getKeyChar()=='' && GetClipSelectedList().size()>0) MoveTo();
     }
 
     @Override
     protected void OnShowPopupMenu() {
-        List list = GetClipSelected();
+        List list = GetClipSelectedList();
         GetItem("Paste").setEnabled(list.size()>0);
         GetItem("MoveTo").setEnabled(list.size()>0);
     }

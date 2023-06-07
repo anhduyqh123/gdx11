@@ -93,19 +93,21 @@ public abstract class BaseTree<T> {
     }
     protected void Select()
     {
-        GetClipSelected().clear();
-        Util.For(GetSelectedNodes(), n->GetClipSelected().add(GetObject(n)));
+        GetClipSelectedList().clear();
+        Util.For(GetSelectedNodes(), n-> GetClipSelectedList().add(GetObject(n)));
     }
     protected void Paste()
     {
         List clones = new ArrayList<>();
-        Util.For(GetClipSelected(),ob->clones.add(Reflect.Clone(ob)));
+        Util.For(GetClipSelectedList(), ob->clones.add(Reflect.Clone(ob)));
         AddTo(clones);
     }
     protected abstract void AddTo(List<T> list);
-    protected List<T> GetClipSelected()
-    {
+    protected List<T> GetClipSelectedList() {
         return GetClipSelected(tree);
+    }
+    public T GetClipSelected(){
+        return GetClipSelectedList().get(0);
     }
     protected void OnKeyTyped(KeyEvent e)
     {

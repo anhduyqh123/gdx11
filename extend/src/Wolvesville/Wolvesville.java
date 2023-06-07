@@ -1,42 +1,55 @@
 package Wolvesville;
 
 import GDX11.Screen;
-import Wolvesville.Screen.AskPlayerScreen;
-import Wolvesville.Screen.CupidScreen;
-import Wolvesville.Screen.PairScreen;
-import Wolvesville.Screen.PlayerScreen;
+import Wolvesville.Screen.*;
 
 import java.util.*;
 
-public class Wolvesville {
-    private List<String> all = new ArrayList<>();
-    private List<String> left = new ArrayList<>();
-    private List<String> human = new ArrayList<>();
-    private List<String> wolves = new ArrayList<>();
-    private List<String> pair = new ArrayList<>();
-    private String cupid = "CUPID",tientri="TIÊN TRI",baove = "BẢO VỆ",thosan = "THỢ SĂN",
-            phuthuy = "PHÙ THỦ",gialang = "GIÀ LÀNG",thoisao = "THỔI SÁO",bansoi = "BÁN SÓI",hiepsi = "HIỆP SĨ",
-            chandoi = "CHÁN ĐỜI",nguyetnu="NGUYỆT NỮ",silence = "SILENCE";
-    private Map<String,String> map = new HashMap<>();
+public class Wolvesville implements Global {
 
-    public Wolvesville(){
-        new PlayerScreen(all,this::AskPlayer).Show();
-    }
-    private void AskPlayer(){
-        left.addAll(all);
-        List<String> list = Arrays.asList(cupid,chandoi,bansoi,gialang,hiepsi,nguyetnu,baove);
-        AskPlayer(0,list);
-    }
-    private void AskPlayer(int index,List<String> list){
-        if (index>=list.size()) return;
-        String name = list.get(index);
-        Screen screen = GetScreen(name);
-        screen.onHide = ()-> AskPlayer(index+1,list);
-        screen.AddClick("btNext",screen::Hide);
-        screen.Show();
-    }
-    private Screen GetScreen(String name){
-        if (name.equals(cupid)) return new CupidScreen(name,map,pair,all);
-        return new AskPlayerScreen(name,left,vl->map.put(name,vl));
-    }
+//    public Wolvesville(){
+//        new PlayerScreen(allName,()->{
+//            new SettingScreen(this::AskPlayer).Show();
+//        }).Show();
+//    }
+//    private void AskPlayer(){
+//        alive.addAll(allName);
+//        leftName.addAll(allName);
+//        List<String> list = Arrays.asList(cupid,chandoi,bansoi,gialang,hiepsi,nguyetnu,baove);
+//        AskPlayer(0,list,this::AskSoi);
+//    }
+//    private void AskSoi(){
+//        List<String> list = Arrays.asList(phuthuy,tientri,thosan,thoisao,silence);
+//        Screen screen = new SoiListScreen();
+//        screen.onHide = ()->AskPlayer(0,list,this::Morning);
+//        screen.Show();
+//    }
+//    private void Morning(){
+//        Screen screen = new GameScreen();
+//        screen.onHide = ()->{};//next
+//        screen.Show();
+//    }
+//    private void AskPlayer(int index,List<String> list,Runnable done){
+//        if (index>=list.size()){
+//            done.run();
+//            return;
+//        }
+//        String name = list.get(index);
+//        if (!func.contains(name)){
+//            AskPlayer(index+1,list,done);
+//            return;
+//        }
+//        Screen screen = GetScreen(name);
+//        screen.onHide = ()->AskPlayer(index+1,list,done);
+//        screen.Show();
+//    }
+//    private final List<String> xxx = Arrays.asList(baove,nguyetnu,thosan,tientri,silence);
+//    private Screen GetScreen(String name){
+//        if (name.equals(tientri)) return new TienTriScreen();
+//        if (name.equals(thoisao)) return new ThoiSaoScreen();
+//        if (name.equals(phuthuy)) return new PhuThuyScreen();
+//        if (name.equals(cupid)) return new CupidScreen();
+//        if (xxx.contains(name)) return new HumanXScreen(name);
+//        return new AskPlayerScreen(name);
+//    }
 }

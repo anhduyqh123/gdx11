@@ -118,7 +118,8 @@ public class IMap<T extends IObject> implements Json.JsonObject {
         js.addChild("list",jsArray);
         IMap<T> iMap0 = (IMap<T>)object0;
         For(ob-> {
-            JsonValue x = Json.ObjectToJson(ob,iMap0.Get(ob.name));
+            JsonValue x = Json.ToJson(ob,iMap0.Get(ob.name));
+            //JsonValue x = Json.ObjectToJson(ob,iMap0.Get(ob.name));
             if (!x.has("name")) x.addChild("name",new JsonValue(ob.name));
             jsArray.addChild(x);
         });

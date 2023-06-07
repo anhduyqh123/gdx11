@@ -1,13 +1,17 @@
 package com.game;
 
+import GDX11.GDX;
 import GDX11.IObject.IMap;
 import GDX11.IObject.IObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Test {
+public class Test implements Inter {
 
-    public int num = 1;
-    public transient String a = "123";
+    public void Show(){
+        list.add("123");
+        list.add("234");
+        System.out.println(list);
+    }
 }

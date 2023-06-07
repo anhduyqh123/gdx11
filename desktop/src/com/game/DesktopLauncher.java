@@ -26,6 +26,5 @@ public class DesktopLauncher {
 
 		SDK.SetDesktopSDK();
 		new LwjglApplication(new MyGame(), config);
-
 	}
 }

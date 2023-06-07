@@ -88,10 +88,10 @@ public class IParamForm {
 
         @Override
         protected void Select() {
-            GetClipSelected().clear();
+            GetClipSelectedList().clear();
             Util.For(GetSelectedNodes(), n->{
                 String ob = GetObject(n);
-                GetClipSelected().add(ob);
+                GetClipSelectedList().add(ob);
                 selectedMap.put(ob,data.get(ob));
             });
         }

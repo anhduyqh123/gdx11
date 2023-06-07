@@ -9,7 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PlayerScreen extends Screen {
-    private static final List<String> all = Arrays.asList("Cường","DuyBa","DuyTran","Thiện","Phúc Stark","Phúc Niểng","Đạt");
+    private static final List<String> all = Arrays.asList("Cường","DuyBa","DuyTran","Thiện","Phúc Stark","Phúc Niểng","Đạt",
+            "KimMai","Hương","Tuấn","Hằng","Hà","Bình","Khanh","Danh","Vũ","Hưng","MaiKa","My","BảoNgọc","Kha","Phước","Minh");
     private List<String> list;
     private final ITable iTable = FindITable("table");
     public PlayerScreen(List<String> list,Runnable next) {

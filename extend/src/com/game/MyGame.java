@@ -1,10 +1,7 @@
 package com.game;
 
 import GDX11.GDXGame;
-import JigsawWood.JigsawWood;
-import SDK.SDK;
-import Wolvesville.Screen.PlayerScreen;
-import Wolvesville.Wolvesville;
+import Wolvesville.Wolves1;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,7 +10,7 @@ public class MyGame extends GDXGame {
 
     @Override
     protected void FirstLoad() {
-        new Wolvesville();
+        new Wolves1();
     }
 
     @Override

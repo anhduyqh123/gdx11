@@ -59,5 +59,8 @@ public class IDropDown extends IComponent {
         SetOver(name);
         onSelect.Run(selected);
     }
+    public int GetIndexSelected(){
+        return items.indexOf(selected);
+    }
 
 }
