@@ -1,7 +1,6 @@
 package GDX11.IObject.IAction;
 
 import GDX11.Config;
-import GDX11.GDX;
 import GDX11.IObject.IParam;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -16,7 +15,7 @@ public class IParamAction extends IAction{
     public enum Kind{
         Set, //set stValue to param
         Switch,// stValue is value default
-        Equal, // if param equal stValue
+        Equal, // if param equal stValue Run(name_true) else Run(name_false)
     }
     public Type type = Type.None;
     public Kind kind = Kind.Set;

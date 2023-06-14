@@ -11,8 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import java.util.*;
 
 public class IDropDown extends IComponent {
+    //data
     public List<String> items = new ArrayList<>();
     public String selected = "";
+    //func
     private transient ITable table;
     private transient IGroup iGroup;
     private transient Map<String,IGroup> map = new HashMap<>();
@@ -24,7 +26,7 @@ public class IDropDown extends IComponent {
         iGroup = GetIActor().GetIGroup();
         table = iGroup.FindITable("table");
         SetItems(items);
-        iGroup.FindILabel("lb").AddClick(()-> iGroup.FindActor("scroll").setVisible(!iGroup.FindActor("scroll").isVisible()));
+        iGroup.FindILabel("lb").Click(()-> iGroup.FindActor("scroll").setVisible(!iGroup.FindActor("scroll").isVisible()));
         SetSelected(selected);
     }
     public void SetItems(List<String> items){
@@ -58,6 +60,10 @@ public class IDropDown extends IComponent {
         iGroup.FindActor("scroll").setVisible(false);
         SetOver(name);
         onSelect.Run(selected);
+    }
+    public void SetView(String value){
+        iGroup.FindILabel("lb").SetText(value);
+        iGroup.FindActor("scroll").setVisible(false);
     }
     public int GetIndexSelected(){
         return items.indexOf(selected);

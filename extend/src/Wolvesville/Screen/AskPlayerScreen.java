@@ -1,20 +1,23 @@
 package Wolvesville.Screen;
 
 import Extend.IDropDown;
-import GDX11.Screen;
-import Wolvesville.Global1;
+import Wolvesville.Global;
 import Wolvesville.Model.Card;
 
-public class AskPlayerScreen extends Screen implements Global1 {
+public class AskPlayerScreen extends BaseScreen implements Global {
     public AskPlayerScreen(Card fc) {
-        super("AskPlayer");
+        super("AskPlayer",fc);
+    }
+
+    @Override
+    public void Init(Card fc) {
         FindILabel("lb").SetText(fc.name);
         IDropDown iDropDown = FindIGroup("dropDown").iComponents.GetIComponent("dropDown");
-        SetMainDropdown(fc,iDropDown);
+        FindActor("btNext").setVisible(fc.Valid());
+        SetMainDropdown(fc,iDropDown,()-> FindActor("btNext").setVisible(true));
 
-        AddClick("btNext",()->{
-            leftName.remove(fc.player);
-            Hide();
-        });
+        BtNext(this,()-> leftName.remove(fc.player));
+
+        SetBack(this);
     }
 }

@@ -1,40 +1,42 @@
 package Wolvesville.Screen;
 
 import Extend.IDropDown;
+import GDX11.GDX;
 import GDX11.Screen;
 import Wolvesville.Global;
-import Wolvesville.Global1;
+import Wolvesville.Model.Card;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class CupidScreen extends Screen implements Global1 {
+public class CupidScreen extends BaseScreen implements Global {
     private IDropDown dropDown,dropDown1,dropDown2;
     public CupidScreen() {
-        super("Cupid");
+        super("Cupid",cupid);
+    }
+    private void SetDrop(IDropDown dropDown, GDX.Runnable1<String> onSelect){
+        dropDown.onSelect = vl->{
+            onSelect.Run(vl);
+            FindActor("btNext").setVisible(cupid.Valid());
+        };
+        dropDown.SetItems(leftName);
+        dropDown.SetView("?");
+    }
+
+    @Override
+    public void Init(Card fc) {
         dropDown = FindIGroup("dropDown0").iComponents.GetIComponent("dropDown");
         dropDown1 = FindIGroup("dropDown1").iComponents.GetIComponent("dropDown");
         dropDown2 = FindIGroup("dropDown2").iComponents.GetIComponent("dropDown");
 
-        dropDown.onSelect = vl->{
-            cupid.SetPlayer(vl);
-            map.put(vl,cupid);
-            List<String> list = new ArrayList<>(leftName);
-            list.remove(vl);
-            SetDrop(1,dropDown1,list);
-            SetDrop(2,dropDown2,list);
-        };
-        dropDown.SetItems(leftName);
-        dropDown.SetSelected(leftName.get(0));
+        SetMainDropdown(fc,dropDown,()-> FindActor("btNext").setVisible(cupid.Valid()));
+//        SetDrop(dropDown,vl->{
+//            cupid.SetPlayer(vl);
+//            map.put(vl,cupid);
+//        });
+        SetDrop(dropDown1,vl->cupid.SetPair(1,vl));
+        SetDrop(dropDown2,vl->cupid.SetPair(2,vl));
 
-        AddClick("btNext",()->{
-            leftName.remove(cupid.player);
-            Hide();
-        });
-    }
-    private void SetDrop(int index,IDropDown dropDown,List<String> list){
-        dropDown.onSelect = vl-> cupid.SetPair(index,vl);
-        dropDown.SetItems(list);
-        dropDown.SetSelected(list.get(index));
+        BtNext(this,()-> leftName.remove(cupid.player));
+
+        FindActor("btNext").setVisible(false);
+        SetBack(this);
     }
 }

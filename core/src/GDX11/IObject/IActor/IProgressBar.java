@@ -1,7 +1,6 @@
 package GDX11.IObject.IActor;
 
 import GDX11.Actors.ProgressBar;
-import GDX11.Reflect;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
@@ -19,7 +18,7 @@ public class IProgressBar extends IScrollImage{
         ProgressBar pro = GetActor();
         pro.SetValue(percent);
         //Reflect.AddEvent(this,"percent",vl->pro.SetValue(percent));
-        iParam.AddChangeEvent("percent",()-> pro.SetValue(iParam.Get("percent",0f)));
+        iParam.SetChangeEvent("percent",()-> pro.SetValue(iParam.Get("percent",0f)));
     }
     public ProgressBar GetActor()
     {

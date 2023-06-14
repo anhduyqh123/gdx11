@@ -28,7 +28,8 @@ public class MyGame extends GDXGame {
     }
     public void LoadAssetData()
     {
-        super.LoadAssetData();
+        asset.SetData(GetGameData(true));
+        asset.LoadPackages(()-> FirstLoad(), GetFirstPacks().toArray(new String[0]));//load first package
         Event.InitControlCamera();
         Event.InitDrag();
         InitBorder();
@@ -51,7 +52,7 @@ public class MyGame extends GDXGame {
     protected AssetData LoadPackages(String path) {
         AssetData data = new AssetData();
         data.LoadPackages();
-        //GDX.WriteToFile(path, Json.ToJson(data).toJson(JsonWriter.OutputType.minimal));
+        GDX.WriteToFile(path, Json.ToJson(data).toJson(JsonWriter.OutputType.minimal));
         return data;
     }
 

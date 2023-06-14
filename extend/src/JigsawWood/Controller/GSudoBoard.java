@@ -27,9 +27,9 @@ public class GSudoBoard extends GBoard{
             return true;
         });
 
-        game.FindIActor("btKill").AddClick(Global.itemKill::Use);
-        game.FindIActor("btShuffle").AddClick(Global.itemShuffle::Use);
-        game.FindIActor("btReset").AddClick(this::Restart);
+        game.FindIActor("btKill").Click(Global.itemKill::Use);
+        game.FindIActor("btShuffle").Click(Global.itemShuffle::Use);
+        game.FindIActor("btReset").Click(this::Restart);
     }
 
     protected ShapeData LoadData() {
@@ -106,11 +106,11 @@ public class GSudoBoard extends GBoard{
             game.SetBest(best);
         }
         Screen loseScreen = new LoseScreen(score,best);
-        loseScreen.AddClick("btAd",()->{
+        loseScreen.Click("btAd",()->{
             loseScreen.Hide();
             Continue();
         });
-        loseScreen.AddClick("btRestart",()->{
+        loseScreen.Click("btRestart",()->{
             loseScreen.Hide();
             Restart();
         });

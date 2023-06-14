@@ -22,7 +22,7 @@ public class LevelScreen extends Screen {
         if (level<=current){
             bt.FindIImage("img").SetTexture(shape.texture.equals("")?"icon_2":"icon_1");
             bt.RunAction("unlock");
-            bt.AddClick(()->{
+            bt.Click(()->{
                 Hide();
                 onLoad.Run(level);
             });

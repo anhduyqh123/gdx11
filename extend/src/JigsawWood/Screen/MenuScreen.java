@@ -12,9 +12,9 @@ public class MenuScreen extends Screen {
         FindIGroup("btPuzz").FindIActor("lb").iParam.Set("value", Config.GetPref("PuzzGame",1));
         FindIGroup("btSudo").FindIActor("lb").iParam.Set("value", Config.GetPref("sudo_best",0));
 
-        AddClick("btJigsaw",this::JigSaw);
-        AddClick("btPuzz",this::Puzz);
-        AddClick("btSudo",this::Sudo);
+        Click("btJigsaw",this::JigSaw);
+        Click("btPuzz",this::Puzz);
+        Click("btSudo",this::Sudo);
     }
     private void Sudo() {
         Hide();

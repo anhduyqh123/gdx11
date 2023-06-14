@@ -28,7 +28,7 @@ public class IShader extends IComponent {
         if (GetIActor() instanceof IImage)
         {
             IImage iImage = GetIActor();
-            TextureRegion tr = Asset.i.GetTexture(iImage.texture);
+            TextureRegion tr = iImage.GetTexture();
             uv.set(tr.getU(),tr.getV());
             uv2.set(tr.getU2(),tr.getV2());
         }

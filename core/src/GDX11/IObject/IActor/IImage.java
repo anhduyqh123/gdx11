@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class IImage extends IActor{
-
+    private final String key = "texture";
     public String texture = "";
     public int left,right,top,bottom;
 
@@ -59,6 +59,7 @@ public class IImage extends IActor{
     }
     public void RefreshContent()
     {
+        iParam.SetChangeEvent(key,()-> SetDrawable(NewDrawable()));
         SetDrawable(NewDrawable());
     }
     protected Drawable NewDrawable()
@@ -67,8 +68,9 @@ public class IImage extends IActor{
         if (IsNinePath()) return new NinePatchDrawable(new NinePatch(tr,left,right,top,bottom));
         return NewDrawable(tr);
     }
-    protected String GetTextureName()
+    public String GetTextureName()
     {
+        if (iParam.Has(key)) return iParam.Get(key);
         return texture;
     }
     public TextureRegion GetTexture()

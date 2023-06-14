@@ -1,21 +1,14 @@
 package Wolvesville.Model;
 
-import GDX11.GDX;
+import Wolvesville.Global;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
-public class Card {
-    public static final List<String> events = new ArrayList<>();
-    public static final HashSet<String> willDead = new HashSet<>();
-    public static GDX.Func1<Card,String> getCard;
-
+public class Card implements Global {
     public String name = "Dân đen";
     public String player;
     public String wantTo;
     public boolean biSoiCan;
     public boolean dcbaove;
+    public boolean vohieu;
     public Card(){}
     public Card(String name){
         this.name = name;
@@ -26,25 +19,71 @@ public class Card {
     public boolean Empty(){
         return player==null;
     }
+    public boolean Valid(){
+        return player!=null;
+    }
+    public boolean Alive(){
+        return alive.contains(player);
+    }
+    public boolean Die(){
+        return !Alive();
+    }
+    public boolean WillDie(){
+        return willDead.contains(player);
+    }
+    public boolean IsSoi(){
+        return wolves.contains(this);
+    }
+    public boolean Active(){
+        return func.contains(this);
+    }
+    public void Reset(){
+        player = null;
+        biSoiCan=false;
+        dcbaove=false;
+        vohieu = false;
+    }
 
+    public void Run(){
+        //thực hiện chức năng
+    }
     public void Morning(){
-        if (dcbaove) biSoiCan = false;
         if (biSoiCan) willDead.add(player);
     }
-    public void SoiCan(){
+    public void BiSoiCan(){
         biSoiCan = true;
-        events.add("Sói cắn "+player);
-        if (dcbaove) events.add(player+" Được bảo vệ");
+        events.add("Sói cắn "+player+" là "+name);
     }
     public void PhuThuySave(){
         biSoiCan = false;
-        events.add("Phù thủ cứu "+player);
+        events.add("Phù thủy cứu "+player);
     }
     public void DuocBaoVe(){
+        events.add(player+" Được bảo vệ");
         dcbaove = true;
+        biSoiCan = false;
     }
     public void PhuThuyKill(){
         willDead.add(player);
         events.add("Phù thủy giết "+player);
+    }
+    public void VoHieu(){
+        vohieu = true;
+        events.add("Nguyệt nữ vô hiệu "+player);
+    }
+    public boolean BiVoHieu(){
+        if (player==null) return false;
+        return nguyetnu.VoHieu(this);
+    }
+    public boolean VoHieuBoiGiaLangDie(){
+        return false;
+    }
+    public void Set(Card card){
+        player = card.player;;
+    }
+    public Card Clone(){
+        Card card = new Card();
+        card.player = player;
+        return card;
     }
 }

@@ -48,7 +48,7 @@ public class IExtend extends IAction {
         else {
             unit = Integer.parseInt(name);
             IImage iImage = GetIActor();
-            texture = Asset.i.GetTexture(iImage.texture);
+            texture = iImage.GetTexture();
         }
         Util.Bind(texture.getTexture(),unit);
     }

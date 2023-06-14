@@ -8,17 +8,33 @@ public class PhuThuy extends Card {
     }
 
     public void Reset(){
+        save = 1;
+        kill = 1;
+        ResetX();
+    }
+    public void ResetX(){
         savePlayer = null;
         killPlayer = null;
     }
+
+    @Override
+    public void Run() {
+        if (savePlayer!=null) map.get(savePlayer).PhuThuySave();
+        if (killPlayer!=null) map.get(killPlayer).PhuThuyKill();
+    }
+
     public void Save(String pl){
+        if (BiVoHieu() || VoHieuBoiGiaLangDie()) return;
         save--;
         savePlayer = pl;
-        getCard.Run(pl).PhuThuySave();
     }
     public void Kill(String pl){
+        if (BiVoHieu() || VoHieuBoiGiaLangDie()) return;
         kill--;
         killPlayer = pl;
-        getCard.Run(pl).PhuThuyKill();
+    }
+    @Override
+    public boolean VoHieuBoiGiaLangDie() {
+        return gialang.Valid() && gialang.Die();
     }
 }

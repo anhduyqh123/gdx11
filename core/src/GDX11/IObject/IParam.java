@@ -39,7 +39,7 @@ public class IParam extends IBase {
         if (!GetEventMap().containsKey(name)) return;
         GetEventMap().get(name).run();
     }
-    public void AddChangeEvent(String param, Runnable cb)
+    public void SetChangeEvent(String param, Runnable cb)
     {
         GetEventMap().put(param, cb);
     }
@@ -71,6 +71,9 @@ public class IParam extends IBase {
     public Runnable GetRun(String name)
     {
         return Get(name);
+    }
+    public void Run(String name){
+        GetRun(name).run();
     }
     public void SetRun(String name,Runnable run)
     {

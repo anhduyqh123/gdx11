@@ -4,18 +4,18 @@ import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ILabel;
 import GDX11.IObject.IActor.ITable;
 import GDX11.Screen;
-import Wolvesville.Global1;
+import Wolvesville.Global;
 import Wolvesville.Model.Card;
 
-public class SettingScreen extends Screen implements Global1 {
+public class SettingScreen extends Screen implements Global {
     private final ITable iTable = FindITable("table");
     private int soiCount = 4;
     public SettingScreen(Runnable next) {
         super("Setting");
         InitSoi();
         InitTable();
-        AddClick("btReset",this::InitTable);
-        AddClick("btNext",()->{
+        Click("btReset",this::InitTable);
+        Click("btNext",()->{
             Hide();
             next.run();
         });
@@ -29,7 +29,7 @@ public class SettingScreen extends Screen implements Global1 {
     }
     private void InitFunc(Card fc, IGroup iGroup){
         iGroup.FindILabel("lb").SetText(fc.name);
-        iGroup.FindIActor("btDelete").AddClick(()->{
+        iGroup.FindIActor("btDelete").Click(()->{
             func.remove(fc);
             iGroup.GetActor().setVisible(false);
             iTable.RefreshGrid();
@@ -39,12 +39,12 @@ public class SettingScreen extends Screen implements Global1 {
         IGroup group = FindIGroup("soi");
         ILabel lbNum = group.FindILabel("lbNum");
         lbNum.SetText(soiCount);
-        group.FindIActor("btAdd").AddClick(()->{
+        group.FindIActor("btAdd").Click(()->{
             soiCount++;
             lbNum.SetText(soiCount);
             SetSoiCount(soiCount);
         });
-        group.FindIActor("btSub").AddClick(()->{
+        group.FindIActor("btSub").Click(()->{
             soiCount--;
             if (soiCount<0) soiCount=0;
             lbNum.SetText(soiCount);

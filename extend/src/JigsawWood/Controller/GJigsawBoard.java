@@ -36,9 +36,9 @@ public class GJigsawBoard extends GBoard {
             return true;
         });
 
-        game.FindIActor("btNext").AddClick(()->Start(curLevel+1));
-        game.FindIActor("btReset").AddClick(this::Restart);
-        game.FindIActor("btHint").AddClick(Global.itemHint::Use);
+        game.FindIActor("btNext").Click(()->Start(curLevel+1));
+        game.FindIActor("btReset").Click(this::Restart);
+        game.FindIActor("btHint").Click(Global.itemHint::Use);
 
         game.FindActor("btNext").setVisible(Config.Get("testMode",false));
     }
@@ -158,12 +158,12 @@ public class GJigsawBoard extends GBoard {
     private WinScreen NewWinScreen()
     {
         WinScreen screen = new WinScreen();
-        screen.AddClick("btNext",()->{
+        screen.Click("btNext",()->{
             screen.Hide();
             Global.AddCoin(reward);
             Start(curLevel+1);
         });
-        screen.AddClick("btAd",()->{
+        screen.Click("btAd",()->{
             screen.Hide();
             Global.AddCoin(reward*3);
             Start(curLevel+1);

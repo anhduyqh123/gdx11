@@ -134,7 +134,7 @@ public class ILabel extends IActor{
     protected String GetSingle(String text)
     {
         if (iParam.Has(text)){
-            iParam.AddChangeEvent(text,()-> GetLabel().setText(GetText()));
+            iParam.SetChangeEvent(text,()-> GetLabel().setText(GetText()));
             return GetFormat(text);
         }
         if (Translate.i.HasKey(text)) return Translate.i.Get(text);

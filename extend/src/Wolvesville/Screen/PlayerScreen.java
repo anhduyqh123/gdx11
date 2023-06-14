@@ -4,7 +4,6 @@ import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ITable;
 import GDX11.Screen;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,8 +16,8 @@ public class PlayerScreen extends Screen {
         super("PlayerList");
         this.list = list;
         InitTable();
-        AddClick("btReset",this::InitTable);
-        AddClick("btNext",()->{
+        Click("btReset",this::InitTable);
+        Click("btNext",()->{
             Hide();
             next.run();
         });
@@ -31,7 +30,7 @@ public class PlayerScreen extends Screen {
     }
     private void InitName(String name, IGroup iGroup){
         iGroup.FindILabel("lb").SetText(name);
-        iGroup.FindIActor("btDelete").AddClick(()->{
+        iGroup.FindIActor("btDelete").Click(()->{
             list.remove(name);
             FindILabel("lbList").iParam.Set("count",list.size());
             iGroup.GetActor().setVisible(false);

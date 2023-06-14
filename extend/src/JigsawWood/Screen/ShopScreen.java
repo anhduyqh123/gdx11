@@ -11,7 +11,7 @@ public class ShopScreen extends Screen {
         super("Shop");
         Global.AddTopCoin(this);
 
-        AddClick("btCoin",()->Global.ShowVideoReward(()->Global.AddCoin(100)));
+        Click("btCoin",()->Global.ShowVideoReward(()->Global.AddCoin(100)));
         Global.itemCoin.outValue = this::NotEnoughCoin;
 
         InitItem(Global.itemKill,100,FindIGroup("btKill"));
@@ -21,7 +21,7 @@ public class ShopScreen extends Screen {
     private void InitItem(XItem item, int price, IGroup iGroup)
     {
         iGroup.FindILabel("lb").SetText("+"+item.addItem.value);
-        iGroup.FindIActor("bt").AddClick(()->{
+        iGroup.FindIActor("bt").Click(()->{
             Global.itemCoin.Use(price,()->{
                 iGroup.RunAction("add");
                 GAudio.i.PlaySound("btCoin");

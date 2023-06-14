@@ -3,14 +3,13 @@ package GDX11.IObject.IAction;
 import GDX11.Asset;
 import GDX11.Config;
 import GDX11.IObject.IActor.IImage;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Align;
 
-public class IImageAction extends IAction{
+public class IImageAction extends IAction{//remove
     public boolean sizeByTexture;
     public String texture = "";
     public IImageAction() {

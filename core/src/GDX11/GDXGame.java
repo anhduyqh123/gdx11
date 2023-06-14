@@ -88,7 +88,7 @@ public class GDXGame extends ApplicationAdapter {
 
     protected void LoadAssetData() //need to Override
     {
-        asset.SetData(GetGameData());
+        asset.SetData(GetGameData(false));
         asset.LoadPackages(()-> FirstLoad(), GetFirstPacks().toArray(new String[0]));//load first package
     }
     protected Collection<String> GetFirstPacks() {
@@ -117,12 +117,11 @@ public class GDXGame extends ApplicationAdapter {
         return new Asset();
     }
 
-    protected AssetData GetGameData()
+    protected AssetData GetGameData(boolean makeNew)
     {
         String path = "gameAssets.txt";
         try {
-            AssetData data = GDX.IsDesktop()?LoadPackages(path):
-                    Json.ToObject(GDX.GetString(path));
+            AssetData data = makeNew?LoadPackages(path): Json.ToObject(GDX.GetString(path));
             if (data!=null) return data;
         }catch (Exception e){e.printStackTrace(); }
         return new AssetData();

@@ -220,14 +220,17 @@ public class IActor extends IObject {
     public void Runnable(GDX.Runnable1<IActor> cb) {
         cb.Run(this);
     }
-    public void AddClick(Runnable onClick) {
-        GetActor().addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (event.getPointer()!=0) return;
-                onClick.run();
-            }
-        });
+    public void Click(Runnable onClick) {
+        if (!iParam.Has("clicked")){
+            GetActor().addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (event.getPointer()!=0) return;
+                    iParam.GetRun("clicked").run();
+                }
+            });
+        }
+        iParam.SetRun("clicked",onClick);
     }
 
     //Position

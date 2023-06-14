@@ -31,7 +31,7 @@ public class Global {
     }
     public static void SetCoinEvent(IGroup coin)
     {
-        coin.AddClick(()-> new ShopScreen().Show());
+        coin.Click(()-> new ShopScreen().Show());
         Global.itemCoin.SetChangeEvent("game",(o, n)->coin.FindILabel("lb").SetText(n));
         Config.SetRun("addCoin",ia->Global.itemCoin.Add(10));
         Config.SetRun("videoCoin",()->{//add 100coin

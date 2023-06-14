@@ -1,10 +1,8 @@
 package JigsawWood.Screen;
 
-import Extend.XItem;
 import GDX11.*;
 import GDX11.IObject.IAction.ICountAction;
 import GDX11.IObject.IActor.IActor;
-import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ILabel;
 import JigsawWood.Controller.Global;
 
@@ -14,7 +12,7 @@ public class GameScreen extends Screen {
     }
     public GameScreen(String name) {
         super(name);
-        AddClick("btBack",()->{
+        Click("btBack",()->{
             Hide();
             new MenuScreen().Show();
         });

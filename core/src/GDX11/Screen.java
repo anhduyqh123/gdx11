@@ -49,9 +49,9 @@ public class Screen extends Group implements IFind {
         return this.equals(GetLatest());
     }
     //Event
-    public void AddClick(String name,Runnable onClick)
+    public void Click(String name, Runnable onClick)
     {
-        iGroup.FindIActor(name).AddClick(onClick);
+        iGroup.FindIActor(name).Click(onClick);
     }
     @Override
     public IGroup GetIGroup() {

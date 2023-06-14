@@ -17,6 +17,7 @@ public class IUtil extends IAction{
         ToBack,
         ClearAction,
         RefreshContent,
+        BaseRefresh,
         Active,
         UnActive,
         Log
@@ -58,6 +59,9 @@ public class IUtil extends IAction{
                 break;
             case RefreshContent:
                 GetIActor().RefreshContent();
+                break;
+            case BaseRefresh:
+                GetIActor().BaseRefresh();
                 break;
             case Active:
                 GetIActor().iComponents.GetIComponent(name).active = true;

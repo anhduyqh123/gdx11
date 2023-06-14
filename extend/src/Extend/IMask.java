@@ -33,7 +33,7 @@ public class IMask extends IShader {
     protected void Init() {
         InitMaskGroup();
         ShaderProgram.pedantic = false;
-        Util.Bind(mask.texture,1);
+        Util.Bind(mask.GetTextureName(),1);
         Util.For(maskedActors, this::InitMaskActor);
         shader = NewShader();
         if (!shader.isCompiled()) GDX.Error(shader.getLog());
@@ -74,7 +74,7 @@ public class IMask extends IShader {
 
     @Override
     protected void DefaultUniform() {
-        TextureRegion trMask = Asset.i.GetTexture(mask.texture);
+        TextureRegion trMask = mask.GetTexture();
         shader.setUniformf("region_mask",trMask.getU(),trMask.getV(),trMask.getU2(),trMask.getV2());
         shader.setUniformi("u_mask", 1);
     }
@@ -92,7 +92,7 @@ public class IMask extends IShader {
         shader.setUniformf("resolution", new Vector2(a.getWidth(),a.getHeight()));
         shader.setUniformf("bound_mask", pos.x,pos.y,maskActor.getWidth(),maskActor.getHeight());
         IImage iImage = IActor.GetIActor(a);
-        TextureRegion tr = Asset.i.GetTexture(iImage.texture);
+        TextureRegion tr = iImage.GetTexture();
         Color color = a.getColor();
         shader.setUniformf("actor_color",color.r,color.g,color.b,color.a*parentAlpha);
         shader.setUniformf("region_txt",tr.getU(),tr.getV(),tr.getU2(),tr.getV2());

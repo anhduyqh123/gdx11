@@ -1,7 +1,6 @@
 package Wolvesville.Screen;
 
 import Wolvesville.Model.Card;
-import Wolvesville.Model.Soi;
 
 public class TienTriScreen extends HumanXScreen {
     public TienTriScreen() {
@@ -10,13 +9,14 @@ public class TienTriScreen extends HumanXScreen {
 
     @Override
     protected void ShowFunc(String name) {
-        FindActor("lb2").setVisible(true);
+        if (tientri.Die() || tientri.VoHieuBoiGiaLangDie()) return;
+        FindActor("lb2").setVisible(!tientri.BiVoHieu());
         FindILabel("lb2").SetText(Get(name));
     }
     private String Get(String name){
         Card card = map.get(name);
         if (card==null) return "Người";
-        if (card instanceof Soi) return "Sói";
+        if (wolves.contains(card)) return "Sói";
         return "Người";
     }
 }
