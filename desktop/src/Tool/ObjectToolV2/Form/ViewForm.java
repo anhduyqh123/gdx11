@@ -17,7 +17,7 @@ public class ViewForm {
 
     public ViewForm(Runnable done)
     {
-        panel1.setPreferredSize(new Dimension(Config.Get("screen_width"),Config.Get("screen_height")));
+        panel1.setPreferredSize(new Dimension(Config.i.Get("screen_width"), Config.i.Get("screen_height")));
         game = new LwjglCanvas(new MyGame(){
             @Override
             protected void FirstLoad() {
@@ -25,7 +25,7 @@ public class ViewForm {
             }
         });
         panel1.add(game.getCanvas(),BorderLayout.CENTER);
-        Config.Set("screenSize",(GDX.Func)()->new Vector2(panel1.getWidth(),panel1.getHeight()));
+        Config.i.Set("screenSize",(GDX.Func)()->new Vector2(panel1.getWidth(),panel1.getHeight()));
     }
     private void FitSize()
     {

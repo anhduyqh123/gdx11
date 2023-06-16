@@ -192,7 +192,7 @@ public class IActor extends IObject {
         iParam.Set("y0",GetActor().getY());
     }
     public Number GetGlobalNum(String name) {
-        if (Config.Has(name)) return Config.Get(name);
+        if (Config.i.Has(name)) return Config.i.Get(name);
         return iParam.GetValueFromString(name);
     }
     //Action

@@ -40,7 +40,7 @@ public class GJigsawBoard extends GBoard {
         game.FindIActor("btReset").Click(this::Restart);
         game.FindIActor("btHint").Click(Global.itemHint::Use);
 
-        game.FindActor("btNext").setVisible(Config.Get("testMode",false));
+        game.FindActor("btNext").setVisible(Config.i.Get("testMode",false));
     }
 
     @Override
@@ -174,7 +174,7 @@ public class GJigsawBoard extends GBoard {
     {
         if (curLevel+1>level){
             level = curLevel+1;
-            Config.SetPref(game.name,level);
+            Config.i.SetPref(game.name,level);
         }
     }
     private void Win()

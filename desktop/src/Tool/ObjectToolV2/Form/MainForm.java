@@ -14,7 +14,7 @@ public class MainForm {
 
     public MainForm()
     {
-        pnTop.setMinimumSize(new Dimension(Config.Get("screen_width"),Config.Get("screen_height")));
+        pnTop.setMinimumSize(new Dimension(Config.i.Get("screen_width"), Config.i.Get("screen_height")));
         pnTop.setRightComponent(new ViewForm(this::Install).panel1);
     }
     private void Install()

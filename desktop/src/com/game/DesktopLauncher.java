@@ -1,9 +1,6 @@
 package com.game;
 
-import GDX11.GDXGame;
-import GDX11.Json;
-import GDX11.Scene;
-import GDX11.Screen;
+import GDX11.*;
 import JigsawWood.Screen.GameScreen;
 import SDK.SDK;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
@@ -25,6 +22,7 @@ public class DesktopLauncher {
 		config.height = 1280;
 
 		SDK.SetDesktopSDK();
+
 		new LwjglApplication(new MyGame(), config);
 	}
 }

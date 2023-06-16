@@ -1,5 +1,6 @@
 package Wolvesville;
 
+import GDX11.GDX;
 import GDX11.Screen;
 import Wolvesville.Model.Card;
 import Wolvesville.Model.HumanX;
@@ -28,12 +29,13 @@ public class Wolves implements Global {
         AskPlayer();
     }
     private void SetVaiTro(){
-        for (Card c : cards){
-            if (!c.Empty()) continue;
-            c.SetPlayer(leftName.get(0));
-            leftName.remove(c.player);
-            map.put(c.player,c);
+        for (String name : leftName){
+            Card card = new Card();
+            card.SetPlayer(name);
+            map.put(name,card);
+            cards.add(card);
         }
+        leftName.clear();
     }
     private void Morning(){
         SetVaiTro();

@@ -71,7 +71,7 @@ public class IShader extends IComponent {
     }
     protected void UpdateUniform()
     {
-        for (String key : GetIActor().iParam.GetData().keySet())
+        for (String key : GetIActor().iParam.GetMap().keySet())
         {
             Object ob = GetUniform(key);
             if (ob==null) continue;
@@ -88,7 +88,7 @@ public class IShader extends IComponent {
     }
     private <T> T GetUniform(String key)
     {
-        Object ob = Config.Has(key)?Config.Get(key):GetIActor().iParam.Get(key);
+        Object ob = Config.i.Has(key)? Config.i.Get(key):GetIActor().iParam.Get(key);
         if (ob instanceof String) return GetUniform((String) ob);
         if (ob instanceof GDX.Func) return (T)((GDX.Func<?>) ob).Run();
         return (T)ob;

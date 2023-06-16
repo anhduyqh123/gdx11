@@ -11,7 +11,6 @@ import GDX11.IObject.IObject;
 import GDX11.Scene;
 import JigsawWood.Controller.GJigsawBoard;
 import JigsawWood.Model.Shape;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -62,7 +61,7 @@ public class BoardEditor extends Shape {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                     if (pointer!=0) return;
-                    int button = Config.Get("button");
+                    int button = Config.i.Get("button");
                     char vl = board.Get(cell);
                     if (button==1) board.Set(cell,vl==nullChar?emptyChar:nullChar);
                     else board.Set(cell,vl==numID?emptyChar:numID);

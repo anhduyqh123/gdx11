@@ -53,13 +53,16 @@ public interface Global {
         alive.clear();
 
         Util.For(0,GetSoiCount()-1,i->wolves.add(new Card("Sói")));
+        if (soinguyen.Active()){
+            wolves.remove(0);
+            wolves.add(0,soinguyen);
+        }
         cards.addAll(func);
         cards.addAll(wolves);
         int total = allName.size()- cards.size();
-        Util.For(0,total-1,i-> cards.add(new Card()));
+        //Util.For(0,total-1,i-> cards.add(new Card()));
         alive.addAll(allName);
         voted.clear();
-        if (soinguyen.Active()) wolves.set(0,soinguyen);
     }
     default void SetMainDropdown(Card fc, IDropDown iDropDown, Runnable onSelect){
 
@@ -95,10 +98,10 @@ public interface Global {
     }
 
     default void SetSoiCount(int count){
-        Config.Set("soiCount",count);
+        Config.i.Set("soiCount",count);
     }
     default int GetSoiCount(){
-        return Config.Get("soiCount");
+        return Config.i.Get("soiCount");
     }
     default void BackScreen(){
         BaseScreen screen = screens.get(screens.size()-1);

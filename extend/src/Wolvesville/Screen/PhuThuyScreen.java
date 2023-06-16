@@ -36,6 +36,7 @@ public class PhuThuyScreen extends BaseScreen implements Global {
         }
     }
     private boolean KoBiCan(String biCan){
+        if (soinguyen.Se_Nguyen()) return true;
         Card card = map.get(biCan);
         if (card==null) return false;
         if (card.equals(gialang)) return gialang.heal>0;

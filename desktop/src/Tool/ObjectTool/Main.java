@@ -31,8 +31,8 @@ public class Main {
         int width = gd.getDisplayMode().getWidth();
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = Config.Get("screen_width",360);
-        config.height = Config.Get("screen_height",720);
+        config.width = Config.i.Get("screen_width",360);
+        config.height = Config.i.Get("screen_height",720);
         config.x = width- config.width-50;
         new LwjglApplication(new MyGame(mainForm::Install), config);
     }

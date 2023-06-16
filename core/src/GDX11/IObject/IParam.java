@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IParam extends IBase {
+public class IParam extends IBase implements Param {
     public Map<String,String> dataMap = new HashMap<>();
     private GDX.Func<Map> getParam;
     private GDX.Func<Map> getEventMap;
@@ -25,81 +25,24 @@ public class IParam extends IBase {
         super.SetIActor(iActor);
     }
 
-    private Map<String, Runnable> GetEventMap()
+    @Override
+    public Map<String, Object> GetMap() {
+        if (getParam==null) {
+            Map<String,Object> map = new HashMap<>();
+            for (String key : dataMap.keySet())
+                map.put(key, Config.ToBaseType(key,dataMap.get(key)));
+            getParam = ()->map;
+        }
+        return getParam.Run();
+    }
+
+    public Map<String, Runnable> GetEventMap()
     {
         if (getEventMap==null){
             Map map = new HashMap();
             getEventMap = ()->map;
         }
         return getEventMap.Run();
-    }
-    private void RunEvent(String name)
-    {
-        if (getEventMap==null) return;
-        if (!GetEventMap().containsKey(name)) return;
-        GetEventMap().get(name).run();
-    }
-    public void SetChangeEvent(String param, Runnable cb)
-    {
-        GetEventMap().put(param, cb);
-    }
-    public Map<String,Object> GetData()
-    {
-        if (getParam==null)
-        {
-            Map<String,Object> map = new HashMap<>();
-            for (String key : dataMap.keySet())
-                map.put(key,Config.ToBaseType(key,dataMap.get(key)));
-//            for (String key : dataMap.keySet())
-//                map.put(key,Json.ToBaseType(dataMap.get(key)));
-            getParam = ()->map;
-        }
-        return getParam.Run();
-    }
-    public <T> T Get(String name)
-    {
-        return (T)GetData().get(name);
-    }
-    public <T> T Get(String name, T value0)
-    {
-        return Get(name)!=null?Get(name):value0;
-    }
-    public <T> T Get(String name,Class<T> type)
-    {
-        return Get(name);
-    }
-    public Runnable GetRun(String name)
-    {
-        return Get(name);
-    }
-    public void Run(String name){
-        GetRun(name).run();
-    }
-    public void SetRun(String name,Runnable run)
-    {
-        GetData().put(name,run);
-    }
-    public void Set(String name, Object value)
-    {
-        GDX.Try(()->{
-            PutData(name,value);
-            RunEvent(name);
-        });
-    }
-    private void PutData(String name,Object value)
-    {
-        Object vl = value;
-        if (Has(name))
-        {
-            Object vl0 = Get(name);
-            if (vl0 instanceof Integer && value instanceof Float)//ICount useful
-                vl = ((Float) value).intValue();
-        }
-        GetData().put(name,vl);
-    }
-    public boolean Has(String name)
-    {
-        return GetData().containsKey(name);
     }
     //variable
     public Number GetValueFromString(String stValue)

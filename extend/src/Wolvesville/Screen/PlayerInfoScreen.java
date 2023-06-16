@@ -13,7 +13,7 @@ public class PlayerInfoScreen extends Screen implements Global {
     }
     private void InitName(String name, IGroup iGroup){
         iGroup.FindILabel("lb").SetText(cupid.Contains(name)?name+"[YELLOW](cặp)":name);
-        iGroup.FindILabel("lb1").SetText(map.get(name)!=null?map.get(name).name:"");
+        iGroup.FindILabel("lb1").SetText(map.get(name)!=null?map.get(name).ChucNangName():"");
         iGroup.FindILabel("lb2").RunAction(alive.contains(name)?"alive":"die");
     }
 }

@@ -22,7 +22,7 @@ public class XItem {
     public XItem(){}
     public XItem(String name)
     {
-        this(name, Config.Get(name));
+        this(name, Config.i.Get(name));
     }
     public XItem(String name, int value0) {
         this.name = name;

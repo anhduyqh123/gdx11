@@ -78,6 +78,10 @@ public class Card implements Global {
     public boolean VoHieuBoiGiaLangDie(){
         return false;
     }
+    public String ChucNangName(){
+        if (IsSoi()) return name.equals("Sói")?"[RED]"+name:name+"[RED](Sói)";
+        return name;
+    }
     public void Set(Card card){
         player = card.player;;
     }

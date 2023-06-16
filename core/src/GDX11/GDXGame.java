@@ -54,7 +54,7 @@ public class GDXGame extends ApplicationAdapter {
         scene.GetStage().addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Config.Set("button",button);
+                Config.i.Set("button",button);
                 if (x>100 || y>100) return false;
                 ref.Set(System.currentTimeMillis());
                 return true;
@@ -110,7 +110,7 @@ public class GDXGame extends ApplicationAdapter {
     }
     protected Scene NewScene(Batch batch)
     {
-        return new Scene(Config.Get("game_width",720),Config.Get("game_height",1280),batch);
+        return new Scene(Config.i.Get("game_width",720), Config.i.Get("game_height",1280),batch);
     }
     protected Asset NewAssets()
     {
@@ -129,9 +129,9 @@ public class GDXGame extends ApplicationAdapter {
     //Info
     protected void ShowInfo()
     {
-        Config.Set("testMode",true);
+        Config.i.Set("testMode",true);
         ShowFPS();
-        ITextField.NewTextField(Config.Get("installationID"),0,0, Align.bottomLeft,Scene.i.ui2);
+        ITextField.NewTextField(Config.i.Get("installationID"),0,0, Align.bottomLeft,Scene.i.ui2);
     }
     protected void ShowFPS()
     {

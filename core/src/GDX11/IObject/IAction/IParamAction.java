@@ -37,9 +37,9 @@ public class IParamAction extends IAction{
                 if (kind==Kind.Equal) Equal(iParam.Get(param));
                 break;
             case Global:
-                if (kind==Kind.Set) Config.Set(param,stValue);
-                if (kind==Kind.Switch) Config.Set(param,Switch());
-                if (kind==Kind.Equal) Equal(Config.Get(param));
+                if (kind==Kind.Set) Config.i.Set(param,stValue);
+                if (kind==Kind.Switch) Config.i.Set(param,Switch());
+                if (kind==Kind.Equal) Equal(Config.i.Get(param));
                 break;
             case Pref:
                 if (kind==Kind.Set) Config.SetPref(param,stValue);
@@ -61,7 +61,7 @@ public class IParamAction extends IAction{
     {
         if (type==Type.None) return GetIActor().iParam.Get(param,Boolean.parseBoolean(stValue));
         if (type==Type.Pref) return Config.GetPref(param,Boolean.parseBoolean(stValue));
-        return Config.Get(param,Boolean.parseBoolean(stValue));
+        return Config.i.Get(param,Boolean.parseBoolean(stValue));
     }
     private void Equal(Object ob1)
     {

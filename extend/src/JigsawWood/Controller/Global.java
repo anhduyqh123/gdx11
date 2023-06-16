@@ -2,6 +2,7 @@ package JigsawWood.Controller;
 
 import Extend.XItem;
 import GDX11.Config;
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.Screen;
@@ -26,16 +27,16 @@ public class Global {
     }
     public static void AddCoin(int coin)
     {
-        Config.Set("coinNum",coin/10);
-        Config.GetRun("videoCoin").run();
+        Config.i.Set("coinNum",coin/10);
+        Config.i.GetRun("videoCoin").run();
     }
     public static void SetCoinEvent(IGroup coin)
     {
         coin.Click(()-> new ShopScreen().Show());
         Global.itemCoin.SetChangeEvent("game",(o, n)->coin.FindILabel("lb").SetText(n));
-        Config.SetRun("addCoin",ia->Global.itemCoin.Add(10));
-        Config.SetRun("videoCoin",()->{//add 100coin
-            Util.For(1,Config.Get("coinNum"), i->{
+        Config.i.Set("addCoin",(GDX.Runnable1) ia->Global.itemCoin.Add(10));
+        Config.i.SetRun("videoCoin",()->{//add 100coin
+            Util.For(1, Config.i.Get("coinNum"), i->{
                 IActor c = coin.Obtain("icon");
                 c.iParam.Set("delay",(i/2)*0.1f);
                 c.RunAction("add");

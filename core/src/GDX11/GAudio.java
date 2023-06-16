@@ -14,30 +14,24 @@ public class GAudio {
     public final static String sound = "sound",music="music",vibrate="vibrate";
     private String currentMusic;
 
-    private List<String> singles = new ArrayList<>();
+    private final List<String> singles = new ArrayList<>();
 
-    private float GetSoundVolume()
-    {
+    private float GetSoundVolume() {
         return Config.GetPref(soundVolume,1f);
     }
-    private float GetMusicVolume()
-    {
+    private float GetMusicVolume() {
         return Config.GetPref(musicVolume,1f);
     }
-    private float GetVibrateVolume()
-    {
+    private float GetVibrateVolume() {
         return Config.GetPref(vibrateVolume,1f);
     }
-    private boolean IsSound()
-    {
+    private boolean IsSound() {
         return Config.GetPref(sound,true);
     }
-    private boolean IsMusic()
-    {
+    private boolean IsMusic() {
         return Config.GetPref(music,true);
     }
-    private boolean IsVibrate()
-    {
+    private boolean IsVibrate() {
         return Config.GetPref(vibrate,true);
     }
 
@@ -46,13 +40,11 @@ public class GAudio {
     {
         DoVibrate(30);
     }
-    public void DoVibrate(int num)
-    {
+    public void DoVibrate(int num) {
         if (IsVibrate())
             plat.Vibrate((int)(num*GetVibrateVolume()));
     }
-    private void DoSingleVibrate(float delay,int num)
-    {
+    private void DoSingleVibrate(float delay,int num) {
         if (singles.contains("vibrate")) return;
         singles.add("vibrate");
         DoVibrate(num);
@@ -72,8 +64,7 @@ public class GAudio {
     {
         Asset.i.GetMusic(name).stop();
     }
-    public void StartMusic(String name)
-    {
+    public void StartMusic(String name) {
         currentMusic = name;
         Music music = Asset.i.GetMusic(name);
         music.setLooping(true);
@@ -82,18 +73,15 @@ public class GAudio {
             music.play();
     }
 
-    public void PauseMusic()
-    {
+    public void PauseMusic() {
         if (currentMusic == null) return;
         Asset.i.GetMusic(currentMusic).pause();
     }
-    public void ResumeMusic()
-    {
+    public void ResumeMusic() {
         if (currentMusic ==null) return;
         Asset.i.GetMusic(currentMusic).play();
     }
-    public void StopMusic()
-    {
+    public void StopMusic() {
         if (currentMusic ==null) return;
         StopMusic(currentMusic);
         currentMusic = null;
@@ -104,15 +92,13 @@ public class GAudio {
     {
         i.PlaySingleSound(name,0.1f);
     }
-    public void PlaySingleSound(String name,float delay)
-    {
+    public void PlaySingleSound(String name,float delay) {
         if (singles.contains(name)) return;
         singles.add(name);
         PlaySound(name);
         GDX.Delay(()->singles.remove(name),delay);
     }
-    public void PlaySingleSound(String name,int from,int to,float delay)
-    {
+    public void PlaySingleSound(String name,int from,int to,float delay) {
         if (singles.contains(name)) return;
         singles.add(name);
         PlaySound(name,from,to);
@@ -126,8 +112,7 @@ public class GAudio {
     {
         PlaySound(name+ MathUtils.random(from,to));
     }
-    public void PlaySound(String name)
-    {
+    public void PlaySound(String name) {
         if (name.equals("")) return;
         if (IsSound())
             Asset.i.GetSound(name).play(GetSoundVolume());
@@ -137,14 +122,12 @@ public class GAudio {
         Asset.i.GetSound(name).stop();
     }
 
-    public static class Plat
-    {
+    public static class Plat {
         public void Vibrate(int num)
         {
             GDX.Vibrate(num);
         }
-        public void SoundLoop(String name,float volume,float pan,GDX.Runnable1<Long> cb)
-        {
+        public void SoundLoop(String name,float volume,float pan,GDX.Runnable1<Long> cb) {
             cb.Run(Asset.i.GetSound(name).loop(volume,1,pan));
         }
     }

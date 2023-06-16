@@ -11,11 +11,14 @@ public class SoiNguyen extends HumanX{
 
     @Override
     public void Run() {
-        if (target!=null && !nguyen){
+        if (Se_Nguyen()){
             events.add(target+" đã bị nguyền");
             nguyen = true;
             map.get(target).biSoiCan = false;
         }
+    }
+    public boolean Se_Nguyen(){
+        return target!=null && !nguyen;
     }
 
     public boolean Nguyen_Soi(){

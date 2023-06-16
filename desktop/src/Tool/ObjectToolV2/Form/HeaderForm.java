@@ -64,8 +64,8 @@ public class HeaderForm {
     }
     private void SaveProject()
     {
-        Vector2 framePos = (Vector2) Config.Get("framePos", GDX.Func.class).Run();
-        Vector2 screenSize = (Vector2) Config.Get("screenSize", GDX.Func.class).Run();
+        Vector2 framePos = (Vector2) Config.i.Get("framePos", GDX.Func.class).Run();
+        Vector2 screenSize = (Vector2) Config.i.Get("screenSize", GDX.Func.class).Run();
         JsonValue js = Json.StringToJson(GDX.GetString("config.json"));
         js.get("screen_width").set((int)screenSize.x+"");
         js.get("screen_height").set((int)screenSize.y+"");

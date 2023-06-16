@@ -102,7 +102,7 @@ public class GSudoBoard extends GBoard{
         if (best<score)
         {
             best = score;
-            Config.SetPref("sudo_best",best);
+            Config.i.SetPref("sudo_best",best);
             game.SetBest(best);
         }
         Screen loseScreen = new LoseScreen(score,best);

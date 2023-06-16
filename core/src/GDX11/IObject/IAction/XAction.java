@@ -26,8 +26,8 @@ public class XAction extends IAction{
     }
     private void RunEvent()
     {
-        if (Config.Has(xName)){
-            Config.Get(xName, GDX.Runnable1.class).Run(GetIActor());
+        if (Config.i.Has(xName)){
+            Config.i.Get(xName, GDX.Runnable1.class).Run(GetIActor());
         }
         else {
             IActor iActor = GetIActor();

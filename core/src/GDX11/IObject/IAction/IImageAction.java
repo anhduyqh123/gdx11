@@ -30,7 +30,7 @@ public class IImageAction extends IAction{//remove
     }
     private TextureRegion GetTexture()
     {
-        if (Config.Has(texture)) return Config.Get(texture);
+        if (Config.i.Has(texture)) return Config.i.Get(texture);
         if (GetIActor().iParam.Has(texture)) return GetIActor().iParam.Get(texture);
         return Asset.i.GetTexture(texture);
     }
