@@ -3,7 +3,9 @@ package Extend;
 import GDX11.Config;
 import GDX11.GDX;
 import GDX11.IObject.IAction.IAction;
+import GDX11.IObject.IActor.IImage;
 import GDX11.Util;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -46,6 +48,12 @@ public class IPutEvent extends IAction {
                 break;
             case "height":
                 map.put(name, func ?(GDX.Func<Object>) () -> GetActor().getWidth():GetActor().getHeight());
+                break;
+            case "region":
+                IImage img = GetIActor();
+                TextureRegion tr = img.GetTexture();
+                fc = ()-> new GDX.Vector4(tr.getU(),tr.getV(),tr.getU2(),tr.getV2());
+                map.put(name, func ?fc:fc.Run());
                 break;
             case "screenshot":
                 map.put(name, Util.GetScreenshot());

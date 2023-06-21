@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class IImage extends IActor{
-    private final String key = "texture";
+    private transient final String key = "texture";
     public String texture = "";
     public int left,right,top,bottom;
 

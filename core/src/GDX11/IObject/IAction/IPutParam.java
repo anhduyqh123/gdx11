@@ -2,7 +2,9 @@ package GDX11.IObject.IAction;
 
 import GDX11.Config;
 import GDX11.GDX;
+import GDX11.IObject.IActor.IImage;
 import GDX11.Util;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -15,7 +17,7 @@ public class IPutParam extends IAction{
         Global
     }
     public enum Kind{
-        Pos,Size,Bound,X,Y,Width,Height,Screenshot,Buffer
+        Pos,Size,Bound,X,Y,Width,Height,Region,Screenshot,Buffer
     }
 
     public Type type = Type.Local;
@@ -35,8 +37,9 @@ public class IPutParam extends IAction{
                 fc = ()-> new Vector2(GetActor().getWidth(),GetActor().getHeight());
                 map.put(name, func ?fc:fc.Run());
                 break;
-            case Bound:
-                fc = ()-> new GDX.Vector4(GetActor().getX(),GetActor().getY(),GetActor().getWidth(),GetActor().getHeight());
+            case Region:
+                IImage img = GetIActor(); TextureRegion tr = img.GetTexture();
+                fc = ()-> new GDX.Vector4(tr.getU(),tr.getV(),tr.getU2(),tr.getV2());
                 map.put(name, func ?fc:fc.Run());
                 break;
             case X:
@@ -50,6 +53,10 @@ public class IPutParam extends IAction{
                 break;
             case Height:
                 map.put(name, func ?(GDX.Func<Object>) () -> GetActor().getWidth():GetActor().getHeight());
+                break;
+            case Bound:
+                fc = ()-> new GDX.Vector4(GetActor().getX(),GetActor().getY(),GetActor().getWidth(),GetActor().getHeight());
+                map.put(name, func ?fc:fc.Run());
                 break;
             case Screenshot:
                 map.put(name, Util.GetScreenshot());

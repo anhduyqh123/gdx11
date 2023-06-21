@@ -10,38 +10,29 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PhuThuyScreen extends BaseScreen implements Global {
-    private boolean activeDrop1;
+    private IDropDown dropDown1,dropDown2;
     public PhuThuyScreen() {
         super("PhuThuy",phuthuy);
     }
     private void Refresh(){
         FindActor("btNext").setVisible(phuthuy.Valid());
         FindActor("lbInfo").setVisible(phuthuy.BiVoHieu());
-        FindActor("dropDown1").setTouchable(activeDrop1 && phuthuy.save>0?Touchable.enabled:Touchable.disabled);
+        FindActor("dropDown1").setTouchable(targetSoi.size()>0 && phuthuy.save>0?Touchable.enabled:Touchable.disabled);
         FindActor("dropDown2").setTouchable(phuthuy.kill>0?Touchable.enabled:Touchable.disabled);
     }
     private void SetTarget(){
-        String biCan = targetSoi.Get();
-        if (biCan==null) FindILabel("lb1").SetText("Không ai bị cắn");
-        else{
-            if (KoBiCan(biCan)){
-                FindILabel("lb1").SetText("Không ai bị cắn");
-                return;
-            }
-            if (baove.IsCover(biCan)) FindILabel("lb1").SetText(biCan+" Đã được bảo vệ!");
-            else{
-                FindILabel("lb1").iParam.Set("xname",biCan);
-                activeDrop1 = true;
-            }
-        }
+        List<String> list = new ArrayList<>();
+        for (String player : targetSoi)
+            if (PhuThuyCuu(player)) list.add(player);
+        FindILabel("lb1").iParam.Set("xname",list.toString());
+        list.add(0,"Không");
+        dropDown1.SetItems(list);
+        dropDown1.SetSelected(list.get(0));
     }
-    private boolean KoBiCan(String biCan){
-        if (soinguyen.Se_Nguyen()) return true;
-        Card card = map.get(biCan);
-        if (card==null) return false;
-        if (card.equals(gialang)) return gialang.heal>0;
-        if (card.equals(bansoi)) return true;
-        return false;
+    private boolean PhuThuyCuu(String player){
+        Card card = map.get(player);
+        if (card==null) return true;
+        return card.PhuThuy_Cuu();
     }
 
     @Override
@@ -49,8 +40,8 @@ public class PhuThuyScreen extends BaseScreen implements Global {
         IDropDown dropDown = FindIGroup("dropDown0").iComponents.GetIComponent("dropDown");
         SetMainDropdown(phuthuy,dropDown, this::Refresh);
 
-        IDropDown dropDown1 = FindIGroup("dropDown1").iComponents.GetIComponent("dropDown");
-        IDropDown dropDown2 = FindIGroup("dropDown2").iComponents.GetIComponent("dropDown");
+        dropDown1 = FindIGroup("dropDown1").iComponents.GetIComponent("dropDown");
+        dropDown2 = FindIGroup("dropDown2").iComponents.GetIComponent("dropDown");
         List<String> list = new ArrayList<>(Arrays.asList("Không"));
         list.addAll(alive);
         list.remove(phuthuy.player);
@@ -63,7 +54,7 @@ public class PhuThuyScreen extends BaseScreen implements Global {
 
         phuthuy.ResetX();
         BtNext(this,()->{
-            if (dropDown1.GetIndexSelected()==0) phuthuy.Save(targetSoi.Get());
+            if (dropDown1.GetIndexSelected()!=0) phuthuy.Save(dropDown1.selected);
             if (dropDown2.GetIndexSelected()!=0) phuthuy.Kill(dropDown2.selected);
             leftName.remove(phuthuy.player);
         });

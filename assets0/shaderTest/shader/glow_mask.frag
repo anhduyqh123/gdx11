@@ -1,39 +1,37 @@
-//"in" attributes from our vertex shader
-varying vec4 vColor;
-varying vec2 v_texCoords;//uv
-
-uniform vec2 size;
+uniform sampler2D u_texture;
+varying vec2 v_texCoords;//between uv,uv2
+uniform vec2 uv,uv2;
+uniform vec2 resolution;
 
 const float textAlpha = 0.8;
 //our different texture units
-uniform sampler2D u_texture; //default GL_TEXTURE0, expected by SpriteBatch
 uniform sampler2D i_mask;
+uniform vec4 v4_region_mask;//uv,u2vu2
+uniform vec4 v4_bound_mask;//local position of this
 
-uniform float f_maskX;
-uniform float f_maskY;
-uniform vec2 v2_maskSize;
-
-vec2 UV()
+vec2 UV()//0->1
 {
-  vec2 uv = v_texCoords;
-  uv.y = 1.0-uv.y;
-  return uv;
+  return (v_texCoords-uv)/(uv2-uv);
 }
-vec2 uv = UV();
-
+vec4 GetTxtBound(vec4 bound)
+{
+  bound.y = resolution.y-bound.w-bound.y;
+  return bound;
+}
 
 float Alpha()
 {
-  vec2 mask_pos = vec2(f_maskX,f_maskY);
-  vec2 point = uv*size;
-  if (point.x<mask_pos.x || point.x>mask_pos.x+v2_maskSize.x) return textAlpha;
-  if (point.y<mask_pos.y || point.y>mask_pos.y+v2_maskSize.y) return textAlpha;
-  vec2 mask_uv = (point-mask_pos)/v2_maskSize;
+  vec2 point = UV()*resolution;
+  vec4 bound_mask = GetTxtBound(v4_bound_mask);
+  if (point.x< bound_mask.x || point.x> bound_mask.x+ bound_mask.z) return textAlpha;
+  if (point.y< bound_mask.y || point.y> bound_mask.y+ bound_mask.w) return textAlpha;
+  vec2 mask_uv = (point- bound_mask.xy)/ bound_mask.zw;
+  mask_uv = mask_uv*(v4_region_mask.zw-v4_region_mask.xy)+v4_region_mask.xy;
   return 1.0-texture2D(i_mask, mask_uv).a;
 }
 
 void main() {
-  vec4 color = vec4(0,0,0,textAlpha);
+  vec4 color = vec4(0.0,0.0,0.0,textAlpha);
   color.a = min(Alpha(),textAlpha);
   gl_FragColor = color;
 }

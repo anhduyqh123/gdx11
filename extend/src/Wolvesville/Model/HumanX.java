@@ -51,4 +51,9 @@ public class HumanX extends Card {
         x.target = target;
         return x;
     }
+
+    @Override
+    protected boolean DanDen() {
+        return false;
+    }
 }

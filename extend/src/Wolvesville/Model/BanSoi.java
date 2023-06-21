@@ -25,4 +25,14 @@ public class BanSoi extends Card {
         wolves.add(bansoi);
         return true;
     }
+
+    @Override
+    public boolean PhuThuy_Cuu() {
+        return false;
+    }
+
+    @Override
+    protected boolean DanDen() {
+        return false;
+    }
 }

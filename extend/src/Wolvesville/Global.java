@@ -26,8 +26,10 @@ public interface Global {
     ChanDoi chandoi = new ChanDoi();
     HiepSi hiepsi = new HiepSi();
     SoiNguyen soinguyen = new SoiNguyen();
+    Chube chube = new Chube();
+    SoiTrang soitrang = new SoiTrang();
 
-    List<Card> allFunc = Arrays.asList(cupid,tientri,baove,thosan,phuthuy,gialang,thoisao,bansoi,hiepsi,chandoi,nguyetnu,silence,soinguyen);
+    List<Card> allFunc = Arrays.asList(cupid,tientri,baove,thosan,phuthuy,gialang,thoisao,bansoi,hiepsi,chandoi,nguyetnu,silence,soinguyen,chube,soitrang);
     List<Card> func = new ArrayList<>();
 
     List<Card> wolves = new ArrayList<>();
@@ -38,15 +40,22 @@ public interface Global {
     List<String> alive = new ArrayList<>();
     List<String> voted = new ArrayList<>();
     Map<String, Card> map = new HashMap<>();
-    GDX.Ref<String> targetSoi = new GDX.Ref<>();
+    //GDX.Ref<String> targetSoi = new GDX.Ref<>();
+    HashSet<String> targetSoi = new HashSet<>();
     GDX.Ref<String> votedPlayer = new GDX.Ref<>();
 
     List<String> events = new ArrayList<>();
     HashSet<String> willDead = new HashSet<>();
     HashSet<String> nextDie = new HashSet<>();
     List<BaseScreen> screens = new ArrayList<>();
+    GDX.Ref<Integer> day = new GDX.Ref<>(0);
+
+    String kytich = "kỳ ",nghichlua="nghịch lửa",cathangtu="cá tháng 4",laygo="lấy gỗ",
+            nghichluaX = "trúng chức năng",soicanKiemGi="Sói cắn kiếm gỉ";
+    Map<String,Boolean> eventMap = new HashMap<>();
 
     default void InitPlayers(){
+        day.Set(0);
         for (Card card : allFunc) card.Reset();
         wolves.clear();
         cards.clear();
@@ -54,12 +63,17 @@ public interface Global {
 
         Util.For(0,GetSoiCount()-1,i->wolves.add(new Card("Sói")));
         if (soinguyen.Active()){
-            wolves.remove(0);
+            wolves.remove(wolves.size()-1);
             wolves.add(0,soinguyen);
         }
+        if (soitrang.Active()){
+            wolves.remove(wolves.size()-1);
+            wolves.add(0,soitrang);
+        }
+
         cards.addAll(func);
         cards.addAll(wolves);
-        int total = allName.size()- cards.size();
+        //int total = allName.size()- cards.size();
         //Util.For(0,total-1,i-> cards.add(new Card()));
         alive.addAll(allName);
         voted.clear();
@@ -77,7 +91,7 @@ public interface Global {
         iDropDown.SetView(fc.Empty()?"?":fc.player);
     }
     default void CheckDie(Card fc, Screen screen){
-        if (fc.Empty() || fc.Alive()) return;
+        if (!fc.die || fc.Empty()) return;
         screen.FindActor("btNext").setVisible(true);
         screen.FindActor("lbInfo").setColor(Color.RED);
         screen.FindILabel("lbInfo").SetText("Đã chết!!!");

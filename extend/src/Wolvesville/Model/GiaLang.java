@@ -25,4 +25,15 @@ public class GiaLang extends Card{
             willDead.add(player);
         }
     }
+
+    @Override
+    public boolean PhuThuy_Cuu() {
+        if (heal>0) return false;
+        return super.PhuThuy_Cuu();
+    }
+
+    @Override
+    protected boolean DanDen() {
+        return false;
+    }
 }

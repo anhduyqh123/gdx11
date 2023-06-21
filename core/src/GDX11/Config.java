@@ -78,6 +78,7 @@ public class Config implements Param {
             if (key.startsWith("i_")) return Integer.parseInt(stValue);
             if (key.startsWith("f_")) return Float.parseFloat(stValue);
             if (key.startsWith("v2_") || key.startsWith("v3_")) return ParseVector(stValue);
+            if (key.startsWith("v4_")) return new GDX.Vector4(stValue);
             if (key.startsWith("cl_")) return Color.valueOf(stValue);
             return Json.ToBaseType(stValue);
         },()->stValue);

@@ -1,5 +1,7 @@
 package Wolvesville.Model;
 
+import GDX11.GDX;
+
 public class PhuThuy extends Card {
     public int save = 1,kill=1;
     public String savePlayer, killPlayer;
@@ -36,5 +38,10 @@ public class PhuThuy extends Card {
     @Override
     public boolean VoHieuBoiGiaLangDie() {
         return gialang.Valid() && gialang.Die();
+    }
+
+    @Override
+    protected boolean DanDen() {
+        return false;
     }
 }

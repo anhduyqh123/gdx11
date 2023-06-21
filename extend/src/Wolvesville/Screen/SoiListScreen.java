@@ -17,8 +17,10 @@ import java.util.Map;
 
 public class SoiListScreen extends BaseScreen implements Global {
     private Map<Card,IDropDown> dropMap;
-    public SoiListScreen() {
+    private int count;
+    public SoiListScreen(int count) {
         super("SoiList",new Card());
+        this.count = count;
     }
     private void InitSoi(Card soi, IGroup iGroup){
         IDropDown dropDown = iGroup.iComponents.GetIComponent("dropDown");
@@ -45,6 +47,12 @@ public class SoiListScreen extends BaseScreen implements Global {
         FindActor("lbInfo").setVisible(true);
         FindActor("lbInfo").setColor(Color.WHITE);
         FindILabel("lbInfo").SetText("[ORANGE]gọi [BLUE]"+soinguyen.target+"[ORANGE] thức dậy chung với bầy sói!");
+    }
+    private void ChubeNew(){
+        if (!chube.Check_MeNuoi()) return;
+        FindActor("lbInfo").setVisible(true);
+        FindActor("lbInfo").setColor(Color.WHITE);
+        FindILabel("lbInfo").SetText("[ORANGE]gọi [BLUE]"+chube.player+"[ORANGE] thức dậy chung với bầy sói!");
     }
     private void RefreshList(){
         List<String> names = new ArrayList<>();
@@ -85,6 +93,7 @@ public class SoiListScreen extends BaseScreen implements Global {
         RefreshInfo();
         CheckNew();
         SoiNguyenNew();
+        ChubeNew();
 
         ITable iTable = FindIGroup("group").FindITable("table");
         iTable.CloneChild(wolves,this::InitSoi);
@@ -97,9 +106,10 @@ public class SoiListScreen extends BaseScreen implements Global {
         dropDown.onSelect = vl->{
             boolean bite = CanBite();
             int index = dropDown.GetIndexSelected();
-            if (bite && index>0) targetSoi.Set(vl);
+            if (count<=0) targetSoi.clear();
+            if (bite && index>0) targetSoi.add(vl);
             FindActor("btNext").setVisible(Valid());
-            cbNguyen.GetActor().setVisible(soinguyen.Can_Nguyen() && targetSoi.Get()!=null);
+            cbNguyen.GetActor().setVisible(soinguyen.Can_Nguyen() && targetSoi.size()>0);
         };
         List<String> list = new ArrayList<>(alive);
         list.add(0,"Không");
@@ -111,12 +121,28 @@ public class SoiListScreen extends BaseScreen implements Global {
         BtNext(this,()->{
             for (Card soi : wolves)
                 leftName.remove(soi.player);
-
-            String target = targetSoi.Get();
+            List<String> target = new ArrayList<>(targetSoi);
             if (cbNguyen.iParam.Get("check",false))
-                soinguyen.SetTarget(target);
+                soinguyen.SetTarget(target.get(0));
         });
         Click("btInfo",()->new PlayerInfoScreen().Show());
         SetBack(this);
+
+        Click("btNext2",()->{
+            Hide();
+            Screen screen = new SoiListScreen(count+1);
+            SetNext(screen,iGroup.iParam.GetRun("next"));
+            screen.Show();
+        });
+    }
+    public void SetNext(){
+        if (soitrang.Die()) return;
+        Runnable next = iGroup.iParam.GetRun("next");
+        if (day.Get()%2==1) SetNext(this,()->ShowSoiTrang(next));
+    }
+    private void ShowSoiTrang(Runnable next){
+        SoiTrangScreen screen = new SoiTrangScreen();
+        SetNext(screen,next);
+        screen.Show();
     }
 }

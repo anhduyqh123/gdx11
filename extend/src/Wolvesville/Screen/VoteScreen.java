@@ -21,9 +21,17 @@ public class VoteScreen extends Screen implements Global {
     private void InitName(String name, IGroup iGroup){
         iGroup.FindILabel("lb").SetText(name);
         iGroup.FindIActor("btVote").Click(()->{
-            votedPlayer.Set(name);
             Hide();
-            next.run();
+            CheckVote(name);
         });
+    }
+    private void CheckVote(String name){
+        votedPlayer.Set(name);
+        if (thosan.Alive() && thosan.player.equals(name)){
+            new ThoSanScreen(()->{
+                new VoteScreen(next).Show();
+            }).Show();
+        }
+        else new VoteScreen(next).Show();
     }
 }

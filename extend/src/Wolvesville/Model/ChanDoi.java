@@ -5,8 +5,13 @@ public class ChanDoi extends Card{
         super("Chán đời");
     }
     public boolean Win(){
-        if (cupid.player1.contains(player)) return false;
-        if (cupid.player2.contains(player)) return false;
-        return voted.contains(player);
+        if (!cupid.Valid()) return false;
+        if (player==null) return false;
+        return cupid.ChanDoi_Win(player) && voted.contains(player);
+    }
+
+    @Override
+    protected boolean DanDen() {
+        return false;
     }
 }

@@ -225,8 +225,15 @@ public class GDX {
     public static class Vector4
     {
         public float x,y,z,w;
-        public Vector4(float x,float y,float z,float w)
-        {
+        public Vector4(String st){//(1,1,1,1);
+            st = st.replace("(","").replace(")","");
+            String[] arr = st.split(",");
+            x = Float.parseFloat(arr[0]);
+            y = Float.parseFloat(arr[1]);
+            z = Float.parseFloat(arr[2]);
+            w = Float.parseFloat(arr[3]);
+        }
+        public Vector4(float x,float y,float z,float w) {
             this.x = x;this.y=y;this.z=z;this.w=w;
         }
 

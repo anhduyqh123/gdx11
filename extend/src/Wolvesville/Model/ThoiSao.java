@@ -50,4 +50,9 @@ public class ThoiSao extends Card {
         list1.remove(player);
         return list1;
     }
+
+    @Override
+    protected boolean DanDen() {
+        return false;
+    }
 }

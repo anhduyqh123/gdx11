@@ -9,11 +9,10 @@ import java.util.List;
 
 public class HumanXScreen extends BaseScreen implements Global {
     protected IDropDown dropDown,dropDown1;
-    private String preTarget;
+    protected final String no = "Không";
     public HumanXScreen(Card fc) {
         super("Baove",fc);
         HumanX humanX = (HumanX)fc;
-        preTarget = humanX.target;
     }
     protected void ShowFunc(String name){
 
@@ -30,19 +29,21 @@ public class HumanXScreen extends BaseScreen implements Global {
 
         dropDown = FindIGroup("dropDown").iComponents.GetIComponent("dropDown");
         dropDown1 = FindIGroup("dropDown1").iComponents.GetIComponent("dropDown");
+        HumanX humanX = (HumanX)fc;
 
         Refresh(fc);
-        SetMainDropdown(fc,dropDown,()->Refresh(fc));
-
-        HumanX humanX = (HumanX)fc;
+        SetMainDropdown(fc,dropDown,()->{
+            dropDown1.SetItems(GetTargetListView());
+            Refresh(fc);
+        });
         dropDown1.onSelect = vl->{
             ShowFunc(vl);
-            humanX.SetTarget(vl);
+            humanX.SetTarget(vl.equals(no)?null:vl);
             FindActor("btNext").setVisible(true);
         };
-        List<String> list = humanX.GetValidList(alive);
-        dropDown1.SetItems(list);
+        dropDown1.SetItems(GetTargetListView());
         dropDown1.SetView("?");
+
 
         BtNext(this,()->{
             leftName.remove(fc.player);
@@ -54,5 +55,9 @@ public class HumanXScreen extends BaseScreen implements Global {
 
         Click("btInfo",()->new PlayerInfoScreen().Show());
         SetBack(this);
+    }
+    protected List<String> GetTargetListView(){
+        HumanX humanX = (HumanX)fc;
+        return humanX.GetValidList(alive);
     }
 }

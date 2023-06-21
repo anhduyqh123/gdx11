@@ -26,19 +26,32 @@ public class Cupid extends Card {
     }
 
     public void Check(){
+        if (eventMap.containsKey(cathangtu)) return;
         if (willDead.contains(player1)||willDead.contains(player2))
         {
             willDead.add(player1);
             willDead.add(player2);
             events.add("Cặp đôi cupid "+player1+","+player2+" chết");
+            thosan.Check();
         }
     }
     public boolean PheThu3(){
+        if (eventMap.containsKey(cathangtu)) return false;
         if (!alive.contains(player1)) return false;
         return map.get(player1).IsSoi() && !map.get(player2).IsSoi()
                 || map.get(player2).IsSoi() && !map.get(player1).IsSoi();
     }
+    public boolean ChanDoi_Win(String player){
+        if (!Valid()) return false;
+        if (alive.contains(player1) && alive.contains(player2)) return false;
+        return player1.equals(player)||player2.equals(player);
+    }
     public boolean Contains(String name){
         return name.equals(player1) || name.equals(player2);
+    }
+
+    @Override
+    protected boolean DanDen() {
+        return false;
     }
 }

@@ -8,7 +8,7 @@ public class Card implements Global {
     public String wantTo;
     public boolean biSoiCan;
     public boolean dcbaove;
-    public boolean vohieu;
+    public boolean vohieu,die;
     public Card(){}
     public Card(String name){
         this.name = name;
@@ -23,7 +23,7 @@ public class Card implements Global {
         return player!=null;
     }
     public boolean Alive(){
-        return alive.contains(player);
+        return alive.contains(player) && !die;
     }
     public boolean Die(){
         return !Alive();
@@ -42,6 +42,7 @@ public class Card implements Global {
         biSoiCan=false;
         dcbaove=false;
         vohieu = false;
+        die = false;
     }
 
     public void Run(){
@@ -51,8 +52,20 @@ public class Card implements Global {
         if (biSoiCan) willDead.add(player);
     }
     public void BiSoiCan(){
+        if (NghichLua()){
+            if (DanDen()){
+                wolves.add(this);
+                events.add("Sói cắn "+player+" là "+name);
+                events.add("Nghịch lửa:"+player+" thành sói");
+                return;
+            }
+            events.add("Nghịch lửa: sói cắn trúng "+player+" là "+name);
+            eventMap.put(nghichluaX,true);
+            return;
+        }
         biSoiCan = true;
-        events.add("Sói cắn "+player+" là "+name);
+        if (soitrang.IsCan(player)) events.add("Sói trắng cắn "+player);
+        else events.add("Sói cắn "+player+" là "+name);
     }
     public void PhuThuySave(){
         biSoiCan = false;
@@ -89,5 +102,31 @@ public class Card implements Global {
         Card card = new Card();
         card.player = player;
         return card;
+    }
+    protected boolean NghichLua(){
+        return eventMap.containsKey(nghichlua);
+    }
+    protected boolean DanDen(){
+        return true;
+    }
+
+    public boolean PhuThuy_Cuu(){
+        if (NghichLua()) return false;
+        if (soinguyen.Se_Nguyen() && soinguyen.target.equals(player)) return false;
+        if (baove.IsCover(player)) return false;
+        return true;
+    }
+    public void Swap(Card card){
+        if (Die() || card.Die()) return;
+        String temp = player;
+        player = card.player;
+        card.player = temp;
+        map.put(player,this);
+        map.put(card.player,card);
+    }
+    public void Dead(){
+        die = true;
+        alive.remove(player);
+        wolves.remove(this);
     }
 }
