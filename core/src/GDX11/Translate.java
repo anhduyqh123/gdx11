@@ -66,6 +66,6 @@ public class Translate {
     }
     public static Translate Init()
     {
-        return  GDX.Try(()->new Translate(GDX.GetStringByKey("translate")),()->new Translate());
+        return  GDX.Try(()->new Translate(Asset.i.GetString("translate")),()->new Translate());
     }
 }

@@ -134,6 +134,11 @@ public abstract class SDK implements IZen {
     }
 
     @Override
+    public void DownloadPack(String pack, Runnable done) {
+        done.run();
+    }
+
+    @Override
     public void showAdflyIcon(Boolean visible) {
     }
 }

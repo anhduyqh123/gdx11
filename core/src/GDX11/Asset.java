@@ -3,12 +3,15 @@ package GDX11;
 import GDX11.AssetData.AssetData;
 import GDX11.AssetData.AssetNode;
 import GDX11.AssetData.AssetPackage;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,13 +24,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import java.util.*;
 
 public class Asset extends Actor {
+    private final static Map<String,String> xMap = new HashMap<>();
+
     public static Asset i;
 
     private final HashSet<String> packLoaded = new HashSet<>();// loaded package
     private final Map<String, AssetNode> mapAssets = new HashMap<>(); //loaded node
     public AssetData data;
-    public AssetManager manager = new AssetManager();
-
+    public AssetManager manager = new AssetManager(Asset::GetFile);
     private Runnable doneLoading;
     private GDX.Runnable1<Float> cbProgress;
 
@@ -176,7 +180,7 @@ public class Asset extends Actor {
     //get value
     public TextureRegion GetTexture(String name)
     {
-        if (name.equals("")) return new TextureRegion(emptyTexture);
+        if (name.equals("")) return new TextureRegion(GetEmptyTexture());
         AssetNode node = GetNode(name);
         AssetPackage pack = GetAssetPackage(node.pack);
         if (pack.Contain(node.atlas))
@@ -215,8 +219,7 @@ public class Asset extends Actor {
     {
         return data.Get(name);
     }
-    public List<AssetNode> Get(AssetNode.Kind kind)
-    {
+    public List<AssetNode> Get(AssetNode.Kind kind) {
         List<AssetNode> list = new ArrayList<>();
         data.For(p->{
             for(AssetNode n : p.loadableNode)
@@ -224,9 +227,26 @@ public class Asset extends Actor {
         });
         return list;
     }
+    public String GetString(String name){
+        return GetFile(GetNode(name).url).readString();
+    }
+    public void SetPath(String pack,String path){
+        for (AssetNode n : GetAssetPackage(pack).list)
+            xMap.put(n.url,path+"/"+n.url);
+    }
+    public static FileHandle GetFile(String path){
+        if (xMap.containsKey(path)) return Gdx.files.absolute(xMap.get(path));
+        return Gdx.files.internal(path);
+    }
 
     //static
-    public static Texture emptyTexture = NewTexture(Color.WHITE,100,100);
+    private static GDX.Func<Texture> getEmptyTexture;
+    public static Texture GetEmptyTexture(){
+        if (getEmptyTexture!=null) return getEmptyTexture.Run();
+        Texture emptyTexture = NewTexture(Color.WHITE,100,100);
+        getEmptyTexture = ()->emptyTexture;
+        return getEmptyTexture.Run();
+    }
     private static Texture NewTexture(Color color, float width, float height)
     {
         Pixmap pixmap = new Pixmap((int)width, (int)height, Pixmap.Format.RGBA8888);

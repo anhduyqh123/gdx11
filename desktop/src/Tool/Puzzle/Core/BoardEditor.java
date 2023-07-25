@@ -25,7 +25,7 @@ public class BoardEditor extends Shape {
     public static char numID = 'a';
     protected static final List<Color> colors = new ArrayList<>();
     {
-        for (String s : GDX.GetStringByKey("colors").split("\n"))
+        for (String s : Asset.i.GetString("colors").split("\n"))
             colors.add(Color.valueOf(s));
     }
     private Shape board;

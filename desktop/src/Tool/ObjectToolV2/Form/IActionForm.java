@@ -2,6 +2,7 @@ package Tool.ObjectToolV2.Form;
 
 import Extend.IExtend;
 import Extend.IPutEvent;
+import Extend.Shake.IShake;
 import Extend.Spine.IAnimation;
 import GDX11.IObject.IAction.*;
 import GDX11.IObject.IActor.IActor;
@@ -37,9 +38,9 @@ public class IActionForm {
         gTree.onSelect = this::OnSelectIAction;
         gTree.SetTypes("GDX",Arrays.asList(IDelay.class, IMove.class, IProperty.class, IMulAction.class, XAction.class,
                 IRepeat.class, IParAction.class,IAudioAction.class, IUtil.class, IPool.class, IImageAction.class, IToParent.class,
-                ICountAction.class, IParamAction.class));
+                ICountAction.class, IParamAction.class, ICompAction.class));
         gTree.SetTypes("Spine",Arrays.asList(IAnimation.class));
-        gTree.SetTypes("Extend",Arrays.asList(IExtend.class, IPutEvent.class));
+        gTree.SetTypes("Extend",Arrays.asList(IExtend.class, IPutEvent.class, IShake.class));
         gTree.NewMenuItem(0,"RunAction","Ctrl+R",this::RunAction);
         gTree.NewMenuItem(0,"Run","R",this::Run);
     }

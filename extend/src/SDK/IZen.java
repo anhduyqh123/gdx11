@@ -45,4 +45,6 @@ public interface IZen {
 
     public void showAdflyIcon(Boolean visible);
     public void showAdflyIcon(Boolean visible,float x,float y);
+
+    public void DownloadPack(String pack,Runnable done);
 }

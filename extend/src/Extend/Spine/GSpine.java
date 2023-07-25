@@ -57,10 +57,18 @@ public class GSpine extends SkeletonActor {
 
     @Override
     public boolean remove() {
+        if (!hasParent()) return false;
         onRemove.run();
+        boolean result = super.remove();
         Free(this);
-        return super.remove();
+        return result;
     }
+
+    @Override
+    protected void scaleChanged() {
+        getSkeleton().setScale(getScaleX(),getScaleY());
+    }
+
     public void SetSkin(String name)
     {
         SkeletonData data = getSkeleton().getData();

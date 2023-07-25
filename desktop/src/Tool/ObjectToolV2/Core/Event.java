@@ -51,7 +51,7 @@ public class Event {
                 Vector2 dir = p.sub(pos0);
                 float len = dir.len()*camera.zoom*1.5f;
                 dir.setLength(len);
-                Vector2 cPos = new Vector2(camPos).add(dir.x,-dir.y);
+                Vector2 cPos = new Vector2(camPos).add(-dir.x,dir.y);
                 camera.position.set(cPos,0);
             }
             @Override

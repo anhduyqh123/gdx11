@@ -81,6 +81,7 @@ public class Wolves implements Global {
             map.get(player).Dead();
         willDead.clear();
         events.clear();
+        voting.clear();
     }
     private void StartDay(){
         day.Set(day.Get()+1);
@@ -101,22 +102,22 @@ public class Wolves implements Global {
         }).Show();
     }
     private void EndDay(){
-        if (votedPlayer.Get()!=null){
-            Card card = map.get(votedPlayer.Get());
-            votedPlayer.Set(null);
-            willDead.add(card.player);
-            events.add(card.player+" bị dân làng vote chết");
+        if (voting.size()>0){
+            willDead.addAll(voting);
+            voted.addAll(voting);
+            for (String player : voting)
+                events.add(player+" bị dân làng vote chết");
             cupid.Check();
-            voted.add(card.player);
+
+            if (chandoi.Win()){
+                GameOver("[GREEN]"+chandoi.player+"[WHITE] là Thằng chán đời đã thắng do dân làng treo cổ ngu");
+                return;
+            }
             DayReport();
             return;
         }
         if (cupid.PheThu3() && alive.size()<=3){
             GameOver("Cặp đôi cupid thắng! Quá bá đạo!!!");
-            return;
-        }
-        if (chandoi.Win()){
-            GameOver("[GREEN]"+chandoi.player+"[WHITE] là Thằng chán đời đã thắng do dân làng treo cổ ngu");
             return;
         }
         if (cupid.PheThu3()){

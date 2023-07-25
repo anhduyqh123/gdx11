@@ -2,6 +2,7 @@ package Tool.ObjectToolV2.Form;
 
 import Extend.PagedScroll.IPagedScroll;
 import Extend.Spine.ISpine;
+import GDX11.Asset;
 import GDX11.GDX;
 import GDX11.IObject.IActor.*;
 import GDX11.IObject.IPos;
@@ -57,7 +58,7 @@ public class IObjectForm {
     }
 
     private void RefreshIActor() {
-        iActor.Connect();
+        iActor.Reconnect();
         iActor.Refresh();
     }
     public void SetData(PackObject pack) {
@@ -88,7 +89,7 @@ public class IObjectForm {
     private boolean IsMainChanged() {
         if (mainIActor==null) return false;
         return GDX.Try(()->{
-            String data0 = GDX.GetStringByKey(mainIActor.name);
+            String data0 = Asset.i.GetString(mainIActor.name);
             String data = Json.ToJson(mainIActor).toJson(JsonWriter.OutputType.minimal);
             return !data.equals(data0);
         },()->true);

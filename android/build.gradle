@@ -20,8 +20,8 @@ android {
         applicationId "com.gdx11"
         minSdkVersion 19
         targetSdkVersion 31
-        versionCode 1
-        versionName "1.0"
+        versionCode 108
+        versionName "1.08"
 
         multiDexEnabled true
     }
@@ -35,6 +35,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    assetPacks = [":pack0"]
 }
 
 

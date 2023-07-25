@@ -1,5 +1,6 @@
 package GDX11;
 
+import GDX11.IObject.IActor.IActor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
@@ -46,6 +47,13 @@ public class Config implements Param {
     @Override
     public Map<String, Runnable> GetEventMap() {
         return event;
+    }
+
+    public void SetRun1(String name, GDX.Runnable1<IActor> run){
+        GetMap().put(name,run);
+    }
+    public GDX.Runnable1 GetRun1(String name){
+        return (GDX.Runnable1)GetMap().get(name);
     }
 
     public <T> T GetRemote(String name,T value0)

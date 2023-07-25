@@ -1,0 +1,10 @@
+{
+screen_x: 0
+screen_y: 0
+screen_width: 290
+screen_height: 431
+game_width: 1080
+game_height: 1920
+sound: true
+music: true
+}

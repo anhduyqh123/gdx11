@@ -22,7 +22,6 @@ public class DesktopLauncher {
 		config.height = 1280;
 
 		SDK.SetDesktopSDK();
-
 		new LwjglApplication(new MyGame(), config);
 	}
 }

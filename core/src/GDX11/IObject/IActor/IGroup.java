@@ -12,8 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IGroup extends IActor implements IFind {
-    public IMap<IActor> iMap = new IMap<>();
-    {
+    public IMap<IActor> iMap = new IMap<>();{
         iMap.onAdd = this::OnAddChild;
         iMap.onRemove = this::OnRemoveChild;
     }
@@ -54,6 +53,13 @@ public class IGroup extends IActor implements IFind {
         super.SetIParent(iParent);
         ForIChild(i-> i.SetIParent(this));
     }
+
+    @Override
+    public void Reconnect() {
+        super.Reconnect();
+        ForIChild(IActor::Reconnect);
+    }
+
     @Override
     public void RefreshContent() {
         ForIChild(IActor::RefreshContent);

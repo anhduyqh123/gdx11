@@ -44,7 +44,7 @@ public abstract class IObject extends IBase implements Json.JsonObject {
     private static Map<String,IObject> map = new HashMap<>();
     public static <T extends IObject> T Get(String name)
     {
-        if (!map.containsKey(name)) map.put(name,Json.ToObject(GDX.GetStringByKey(name)));
+        if (!map.containsKey(name)) map.put(name,Json.ToObject(Asset.i.GetString(name)));
         return (T)map.get(name);
     }
     public static void Save(String url, IObject ic)

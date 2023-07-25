@@ -129,6 +129,9 @@ public class IActor extends IObject {
         iAction.SetIActor(this);
         iComponents.SetIActor(this);
     }
+    public void Reconnect(){
+        Connect();
+    }
     public <T extends IActor> T IRootFind(String name) {
         IGroup iRoot = GetIRoot();
         return iRoot.FindIActor(name);
@@ -226,7 +229,7 @@ public class IActor extends IObject {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (event.getPointer()!=0) return;
-                    iParam.GetRun("clicked").run();
+                    iParam.Run("clicked");
                 }
             });
         }

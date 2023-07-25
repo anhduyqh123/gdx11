@@ -42,7 +42,8 @@ public interface Global {
     Map<String, Card> map = new HashMap<>();
     //GDX.Ref<String> targetSoi = new GDX.Ref<>();
     HashSet<String> targetSoi = new HashSet<>();
-    GDX.Ref<String> votedPlayer = new GDX.Ref<>();
+    //GDX.Ref<String> votedPlayer = new GDX.Ref<>();
+    HashSet<String> voting = new HashSet<>();
 
     List<String> events = new ArrayList<>();
     HashSet<String> willDead = new HashSet<>();

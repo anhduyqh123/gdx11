@@ -27,8 +27,18 @@ public class IPos extends IBase {
         float y0 = GetIActor().GetGlobalNum(y).floatValue();
         Vector2 pos = new Vector2(x0,y0);
         if (coordActor.equals("")) return pos;
+        if (coordActor.contains(":")){
+            String[] arr = coordActor.split(":");
+            Vector2 pos0 = GetCoord(arr[0],new Vector2(pos));
+            Vector2 pos1 = GetCoord(arr[1],new Vector2(pos));
+            return new Vector2(pos0.x,pos1.y);
+        }
+        return GetCoord(coordActor,pos);
+    }
+    private Vector2 GetCoord(String coord,Vector2 pos){
+        if (coord.equals("")) return pos;
         Actor actor = GetIActor().GetActor();
-        if (coordActor.equals("stage")) return actor.getParent().stageToLocalCoordinates(pos);
+        if (coord.equals("stage")) return actor.getParent().stageToLocalCoordinates(pos);
         Actor other = GetIActor().IRootFind(coordActor).GetActor();
         return other.localToActorCoordinates(actor.getParent(),pos);
     }

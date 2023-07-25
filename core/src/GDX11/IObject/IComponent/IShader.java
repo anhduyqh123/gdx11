@@ -39,13 +39,13 @@ public class IShader extends IComponent {
     }
     protected ShaderProgram NewShader()
     {
-        String fragment = GDX.GetString(Asset.i.GetNode(fragName).url);
+        String fragment = Asset.i.GetString(fragName);
         if (vertName.equals(""))
         {
             Batch batch = Scene.i.GetStage().getBatch();
             return new ShaderProgram(batch.getShader().getVertexShaderSource(),fragment);
         }
-        String vertex = GDX.GetStringByKey(vertName);
+        String vertex = Asset.i.GetString(vertName);
         return new ShaderProgram(vertex,fragment);
     }
 

@@ -3,7 +3,6 @@ package GDX11;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.reflect.Field;
-import com.badlogic.gdx.utils.reflect.Method;
 
 import java.util.List;
 import java.util.Map;
@@ -90,7 +89,7 @@ public class Json {
     }
     public static <T> T ToObjectFomKey(String name,Class<T> type)
     {
-        String stData = GDX.GetStringByKey(name);
+        String stData = Asset.i.GetString(name);
         return Json.ToObject(Json.StringToJson(stData),type);
     }
     public static <T> T ToObject(String data)

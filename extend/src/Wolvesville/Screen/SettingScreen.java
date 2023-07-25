@@ -1,5 +1,6 @@
 package Wolvesville.Screen;
 
+import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IActor.ILabel;
 import GDX11.IObject.IActor.ITable;

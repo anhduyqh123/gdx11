@@ -18,8 +18,6 @@ public class IUtil extends IAction{
         ClearAction,
         RefreshContent,
         BaseRefresh,
-        Active,
-        UnActive,
         Log
     }
     public Type type = Type.Visible;
@@ -62,12 +60,6 @@ public class IUtil extends IAction{
                 break;
             case BaseRefresh:
                 GetIActor().BaseRefresh();
-                break;
-            case Active:
-                GetIActor().iComponents.GetIComponent(name).active = true;
-                break;
-            case UnActive:
-                GetIActor().iComponents.GetIComponent(name).active = false;
                 break;
             case Log:
                 GDX.Log(name);

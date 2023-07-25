@@ -21,7 +21,7 @@ public class IParam extends IBase implements Param {
 
     @Override
     public void SetIActor(IActor iActor) {
-        Dispose();
+        Dispose();//default event, dw,dh->ISize
         super.SetIActor(iActor);
     }
 

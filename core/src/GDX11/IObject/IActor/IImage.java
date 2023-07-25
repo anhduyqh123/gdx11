@@ -76,7 +76,7 @@ public class IImage extends IActor{
     public TextureRegion GetTexture()
     {
         return GDX.Try(()->Asset.i.GetTexture(GetTextureName()),
-                ()->new TextureRegion(Asset.emptyTexture));
+                ()->new TextureRegion(Asset.GetEmptyTexture()));
     }
     public void SetTexture(String name)
     {

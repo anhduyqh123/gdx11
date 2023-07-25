@@ -5,9 +5,10 @@ public class ChanDoi extends Card{
         super("Chán đời");
     }
     public boolean Win(){
+        if (Die()) return false;
         if (!cupid.Valid()) return false;
         if (player==null) return false;
-        return cupid.ChanDoi_Win(player) && voted.contains(player);
+        return cupid.ChanDoi_CanWin(player) && voting.contains(player);
     }
 
     @Override

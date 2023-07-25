@@ -86,8 +86,8 @@ public class Scene {
             OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
             camera.setToOrtho(false,stage.getViewport().getWorldWidth(),stage.getViewport().getWorldHeight());
         }
-        width0 = width;
-        height0 = height;
+        //width0 = width;
+        //height0 = height;
         InitSize();
     }
 

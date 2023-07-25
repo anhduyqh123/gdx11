@@ -25,7 +25,7 @@ import java.util.List;
 public class GJigsawBoard extends GBoard {
     protected static final List<Color> colors = new ArrayList<>();
     {
-        for (String s : GDX.GetStringByKey("colors").split("\n"))
+        for (String s : Asset.i.GetString("colors").split("\n"))
             colors.add(Color.valueOf(s));
     }
     private int curLevel=1,level = Config.GetPref(game.name,1);

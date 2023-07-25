@@ -38,9 +38,7 @@ public class XAction extends IAction{
     }
     private void RunEvent()
     {
-        if (Config.i.Has(xName)){
-            Config.i.Get(xName, GDX.Runnable1.class).Run(GetIActor());
-        }
+        if (Config.i.Has(xName)) Config.i.GetRun1(xName).Run(GetIActor());
         else {
             IActor iActor = GetIActor();
             if (iActor.GetIRoot().iParam.Has(xName)) iActor = iActor.GetIRoot();
