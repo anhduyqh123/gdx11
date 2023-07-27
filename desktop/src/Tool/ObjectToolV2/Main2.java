@@ -19,7 +19,7 @@ public class Main2 {
 
             JFrame frame = UI.NewJFrame("ui editor",new MainForm().panel1,GDX::Exit);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            frame.setLocation(Config.i.Get("screen_x"), Config.i.Get("screen_y"));
+            GDX.Try(()-> frame.setLocation(Config.i.Get("screen_x"), Config.i.Get("screen_y")));
             Config.i.Set("framePos",(GDX.Func)()->new Vector2(frame.getX(),frame.getY()));
         });
     }

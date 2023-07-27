@@ -25,6 +25,9 @@ public class BaseGame {
     protected void NewGame(){
         game.iGroup.Reconnect();
         game.iGroup.Refresh();
+        InitUI();
+    }
+    protected void InitUI(){
         game.Click("btHome",()->{});
         game.Click("btTut",()->NewTutScreen().Show());
     }

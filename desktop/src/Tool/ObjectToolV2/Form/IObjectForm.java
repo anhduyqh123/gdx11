@@ -1,13 +1,11 @@
 package Tool.ObjectToolV2.Form;
 
+import Extend.Box2D.IBox2D;
 import Extend.PagedScroll.IPagedScroll;
 import Extend.Spine.ISpine;
-import GDX11.Asset;
-import GDX11.GDX;
+import GDX11.*;
 import GDX11.IObject.IActor.*;
 import GDX11.IObject.IPos;
-import GDX11.Json;
-import GDX11.Reflect;
 import Tool.Swing.GTree2;
 import Tool.ObjectToolV2.Core.PackObject;
 import Tool.Swing.UI;
@@ -51,10 +49,14 @@ public class IObjectForm {
         gTree.NewMenuItemBySelect(2,"Prefab","",gTree::Prefab);
         gTree.NewMenuItem("Save","Ctrl+S",this::Save);
         gTree.NewMenuItem("PastePos","",this::PastePos);
+        Config.i.SetRun("reloadPack",()->{
+            Asset.i.ForceLoadPackages(null,pack.name);
+            SetData(pack);
+        });
     }
     private List<Class> GetTypes() {
         return Arrays.asList(IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class, IParticle.class, ISpine.class,
-                IScrollImage.class, IProgressBar.class,IScrollPane.class, IPagedScroll.class, ITextField.class);
+                IScrollImage.class, IProgressBar.class,IScrollPane.class, IPagedScroll.class, ITextField.class, IBox2D.class);
     }
 
     private void RefreshIActor() {

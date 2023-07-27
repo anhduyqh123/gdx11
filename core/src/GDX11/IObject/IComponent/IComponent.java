@@ -28,4 +28,11 @@ public class IComponent extends IObject {
     {
 
     }
+
+    public <T extends IComponent> T GetIComponent(String name){
+        return GetIActor().iComponents.GetIComponent(name);
+    }
+    protected  <T extends IComponent> T GetIComponent(String name,Class<T> type){
+        return GetIComponent(name);
+    }
 }

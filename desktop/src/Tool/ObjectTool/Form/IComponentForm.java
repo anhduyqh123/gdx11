@@ -3,10 +3,10 @@ package Tool.ObjectTool.Form;
 import Extend.AI.ISteering;
 import Extend.AI.ITest;
 import Extend.IMask;
-import Extend.IShape.ICircle;
-import Extend.IShape.IPoints;
-import Extend.IShape.IPolygon;
-import Extend.IShape.IShape;
+import GDX11.IObject.IComponent.IShape.ICircle;
+import GDX11.IObject.IComponent.IShape.IPoints;
+import GDX11.IObject.IComponent.IShape.IPolygon;
+import GDX11.IObject.IComponent.IShape.IShape;
 import Extend.IShapeMask;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IComponent.IComponent;
@@ -122,7 +122,7 @@ public class IComponentForm {
             return editCircle;
         }
         IPointsEdit edit = new IPointsEdit(iActor);
-        edit.SetData(selected.Get(IPoints.class).list);
+        edit.SetData(selected.Get(IPoints.class));
         return edit;
     }
 }

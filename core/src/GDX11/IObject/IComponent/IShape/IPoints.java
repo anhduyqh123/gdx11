@@ -1,4 +1,4 @@
-package Extend.IShape;
+package GDX11.IObject.IComponent.IShape;
 
 import GDX11.IObject.IPos;
 import GDX11.Util;
@@ -14,21 +14,24 @@ public class IPoints extends IShape {
     public void Init()
     {
         list.add(new IPos());
-        list.add(new IPos(0, 100));
-        list.add(new IPos(100, 0));
+        list.add(new IPos(0, GetActor().getHeight()));
+        list.add(new IPos(GetActor().getWidth(), GetActor().getHeight()));
+        list.add(new IPos(GetActor().getWidth(), 0));
     }
     protected List<Vector2> GetStagePoints()
     {
         List<Vector2> points = new ArrayList<>();
-        Util.For(list,ip-> {
-            ip.SetIActor(GetIActor());
-            points.add(GetStagePos(ip));
-        });
+        Util.For(list,ip-> points.add(GetStagePos(ip)));
         return points;
     }
 
     @Override
     public void DrawShape(ShapeRenderer renderer) {
         Util.For(GetStagePoints(),pos-> renderer.circle(pos.x, pos.y,10));
+    }
+
+    @Override
+    public void Connect() {
+        Util.For(list,ip-> ip.SetIActor(GetIActor()));
     }
 }

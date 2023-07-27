@@ -11,7 +11,8 @@ public class IProperty extends IDelay{
         Scale,
         Origin,
         Color,
-        Alpha
+        Alpha,
+        ZIndex
     }
     public String value = "0";
     public String hexColor = Color.WHITE.toString();
@@ -39,6 +40,11 @@ public class IProperty extends IDelay{
                 break;
             case Alpha:
                 GetActor().getColor().a = GetFloatValue(value);
+                break;
+            case ZIndex:
+                GetActor().setZIndex(Integer.parseInt(value));
+                break;
+            default:
         }
     }
 

@@ -23,8 +23,8 @@ public class XAction extends IAction{
     public void Run() {
         switch (type){
             case Runnable: RunEvent();
-            break;
-            case DoAction: GetIActor().RunAction(xName);
+                break;
+            case DoAction: DoAction();
                 break;
             case Bind: Bind();
                 break;
@@ -35,6 +35,14 @@ public class XAction extends IAction{
     @Override
     public Action Get() {
         return Actions.run(this::Run);
+    }
+
+    private void DoAction(){
+        if (xName.contains(":")){
+            String[] arr = xName.split(":");
+            GetIActor().IRootFind(arr[0]).RunAction(arr[1]);
+        }
+        else GetIActor().RunAction(xName);
     }
     private void RunEvent()
     {

@@ -4,6 +4,7 @@ import GDX11.AssetData.AssetData;
 import GDX11.AssetData.AssetNode;
 import GDX11.AssetData.AssetPackage;
 
+import GDX11.IObject.IObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.BitmapFontLoader;
@@ -28,6 +29,7 @@ public class Asset extends Actor {
 
     public static Asset i;
 
+    private final Map<String, IObject> obMap = new HashMap<>();
     private final HashSet<String> packLoaded = new HashSet<>();// loaded package
     private final Map<String, AssetNode> mapAssets = new HashMap<>(); //loaded node
     public AssetData data;
@@ -35,18 +37,15 @@ public class Asset extends Actor {
     private Runnable doneLoading;
     private GDX.Runnable1<Float> cbProgress;
 
-    public Asset()
-    {
+    public Asset() {
         i = this;
         InitLoader();
     }
-    public void SetData(AssetData data)
-    {
+    public void SetData(AssetData data) {
         this.data = data;
         data.Install();
     }
-    protected void InitLoader()
-    {
+    protected void InitLoader() {
         manager.setLoader(Texture.class,new GTextureLoader(manager.getFileHandleResolver()));
     }
 
@@ -66,16 +65,13 @@ public class Asset extends Actor {
     }
 
     //LoadAsset
-    private void LoadAssets(List<AssetNode> list)
-    {
+    private void LoadAssets(List<AssetNode> list) {
         for (AssetNode as : list)
             Load(as);
     }
-    public void Load(AssetNode as)
-    {
+    public void Load(AssetNode as) {
         if (manager.isLoaded(as.url)) return;
-        switch (as.kind)
-        {
+        switch (as.kind) {
             case TextureAtlas:
                 manager.load(as.url, TextureAtlas.class);
                 break;
@@ -107,36 +103,36 @@ public class Asset extends Actor {
                     pepParticle.atlasFile = pack.Get("particle").url;
                 manager.load(as.url, ParticleEffect.class,pepParticle);
                 break;
+            case Object:
+                LoadObject(as.name);
+                break;
             default:
                 DefaultLoad(as);
         }
     }
-    protected void DefaultLoad(AssetNode node)
-    {
-
+    protected void LoadObject(String name){
+        obMap.put(name,Json.ToObject(GetString(name)));
     }
-    public List<AssetNode> GetLoaded(AssetNode.Kind kind)
-    {
+    protected void DefaultLoad(AssetNode node) {
+    }
+    public List<AssetNode> GetLoaded(AssetNode.Kind kind) {
         List<AssetNode> list = new ArrayList<>();
         for(AssetNode n : mapAssets.values())
             if (n.kind==kind) list.add(n);
         return list;
     }
 
-    public void PushMapAssetNode(String pack)
-    {
+    public void PushMapAssetNode(String pack) {
         for(AssetNode n : GetAssetPackage(pack).assetNodes)
             mapAssets.put(n.name,n);
     }
 
-    private void ForceLoadPackage(String pack)
-    {
+    private void ForceLoadPackage(String pack) {
         packLoaded.add(pack);
         PushMapAssetNode(pack);
         Util.For(GetAssetPackage(pack).loadableNode,this::Load);
     }
-    private void LoadPackage(String pack)
-    {
+    private void LoadPackage(String pack) {
         if (!data.Contains(pack)) return;
         if (packLoaded.contains(pack)) return;
         ForceLoadPackage(pack);
@@ -151,19 +147,16 @@ public class Asset extends Actor {
         manager.finishLoading();
         if(done!=null) done.run();
     }
-    public void LoadPackagesSync(GDX.Runnable1<Float> cbProgress, Runnable onLoaded, String... packs)
-    {
+    public void LoadPackagesSync(GDX.Runnable1<Float> cbProgress, Runnable onLoaded, String... packs) {
         for(String pack : packs) LoadPackage(pack);
         doneLoading = onLoaded;
         this.cbProgress = cbProgress;
     }
 
-    public void UnloadPackage(String pack)
-    {
+    public void UnloadPackage(String pack) {
         if (!data.Contains(pack)) return;
         RemovePackage(pack);
-        for (AssetNode n : GetAssetPackage(pack).loadableNode)
-        {
+        for (AssetNode n : GetAssetPackage(pack).loadableNode) {
             if (manager.contains(n.url))
                 manager.unload(n.url);
         }
@@ -178,21 +171,18 @@ public class Asset extends Actor {
     }
 
     //get value
-    public TextureRegion GetTexture(String name)
-    {
+    public TextureRegion GetTexture(String name) {
         if (name.equals("")) return new TextureRegion(GetEmptyTexture());
         AssetNode node = GetNode(name);
         AssetPackage pack = GetAssetPackage(node.pack);
-        if (pack.Contain(node.atlas))
-        {
+        if (pack.Contain(node.atlas)) {
             AssetNode al = pack.Get(node.atlas);
             return manager.get(al.url, TextureAtlas.class).findRegion(name);
         }
         return new TextureRegion(Get(name, Texture.class));
     }
 
-    public BitmapFont GetFont(String name)
-    {
+    public BitmapFont GetFont(String name) {
         AssetNode node = GetNode(name);
         return node==null?new BitmapFont():Get(name, BitmapFont.class);
     }
@@ -208,11 +198,14 @@ public class Asset extends Actor {
     {
         return Get(name, ParticleEffect.class);
     }
+    public <T extends IObject> T GetObject(String name){
+        if (!obMap.containsKey(name)) LoadObject(name);;
+        return (T)obMap.get(name);
+    }
     public <T> T Get(String name,Class<T> type){
         return manager.get(GetNode(name).url,type);
     }
-    public AssetNode GetNode(String name)
-    {
+    public AssetNode GetNode(String name) {
         return mapAssets.get(name);
     }
     public AssetPackage GetAssetPackage(String name)
@@ -247,8 +240,7 @@ public class Asset extends Actor {
         getEmptyTexture = ()->emptyTexture;
         return getEmptyTexture.Run();
     }
-    private static Texture NewTexture(Color color, float width, float height)
-    {
+    private static Texture NewTexture(Color color, float width, float height) {
         Pixmap pixmap = new Pixmap((int)width, (int)height, Pixmap.Format.RGBA8888);
         pixmap.setColor(color);
         pixmap.fillRectangle(0, 0, (int)width, (int)height);

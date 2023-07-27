@@ -1,14 +1,13 @@
 package Tool.ObjectTool.Point;
 
-import Extend.IShape.ICircle;
+import GDX11.IObject.IComponent.IShape.ICircle;
 import GDX11.IObject.IActor.IActor;
+import GDX11.IObject.IComponent.IShape.IPoints;
 import GDX11.IObject.IPos;
 import GDX11.Reflect;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class ICircleEdit extends IPointsEdit{
     public ICircleEdit(IActor iActor) {
@@ -37,6 +36,8 @@ public class ICircleEdit extends IPointsEdit{
             dot.SetPosition(pos.GetPosition().add(dir));
             dot.Refresh();
         });
-        SetData(Arrays.asList(pos,dot));
+        IPoints iPoints = new IPoints();
+        iPoints.list = Arrays.asList(pos,dot);
+        SetData(iPoints);
     }
 }

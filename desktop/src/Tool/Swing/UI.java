@@ -61,7 +61,7 @@ public class UI {
             List list = (List)value;
             if ( Reflect.IsAssignableFrom(field.getElementType(0),String.class))
             {
-                panel.add(new ListForm(list).panel1);
+                NewList(name,list,panel);
                 return;
             }
             if (list.size()<=5)
@@ -87,7 +87,7 @@ public class UI {
             NewColorPicker(field,object,panel);
             return;
         }
-        if (name.startsWith("st_"))
+        if (name.startsWith("str_"))
         {
             NewTextArea(field,object,panel);
             return;
@@ -139,6 +139,12 @@ public class UI {
         parent.add(panel);
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return panel;
+    }
+    //List
+    public static ListForm NewList(String fieldName,List<String> list,JPanel pn){
+        ListForm listForm = new ListForm(fieldName,list);
+        pn.add(listForm.panel1);
+        return listForm;
     }
     //ComboBox
     public static JComboBox NewAlignComboBox(String fieldName,Object object,JPanel panel)

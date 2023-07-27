@@ -7,13 +7,13 @@
     <properties/>
     <border type="none"/>
     <children>
-      <scrollpane id="9361f">
+      <scrollpane id="9361f" binding="scroll">
         <constraints/>
         <properties>
           <doubleBuffered value="false"/>
           <preferredSize width="100" height="150"/>
         </properties>
-        <border type="none"/>
+        <border type="none" title="name"/>
         <children>
           <component id="563f9" class="javax.swing.JTree" binding="tree1" default-binding="true">
             <constraints/>

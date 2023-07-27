@@ -15,7 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.JsonWriter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 public class GDXGame extends ApplicationAdapter {
     protected Scene scene;
@@ -92,7 +95,9 @@ public class GDXGame extends ApplicationAdapter {
         asset.LoadPackages(()-> FirstLoad(), GetFirstPacks().toArray(new String[0]));//load first package
     }
     protected Collection<String> GetFirstPacks() {
-        return asset.data.GetKeys();
+        List<String> list = new ArrayList<>(Arrays.asList("first","default"));
+        list.addAll(asset.data.GetKeys());
+        return list;
     }
     protected void FirstLoad()
     {

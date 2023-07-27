@@ -1,6 +1,7 @@
 package com.game;
 
 import DrinkGame.Game.Crocodile.Crocodile;
+import DrinkGame.Game.Pirate.Pirate;
 import GDX11.Asset;
 import GDX11.GDXGame;
 import SDK.SDK;
@@ -13,7 +14,7 @@ public class MyGame extends GDXGame {
 
     @Override
     protected void FirstLoad() {
-        Asset.i.LoadPackages(()->new Crocodile(),"crocodile");
+        Asset.i.LoadPackages(()->new Pirate(),"pirate");
     }
 
     @Override

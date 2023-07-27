@@ -235,7 +235,17 @@ public class IActor extends IObject {
         }
         iParam.SetRun("clicked",onClick);
     }
-
+    //Origon
+    public Vector2 GetOrigin(){
+        return new Vector2(GetActor().getOriginX(),GetActor().getOriginY());
+    }
+    //Rotation
+    public float GetStageRotation(){
+        return Scene.GetStageRotation(GetActor());
+    }
+    public void SetStageRotation(float rotation){
+        Scene.SetStageRotation(GetActor(),rotation);
+    }
     //Position
     public Vector2 GetLocalToActor(Actor actor,int align)
     {
@@ -246,6 +256,9 @@ public class IActor extends IObject {
     }
     public Vector2 GetPosition(int align) {
         return new Vector2(GetActor().getX(align),GetActor().getY(align));
+    }
+    public Vector2 GetPosition() {
+        return GetPosition(Align.bottomLeft);
     }
     public Vector2 GetStagePosition(int align) {
         return Scene.GetStagePosition(GetActor(),align);

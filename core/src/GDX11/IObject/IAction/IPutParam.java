@@ -31,38 +31,38 @@ public class IPutParam extends IAction{
         {
             case Pos:
                 GDX.Func<Object> fc = ()->new Vector2(GetActor().getX(),GetActor().getY());
-                map.put(name, func ?fc:fc.Run());
+                map.put(param, func ?fc:fc.Run());
                 break;
             case Size:
                 fc = ()-> new Vector2(GetActor().getWidth(),GetActor().getHeight());
-                map.put(name, func ?fc:fc.Run());
+                map.put(param, func ?fc:fc.Run());
                 break;
             case Region:
                 IImage img = GetIActor(); TextureRegion tr = img.GetTexture();
                 fc = ()-> new GDX.Vector4(tr.getU(),tr.getV(),tr.getU2(),tr.getV2());
-                map.put(name, func ?fc:fc.Run());
+                map.put(param, func ?fc:fc.Run());
                 break;
             case X:
-                map.put(name, func ?(GDX.Func<Object>) () -> GetActor().getX():GetActor().getX());
+                map.put(param, func ?(GDX.Func<Object>) () -> GetActor().getX():GetActor().getX());
                 break;
             case Y:
-                map.put(name, func ?(GDX.Func<Object>) () -> GetActor().getY():GetActor().getY());
+                map.put(param, func ?(GDX.Func<Object>) () -> GetActor().getY():GetActor().getY());
                 break;
             case Width:
-                map.put(name, func ?(GDX.Func<Object>) () -> GetActor().getWidth():GetActor().getWidth());
+                map.put(param, func ?(GDX.Func<Object>) () -> GetActor().getWidth():GetActor().getWidth());
                 break;
             case Height:
-                map.put(name, func ?(GDX.Func<Object>) () -> GetActor().getWidth():GetActor().getHeight());
+                map.put(param, func ?(GDX.Func<Object>) () -> GetActor().getWidth():GetActor().getHeight());
                 break;
             case Bound:
                 fc = ()-> new GDX.Vector4(GetActor().getX(),GetActor().getY(),GetActor().getWidth(),GetActor().getHeight());
-                map.put(name, func ?fc:fc.Run());
+                map.put(param, func ?fc:fc.Run());
                 break;
             case Screenshot:
-                map.put(name, Util.GetScreenshot());
+                map.put(param, Util.GetScreenshot());
                 break;
             case Buffer:
-                map.put(name, Util.GetTextureRegion(GetActor()));
+                map.put(param, Util.GetTextureRegion(GetActor()));
                 break;
             default:
         }

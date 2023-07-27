@@ -28,7 +28,9 @@ public class MyGame extends GDXGame {
     }
     public void LoadAssetData()
     {
-        asset.SetData(GetGameData(true));
+        Config.i.SetRun("reloadData",()->asset.SetData(GetGameData(true)));
+        Config.i.Run("reloadData");
+        //asset.SetData(GetGameData(true));
         asset.LoadPackages(()-> FirstLoad(), GetFirstPacks().toArray(new String[0]));//load first package
         Event.InitControlCamera();
         Event.InitDrag();

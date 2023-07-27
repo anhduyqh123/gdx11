@@ -4,9 +4,6 @@ import GDX11.*;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public abstract class IObject extends IBase implements Json.JsonObject {
 
     public String name = "name";
@@ -41,11 +38,14 @@ public abstract class IObject extends IBase implements Json.JsonObject {
         return Json.JsonToObject(js,object);
     }
 
-    private static Map<String,IObject> map = new HashMap<>();
-    public static <T extends IObject> T Get(String name)
-    {
-        if (!map.containsKey(name)) map.put(name,Json.ToObject(Asset.i.GetString(name)));
-        return (T)map.get(name);
+//    private static Map<String,IObject> map = new HashMap<>();
+//    public static <T extends IObject> T Get(String name)
+//    {
+//        if (!map.containsKey(name)) map.put(name,Json.ToObject(Asset.i.GetString(name)));
+//        return (T)map.get(name);
+//    }
+    public static <T extends IObject> T Get(String name){
+        return Asset.i.GetObject(name);
     }
     public static void Save(String url, IObject ic)
     {

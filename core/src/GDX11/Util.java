@@ -29,6 +29,12 @@ public class Util {
         return Math.min(scaleX,scaleY);
     }
     //vector
+    public static float GetAngle(Vector2 p1, Vector2 p2,Vector2 p3)
+    {
+        Vector2 dir1 = new Vector2(p2).sub(p1);
+        Vector2 dir2 = new Vector2(p2).sub(p3);
+        return dir1.angleDeg(dir2);
+    }
     public static Vector2 GetMidPos(Vector2 pos1,Vector2 pos2)
     {
         Vector2 mid = new Vector2(pos1);

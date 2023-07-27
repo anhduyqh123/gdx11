@@ -1,9 +1,9 @@
 package Extend;
 
-import Extend.IShape.IShape;
+import GDX11.IObject.IActor.IActor;
+import GDX11.IObject.IComponent.IShape.IShape;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
-import GDX11.IObject.IActor.IImage;
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.Util;
 import com.badlogic.gdx.Gdx;
@@ -17,7 +17,7 @@ import java.util.List;
 public class IShapeMask extends IComponent {
     private final transient List<Actor> maskedActors = new ArrayList<>();
     private final transient List<Actor> actors = new ArrayList<>();
-    private transient IImage mask;
+    private transient IActor mask;
 
     protected void InitMaskGroup()
     {

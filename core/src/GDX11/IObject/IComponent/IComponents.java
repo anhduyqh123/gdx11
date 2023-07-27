@@ -32,7 +32,6 @@ public class IComponents extends IComponent {
     {
         return (T)syncMap.Get(name);
     }
-
     @Override
     public void SetIActor(IActor iActor) {
         syncMap = new IMap<>(iMap);

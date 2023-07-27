@@ -1,4 +1,4 @@
-package Extend.IShape;
+package GDX11.IObject.IComponent.IShape;
 
 import GDX11.Util;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;

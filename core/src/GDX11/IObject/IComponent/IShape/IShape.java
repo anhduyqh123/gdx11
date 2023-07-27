@@ -1,4 +1,4 @@
-package Extend.IShape;
+package GDX11.IObject.IComponent.IShape;
 
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.IObject.IPos;
@@ -10,14 +10,16 @@ public abstract class IShape extends IComponent {//all position is local of Acto
     public ShapeRenderer.ShapeType shapeType = ShapeRenderer.ShapeType.Line;
     protected transient ShapeRenderer renderer;
 
-    private void Install()
-    {
+    private void Install() {
         renderer = new ShapeRenderer();
         renderer.setAutoShapeType(true);
     }
-    public void Init()
-    {
+    public void Init() {
+    }
 
+    @Override
+    public void Refresh() {
+        Connect();
     }
 
     @Override
@@ -35,6 +37,7 @@ public abstract class IShape extends IComponent {//all position is local of Acto
         renderer.end();
     }
     public abstract void DrawShape(ShapeRenderer renderer);
+    public abstract void Connect();
 
     protected Vector2 GetStagePos(Vector2 pos)
     {

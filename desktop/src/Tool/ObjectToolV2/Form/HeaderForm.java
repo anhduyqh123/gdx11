@@ -26,6 +26,7 @@ public class HeaderForm {
     private JButton btColor;
     private JButton toolButton;
     private JButton btSave;
+    private JButton btReload;
     private IActor iActor;
     private final InputListener event;
 
@@ -38,6 +39,7 @@ public class HeaderForm {
                     MyGame.bg.set(UI.ColorToGDXColor(cl)));
         });
         UI.Button(btSave,this::SaveProject);
+        UI.Button(btReload,this::ReloadAssets);
 
         event = new InputListener(){
             @Override
@@ -73,5 +75,10 @@ public class HeaderForm {
         js.get("screen_y").set((int)framePos.y+"");
         GDX.WriteToFile("config.json",js.toString());
         UI.NewDialog("Save Project Success!",panel1);
+    }
+    private void ReloadAssets(){
+        Config.i.Run("reloadData");//MyGame
+        Config.i.Run("reloadAsset");//AssetForm
+        Config.i.Run("reloadPack");//IObjectForm
     }
 }

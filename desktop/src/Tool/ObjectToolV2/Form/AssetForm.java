@@ -4,6 +4,7 @@ import GDX11.Asset;
 import GDX11.AssetData.AssetData;
 import GDX11.AssetData.AssetNode;
 import GDX11.AssetData.AssetPackage;
+import GDX11.Config;
 import GDX11.GDX;
 import GDX11.IObject.IMap;
 import GDX11.IObject.IObject;
@@ -26,13 +27,16 @@ public class AssetForm {
     private JComboBox cbPack;
     private JComboBox cbKind;
     private JPanel pnDraw;
-    private AssetData data = Asset.i.data;
     private GTree2 gTree = new GTree2(tree1);
 
     public AssetForm()
     {
         gTree.onSelect = this::OnSelect;
-        List<String> packs = new ArrayList<>(data.GetKeys());
+        Config.i.SetRun("reloadAsset",this::RefreshData);
+        RefreshData();
+    }
+    private void RefreshData(){
+        List<String> packs = new ArrayList<>(Asset.i.data.GetKeys());
         packs.add(0,"all");
         UI.ComboBox(cbPack,packs.toArray(),packs.get(1),vl-> GDX.Try(()->gTree.SetRoot(GetData())));
 
@@ -89,6 +93,7 @@ public class AssetForm {
     public class IGroupNode extends IObject
     {
         public IMap<IObject> iMap = new IMap<>();
+        private AssetData data = Asset.i.data;
         public IGroupNode(String pack,AssetNode.Kind kind)
         {
             name = kind.name();
