@@ -66,7 +66,8 @@ public abstract class BaseTree<T> {
         this.tree = tree;
         SetTreeSelectedEvent(tree,()->{
             DefaultMutableTreeNode node = GetSelectedNode();
-            if (node==null || node.isRoot()) return;
+            if (node==null) return;
+            //if (node==null || node.isRoot()) return;
             onSelect.Run(GetObject(node));
         });
         SetTreeClickedEvent(tree,e->{

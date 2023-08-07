@@ -54,10 +54,7 @@ public class HeaderForm {
         String[] packs = Asset.i.data.GetKeys().toArray(new String[0]);
         for (String key : packs)
             map.put(key,new PackObject(key));
-        UI.ComboBox(cbPack,packs,packs[0], pack->{
-            Asset.i.ForceLoadPackages(null,pack);
-            onLoadPack.Run(map.get(pack));
-        });
+        UI.ComboBox(cbPack,packs,packs[0], pack-> onLoadPack.Run(map.get(pack)));
     }
     public void SetIActor(IActor iActor)
     {

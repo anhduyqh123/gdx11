@@ -18,6 +18,7 @@ public class IRepeat extends IMulAction{
     @Override
     public Action Get() {
         if (iMap.Size()<=0) return Actions.sequence();
-        return Actions.repeat(value,iMap.Get(0).Get());
+        return Actions.repeat(value,super.Get());
+        //return Actions.repeat(value,iMap.Get(0).Get());
     }
 }

@@ -62,7 +62,7 @@ public class IMask extends IShader {
             return;
         }
         IActor iActor = IActor.GetIActor(actor);
-        iActor.iComponents.Add("draw",new IComponent(){
+        iActor.iComponents.Add(new IComponent("draw"){
             @Override
             public void Draw(Batch batch, float parentAlpha, Runnable superDraw) {
                 if (mask==null || !IMask.this.active) superDraw.run();

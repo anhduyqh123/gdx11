@@ -49,10 +49,7 @@ public class IObjectForm {
         gTree.NewMenuItemBySelect(2,"Prefab","",gTree::Prefab);
         gTree.NewMenuItem("Save","Ctrl+S",this::Save);
         gTree.NewMenuItem("PastePos","",this::PastePos);
-        Config.i.SetRun("reloadPack",()->{
-            Asset.i.ForceLoadPackages(null,pack.name);
-            SetData(pack);
-        });
+        Config.i.SetRun("reloadPack",()-> SetData(pack));
     }
     private List<Class> GetTypes() {
         return Arrays.asList(IGroup.class, IImage.class, ILabel.class, ITable.class, IActor.class, IParticle.class, ISpine.class,
@@ -64,6 +61,7 @@ public class IObjectForm {
         iActor.Refresh();
     }
     public void SetData(PackObject pack) {
+        Asset.i.ForceLoadPackages(null,pack.name);
         if (mainIActor!=null) mainIActor.GetActor().remove();
         mainIActor = null;
         this.pack = pack;
@@ -86,7 +84,10 @@ public class IObjectForm {
         iActor.Refresh();
     }
     private void Save() {
-        pack.Save(mainIActor.name,()-> UI.NewDialog("Save success!",panel1));
+        pack.Save(mainIActor.name,()-> UI.NewDialog("Save success!",panel1),()->{
+            Config.i.Run("reloadData");
+            SetData(pack);
+        });
     }
     private boolean IsMainChanged() {
         if (mainIActor==null) return false;

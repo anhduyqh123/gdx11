@@ -2,10 +2,10 @@ package DrinkGame.Game.Crocodile;
 
 import DrinkGame.Base.BaseGame;
 import DrinkGame.Base.EndGameScreen;
+import DrinkGame.Base.OptionScreen;
 import DrinkGame.Base.VSlider;
 import GDX11.Config;
 import GDX11.GAudio;
-import GDX11.GDX;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.Util;
 import com.badlogic.gdx.math.MathUtils;
@@ -26,27 +26,26 @@ public class Crocodile extends BaseGame {
     protected void NewGame() {
         super.NewGame();
         Config.i.SetRun1("onTouch",a-> CheckLose(a.name));
-        VSlider teeth = new VSlider(game.FindIGroup("teeth"));
-        teeth.SetLimit(2,10);
-        VSlider pen = new VSlider(game.FindIGroup("pen"));
-        pen.onChange = vl-> penNum = vl;
-        teeth.onChange = vl->{
-            teethNum = vl;
-            pen.SetLimit(1,vl-1);
-            pen.SetValue(Math.min(penNum,vl-1));
-        };
-        teeth.SetValue(teethNum);
-        game.Click("btStart",this::StartGame);
-
         game.iGroup.RunAction("start");
+        NewOptionScreen().Show(this::StartGame);
     }
 
     @Override
     protected EndGameScreen NewEndGameScreen(){
         return new EndGameScreen("EndGame0",this::Replay);
     }
+
+    @Override
+    protected void OnNewOptionScreen(OptionScreen screen) {
+        VSlider pen = screen.NewSlider("pen",1,teethNum-1,penNum,vl->penNum=vl);
+        screen.NewSlider("teeth",2,10,teethNum,vl->{
+            teethNum = vl;
+            pen.SetLimit(1,vl-1);
+            pen.SetValue(Math.min(penNum,vl-1));
+        });
+    }
+
     private void StartGame(){
-        //game.FindActor("board").setTouchable(Touchable.enabled);
         IGroup iGroup = game.iGroup;
         iGroup.RunAction("game");
         game.Run(()->{

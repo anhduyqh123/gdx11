@@ -9,28 +9,33 @@ import java.util.Map;
 
 public class ICalculate {
     private GDX.Func1<Number,String> getVar;
-    private Map<String,String> map = new HashMap<>();
-
     public ICalculate(GDX.Func1<Number,String> getVar)
     {
         this.getVar = getVar;
     }
-    private String GetGroup(String key)
-    {
-        //remove ()
-        return map.get(key).replace("(","").replace(")","");
-    }
     public Number Get(String stValue)
     {
-        if (stValue.contains("(")) stValue = Util.FindString(stValue,"(",")",map);
-        if (stValue.charAt(0)=='[') return GetRandom(stValue);
+        stValue = ReplaceValue(stValue,"(",")",vl->{
+            vl = vl.replace("(","").replace(")","");
+            return Get(vl)+"";
+        });
+        stValue = ReplaceValue(stValue,"[","]",vl-> GetRandom(vl)+"");
+        //if (stValue.charAt(0)=='[') return GetRandom(stValue);
         if (stValue.charAt(0)=='-') stValue = "0"+stValue;
         if (stValue.contains("+")) return Get(stValue,"\\+");
         if (stValue.contains("-")) return Get(stValue,"\\-");
         if (stValue.contains("*")) return Get(stValue,"\\*");
         if (stValue.contains("/")) return Get(stValue,"\\/");
-        if (map.containsKey(stValue)) return Get(GetGroup(stValue));
+        if (stValue.contains("%")) return Get(stValue,"%");
         return getVar.Run(stValue);
+    }
+    private String ReplaceValue(String stValue, String c1, String c2, GDX.Func1<String,String> cb){
+        if (!stValue.contains(c1)) return stValue;
+        Map<String,String> map = new HashMap<>();
+        stValue = Util.FindString(stValue,c1,c2,map);
+        for (String key : map.keySet())
+            stValue = stValue.replace(key,cb.Run(map.get(key)));
+        return stValue;
     }
     private Number Get(String stValue,String sign)
     {
@@ -54,6 +59,7 @@ public class ICalculate {
         if (sign.equals("\\-")) return n1-n2;
         if (sign.equals("\\*")) return n1*n2;
         if (sign.equals("\\/")) return n1/n2;
+        if (sign.equals("%")) return n1%n2;
         return 0;
     }
     private int IntJoin(int n1,int n2,String sign)
@@ -62,6 +68,7 @@ public class ICalculate {
         if (sign.equals("\\-")) return n1-n2;
         if (sign.equals("\\*")) return n1*n2;
         if (sign.equals("\\/")) return n1/n2;
+        if (sign.equals("%")) return n1%n2;
         return 0;
     }
     //random

@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 public class IComponents extends IComponent {
 
     public IMap<IComponent> iMap = new IMap<>();
+    {
+        iMap.onAdd = i->i.SetIActor(GetIActor());
+    }
     public transient IMap<IComponent> syncMap;
 
     public IComponents()
@@ -22,15 +25,13 @@ public class IComponents extends IComponent {
     {
         syncMap.Add(cp);
     }
-    public void Add(String name,IComponent cp)
-    {
-        cp.name = name;
-        syncMap.Add(cp);
+    public void Put(IComponent cp){
+        syncMap.Put(cp);
     }
     //
     public <T extends IComponent> T GetIComponent(String name)
     {
-        return (T)syncMap.Get(name);
+        return (T)iMap.Get(name);
     }
     @Override
     public void SetIActor(IActor iActor) {

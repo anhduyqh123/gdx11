@@ -6,15 +6,13 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 public class IAudioAction extends IAction{
-    public enum Type
-    {
+    public enum Type {
         Sound,
         Music,
         Vibrate,
         GameSound   //volume is effected by actor
     }
-    public enum State
-    {
+    public enum State {
         Play,
         PlaySingle,
         Loop,
@@ -23,7 +21,6 @@ public class IAudioAction extends IAction{
     public Type type = Type.Sound;
     public State state = State.Play;
     public float volume = 1;
-    public String random = "";
     public String effName = "";
 
     public IAudioAction() {
@@ -32,8 +29,7 @@ public class IAudioAction extends IAction{
 
     @Override
     public void Run() {
-        switch (type)
-        {
+        switch (type) {
             case Sound: Sound();break;
             case Music: Music();break;
             case Vibrate: Vibrate();break;
@@ -45,50 +41,32 @@ public class IAudioAction extends IAction{
     public Action Get() {
         return Actions.run(this::Run);
     }
-    private String GetRandom()
-    {
-        if (random.equals("")) return random;
-        String[] arr = random.split(",");
-        return MathUtils.random(Integer.parseInt(arr[0]),Integer.parseInt(arr[1]))+"";
-    }
-    private String GetName()
-    {
-        return effName+GetRandom();
-    }
 
     //sound
-    private void Sound()
-    {
-        switch (state)
-        {
-            case Play: GAudio.i.PlaySound(GetName()); break;
-            case PlaySingle: GAudio.i.PlaySingleSound(GetName()); break;
+    private void Sound() {
+        switch (state) {
+            case Play: GAudio.i.PlaySound(GetRealString(effName)); break;
+            case PlaySingle: GAudio.i.PlaySingleSound(GetRealString(effName)); break;
             case Loop: break;
             case Stop: GAudio.i.StopSound(effName); break;
         }
     }
-    private void Music()
-    {
-        switch (state)
-        {
+    private void Music() {
+        switch (state) {
             case Play: GAudio.i.StartMusic(effName); break;
             case PlaySingle:
             case Loop: break;
             case Stop: GAudio.i.StopMusic(effName); break;
         }
     }
-    private void Vibrate()
-    {
-        switch (state)
-        {
+    private void Vibrate() {
+        switch (state) {
             case Play: GAudio.i.DoVibrate((int)volume); break;
             case PlaySingle:
             case Loop:
             case Stop:  break;
         }
     }
-    private void GameSound()
-    {
-
+    private void GameSound() {
     }
 }

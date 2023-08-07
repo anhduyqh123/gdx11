@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MovePath extends TemporalAction {
@@ -39,10 +40,10 @@ public class MovePath extends TemporalAction {
         this.isRotate = isRotate;
         return this;
     }
-    public static MovePath Get(boolean continuous, Vector2[] path, int align, float duration, Interpolation interpolation)
+    public static MovePath Get(boolean continuous, List<Vector2> path, int align, float duration, Interpolation interpolation)
     {
         MovePath movePath = Actions.action(MovePath.class);
-        Vector2[] way = path;
+        Vector2[] way = path.toArray(new Vector2[0]);
         if (!continuous) way = GetPath(path);
         movePath.doPath = new CatmullRomSpline<>(way,continuous);
         movePath.setDuration(duration);
@@ -50,20 +51,20 @@ public class MovePath extends TemporalAction {
         movePath.align = align;
         return movePath;
     }
-    public static MovePath Get(Vector2[] path,int align, float duration, Interpolation interpolation)
+    public static MovePath Get(List<Vector2> path,int align, float duration, Interpolation interpolation)
     {
         return Get(false,path,align,duration, interpolation);
     }
-    public static MovePath Get(Vector2[] path, int align, float duration)
+    public static MovePath Get(List<Vector2> path, int align, float duration)
     {
         return Get(path,align,duration, Interpolation.linear);
     }
-    private static Vector2[] GetPath(Vector2[] arr)
+    private static Vector2[] GetPath(List<Vector2> path)
     {
         List<Vector2> list = new ArrayList<>();
-        list.add(arr[0]);
-        for(Vector2 pos : arr) list.add(pos);
-        list.add(arr[arr.length-1]);
+        list.add(path.get(0));
+        list.addAll(path);
+        list.add(path.get(path.size()-1));
         return list.toArray(new Vector2[list.size()]);
     }
     //arc
@@ -74,8 +75,7 @@ public class MovePath extends TemporalAction {
     public static Action Arc(Vector2 start, Vector2 end, float percent, int align, float duration, Interpolation interpolation)
     {
         Vector2 mid = GetNormalPos(start,end,percent);
-        Vector2[] path = {start,mid,end};
-        return MovePath.Get(path,align,duration,interpolation);
+        return MovePath.Get(Arrays.asList(start,mid,end),align,duration,interpolation);
     }
     public static Vector2 GetNormalPos(Vector2 pos1, Vector2 pos2, float percent)
     {

@@ -1,5 +1,6 @@
 package Tool.ObjectTool.Point;
 
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IImage;
 import GDX11.IObject.IComponent.IShape.IPoints;
@@ -8,6 +9,7 @@ import GDX11.Reflect;
 import GDX11.Scene;
 import GDX11.Util;
 import Tool.ObjectToolV2.Core.Event;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -22,10 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 public class IPointsEdit extends Group {
-    private static int size = 20;
-    private Map<IPos,IPos> map = new HashMap<>();
-    private IActor iActor;
-    private IPoints iPoints;
+    protected static int size = 20;
+    protected Map<IPos,IPos> map = new HashMap<>();
+    protected IActor iActor;
+    protected IPoints iPoints;
     public Runnable onDataChange;
     public IPointsEdit(IActor iActor)
     {
@@ -78,8 +80,19 @@ public class IPointsEdit extends Group {
         });
 
         Reflect.AddEvent(iPos,"edit",vl->{//cập nhật lại vị trí iPos0 khi iPos di chuyển
+            Vector2 p0 = iPos.GetIActor().GetPosition();
             iPos0.SetPosition(iPos.GetPosition());
             iPos.Refresh();
+            Reflect.OnChange(iPos0);
+            //move all when ctrl pressed
+            if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && iImage.equals(Event.dragIActor)){
+                Vector2 d = iPos.GetIActor().GetPosition().sub(p0);
+                for (IPos ip : iPoints.list){
+                    if (ip.equals(iPos0)) continue;
+                    map.get(ip).SetPosition(ip.GetPosition().add(d));
+                    Reflect.OnChange(map.get(ip));
+                }
+            }
         });
         //Reflect.AddEvent(iPos0,"edit",vl->iPos0.Refresh());
     }
@@ -103,6 +116,7 @@ public class IPointsEdit extends Group {
     {
         List<IPos> points = iPoints.list;
         IPos newIPos = Reflect.Clone(iPos);
+        newIPos.SetIActor(iPos.GetIActor());
         NewPoint(newIPos);
         points.add(points.indexOf(iPos),newIPos);
         onDataChange.run();

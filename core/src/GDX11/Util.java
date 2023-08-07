@@ -127,7 +127,7 @@ public class Util {
         }
         return matrix;
     }
-    private static String FindString(String str,String c1,String c2)
+    public static String FindString(String str,String c1,String c2)
     {
         return GDX.Try(()->{
             int s = str.indexOf(c1);
@@ -147,6 +147,15 @@ public class Util {
             s = FindString(str,c1,c2);
         }
         return str;
+    }
+    public static void CreateValue(String name, GDX.Runnable1<String> onCreate){//name(0-9)->onCreate(name0),onCreate(name1)
+        if (name.contains("(")){
+            String st = Util.FindString(name,"(",")");
+            String name0 = name.replace(st,"");
+            String[] arr = st.replace("(","").replace(")","").split("-");
+            Util.For(Integer.parseInt(arr[0]),Integer.parseInt(arr[1]),i->onCreate.Run(name0+i));
+        }
+        else onCreate.Run(name);
     }
     //Bind
     public static void Bind(Texture texture, int unit)

@@ -17,7 +17,7 @@ public class IPutParam extends IAction{
         Global
     }
     public enum Kind{
-        Pos,Size,Bound,X,Y,Width,Height,Region,Screenshot,Buffer
+        Pos,Size,Bound,X,Y,Width,Height,Rotate,Region,Screenshot,Buffer
     }
 
     public Type type = Type.Local;
@@ -53,6 +53,9 @@ public class IPutParam extends IAction{
                 break;
             case Height:
                 map.put(param, func ?(GDX.Func<Object>) () -> GetActor().getWidth():GetActor().getHeight());
+                break;
+            case Rotate:
+                map.put(param, func ?(GDX.Func<Object>) () -> GetActor().getRotation():GetActor().getRotation());
                 break;
             case Bound:
                 fc = ()-> new GDX.Vector4(GetActor().getX(),GetActor().getY(),GetActor().getWidth(),GetActor().getHeight());

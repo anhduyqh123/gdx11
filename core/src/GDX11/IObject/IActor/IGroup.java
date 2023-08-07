@@ -3,6 +3,7 @@ package GDX11.IObject.IActor;
 import GDX11.GDX;
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.IObject.IMap;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
@@ -23,8 +24,8 @@ public class IGroup extends IActor implements IFind {
         return new Group(){
             @Override
             public void act(float delta) {
-                super.act(delta);
                 OnUpdate(delta);
+                super.act(delta);
             }
 
             @Override
@@ -96,6 +97,12 @@ public class IGroup extends IActor implements IFind {
     public void Run(String name) {
         super.Run(name);
         ForIChild(i-> i.Run(name));
+    }
+
+    @Override
+    public void SetColor(Color color) {
+        super.SetColor(color);
+        ForIChild(i-> i.SetColor(color));
     }
 
     //IGroup

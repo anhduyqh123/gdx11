@@ -35,7 +35,7 @@ public class Config implements Param {
             }
             if (i.isArray()) return;
             //map.put(i.name,Json.ToBaseType(i));
-            GetMap().put(i.name,ToBaseType(i.name,i.asString()));
+            GetMap().put(i.name,Param.ToBaseType(i.name,i.asString()));
         });
     }
 
@@ -81,22 +81,22 @@ public class Config implements Param {
         return GDX.Try(()-> Json.StringToJson(data),
                 ()->new JsonValue(JsonValue.ValueType.object));
     }
-    public static Object ToBaseType(String key,String stValue) {
-        return GDX.Try(()->{
-            if (key.startsWith("i_")) return Integer.parseInt(stValue);
-            if (key.startsWith("f_")) return Float.parseFloat(stValue);
-            if (key.startsWith("v2_") || key.startsWith("v3_")) return ParseVector(stValue);
-            if (key.startsWith("v4_")) return new GDX.Vector4(stValue);
-            if (key.startsWith("cl_")) return Color.valueOf(stValue);
-            return Json.ToBaseType(stValue);
-        },()->stValue);
-    }
-    //vector
-    private static Vector ParseVector(String value){//(1,2)
-        value = value.replace("(","").replace(")","");
-        String[] arr = value.split(",");
-        if (arr.length==2) return new Vector2(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]));
-        return new Vector3(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]),Float.parseFloat(arr[2]));
-    }
+//    public static Object ToBaseType(String key,String stValue) {
+//        return GDX.Try(()->{
+//            if (key.startsWith("i_")) return Integer.parseInt(stValue);
+//            if (key.startsWith("f_")) return Float.parseFloat(stValue);
+//            if (key.startsWith("v2_") || key.startsWith("v3_")) return ParseVector(stValue);
+//            if (key.startsWith("v4_")) return new GDX.Vector4(stValue);
+//            if (key.startsWith("cl_")) return Color.valueOf(stValue);
+//            return Json.ToBaseType(stValue);
+//        },()->stValue);
+//    }
+//    //vector
+//    public static <T extends Vector> T ParseVector(String value){//(1,2)
+//        value = value.replace("(","").replace(")","");
+//        String[] arr = value.split(",");
+//        if (arr.length==2) return (T)new Vector2(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]));
+//        return (T)new Vector3(Float.parseFloat(arr[0]),Float.parseFloat(arr[1]),Float.parseFloat(arr[2]));
+//    }
 
 }

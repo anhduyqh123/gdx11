@@ -149,8 +149,10 @@ public class UI {
     //ComboBox
     public static JComboBox NewAlignComboBox(String fieldName,Object object,JPanel panel)
     {
+        Object value = Reflect.GetValue(fieldName,object);
         String[] arr = {"","bottomLeft","bottom","bottomRight","left","center","right","topLeft","top","topRight"};
-        return NewComboBox(fieldName,arr, Reflect.GetValue(fieldName,object),panel,
+        if (!Arrays.asList(arr).contains(value)) arr[0]=value+"";
+        return NewComboBox(fieldName,arr,value,panel,
                 vl->{
                     Reflect.SetValue(fieldName,object,vl);
                     Reflect.OnChange(object);

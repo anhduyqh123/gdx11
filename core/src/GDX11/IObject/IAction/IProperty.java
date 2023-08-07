@@ -36,7 +36,7 @@ public class IProperty extends IDelay{
                 GetIActor().iSize.SetOrigin(value);
                 break;
             case Color:
-                GetActor().setColor(GetColor());
+                GetIActor().SetColor(GetColor());
                 break;
             case Alpha:
                 GetActor().getColor().a = GetFloatValue(value);

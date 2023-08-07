@@ -39,7 +39,7 @@ public class IPos extends IBase {
         if (coord.equals("")) return pos;
         Actor actor = GetIActor().GetActor();
         if (coord.equals("stage")) return actor.getParent().stageToLocalCoordinates(pos);
-        Actor other = GetIActor().IRootFind(coordActor).GetActor();
+        Actor other = GetIActor().IParentFind(coordActor).GetActor();
         return other.localToActorCoordinates(actor.getParent(),pos);
     }
     public void SetPosition(Vector2 pos)//Align always bottom Left

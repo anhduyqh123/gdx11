@@ -28,8 +28,8 @@ public class IImage extends IActor{
         return new Image(){
             @Override
             public void act(float delta) {
-                super.act(delta);
                 OnUpdate(delta);
+                super.act(delta);
             }
 
             @Override
@@ -59,7 +59,7 @@ public class IImage extends IActor{
     }
     public void RefreshContent()
     {
-        iParam.SetChangeEvent(key,()-> SetDrawable(NewDrawable()));
+        iParam.SetChangeEvent(key,this::RefreshContent);
         SetDrawable(NewDrawable());
     }
     protected Drawable NewDrawable()
@@ -70,8 +70,15 @@ public class IImage extends IActor{
     }
     public String GetTextureName()
     {
-        if (iParam.Has(key)) return iParam.Get(key);
+        if (iParam.Has(key)) return GetRealTexture(key);
         return texture;
+    }
+    protected String GetRealTexture(String key){
+        if (iParam.Has(key)){
+            //iParam.SetChangeEvent(key, this::RefreshContent);
+            return GetRealTexture(iParam.Get(key));
+        }
+        return key;
     }
     public TextureRegion GetTexture()
     {

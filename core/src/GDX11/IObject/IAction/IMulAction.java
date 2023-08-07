@@ -20,6 +20,9 @@ public class IMulAction extends IAction {
     public IMulAction(){
         super("multi");
     }
+    public IMulAction(String name){
+        super(name);
+    }
     //IAction
     @Override
     public void Run() {

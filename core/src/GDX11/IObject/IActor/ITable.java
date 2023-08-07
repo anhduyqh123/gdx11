@@ -149,6 +149,9 @@ public class ITable extends IGroup{
     }
 
     //util
+    public <T extends IActor> T Get(int index){
+        return Get(index%column,index/column);
+    }
     public <T extends IActor> T Get(int x,int y)//origin of bottomLeft
     {
         int row = GetTable().getChildren().size/column;

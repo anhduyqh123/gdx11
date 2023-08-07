@@ -92,7 +92,7 @@ public class IComponentForm {
     private IComponent NewIComponent()
     {
         IComponent icp = Reflect.NewInstance(selectedType);
-        if (icp instanceof IShape) ((IShape) icp).Init();
+        //if (icp instanceof IShape) ((IShape) icp).Init();
         return icp;
     }
     private void OnSelect(IComponent cp)

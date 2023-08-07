@@ -1,5 +1,7 @@
 package Tool.ObjectToolV2.Form;
 
+import Extend.Box2D.IBox2DProperty;
+import Extend.Box2D.IContact;
 import Extend.IExtend;
 import Extend.IPutEvent;
 import Extend.Shake.IShake;
@@ -38,9 +40,10 @@ public class IActionForm {
         gTree.onSelect = this::OnSelectIAction;
         gTree.SetTypes("GDX",Arrays.asList(IDelay.class, IMove.class, IProperty.class, IMulAction.class, XAction.class,
                 IRepeat.class, IParAction.class,IAudioAction.class, IUtil.class, IPool.class, IImageAction.class, IToParent.class,
-                ICountAction.class, IParamAction.class, ICompAction.class));
+                ICountAction.class, IParamAction.class,IPutParam.class, ICompAction.class));
         gTree.SetTypes("Spine",Arrays.asList(IAnimation.class));
         gTree.SetTypes("Extend",Arrays.asList(IExtend.class, IPutEvent.class, IShake.class));
+        gTree.SetTypes("Box2D",Arrays.asList(IBox2DProperty.class, IContact.class));
         gTree.NewMenuItem(0,"RunAction","Ctrl+R",this::RunAction);
         gTree.NewMenuItem(0,"Run","R",this::Run);
     }

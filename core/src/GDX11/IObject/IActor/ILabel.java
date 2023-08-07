@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ILabel extends IActor{
-
+    private transient final String key = "text";
     public String font = "font";
     public String text = "text";
     public String alignment = "center";
@@ -35,8 +35,8 @@ public class ILabel extends IActor{
         return new Label(text,GetStyle(font)){
             @Override
             public void act(float delta) {
-                super.act(delta);
                 OnUpdate(delta);
+                super.act(delta);
             }
 
             @Override
@@ -68,6 +68,7 @@ public class ILabel extends IActor{
 
     @Override
     public void RefreshContent() {
+        iParam.SetChangeEvent(key,this::RefreshText);
         Label lb = GetActor();
         lb.setText(GetText());
         SetFont(font);
@@ -79,6 +80,11 @@ public class ILabel extends IActor{
 
     @Override
     public void RefreshLanguage() {
+        Label lb = GetActor();
+        lb.setText(GetText());
+        if (bestFix) BestFix(GetActor());
+    }
+    private void RefreshText(){
         Label lb = GetActor();
         lb.setText(GetText());
         if (bestFix) BestFix(GetActor());
@@ -112,6 +118,7 @@ public class ILabel extends IActor{
     }
     public String GetText()
     {
+        if (iParam.Has(key)) return GetRealText(key);
         return GetRealText(text);
     }
     public void SetFont(String fontName)
@@ -134,10 +141,10 @@ public class ILabel extends IActor{
     protected String GetSingle(String text)
     {
         if (iParam.Has(text)){
-            iParam.SetChangeEvent(text,()-> GetLabel().setText(GetText()));
-            return GetFormat(text);
+            iParam.SetChangeEvent(text,this::RefreshText);
+            return GetRealText(GetFormat(text));
         }
-        if (Translate.i.HasKey(text)) return Translate.i.Get(text);
+        if (Translate.i.HasKey(text)) return GetRealText(Translate.i.Get(text));
         return text;
     }
     protected String GetMulti(String text)
@@ -177,7 +184,8 @@ public class ILabel extends IActor{
         float scale = label.getWidth()/label.getPrefWidth();
         if (label.getWrap())
         {
-            label.validate();
+            label.layout();
+            //label.validate();
             float w = label.getGlyphLayout().width,h=label.getGlyphLayout().height,w0=label.getWidth(),h0=label.getHeight();
             scale = (float) Math.sqrt((w0*h0)/(w*h));
             if (scale>1) scale = Math.min(w0/w,h0/h);

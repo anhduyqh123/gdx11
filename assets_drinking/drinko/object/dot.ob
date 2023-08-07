@@ -1,0 +1,1 @@
+{class:GDX11.IObject.IActor.IActor,iComponents:{class:GDX11.IObject.IComponent.IComponents,iMap:{list:[{class:GDX11.IObject.IComponent.IShape.ICircle,pos:{class:GDX11.IObject.IPos,x:16.0,y:26.0},name:shape,radius:11.401754},{class:Extend.Box2D.IFixture,name:fixture},{class:Extend.Box2D.IBody,name:body}]}},name:dot}

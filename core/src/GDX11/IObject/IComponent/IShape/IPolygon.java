@@ -2,8 +2,10 @@ package GDX11.IObject.IComponent.IShape;
 
 import GDX11.Util;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
 
 public class IPolygon extends IPoints {
+    public IPolygon(){close = true;}
     @Override
     public void DrawShape(ShapeRenderer renderer) {
         if (shapeType== ShapeRenderer.ShapeType.Filled) DrawFillShape(renderer);

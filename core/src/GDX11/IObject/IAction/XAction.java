@@ -14,6 +14,7 @@ public class XAction extends IAction{
     public enum Type{
         Runnable,
         DoAction,
+        AddAction,
         Bind
     }
     public Type type = Type.Runnable;
@@ -24,7 +25,9 @@ public class XAction extends IAction{
         switch (type){
             case Runnable: RunEvent();
                 break;
-            case DoAction: DoAction();
+            case AddAction:
+            case DoAction:
+                DoAction();
                 break;
             case Bind: Bind();
                 break;
@@ -34,6 +37,7 @@ public class XAction extends IAction{
 
     @Override
     public Action Get() {
+        if (type==Type.AddAction) return GetIActor().iAction.Find(xName).Get();
         return Actions.run(this::Run);
     }
 

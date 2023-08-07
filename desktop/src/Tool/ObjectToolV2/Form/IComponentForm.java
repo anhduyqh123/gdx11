@@ -7,6 +7,8 @@ import Extend.Box2D.IBody;
 import Extend.Box2D.IFixture;
 import Extend.IDropDown;
 import Extend.IMask;
+import GDX11.GDX;
+import GDX11.IObject.IComponent.IComponents;
 import GDX11.IObject.IComponent.IShape.ICircle;
 import GDX11.IObject.IComponent.IShape.IPoints;
 import GDX11.IObject.IComponent.IShape.IPolygon;
@@ -15,9 +17,9 @@ import Extend.IShapeMask;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IComponent.IComponent;
 import GDX11.IObject.IComponent.IShader;
+import Tool.ObjectToolV2.Point.ICircleEdit;
+import Tool.ObjectToolV2.Point.IPointsEdit;
 import Tool.Swing.*;
-import Tool.ObjectTool.Point.ICircleEdit;
-import Tool.ObjectTool.Point.IPointsEdit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +31,7 @@ public class IComponentForm {
     private JTree tree;
     private JPanel pnInfo;
     private JCheckBox edit;
-    private GTree2<IComponent> gTree = new GTree2<>(tree);
+    private final GTree2<IComponent> gTree = new GTree2<>(tree);
     private IActor iActor;
     private IComponent iComponent;
     private IPointsEdit pointsEdit;
@@ -45,6 +47,7 @@ public class IComponentForm {
         gTree.SetTypes("Box2D",Arrays.asList(IBody.class, IFixture.class));
         gTree.SetTypes("AI",Arrays.asList(ISteering.class, ITest.class));
 
+        gTree.refreshObject = IComponent::Refresh;
         gTree.onSelect = cp->{
             OnSelect(cp);
             CheckEdit();
@@ -54,10 +57,8 @@ public class IComponentForm {
     }
     private void CheckEdit()
     {
+        if (pointsEdit!=null) pointsEdit.remove();
         if (edit.isSelected()) NewEdit();
-        else{
-            if (pointsEdit!=null) pointsEdit.remove();
-        }
     }
 
     public void SetIActor(IActor iActor)
@@ -77,12 +78,11 @@ public class IComponentForm {
         UI.Repaint(pnInfo);
     }
     private void OnNew(IComponent cp) {
-        cp.SetIActor(iActor);
-        if (cp instanceof IShape) ((IShape) cp).Init();
-        cp.Refresh();
+        cp.OnNew();
     }
     //View
     private void NewView(IComponent cp){
+        if (cp instanceof IComponents) return;
         List<String> list = UI.GetFields(cp);
         list.removeAll(Arrays.asList("name"));
         UI.InitComponents(list,cp,pnInfo);
@@ -91,11 +91,13 @@ public class IComponentForm {
         List<String> list = UI.GetFields(iFix);
         list.removeAll(Arrays.asList("name","category","mark"));
         UI.InitComponents(list,iFix,pnInfo);
-        GBox2D box2D = iFix.GetIActor().IRootFind("box2d").GetActor();
-        String[] arr = box2D.categories.toArray(new String[0]);
-        UI.NewComboBox("category",arr,box2D.GetCategory(iFix.category),pnInfo,
-                vl-> iFix.category = box2D.GetCategory(vl));
-        InitMark(iFix,box2D,pnInfo);
+        GDX.Try(()->{
+            GBox2D box2D = iFix.GetIActor().IRootFind("box2d").GetActor();
+            String[] arr = box2D.categories.toArray(new String[0]);
+            UI.NewComboBox("category",arr,box2D.GetCategory(iFix.category),pnInfo,
+                    vl-> iFix.category = box2D.GetCategory(vl));
+            InitMark(iFix,box2D,pnInfo);
+        });
     }
     private void InitMark(IFixture iFix,GBox2D box2D,JPanel pn){
         List<String> caList = box2D.GetCategoryList(iFix.mark);
@@ -124,7 +126,6 @@ public class IComponentForm {
 
     private void NewEdit()
     {
-        if (pointsEdit!=null) pointsEdit.remove();
         if (iComponent instanceof IShape)
         {
             pointsEdit = NewPointEdit();

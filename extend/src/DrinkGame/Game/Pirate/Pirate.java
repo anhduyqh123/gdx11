@@ -20,7 +20,6 @@ public class Pirate extends BaseGame {
     private final List<IActor> touched = new ArrayList<>();
     public Pirate() {
         super("pirate");
-        InitUI();
         board = game.FindIGroup("board");
         Config.i.SetRun1("touch",a->{
             touched.add(a);

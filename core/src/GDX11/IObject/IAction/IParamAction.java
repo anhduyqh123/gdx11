@@ -1,7 +1,9 @@
 package GDX11.IObject.IAction;
 
 import GDX11.Config;
+import GDX11.GDX;
 import GDX11.IObject.IParam;
+import GDX11.Param;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
@@ -33,19 +35,19 @@ public class IParamAction extends IAction{
         {
             case None:
                 IParam iParam = GetIActor().iParam;
-                if (kind==Kind.Set) iParam.Set(param,stValue);
+                if (kind==Kind.Set) iParam.Set(param,GetRealString(stValue));
                 if (kind==Kind.Switch) iParam.Set(param,Switch());
                 if (kind==Kind.Equal) Equal(iParam.Get(param));
                 if (kind==Kind.Run) iParam.Run(param);
                 break;
             case Global:
-                if (kind==Kind.Set) Config.i.Set(param,stValue);
+                if (kind==Kind.Set) Config.i.Set(param,GetRealString(stValue));
                 if (kind==Kind.Switch) Config.i.Set(param,Switch());
                 if (kind==Kind.Equal) Equal(Config.i.Get(param));
                 if (kind==Kind.Run) Config.i.Run(param);
                 break;
             case Pref:
-                if (kind==Kind.Set) Config.SetPref(param,stValue);
+                if (kind==Kind.Set) Config.SetPref(param,GetRealString(stValue));
                 if (kind==Kind.Switch) Config.SetPref(param,Switch());
                 if (kind==Kind.Equal) Equal(Config.GetPref(param));
                 break;
@@ -69,6 +71,6 @@ public class IParamAction extends IAction{
     private void Equal(Object ob1)
     {
         String st = ob1+"";
-        GetIActor().RunAction(name+"_"+st.equals(stValue));
+        GetIActor().Run(name+"_"+st.equals(stValue));
     }
 }

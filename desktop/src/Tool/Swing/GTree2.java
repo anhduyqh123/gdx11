@@ -94,11 +94,11 @@ public class GTree2<T extends IObject> extends BaseTree<T> {
         IObject object = GetSelectedObject();
         if (object.GetIMap()==null) object = GetParentObject();
         object.GetIMap().Add(newOb);
+        onNew.Run((T)newOb);
         Refresh();
         refreshObject.Run((T)newOb);
         SetSelection((T)newOb);
         StartEditing();
-        onNew.Run((T)newOb);
     }
     private void Clone()
     {

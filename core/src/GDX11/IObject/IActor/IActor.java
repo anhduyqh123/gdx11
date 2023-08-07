@@ -25,9 +25,7 @@ public class IActor extends IObject {
     public IParam iParam = new IParam();
     public ISize iSize = new ISize();
     public IPos iPos = new IPos();
-    public IMulAction iAction = new IMulAction();{
-        iAction.name = "action";
-    }
+    public IMulAction iAction = new IMulAction("action");
     public IComponents iComponents = new IComponents();
 
     protected GDX.Func<Actor> getActor;
@@ -51,8 +49,8 @@ public class IActor extends IObject {
         return new Actor(){
             @Override
             public void act(float delta) {
-                super.act(delta);
                 OnUpdate(delta);
+                super.act(delta);
             }
 
             @Override
@@ -136,6 +134,12 @@ public class IActor extends IObject {
         IGroup iRoot = GetIRoot();
         return iRoot.FindIActor(name);
     }
+    public <T extends IActor> T IParentFind(String name) {//find from actor to root
+        if (GetIParent()==null) return null;
+        IActor iActor = GetIParent().FindIActor(name);
+        if (iActor!=null) return (T)iActor;
+        return GetIParent().IParentFind(name);
+    }
 
 
     //refresh
@@ -196,7 +200,7 @@ public class IActor extends IObject {
     }
     public Number GetGlobalNum(String name) {
         if (Config.i.Has(name)) return Config.i.Get(name);
-        return iParam.GetValueFromString(name);
+        return iParam.GetNumberByString(name);
     }
     //Action
     public void Run(String name) {
@@ -219,6 +223,10 @@ public class IActor extends IObject {
         return Color.valueOf(hexColor);
     }
 
+    //Set Data
+    public void SetColor(Color color){
+        GetActor().setColor(color);
+    }
     //extend
     public void Runnable(GDX.Runnable1<IActor> cb) {
         cb.Run(this);
@@ -229,6 +237,8 @@ public class IActor extends IObject {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (event.getPointer()!=0) return;
+                    iParam.Put("clickedX",x);
+                    iParam.Put("clickedY",y);
                     iParam.Run("clicked");
                 }
             });

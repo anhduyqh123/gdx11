@@ -1,5 +1,6 @@
 package Extend.Box2D;
 
+import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import com.badlogic.gdx.math.Vector2;
 

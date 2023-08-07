@@ -1,15 +1,21 @@
 package Tool.ObjectTool.Point;
 
+import GDX11.GDX;
 import GDX11.IObject.IComponent.IShape.ICircle;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IComponent.IShape.IPoints;
 import GDX11.IObject.IPos;
 import GDX11.Reflect;
+import GDX11.Util;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ICircleEdit extends IPointsEdit{
+    private ICircle iCircle;
     public ICircleEdit(IActor iActor) {
         super(iActor);
     }
@@ -18,10 +24,17 @@ public class ICircleEdit extends IPointsEdit{
     protected void AddKeyEvent(int keyCode) {
 
     }
+    @Override
+    protected void drawDebugChildren(ShapeRenderer shapes) {
+        if (iCircle==null) return;
+        Vector2 pos = iCircle.pos.GetPosition();
+        shapes.set(ShapeRenderer.ShapeType.Line);
+        shapes.circle(pos.x,pos.y,iCircle.radius);
+    }
     public void SetData(ICircle iCircle) {
-        IPos pos = Reflect.Clone(iCircle.pos);
+        this.iCircle = iCircle;
+        IPos pos = iCircle.pos;
         IPos dot = Reflect.Clone(pos);
-        pos.SetIActor(iCircle.GetIActor());
         dot.SetIActor(iCircle.GetIActor());
 
         dot.x = (pos.GetPosition().x+iCircle.radius)+"";
@@ -32,9 +45,8 @@ public class ICircleEdit extends IPointsEdit{
             dir.set(dot.GetPosition().sub(pos.GetPosition()));
         });
         Reflect.AddEvent(pos,"pos",vl->{
-            iCircle.pos.SetPosition(pos.GetPosition());
-            dot.SetPosition(pos.GetPosition().add(dir));
-            dot.Refresh();
+            map.get(dot).SetPosition(pos.GetPosition().add(dir));
+            Reflect.OnChange(map.get(dot));
         });
         IPoints iPoints = new IPoints();
         iPoints.list = Arrays.asList(pos,dot);

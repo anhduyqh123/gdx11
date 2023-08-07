@@ -11,6 +11,9 @@ public class IComponent extends IObject {
         super(name);
     }
 
+    public void OnNew(){
+    }
+
     public void Update(float delta)
     {
 

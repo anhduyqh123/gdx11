@@ -1,5 +1,6 @@
 package Extend.Box2D;
 
+import GDX11.GDX;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -16,21 +17,53 @@ public class GBox2D extends Actor {
     static{
         Box2D.init();
     }
-    private static final float PTM = 0.01f;
+    private static final ContactListener contactListener = new ContactListener() {
+        @Override
+        public void beginContact(Contact contact) {
+            IBody ib1 = (IBody) contact.getFixtureA().getBody().getUserData();
+            IBody ib2 = (IBody) contact.getFixtureB().getBody().getUserData();
+            ib1.OnBeginContact(ib2,contact.getFixtureB(),contact);
+            ib2.OnBeginContact(ib1,contact.getFixtureA(),contact);
+        }
 
+        @Override
+        public void endContact(Contact contact) {
+            IBody ib1 = (IBody) contact.getFixtureA().getBody().getUserData();
+            IBody ib2 = (IBody) contact.getFixtureB().getBody().getUserData();
+            ib1.OnEndContact(ib2,contact.getFixtureB(),contact);
+            ib2.OnEndContact(ib1,contact.getFixtureA(),contact);
+        }
+
+        @Override
+        public void preSolve(Contact contact, Manifold oldManifold) {
+            IBody ib1 = (IBody) contact.getFixtureA().getBody().getUserData();
+            IBody ib2 = (IBody) contact.getFixtureB().getBody().getUserData();
+            ib1.OnPreSolve(ib2,contact.getFixtureB(),contact,oldManifold);
+            ib2.OnPreSolve(ib1,contact.getFixtureA(),contact,oldManifold);
+        }
+
+        @Override
+        public void postSolve(Contact contact, ContactImpulse impulse) {
+            IBody ib1 = (IBody) contact.getFixtureA().getBody().getUserData();
+            IBody ib2 = (IBody) contact.getFixtureB().getBody().getUserData();
+            ib1.OnPostSolve(ib2,contact.getFixtureB(),contact,impulse);
+            ib2.OnPostSolve(ib1,contact.getFixtureA(),contact,impulse);
+        }
+    };
+    private static final float PTM = 0.01f;
     public World world;
     public boolean active = true;
     public final List<String> categories = new ArrayList<>();
     private final float TIME_STEP = 1/60f;
     private final int VELOCITY_ITERATIONS = 6, POSITION_ITERATIONS = 2;
-
+    private float accumulator;
     //debug
     private OrthographicCamera debugCamera;
     private Box2DDebugRenderer debugRenderer;
-    private float accumulator;
 
     public GBox2D(){
         world = new World(new Vector2(0, -10f), true);
+        world.setContactListener(contactListener);
     }
     @Override
     public void act(float delta) {
@@ -46,6 +79,13 @@ public class GBox2D extends Actor {
         debugCamera.update();
         debugRenderer.render(world, debugCamera.combined);
     }
+
+    @Override
+    public boolean remove() {
+        world.dispose();
+        return super.remove();
+    }
+
     //category
     public void SetCategory(String data){//player,object...
         String[] arr = {"player","object"};
@@ -105,7 +145,7 @@ public class GBox2D extends Actor {
         return world.createBody(bodyDef);
     }
     public void Destroy(Body body){
-        world.destroyBody(body);
+        if (world.getBodyCount()>0 && body!=null) world.destroyBody(body);
     }
 
     //Convert

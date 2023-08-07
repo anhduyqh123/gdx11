@@ -13,7 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IFixture extends IComponent {
-    public String shape = "shape";
+    public enum ShapeType{
+        None,
+        Chain
+    }
+
+    public String shape = "shape";//shape(0-9)->(0->9)
+    public ShapeType shapeType = ShapeType.None;
     public boolean isSensor;
     public float density = 1;
     public float friction = 0.2f;
@@ -35,12 +41,15 @@ public class IFixture extends IComponent {
     }
     public void Create(Body body){
         this.body = body;
-        CreateShape(GetIComponent(shape));
+        Util.CreateValue(shape,vl->CreateShape(GetIComponent(vl)));
     }
 
     private void CreateShape(IShape iShape){
         if (iShape instanceof ICircle) CreateCircleShape((ICircle) iShape);
-        else CreatePolygonShape((IPoints) iShape);
+        else{
+            if (shapeType==ShapeType.Chain) CreateChainShape((IPoints) iShape);
+            else CreatePolygonShape((IPoints) iShape);
+        }
     }
     private void CreateCircleShape(ICircle iCircle){
         CircleShape shape = new CircleShape();
@@ -48,11 +57,16 @@ public class IFixture extends IComponent {
         shape.setRadius(GBox2D.GameToPhysics(iCircle.radius));
         CreateFixture(shape);
     }
+    private void CreateChainShape(IPoints iPoints){
+        ChainShape shape = new ChainShape();
+        Vector2[] arr = GetPhysicPoints(iPoints).toArray(new Vector2[0]);
+        if (iPoints.close) shape.createLoop(arr);
+        else shape.createChain(arr);
+        CreateFixture(shape);
+    }
     private void CreatePolygonShape(IPoints iPoints){
         PolygonShape shape = new PolygonShape();
-        List<Vector2> points = new ArrayList<>();
-        Util.For(iPoints.list,iPos-> points.add(GetPhysicPoint(iPos)));
-
+        List<Vector2> points = GetPhysicPoints(iPoints);
         if (IsConvexPolygon(points)){
             shape.set(points.toArray(new Vector2[0]));
             CreateFixture(shape);
@@ -63,6 +77,11 @@ public class IFixture extends IComponent {
                 CreateFixture(shape);
             });
         }
+    }
+    private List<Vector2> GetPhysicPoints(IPoints iPoints){
+        List<Vector2> points = new ArrayList<>();
+        Util.For(iPoints.list,iPos-> points.add(GetPhysicPoint(iPos)));
+        return points;
     }
     private Vector2 GetPhysicPoint(IPos iPos){
         Vector2 origin = GetIActor().GetOrigin();

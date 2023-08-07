@@ -30,7 +30,7 @@ public class IParam extends IBase implements Param {
         if (getParam==null) {
             Map<String,Object> map = new HashMap<>();
             for (String key : dataMap.keySet())
-                map.put(key, Config.ToBaseType(key,dataMap.get(key)));
+                map.put(key, Param.ToBaseType(key,dataMap.get(key)));
             getParam = ()->map;
         }
         return getParam.Run();
@@ -45,7 +45,7 @@ public class IParam extends IBase implements Param {
         return getEventMap.Run();
     }
     //variable
-    public Number GetValueFromString(String stValue)
+    public Number GetNumberByString(String stValue)
     {
         return new ICalculate(this::GetVariable).Get(stValue);
     }
@@ -54,7 +54,7 @@ public class IParam extends IBase implements Param {
         if (stValue.equals("scale")) return Scene.i.scale;
         if (stValue.equals("sw")) return (float) Scene.i.width;
         if (stValue.equals("sh")) return (float) Scene.i.height;
-        if (stValue.contains("_")) return GetExtendVariable(stValue);
+//        if (stValue.contains("_")) return GetExtendVariable(stValue);
         return GetActorVariable(stValue,GetActor());
     }
     private Number GetActorVariable(String stValue,Actor actor)
@@ -78,12 +78,12 @@ public class IParam extends IBase implements Param {
         if (stValue.equals("yt")) return actor.getY(Align.top);
         return Json.ToBaseType(stValue);
     }
-    private Number GetExtendVariable(String stValue)
-    {
-        String[] arr = stValue.split("_");
-        if (Asset.i.GetNode(arr[0])!=null) return GetTextureParam(arr[0],arr[1]);
-        return GetActorVariable(arr[1],GetIActor().IRootFind(arr[0]).GetActor());
-    }
+//    private Number GetExtendVariable(String stValue)
+//    {
+//        String[] arr = stValue.split("_");
+//        if (Asset.i.GetNode(arr[0])!=null) return GetTextureParam(arr[0],arr[1]);
+//        return GetActorVariable(arr[1],GetIActor().IRootFind(arr[0]).GetActor());
+//    }
     private Number GetTextureParam(String name,String key)
     {
         if (key.equals("w")) return Asset.i.GetTexture(name).getRegionWidth();
