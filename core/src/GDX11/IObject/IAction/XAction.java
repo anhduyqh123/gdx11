@@ -37,16 +37,17 @@ public class XAction extends IAction{
 
     @Override
     public Action Get() {
-        if (type==Type.AddAction) return GetIActor().iAction.Find(xName).Get();
+        if (type==Type.AddAction) return GetIActor().iAction.Find(GetRealString(xName)).Get();
         return Actions.run(this::Run);
     }
 
     private void DoAction(){
         if (xName.contains(":")){
             String[] arr = xName.split(":");
-            GetIActor().IRootFind(arr[0]).RunAction(arr[1]);
+            if (arr[0].equals("parent")) GetIActor().GetIParent().RunAction(arr[1]);
+            else GetIActor().IRootFind(arr[0]).RunAction(arr[1]);
         }
-        else GetIActor().RunAction(xName);
+        else GetIActor().RunAction(GetRealString(xName));
     }
     private void RunEvent()
     {

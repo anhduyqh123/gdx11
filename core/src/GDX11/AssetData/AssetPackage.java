@@ -1,6 +1,7 @@
 package GDX11.AssetData;
 
 import GDX11.GDX;
+import GDX11.IObject.IObject;
 import GDX11.Util;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class AssetPackage {
     private Map<String, AssetNode> map = new HashMap<>();
     public List<AssetNode> assetNodes = new ArrayList<>(); //main files not included atlas
     public List<AssetNode> loadableNode = new ArrayList<>(); //files to loaded
-
+    public final Map<String, IObject> iObjectMap = new HashMap<>();
     public AssetPackage(){}
     public AssetPackage(String name){
         this.name = name;

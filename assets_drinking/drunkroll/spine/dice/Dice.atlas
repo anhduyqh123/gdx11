@@ -1,0 +1,146 @@
+
+Dice.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dice_1
+  rotate: true
+  xy: 0, 146
+  size: 82, 65
+  orig: 82, 65
+  offset: 0, 0
+  index: -1
+dice_2
+  rotate: true
+  xy: 65, 146
+  size: 82, 65
+  orig: 82, 65
+  offset: 0, 0
+  index: -1
+dice_3
+  rotate: true
+  xy: 82, 0
+  size: 82, 65
+  orig: 82, 65
+  offset: 0, 0
+  index: -1
+dice_4
+  rotate: true
+  xy: 130, 146
+  size: 82, 65
+  orig: 82, 65
+  offset: 0, 0
+  index: -1
+dice_5
+  rotate: true
+  xy: 147, 0
+  size: 82, 65
+  orig: 82, 65
+  offset: 0, 0
+  index: -1
+dice_6
+  rotate: true
+  xy: 212, 0
+  size: 82, 65
+  orig: 82, 65
+  offset: 0, 0
+  index: -1
+dice_box
+  rotate: true
+  xy: 368, 333
+  size: 115, 130
+  orig: 115, 130
+  offset: 0, 0
+  index: -1
+dice_face _1
+  rotate: true
+  xy: 277, 163
+  size: 73, 81
+  orig: 73, 81
+  offset: 0, 0
+  index: -1
+dice_face _2
+  rotate: false
+  xy: 195, 82
+  size: 73, 81
+  orig: 73, 81
+  offset: 0, 0
+  index: -1
+dice_face _3
+  rotate: true
+  xy: 195, 163
+  size: 73, 81
+  orig: 73, 81
+  offset: 0, 0
+  index: -1
+dice_face _4
+  rotate: false
+  xy: 268, 82
+  size: 73, 81
+  orig: 73, 81
+  offset: 0, 0
+  index: -1
+dice_face _5
+  rotate: false
+  xy: 277, 1
+  size: 73, 81
+  orig: 73, 81
+  offset: 0, 0
+  index: -1
+dice_face _6
+  rotate: false
+  xy: 350, 1
+  size: 73, 81
+  orig: 73, 81
+  offset: 0, 0
+  index: -1
+dice_shadow
+  rotate: false
+  xy: 368, 241
+  size: 123, 92
+  orig: 124, 93
+  offset: 0, 1
+  index: -1
+fx1
+  rotate: false
+  xy: 0, 330
+  size: 186, 118
+  orig: 190, 123
+  offset: 3, 4
+  index: -1
+fx2
+  rotate: false
+  xy: 186, 339
+  size: 182, 109
+  orig: 188, 116
+  offset: 2, 5
+  index: -1
+fx3
+  rotate: false
+  xy: 186, 236
+  size: 182, 103
+  orig: 188, 109
+  offset: 2, 5
+  index: -1
+fx4
+  rotate: true
+  xy: 368, 82
+  size: 159, 104
+  orig: 164, 107
+  offset: 1, 2
+  index: -1
+fx5
+  rotate: false
+  xy: 0, 228
+  size: 182, 102
+  orig: 191, 112
+  offset: 5, 3
+  index: -1
+light
+  rotate: false
+  xy: 0, 0
+  size: 82, 82
+  orig: 95, 95
+  offset: 6, 7
+  index: -1

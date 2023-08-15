@@ -119,15 +119,16 @@ public class IMap<T extends IObject> implements Json.JsonObject {
 
     //For Json
     @Override
-    public JsonValue ToJson(Object object0)
+    public JsonValue ToJson(Object object0)//Không thêm object, chỉ thay đổi prefab, chỉ được chỉnh sửa
     {
         JsonValue js = new JsonValue(JsonValue.ValueType.object);
         JsonValue jsArray = new JsonValue(JsonValue.ValueType.array);
         js.addChild("list",jsArray);
         IMap<T> iMap0 = (IMap<T>)object0;
         For(ob-> {
-            JsonValue x = Json.ToJson(ob,iMap0.Get(ob.name));
-            //JsonValue x = Json.ObjectToJson(ob,iMap0.Get(ob.name));
+            Object ob0 = iMap0.Get(ob.name);
+            if (ob.equals(ob0)) return;
+            JsonValue x = Json.ToJson(ob,ob0);
             if (!x.has("name")) x.addChild("name",new JsonValue(ob.name));
             jsArray.addChild(x);
         });

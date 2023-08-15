@@ -71,6 +71,7 @@ public class Asset extends Actor {
     }
     public void Load(AssetNode as) {
         if (manager.isLoaded(as.url)) return;
+        AssetPackage pack = GetAssetPackage(as.pack);
         switch (as.kind) {
             case TextureAtlas:
                 manager.load(as.url, TextureAtlas.class);
@@ -98,20 +99,18 @@ public class Asset extends Actor {
                 break;
             case Particle:
                 ParticleEffectLoader.ParticleEffectParameter pepParticle=  new ParticleEffectLoader.ParticleEffectParameter();
-                AssetPackage pack = GetAssetPackage(as.pack);
                 if (pack.Contain("particle"))
                     pepParticle.atlasFile = pack.Get("particle").url;
                 manager.load(as.url, ParticleEffect.class,pepParticle);
                 break;
             case Object:
-                LoadObject(as.name);
+                if (!pack.iObjectMap.containsKey(as.name))
+                    pack.iObjectMap.put(as.name,Json.ToObject(GetString(as.name)));
+                obMap.put(as.name,pack.iObjectMap.get(as.name));
                 break;
             default:
                 DefaultLoad(as);
         }
-    }
-    protected void LoadObject(String name){
-        obMap.put(name,Json.ToObject(GetString(name)));
     }
     protected void DefaultLoad(AssetNode node) {
     }
@@ -128,6 +127,11 @@ public class Asset extends Actor {
     }
 
     private void ForceLoadPackage(String pack) {
+        String extendPack = Config.i.Get(pack);//declare in config.json
+        if (extendPack!=null){
+            for (String xPack : extendPack.split(","))
+                ForceLoadPackage(xPack);
+        }
         packLoaded.add(pack);
         PushMapAssetNode(pack);
         Util.For(GetAssetPackage(pack).loadableNode,this::Load);
@@ -136,6 +140,9 @@ public class Asset extends Actor {
         if (!data.Contains(pack)) return;
         if (packLoaded.contains(pack)) return;
         ForceLoadPackage(pack);
+    }
+    public void ForceLoadPackages(String... packs){
+        ForceLoadPackages(null,packs);
     }
     public void ForceLoadPackages(Runnable done, String... packs){
         for(String pack : packs) ForceLoadPackage(pack);
@@ -199,7 +206,8 @@ public class Asset extends Actor {
         return Get(name, ParticleEffect.class);
     }
     public <T extends IObject> T GetObject(String name){
-        if (!obMap.containsKey(name)) LoadObject(name);;
+        AssetNode node = GetNode(name);
+        if (GetAssetPackage(node.pack).Contain(name)) Load(node);
         return (T)obMap.get(name);
     }
     public <T> T Get(String name,Class<T> type){

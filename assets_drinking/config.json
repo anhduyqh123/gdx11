@@ -7,5 +7,8 @@ game_width: 1080
 game_height: 1920
 sound: true
 music: true
-category: "player,object"
+extend_pack:{
+		drinkcup: "drinkopoly"
+		passout: "drinkopoly"
+	}
 }

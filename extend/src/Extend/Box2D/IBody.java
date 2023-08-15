@@ -14,7 +14,7 @@ public class IBody extends IComponent {
     public String category = "object";
     public String fixture = "fixture";//fixture(0-9)
     public float linearDamping,angularDamping,gravityScale=1;
-    public boolean fixedRotation,bullet,allowSleep=true,active=true;
+    public boolean fixedRotation,bullet,allowSleep=true, bodyActive =true;
     public transient Body body;
     private final transient List<IBodyListener> listeners = new ArrayList<>();
 
@@ -47,17 +47,23 @@ public class IBody extends IComponent {
         body.setTransform(GBox2D.GameToPhysics(pos),(float) Math.toRadians(rotate));
     }
     private void UpdatePhysic(){
+        GetIActor().SetPosition(GetBodyPos());
+        GetIActor().SetStageRotation(GetBodyRotate());
+    }
+    public Vector2 GetBodyPos(){
         Vector2 pos = GBox2D.PhysicsToGame(body.getPosition());//stage origin position
         Vector2 pos0 = GetActor().localToStageCoordinates(GetIActor().GetOrigin());
-        Vector2 dir = pos.sub(pos0);Vector2 nPos = GetIActor().GetPosition().add(dir);
-        GetIActor().SetPosition(nPos);
-        GetIActor().SetStageRotation((float) Math.toDegrees(body.getAngle()));
+        Vector2 dir = pos.sub(pos0);
+        return GetIActor().GetPosition().add(dir);
     }
-    private boolean IsPhysicUpdate(){
-        return GetGBox2D().isVisible()
+    public float GetBodyRotate(){//stage rotate
+        return (float) Math.toDegrees(body.getAngle());
+    }
+    public boolean IsPhysicUpdate(){
+        return GetGBox2D().active
                 && body.isActive() && body.getType()!=BodyDef.BodyType.StaticBody;
     }
-    private GBox2D GetGBox2D(){
+    public GBox2D GetGBox2D(){
         return GDX.Try(()->GetIActor().GetIRoot().IRootFind("box2d").GetActor(), GBox2D::new);
     }
 
@@ -70,7 +76,7 @@ public class IBody extends IComponent {
         bodyDef.bullet = bullet;
         bodyDef.allowSleep = allowSleep;
         bodyDef.gravityScale = gravityScale;
-        bodyDef.active = active;
+        bodyDef.active = bodyActive;
         return bodyDef;
     }
     private Body NewBody(){

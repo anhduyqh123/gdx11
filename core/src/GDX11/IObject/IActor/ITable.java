@@ -48,6 +48,11 @@ public class ITable extends IGroup{
         RunEventAction(name);
         ForActor(i->GetIActor(i).RunAction(name));
     }
+    @Override
+    public void Run(String name) {
+        RunEvent(name);
+        ForActor(i->GetIActor(i).Run(name));
+    }
 
     //ITable
     public Table GetTable()
@@ -149,6 +154,9 @@ public class ITable extends IGroup{
     }
 
     //util
+    public <T extends IActor> T GetIChild(int index){
+        return IActor.GetIActor(GetTable().getChild(index));
+    }
     public <T extends IActor> T Get(int index){
         return Get(index%column,index/column);
     }

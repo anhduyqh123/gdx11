@@ -28,7 +28,7 @@ public class JActor {
         fields = UI.GetFields(iActor);
         ExcludeFields();
         UI.InitComponents(fields,iActor,panel);
-        UI.NewCheckBox("debug",iActor.GetActor().getDebug(),panel,vl->iActor.GetActor().setDebug(vl));
+        //UI.NewCheckBox("debug",iActor.GetActor().getDebug(),panel,vl->iActor.GetActor().setDebug(vl));
     }
     protected void ExcludeFields()
     {

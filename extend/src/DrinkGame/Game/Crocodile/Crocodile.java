@@ -1,12 +1,10 @@
 package DrinkGame.Game.Crocodile;
 
-import DrinkGame.Base.BaseGame;
-import DrinkGame.Base.EndGameScreen;
-import DrinkGame.Base.OptionScreen;
-import DrinkGame.Base.VSlider;
+import DrinkGame.Base.*;
 import GDX11.Config;
 import GDX11.GAudio;
 import GDX11.IObject.IActor.IGroup;
+import GDX11.Screen;
 import GDX11.Util;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -28,6 +26,10 @@ public class Crocodile extends BaseGame {
         Config.i.SetRun1("onTouch",a-> CheckLose(a.name));
         game.iGroup.RunAction("start");
         NewOptionScreen().Show(this::StartGame);
+    }
+    @Override
+    protected Screen NewTutScreen() {
+        return new TutScreen(3);
     }
 
     @Override

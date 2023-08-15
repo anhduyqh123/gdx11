@@ -32,11 +32,6 @@ public class SnakeLadder extends BaseGame {
     }
 
     @Override
-    protected Screen NewTutScreen() {
-        return new TutScreen(2);
-    }
-
-    @Override
     protected EndGameScreen NewEndGameScreen() {
         EndGameScreen screen = super.NewEndGameScreen();
         screen.SetTop(topList);

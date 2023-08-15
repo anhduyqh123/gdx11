@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 public class IBox2D extends IActor {
     public Vector2 gravity = new Vector2(0,-10);
     public String category = "player,object";
+    public boolean active = true;
     @Override
     public void Connect() {
         super.Connect();
@@ -16,6 +17,7 @@ public class IBox2D extends IActor {
     @Override
     public void RefreshContent() {
         GBox2D box2D = GetActor();
+        box2D.active = active;
         box2D.world.setGravity(gravity);
         box2D.SetCategory(category);
     }

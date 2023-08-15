@@ -1,5 +1,7 @@
 package DrinkGame.Base;
 
+import DrinkGame.Game.Drinkopoly.Drinkopoly;
+import GDX11.Asset;
 import GDX11.Config;
 import GDX11.Screen;
 import SDK.SDK;
@@ -7,12 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 
 public class BaseGame {
     protected String name;
-    protected GameScreen game = new GameScreen();
+    protected GameScreen game;
     protected int win,total;
     protected boolean bot;
     protected int win1,win2;
     public BaseGame(String name){
         this.name = name;
+        Asset.i.ForceLoadPackages(name);
+
+        game = new GameScreen();
         SDK.i.TrackCustomEvent("game_"+name);
         win = Config.GetPref(name+"win",0);
         total = Config.GetPref(name+"total",0);

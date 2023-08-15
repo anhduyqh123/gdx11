@@ -26,6 +26,7 @@ public class IObjectForm {
         @Override
         protected void OnKeyTyped(KeyEvent e) {
             super.OnKeyTyped(e);
+            if (e.getKeyChar()=='d') Debug();
             if (e.getKeyChar()=='') RefreshIActor();
             if (e.getKeyChar()=='' && IsMainChanged()) Save();
         }
@@ -49,6 +50,7 @@ public class IObjectForm {
         gTree.NewMenuItemBySelect(2,"Prefab","",gTree::Prefab);
         gTree.NewMenuItem("Save","Ctrl+S",this::Save);
         gTree.NewMenuItem("PastePos","",this::PastePos);
+        gTree.NewMenuItem("Debug(D)","",this::Debug);
         Config.i.SetRun("reloadPack",()-> SetData(pack));
     }
     private List<Class> GetTypes() {
@@ -61,13 +63,15 @@ public class IObjectForm {
         iActor.Refresh();
     }
     public void SetData(PackObject pack) {
-        Asset.i.ForceLoadPackages(null,pack.name);
+        Asset.i.ForceLoadPackages(pack.name);
         if (mainIActor!=null) mainIActor.GetActor().remove();
         mainIActor = null;
         this.pack = pack;
         pack.Renew();
         gTree.SetRoot(pack);
         gTree.SetSelection(pack);
+
+        Config.i.Run("asset"+pack.name);
     }
 
     private void OnSelectIActor(IActor iActor) {
@@ -101,5 +105,9 @@ public class IObjectForm {
         iActor.iPos = Reflect.Clone(gTree.GetClipSelected().iPos);
         RefreshIActor();
         OnSelectIActor(iActor);
+    }
+    private void Debug(){
+        if (iActor==null) return;
+        iActor.GetActor().setDebug(!iActor.GetActor().getDebug());
     }
 }

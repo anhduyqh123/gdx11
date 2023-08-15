@@ -245,7 +245,7 @@ public class IActor extends IObject {
         }
         iParam.SetRun("clicked",onClick);
     }
-    //Origon
+    //Origin
     public Vector2 GetOrigin(){
         return new Vector2(GetActor().getOriginX(),GetActor().getOriginY());
     }

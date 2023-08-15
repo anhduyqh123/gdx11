@@ -1,6 +1,5 @@
 package Extend.Box2D;
 
-import GDX11.GDX;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -141,6 +140,13 @@ public class GBox2D extends Actor {
         }
     }
     //
+    public Joint CreateJoint(JointDef jointDef){
+        return world.createJoint(jointDef);
+    }
+    public void Destroy(Joint joint)
+    {
+        world.destroyJoint(joint);
+    }
     public Body NewBody(BodyDef bodyDef){
         return world.createBody(bodyDef);
     }

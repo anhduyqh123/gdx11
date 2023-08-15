@@ -6,6 +6,8 @@ import GDX11.Util;
 import com.badlogic.gdx.utils.reflect.Field;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -112,7 +114,10 @@ public class UI {
     public static void InitComponents(List<String> fieldNames, Object object, JPanel panel)
     {
         for(String name : fieldNames)
-            NewComponent(Reflect.GetDataFieldMap(object.getClass()).get(name),object,panel);
+            InitComponent(name,object,panel);
+    }
+    public static void InitComponent(String filedName,Object object, JPanel panel){
+        NewComponent(Reflect.GetDataFieldMap(object.getClass()).get(filedName),object,panel);
     }
     //Panel
     public static void Repaint(JPanel panel)
@@ -342,6 +347,7 @@ public class UI {
     {
         JColorChooser chooser = new JColorChooser();
         chooser.setColor(color);
+        chooser.getSelectionModel().addChangeListener(changeEvent -> onClose.Run(chooser.getColor()));
         return NewJFrame("Color",chooser,()->onClose.Run(chooser.getColor()));
     }
     public static void NewColorPicker(JPanel panel,String hexColor ,GDX.Runnable1<String> onChance)

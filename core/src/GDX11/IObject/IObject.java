@@ -23,12 +23,18 @@ public abstract class IObject extends IBase implements Json.JsonObject {
     }
 
     //For Json
+    private Object GetPrefabObject(Object object0){
+        String prefab = Reflect.GetValue("prefab",this);
+        if (prefab==null||prefab.equals("")) return object0;
+        if (object0==null) return Get(prefab);
+        String prefab0 = Reflect.GetValue("prefab",object0);
+        if (prefab0.equals(prefab)) return object0;
+        return Get(prefab);
+    }
     @Override
     public JsonValue ToJson(Object object0)
     {
-        String prefab = Reflect.GetValue("prefab",this);
-        object0 = prefab==null||prefab.equals("")?object0:Get(prefab);
-        return Json.ObjectToJson(this,object0);
+        return Json.ObjectToJson(this,GetPrefabObject(object0));
     }
     @Override
     public Object ToObject(JsonValue js)

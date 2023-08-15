@@ -14,22 +14,16 @@ public class IComponent extends IObject {
     public void OnNew(){
     }
 
-    public void Update(float delta)
-    {
-
+    public void Update(float delta) {
     }
     public void Draw(Batch batch, float parentAlpha, Runnable superDraw)
     {
         superDraw.run();
     }
 
-    public void Refresh()
-    {
-
+    public void Refresh() {
     }
-    public void Remove()
-    {
-
+    public void Remove() {
     }
 
     public <T extends IComponent> T GetIComponent(String name){

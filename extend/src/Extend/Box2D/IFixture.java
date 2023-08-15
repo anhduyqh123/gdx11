@@ -67,7 +67,8 @@ public class IFixture extends IComponent {
     private void CreatePolygonShape(IPoints iPoints){
         PolygonShape shape = new PolygonShape();
         List<Vector2> points = GetPhysicPoints(iPoints);
-        if (IsConvexPolygon(points)){
+
+        if (isConvex(points)){
             shape.set(points.toArray(new Vector2[0]));
             CreateFixture(shape);
         }
@@ -88,21 +89,18 @@ public class IFixture extends IComponent {
         Vector2 pos = iPos.GetPosition().sub(origin).scl(GetActor().getScaleX(),GetActor().getScaleY());
         return GBox2D.GameToPhysics(pos);
     }
-    private boolean IsConvexPolygon(List<Vector2> points) {
-        if (points.size()<3||points.size()>8) return false;
-        for(int i=0;i< points.size();i++)
-            if (GetAngle(points,i)>=180) return false;
+    private boolean isConvex(List<Vector2> vertices) {
+        int n = vertices.size();
+        if (n > 8) return false;
+        if (n < 4) return true;
+        boolean sign = false;
+        for(int i = 0; i < n; i++) {
+            Vector2 d1 = new Vector2(vertices.get((i + 2) % n)).sub(vertices.get((i + 1) % n));
+            Vector2 d2 = new Vector2(vertices.get(i)).sub(vertices.get((i + 1) % n));
+            float zcrossproduct = d1.x * d2.y - d1.y * d2.x;
+            if (i == 0) sign = zcrossproduct > 0;
+            else if (sign != (zcrossproduct > 0)) return false;
+        }
         return true;
-    }
-    private float GetAngle(List<Vector2> points, int index) {
-        Vector2 p1 = GetValue(points, index-1);
-        Vector2 p2 = GetValue(points, index);
-        Vector2 p3 = GetValue(points, index+1);
-        return Util.GetAngle(p1,p2,p3);
-    }
-    private Vector2 GetValue(List<Vector2> points,int index) {
-        if (index<0) index = points.size()-1;
-        if (index>= points.size()) index = 0;
-        return points.get(index);
     }
 }

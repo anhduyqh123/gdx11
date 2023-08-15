@@ -1,15 +1,11 @@
 package com.game;
 
-import DrinkGame.Game.BottleSpin.BottleSpin;
-import DrinkGame.Game.Crocodile.Crocodile;
-import DrinkGame.Game.Drinko.Drinko;
-import DrinkGame.Game.Pirate.Pirate;
-import DrinkGame.Game.SnakeLadder.SnakeLadder;
-import DrinkGame.Game.Tiktaktoe.Tiktaktoe;
+import DrinkGame.Game.PassOut.PassOut;
+import Extend.Spine.SpineAsset;
 import GDX11.Asset;
 import GDX11.GDXGame;
-import SDK.SDK;
-import Wolvesville.Wolves;
+import GDX11.Scene;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,11 +14,21 @@ public class MyGame extends GDXGame {
 
     @Override
     protected void FirstLoad() {
-        Asset.i.LoadPackages(()->new BottleSpin(),"bottlespin");
+        new PassOut();
     }
 
     @Override
     protected Collection<String> GetFirstPacks() {
         return Arrays.asList("first","default");
+    }
+
+    @Override
+    protected Asset NewAssets() {
+        return new SpineAsset();
+    }
+
+    @Override
+    protected Scene NewScene() {
+        return NewScene(new PolygonSpriteBatch());
     }
 }

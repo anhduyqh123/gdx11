@@ -26,6 +26,9 @@ public class MainForm {
         IComponentForm iComponentForm = new IComponentForm();
         IParamForm iParamForm = new IParamForm();
 
+        AssetForm assetForm = new AssetForm();
+        pnBot.setRightComponent(assetForm.panel1);
+
         HeaderForm headerForm = new HeaderForm(iObjectForm::SetData);
         pnHeader.add(headerForm.panel1);
 
@@ -42,8 +45,5 @@ public class MainForm {
             iComponentForm.SetIActor(iActor);
             iParamForm.SetIActor(iActor);
         };
-
-        AssetForm assetForm = new AssetForm();
-        pnBot.setRightComponent(assetForm.panel1);
     }
 }

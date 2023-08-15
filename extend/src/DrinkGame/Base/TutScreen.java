@@ -6,7 +6,7 @@ import GDX11.Screen;
 public class TutScreen extends Screen {
     protected int index=1,max;
     public TutScreen() {
-        this(3);
+        this(2);
     }
     public TutScreen(int max) {
         super("Tut");

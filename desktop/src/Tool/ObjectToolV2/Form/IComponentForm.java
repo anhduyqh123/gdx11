@@ -5,6 +5,7 @@ import Extend.AI.ITest;
 import Extend.Box2D.GBox2D;
 import Extend.Box2D.IBody;
 import Extend.Box2D.IFixture;
+import Extend.Box2D.IPlatform;
 import Extend.IDropDown;
 import Extend.IMask;
 import GDX11.GDX;
@@ -44,7 +45,7 @@ public class IComponentForm {
         gTree.SetTypes("GDX",Arrays.asList(IComponent.class, IShader.class));
         gTree.SetTypes("Shape",Arrays.asList(ICircle.class, IPoints.class, IPolygon.class));
         gTree.SetTypes("Extend",Arrays.asList(IMask.class, IShapeMask.class, IDropDown.class));
-        gTree.SetTypes("Box2D",Arrays.asList(IBody.class, IFixture.class));
+        gTree.SetTypes("Box2D",Arrays.asList(IBody.class, IFixture.class, IPlatform.class));
         gTree.SetTypes("AI",Arrays.asList(ISteering.class, ITest.class));
 
         gTree.refreshObject = IComponent::Refresh;
@@ -84,8 +85,9 @@ public class IComponentForm {
     private void NewView(IComponent cp){
         if (cp instanceof IComponents) return;
         List<String> list = UI.GetFields(cp);
-        list.removeAll(Arrays.asList("name"));
+        list.removeAll(Arrays.asList("name","active"));
         UI.InitComponents(list,cp,pnInfo);
+        UI.InitComponent("active",cp,pnInfo);
     }
     private void NewFixtureView(IFixture iFix){
         List<String> list = UI.GetFields(iFix);

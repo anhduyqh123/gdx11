@@ -1,5 +1,6 @@
 package Tool.ObjectToolV2.Form;
 
+import Tool.ObjectToolV2.Core.Box2DMouse;
 import GDX11.GDX;
 import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.ISize;
@@ -39,6 +40,7 @@ public class IActorForm {
         InitISize();
         InitPosition();
         SetEvent();
+        new Box2DMouse(iActor);
     }
     private void InitISize()
     {

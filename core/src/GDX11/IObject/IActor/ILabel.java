@@ -157,7 +157,7 @@ public class ILabel extends IActor{
             String single = GetSingle(value);
             text = text.replace(key,single);
         }
-        return text;
+        return GetRealText(text);
     }
     protected String GetRealText(String text)
     {

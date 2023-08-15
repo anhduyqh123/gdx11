@@ -52,8 +52,4 @@ public class Pirate extends BaseGame {
             touched.clear();
         });
     }
-    protected Screen NewTutScreen()
-    {
-        return new TutScreen(2);
-    }
 }

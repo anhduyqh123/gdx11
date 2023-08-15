@@ -41,10 +41,11 @@ public class IPointsEdit extends Group {
     }
     protected void AddKeyEvent(int keyCode)
     {
-        if (Event.dragIActor ==null) return;
-        if (keyCode== Input.Keys.NUM_1) AddLeft(Event.dragIActor.iPos);
-        if (keyCode== Input.Keys.NUM_2) AddRight(Event.dragIActor.iPos);
-        if (keyCode== Input.Keys.SPACE) AddAt(Event.dragIActor.iPos);
+        if (Event.dragInput==null) return;
+        IActor dragIActor = Event.dragInput.iActor;
+        if (keyCode== Input.Keys.NUM_1) AddLeft(dragIActor.iPos);
+        if (keyCode== Input.Keys.NUM_2) AddRight(dragIActor.iPos);
+        if (keyCode== Input.Keys.SPACE) AddAt(dragIActor.iPos);
     }
     public void SetData(IPoints iPoints)
     {
@@ -66,7 +67,7 @@ public class IPointsEdit extends Group {
         iImage.GetActor().addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Event.dragIActor = iImage;
+                Event.dragInput = new Event.DragActorListener(iImage);
                 return true;
             }
 
@@ -84,7 +85,8 @@ public class IPointsEdit extends Group {
             iPos.Refresh();
             Reflect.OnChange(iPos0);
             //move all when ctrl pressed
-            if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && iImage.equals(Event.dragIActor)){
+            IActor dragIActor = Event.dragInput.iActor;
+            if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && iImage.equals(dragIActor)){
                 Vector2 d = iPos.GetIActor().GetPosition().sub(p0);
                 for (IPos ip : iPoints.list){
                     if (ip.equals(iPos0)) continue;

@@ -44,6 +44,8 @@ public class AssetForm {
         kinds.add("all");
         kinds.addAll(Arrays.asList(AssetNode.Kind.values()));
         UI.ComboBox(cbKind,kinds.toArray(),AssetNode.Kind.Texture,vl-> gTree.SetRoot(GetData()));
+
+        for (String pack : packs) Config.i.SetRun("asset"+pack,()->cbPack.setSelectedItem(pack));
     }
     private IObject GetData()
     {

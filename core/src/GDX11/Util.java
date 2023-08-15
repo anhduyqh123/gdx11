@@ -33,7 +33,8 @@ public class Util {
     {
         Vector2 dir1 = new Vector2(p2).sub(p1);
         Vector2 dir2 = new Vector2(p2).sub(p3);
-        return dir1.angleDeg(dir2);
+        float angle = dir1.angleDeg(dir2);
+        return angle;
     }
     public static Vector2 GetMidPos(Vector2 pos1,Vector2 pos2)
     {
@@ -83,9 +84,14 @@ public class Util {
     {
         Util.For(0,list.size()-1, cb::Run);
     }
-    public static <T> void For(int from,int to,GDX.Runnable1<Integer> cb)
+    public static <T> void For(int from,int to,GDX.Runnable1<Integer> cb)//0->10,0->-10...
     {
-        for (int i=from;i<=to;i++) cb.Run(i);
+        int del = to-from>0?1:-1;
+        while (from!=to){
+            cb.Run(from);
+            from+=del;
+        }
+        cb.Run(from);
     }
     public static void For(JsonValue json, GDX.Runnable1<JsonValue> cb)
     {
@@ -148,11 +154,11 @@ public class Util {
         }
         return str;
     }
-    public static void CreateValue(String name, GDX.Runnable1<String> onCreate){//name(0-9)->onCreate(name0),onCreate(name1)
-        if (name.contains("(")){
-            String st = Util.FindString(name,"(",")");
+    public static void CreateValue(String name, GDX.Runnable1<String> onCreate){//name[0-9]->onCreate(name0),onCreate(name1)
+        if (name.contains("[")){
+            String st = Util.FindString(name,"[","]");
             String name0 = name.replace(st,"");
-            String[] arr = st.replace("(","").replace(")","").split("-");
+            String[] arr = st.replace("[","").replace("]","").split("-");
             Util.For(Integer.parseInt(arr[0]),Integer.parseInt(arr[1]),i->onCreate.Run(name0+i));
         }
         else onCreate.Run(name);

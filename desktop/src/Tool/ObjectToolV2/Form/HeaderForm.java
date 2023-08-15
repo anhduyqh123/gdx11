@@ -1,14 +1,14 @@
 package Tool.ObjectToolV2.Form;
 
-import GDX11.Asset;
-import GDX11.Config;
-import GDX11.GDX;
+import GDX11.*;
+import Tool.ObjectToolV2.Core.Box2DMouse;
 import GDX11.IObject.IActor.IActor;
-import GDX11.Json;
 import Tool.Swing.UI;
 import Tool.ObjectToolV2.Core.Event;
 import Tool.ObjectToolV2.Core.MyGame;
 import Tool.ObjectToolV2.Core.PackObject;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -20,13 +20,13 @@ import java.util.Map;
 
 public class HeaderForm {
     private JComboBox cbPack;
-    private JCheckBox cbDrag;
     public JPanel panel1;
     private JButton btResetCam;
     private JButton btColor;
     private JButton toolButton;
     private JButton btSave;
     private JButton btReload;
+    private JComboBox cbLang;
     private IActor iActor;
     private final InputListener event;
 
@@ -44,8 +44,8 @@ public class HeaderForm {
         event = new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (!cbDrag.isSelected()) return false;
-                Event.dragIActor = iActor;
+                Event.dragInput = Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)?
+                        new Event.DragActorListener(iActor):new Box2DMouse(iActor);
                 return true;
             }
         };
@@ -55,6 +55,11 @@ public class HeaderForm {
         for (String key : packs)
             map.put(key,new PackObject(key));
         UI.ComboBox(cbPack,packs,packs[0], pack-> onLoadPack.Run(map.get(pack)));
+        InitTranslate();
+    }
+    private void InitTranslate(){
+        Translate tran = Translate.Init();
+        UI.ComboBox(cbLang,tran.codes.toArray(new String[0]),tran.code, tran::SetCode);
     }
     public void SetIActor(IActor iActor)
     {

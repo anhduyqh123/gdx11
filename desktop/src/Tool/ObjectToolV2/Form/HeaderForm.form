@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Tool.ObjectToolV2.Form.HeaderForm">
   <grid id="27dc6" binding="panel1" layout-manager="FlowLayout" hgap="5" vgap="0" flow-align="0">
     <constraints>
-      <xy x="20" y="20" width="604" height="400"/>
+      <xy x="20" y="20" width="639" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -10,12 +10,6 @@
       <component id="7baf8" class="javax.swing.JComboBox" binding="cbPack">
         <constraints/>
         <properties/>
-      </component>
-      <component id="2c22e" class="javax.swing.JCheckBox" binding="cbDrag">
-        <constraints/>
-        <properties>
-          <text value="Drag"/>
-        </properties>
       </component>
       <component id="e292e" class="javax.swing.JButton" binding="btSave">
         <constraints/>
@@ -46,6 +40,10 @@
         <properties>
           <text value="Reload Assets"/>
         </properties>
+      </component>
+      <component id="f06" class="javax.swing.JComboBox" binding="cbLang">
+        <constraints/>
+        <properties/>
       </component>
     </children>
   </grid>

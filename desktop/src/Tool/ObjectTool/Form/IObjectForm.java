@@ -69,7 +69,7 @@ public class IObjectForm {
         String[] pack = allPack.toArray(new String[0]);
         UI.ComboBox(cbPack,pack,pack[0], vl->{
             Scene.i.ui.clearChildren();
-            Asset.i.ForceLoadPackages(null,vl);
+            //Asset.i.ForceLoadPackages(null,vl);
             mainIActor = null;
             selectedPack = data.Get(vl);
             selectedPack.Renew();
