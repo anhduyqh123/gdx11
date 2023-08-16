@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 
 public class IScrollPane extends IGroup {
-    public String scrollToChild = "";
     public boolean overscrollX = true,overscrollY = true;
     @Override
     protected Actor NewActor() {
@@ -26,8 +25,6 @@ public class IScrollPane extends IGroup {
         InitActor();
         BaseRefresh();
         RefreshChild();
-        if (scrollToChild.equals("")) return;
-        ScrollTo(scrollToChild);
     }
     private void RefreshChild()
     {
@@ -37,15 +34,28 @@ public class IScrollPane extends IGroup {
         IActor iActor = iMap.Get(0);
         iActor.Refresh();
     }
-    public void ScrollTo(String childName)
+    public void ScrollTo(String childName,boolean immediate)
     {
-        ScrollTo(FindActor(childName));
+        ScrollTo(FindActor(childName),immediate);
     }
-    public void ScrollTo(Actor child)
+    public void ScrollTo(Actor child,boolean immediate)
     {
         ScrollPane scroll = GetActor();
         scroll.layout();
         Vector2 pos = child.localToActorCoordinates(scroll.getActor(),new Vector2());
         scroll.scrollTo(pos.x,pos.y,child.getWidth(),child.getHeight(),true,true);
+        if (immediate) scroll.updateVisualScroll();
+    }
+    public void SetPercentX(float percent,boolean immediate){
+        ScrollPane scroll = GetActor();
+        scroll.layout();
+        scroll.setScrollPercentX(percent);
+        if (immediate) scroll.updateVisualScroll();
+    }
+    public void SetPercentY(float percent,boolean immediate){
+        ScrollPane scroll = GetActor();
+        scroll.layout();
+        scroll.setScrollPercentY(percent);
+        if (immediate) scroll.updateVisualScroll();
     }
 }

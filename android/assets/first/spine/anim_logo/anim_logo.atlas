@@ -1,0 +1,125 @@
+
+anim_logo.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+A
+  rotate: true
+  xy: 726, 256
+  size: 117, 139
+  orig: 119, 142
+  offset: 1, 2
+  index: -1
+D
+  rotate: false
+  xy: 423, 48
+  size: 90, 144
+  orig: 92, 147
+  offset: 1, 2
+  index: -1
+E
+  rotate: true
+  xy: 868, 317
+  size: 87, 140
+  orig: 89, 143
+  offset: 1, 2
+  index: -1
+G
+  rotate: false
+  xy: 631, 49
+  size: 95, 143
+  orig: 97, 145
+  offset: 1, 1
+  index: -1
+K
+  rotate: false
+  xy: 0, 0
+  size: 111, 154
+  orig: 116, 160
+  offset: 1, 2
+  index: -1
+M
+  rotate: false
+  xy: 726, 373
+  size: 142, 139
+  orig: 144, 142
+  offset: 1, 2
+  index: -1
+N
+  rotate: false
+  xy: 513, 49
+  size: 118, 143
+  orig: 120, 146
+  offset: 1, 2
+  index: -1
+R
+  rotate: false
+  xy: 173, 43
+  size: 110, 149
+  orig: 112, 152
+  offset: 1, 1
+  index: -1
+S
+  rotate: true
+  xy: 868, 404
+  size: 108, 141
+  orig: 110, 143
+  offset: 1, 1
+  index: -1
+ball
+  rotate: false
+  xy: 121, 167
+  size: 24, 25
+  orig: 24, 25
+  offset: 0, 0
+  index: -1
+bottle
+  rotate: false
+  xy: 111, 2
+  size: 62, 164
+  orig: 62, 164
+  offset: 0, 0
+  index: -1
+bottle2
+  rotate: true
+  xy: 145, 172
+  size: 20, 8
+  orig: 20, 8
+  offset: 0, 0
+  index: -1
+bubble
+  rotate: false
+  xy: 95, 166
+  size: 26, 26
+  orig: 26, 26
+  offset: 0, 0
+  index: -1
+dice
+  rotate: false
+  xy: 865, 240
+  size: 80, 77
+  orig: 82, 80
+  offset: 1, 1
+  index: -1
+light
+  rotate: false
+  xy: 0, 154
+  size: 95, 358
+  orig: 97, 360
+  offset: 1, 1
+  index: -1
+roulette
+  rotate: true
+  xy: 283, 44
+  size: 148, 140
+  orig: 149, 140
+  offset: 1, 0
+  index: -1
+txt_bg
+  rotate: false
+  xy: 95, 192
+  size: 581, 320
+  orig: 581, 320
+  offset: 0, 0
+  index: -1

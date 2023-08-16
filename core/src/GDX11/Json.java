@@ -1,16 +1,18 @@
 package GDX11;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.reflect.Field;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Json {
-
     private static final String stClass = "class";
-
     //write
     public static JsonValue ToJson(Object object)
     {
@@ -98,6 +100,7 @@ public class Json {
     }
     public static <T> T ToObject(JsonValue js)
     {
+        mini.UnMini(js);
         return ToObject(js,Reflect.GetClass(js.getString(stClass)));
     }
     public static <T> T ToObject(JsonValue js,Class type)
@@ -168,5 +171,49 @@ public class Json {
         }
         JsonValue ToJson(Object object0);
         <T> T ToObject(JsonValue js);
+    }
+    public static IMini mini = new IMini();
+    public static class IMini {
+        private final String url = "mini.json";
+        private final JsonValue data = GDX.Try(()->StringToJson(GDX.GetString(url)),()->new JsonValue(JsonValue.ValueType.object));
+        private final Map<String,String> reMap = new HashMap<>();
+        private static final List<String> miniFields = Arrays.asList("class","prefab");
+
+        public IMini(){
+            for (JsonValue i : data) reMap.put(i.asString(),i.name);
+        }
+        public void UnMini(JsonValue json){
+            if (json.isValue()) UnMiniValue(json);
+            else {
+                for (JsonValue i : json)
+                    UnMini(i);
+            }
+            if (data.has(json.name)) json.setName(data.getString(json.name));//set key
+        }
+        private void UnMiniValue(JsonValue json){
+            if (data.has(json.asString())) json.set(data.getString(json.asString()));
+        }
+        public void Mini(JsonValue json){
+            if (json.isValue()) MiniValue(json);
+            else {
+                for (JsonValue i : json)
+                    Mini(i);
+            }
+            json.setName(NewKey(json.name));//set key
+        }
+        public void Save(FileHandle dir){
+            dir.child(url).writeString(data.toJson(JsonWriter.OutputType.minimal),false);
+        }
+        private void MiniValue(JsonValue json){
+            if (!miniFields.contains(json.name)) return;
+            json.set(NewKey(json.asString()));
+        }
+        private String NewKey(String value){
+            if (reMap.containsKey(value)) return reMap.get(value);
+            String key = "$"+data.size;
+            data.addChild(key,new JsonValue(value));
+            reMap.put(value,key);
+            return key;
+        }
     }
 }

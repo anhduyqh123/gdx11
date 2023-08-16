@@ -7,6 +7,8 @@ import GDX11.IObject.IActor.IActor;
 import GDX11.IObject.IActor.IGroup;
 import GDX11.IObject.IObject;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter;
 
 public class PackObject extends IGroup {
     private AssetPackage assetPackage;
@@ -22,7 +24,7 @@ public class PackObject extends IGroup {
         assetPackage = Asset.i.GetAssetPackage(name);
         iMap.Clear();
         Util.For(assetPackage.GetNodes(AssetNode.Kind.Object),n->{
-            IActor iActor = IObject.Get(n.name);
+            IActor iActor = Asset.i.GetObject(n.name);
             iMap.Add(iActor);
         });
     }
@@ -41,18 +43,10 @@ public class PackObject extends IGroup {
     {
         String url = assetPackage.GetUrl("object/"+name+".ob");
         IActor ic = iMap.Get(name);
-        IObject.Save(url,ic);
+        JsonValue jsData = Json.ToJson(ic);
+        GDX.WriteToFile(url,jsData.toJson(JsonWriter.OutputType.minimal));
         done.run();
         if (!assetPackage.Contain(name)) newFile.run();
-//        if (!assetPackage.Contain(name))
-//        {
-//            AssetNode node = new AssetNode(assetPackage.name, AssetNode.Kind.Object,"",name);
-//            node.url = url;
-//            assetPackage.list.add(node);
-//            assetPackage.Clear();
-//            assetPackage.Install();
-//            Asset.i.PushMapAssetNode(assetPackage.name);
-//        }
     }
 
     @Override

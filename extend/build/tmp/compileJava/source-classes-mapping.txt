@@ -1,148 +1,36 @@
-DrinkGame/Game/SnakeLadder/GBoard.java
- DrinkGame.Game.SnakeLadder.GBoard
-JigsawWood/Model/Shape.java
- JigsawWood.Model.Shape
-Wolvesville/Model/Card.java
- Wolvesville.Model.Card
-Extend/Spine/IAnimation.java
- Extend.Spine.IAnimation
- Extend.Spine.IAnimation$AniAction
-Wolvesville/Screen/BaseScreen.java
- Wolvesville.Screen.BaseScreen
-Wolvesville/Model/GiaLang.java
- Wolvesville.Model.GiaLang
-Extend/AI/ITest.java
- Extend.AI.ITest
-JigsawWood/Screen/GameScreen.java
- JigsawWood.Screen.GameScreen
-Wolvesville/Model/HumanX.java
- Wolvesville.Model.HumanX
-Wolvesville/Screen/GameScreen.java
- Wolvesville.Screen.GameScreen
-Extend/Box2D/IContact.java
- Extend.Box2D.IContact
- Extend.Box2D.IContact$1
- Extend.Box2D.IContact$2
- Extend.Box2D.IContact$Sensor
- Extend.Box2D.IContact$Type
-Wolvesville/Model/NguyetNu.java
- Wolvesville.Model.NguyetNu
-DrinkGame/Game/Hammer.java
- DrinkGame.Game.Hammer
-Wolvesville/Model/BaoVe.java
- Wolvesville.Model.BaoVe
-JigsawWood/Model/SudoBoard.java
- JigsawWood.Model.SudoBoard
-Wolvesville/Model/Silence.java
- Wolvesville.Model.Silence
-Extend/IPutEvent.java
- Extend.IPutEvent
- Extend.IPutEvent$Type
-DrinkGame/Base/OptionScreen.java
- DrinkGame.Base.OptionScreen
-Wolvesville/Screen/SoiListScreen.java
- Wolvesville.Screen.SoiListScreen
-DrinkGame/Game/SnakeLadder/VSnake.java
- DrinkGame.Game.SnakeLadder.VSnake
 com/game/MyGame3D.java
  com.game.MyGame3D
-JigsawWood/Controller/GJigsawBoard.java
- JigsawWood.Controller.GJigsawBoard
-Wolvesville/Model/HiepSi.java
- Wolvesville.Model.HiepSi
+DrinkGame/Game/TiktaktoeCore/Board.java
+ DrinkGame.Game.TiktaktoeCore.Board
+ DrinkGame.Game.TiktaktoeCore.Board$Node
+Extend/Shake/GShake.java
+ Extend.Shake.GShake
+DrinkGame/Game/Game.java
+ DrinkGame.Game.Game
+Extend/Spine/SkeletonDataLoader.java
+ Extend.Spine.SkeletonDataLoader
+ Extend.Spine.SkeletonDataLoader$SkeletonDataLoaderParameter
 Extend/Box2D/GBox2D.java
  Extend.Box2D.GBox2D
  Extend.Box2D.GBox2D$1
-Extend/Box2D/IBox2DProperty.java
- Extend.Box2D.IBox2DProperty
- Extend.Box2D.IBox2DProperty$1
- Extend.Box2D.IBox2DProperty$Type
-DrinkGame/Game/DrunkRoll.java
- DrinkGame.Game.DrunkRoll
-Wolvesville/Screen/NghichLuaScreen.java
- Wolvesville.Screen.NghichLuaScreen
-JigsawWood/Screen/LevelScreen.java
- JigsawWood.Screen.LevelScreen
-Extend/PagedScroll/IPagedScroll.java
- Extend.PagedScroll.IPagedScroll
-JigsawWood/Model/Board.java
- JigsawWood.Model.Board
-Wolvesville/Model/Chube.java
- Wolvesville.Model.Chube
-Extend/Box2D/IPlatform.java
- Extend.Box2D.IPlatform
-Extend/Box2D/IFixture.java
- Extend.Box2D.IFixture
- Extend.Box2D.IFixture$ShapeType
-Wolvesville/Model/SoiTrang.java
- Wolvesville.Model.SoiTrang
-DrinkGame/Game/BottleSpin/BottleSpin.java
- DrinkGame.Game.BottleSpin.BottleSpin
- DrinkGame.Game.BottleSpin.BottleSpin$1
-DrinkGame/Game/Tiktaktoe/GBot.java
- DrinkGame.Game.Tiktaktoe.GBot
-Wolvesville/Screen/PlayerInfoScreen.java
- Wolvesville.Screen.PlayerInfoScreen
-DrinkGame/Game/Spinner.java
- DrinkGame.Game.Spinner
-Wolvesville/Model/PhuThuy.java
- Wolvesville.Model.PhuThuy
-Wolvesville/Global.java
- Wolvesville.Global
-Wolvesville/Screen/ThoiSaoScreen.java
- Wolvesville.Screen.ThoiSaoScreen
-DrinkGame/Game/Drinko/Drinko.java
- DrinkGame.Game.Drinko.Drinko
- DrinkGame.Game.Drinko.Drinko$1
-SDK/IZen.java
- SDK.IZen
+Extend/AI/Scene2dLocation.java
+ Extend.AI.Scene2dLocation
 com/game/Test.java
  game.Test
-com/game/MyGame.java
- com.game.MyGame
-JigsawWood/JigsawWood.java
- JigsawWood.JigsawWood
-JigsawWood/Controller/GBoard.java
- JigsawWood.Controller.GBoard
- JigsawWood.Controller.GBoard$1
-DrinkGame/Base/BaseGame.java
- DrinkGame.Base.BaseGame
-Wolvesville/Model/ChanDoi.java
- Wolvesville.Model.ChanDoi
-DrinkGame/Game/DrunkDice.java
- DrinkGame.Game.DrunkDice
-DrinkGame/Base/VSlider.java
- DrinkGame.Base.VSlider
- DrinkGame.Base.VSlider$1
-DrinkGame/Base/VControl.java
- DrinkGame.Base.VControl
- DrinkGame.Base.VControl$1
- DrinkGame.Base.VControl$2
-DrinkGame/Game/Crocodile/Crocodile.java
- DrinkGame.Game.Crocodile.Crocodile
-JigsawWood/Controller/Global.java
- JigsawWood.Controller.Global
-Wolvesville/Model/BanSoi.java
- Wolvesville.Model.BanSoi
-Wolvesville/Screen/SoiTrangScreen.java
- Wolvesville.Screen.SoiTrangScreen
-DrinkGame/Base/GameScreen.java
- DrinkGame.Base.GameScreen
-DrinkGame/Game/SnakeLadder/SnakeLadder.java
- DrinkGame.Game.SnakeLadder.SnakeLadder
-DrinkGame/Game/Pirate/Pirate.java
- DrinkGame.Game.Pirate.Pirate
-Wolvesville/Screen/TienTriScreen.java
- Wolvesville.Screen.TienTriScreen
-DrinkGame/Game/Tiktaktoe/Board.java
- DrinkGame.Game.Tiktaktoe.Board
- DrinkGame.Game.Tiktaktoe.Board$Node
-Wolvesville/Screen/SettingScreen.java
- Wolvesville.Screen.SettingScreen
-Wolvesville/Screen/VoteScreen.java
- Wolvesville.Screen.VoteScreen
-Wolvesville/Screen/ThoSanScreen.java
- Wolvesville.Screen.ThoSanScreen
+com/game/MyGdxGame.java
+ com.game.MyGdxGame
+Extend/Spine/GSpine.java
+ Extend.Spine.GSpine
+ Extend.Spine.GSpine$1
+ Extend.Spine.GSpine$2
+Extend/AI/SteeringAgent.java
+ Extend.AI.SteeringAgent
+Extend/PagedScroll/PagedScroll.java
+ Extend.PagedScroll.PagedScroll
+DrinkGame/Game/PassOutCore/PassOutCard.java
+ DrinkGame.Game.PassOutCore.PassOutCard
+SDK/IZen.java
+ SDK.IZen
 SDK/SDK.java
  SDK.SDK
  SDK.SDK$1
@@ -150,133 +38,131 @@ Extend/Box2D/IBody.java
  Extend.Box2D.IBody
 Extend/XItem.java
  Extend.XItem
-Wolvesville/Model/SoiNguyen.java
- Wolvesville.Model.SoiNguyen
 Extend/IExtend.java
  Extend.IExtend
  Extend.IExtend$1
  Extend.IExtend$Type
-JigsawWood/Screen/ShopScreen.java
- JigsawWood.Screen.ShopScreen
-JigsawWood/Screen/LoseScreen.java
- JigsawWood.Screen.LoseScreen
-DrinkGame/Game/PassOut/PassOutCard.java
- DrinkGame.Game.PassOut.PassOutCard
-JigsawWood/Controller/GSudoBoard.java
- JigsawWood.Controller.GSudoBoard
-Wolvesville/Screen/HumanXScreen.java
- Wolvesville.Screen.HumanXScreen
-Extend/Spine/GSpine.java
- Extend.Spine.GSpine
- Extend.Spine.GSpine$1
- Extend.Spine.GSpine$2
-Wolvesville/Screen/PhuThuyScreen.java
- Wolvesville.Screen.PhuThuyScreen
-Extend/AI/SteeringAgent.java
- Extend.AI.SteeringAgent
+DrinkGame/Game/TiktaktoeCore/GBoard.java
+ DrinkGame.Game.TiktaktoeCore.GBoard
+DrinkGame/Base/VControl.java
+ DrinkGame.Base.VControl
+ DrinkGame.Base.VControl$1
+ DrinkGame.Base.VControl$2
+DrinkGame/Game/SnakeLadderCore/GManager.java
+ DrinkGame.Game.SnakeLadderCore.GManager
+Extend/Spine/IAnimation.java
+ Extend.Spine.IAnimation
+ Extend.Spine.IAnimation$AniAction
+Extend/AI/ITest.java
+ Extend.AI.ITest
 Extend/Shake/IShake.java
  Extend.Shake.IShake
-Wolvesville/Model/TienTri.java
- Wolvesville.Model.TienTri
-JigsawWood/Model/JigsawBoard.java
- JigsawWood.Model.JigsawBoard
-Wolvesville/Screen/PlayerScreen.java
- Wolvesville.Screen.PlayerScreen
-Wolvesville/Screen/AskPlayerScreen.java
- Wolvesville.Screen.AskPlayerScreen
+DrinkGame/Game/SnakeLadderCore/GBoard.java
+ DrinkGame.Game.SnakeLadderCore.GBoard
 Extend/Spine/SpineAsset.java
  Extend.Spine.SpineAsset
-DrinkGame/Game/SnakeLadder/GManager.java
- DrinkGame.Game.SnakeLadder.GManager
-Wolvesville/Model/ThoSan.java
- Wolvesville.Model.ThoSan
-DrinkGame/Game/SnakeLadder/GPlayer.java
- DrinkGame.Game.SnakeLadder.GPlayer
-DrinkGame/Game/Tiktaktoe/Tiktaktoe.java
- DrinkGame.Game.Tiktaktoe.Tiktaktoe
-DrinkGame/Game/Tiktaktoe/GPlayer.java
- DrinkGame.Game.Tiktaktoe.GPlayer
-Wolvesville/Model/Cupid.java
- Wolvesville.Model.Cupid
-com/game/MyGdxGame.java
- com.game.MyGdxGame
+Extend/Box2D/IContact.java
+ Extend.Box2D.IContact
+ Extend.Box2D.IContact$1
+ Extend.Box2D.IContact$2
+ Extend.Box2D.IContact$Sensor
+ Extend.Box2D.IContact$Type
+DrinkGame/Base/MenuScreen.java
+ DrinkGame.Base.MenuScreen
+DrinkGame/Base/GameScreen.java
+ DrinkGame.Base.GameScreen
+Extend/Box2D/IBox2D.java
+ Extend.Box2D.IBox2D
+DrinkGame/Game/DrinkopolyCore/GBoard.java
+ DrinkGame.Game.DrinkopolyCore.GBoard
+Extend/Box2D/IPlatform.java
+ Extend.Box2D.IPlatform
+DrinkGame/Game/SnakeLadderCore/GPlayer.java
+ DrinkGame.Game.SnakeLadderCore.GPlayer
+DrinkGame/Game/PassOutCore/GPlayer1.java
+ DrinkGame.Game.PassOutCore.GPlayer1
+DrinkGame/Base/OptionScreen.java
+ DrinkGame.Base.OptionScreen
 DrinkGame/Base/TutScreen.java
  DrinkGame.Base.TutScreen
-DrinkGame/Game/Game.java
- DrinkGame.Game.Game
-Wolvesville/Screen/KiemGiScreen.java
- Wolvesville.Screen.KiemGiScreen
+com/game/MyGame.java
+ com.game.MyGame
+Extend/Spine/ISpine.java
+ Extend.Spine.ISpine
+DrinkGame/Game/SnakeLadderCore/VObject.java
+ DrinkGame.Game.SnakeLadderCore.VObject
+Extend/IShapeMask.java
+ Extend.IShapeMask
 Extend/IDropDown.java
  Extend.IDropDown
  Extend.IDropDown$1
-DrinkGame/Game/SnakeLadder/VObject.java
- DrinkGame.Game.SnakeLadder.VObject
-JigsawWood/Screen/MenuScreen.java
- JigsawWood.Screen.MenuScreen
-JigsawWood/Model/ShapeData.java
- JigsawWood.Model.ShapeData
-JigsawWood/View/VPiece.java
- JigsawWood.View.VPiece
+DrinkGame/Game/SnakeLadderCore/VSnake.java
+ DrinkGame.Game.SnakeLadderCore.VSnake
+Extend/Box2D/IBox2DProperty.java
+ Extend.Box2D.IBox2DProperty
+ Extend.Box2D.IBox2DProperty$1
+ Extend.Box2D.IBox2DProperty$Type
+DrinkGame/Game/TiktaktoeCore/GPlayer.java
+ DrinkGame.Game.TiktaktoeCore.GPlayer
+DrinkGame/DrinkGame.java
+ DrinkGame.DrinkGame
 Extend/AI/ISteering.java
  Extend.AI.ISteering
  Extend.AI.ISteering$1
-DrinkGame/Game/Tiktaktoe/GBoard.java
- DrinkGame.Game.Tiktaktoe.GBoard
+Extend/PagedScroll/IPagedScroll.java
+ Extend.PagedScroll.IPagedScroll
 Extend/IMask.java
  Extend.IMask
  Extend.IMask$1
-DrinkGame/DrinkGame.java
- DrinkGame.DrinkGame
-Extend/Shake/GShake.java
- Extend.Shake.GShake
-JigsawWood/Screen/WinScreen.java
- JigsawWood.Screen.WinScreen
-Wolvesville/Model/ThoiSao.java
- Wolvesville.Model.ThoiSao
-Extend/Spine/SkeletonDataLoader.java
- Extend.Spine.SkeletonDataLoader
- Extend.Spine.SkeletonDataLoader$SkeletonDataLoaderParameter
-DrinkGame/Base/EndGameScreen.java
- DrinkGame.Base.EndGameScreen
-Extend/IShapeMask.java
- Extend.IShapeMask
-Extend/Spine/ISpine.java
- Extend.Spine.ISpine
-Wolvesville/Screen/CupidScreen.java
- Wolvesville.Screen.CupidScreen
-DrinkGame/Game/TableTop/TableTop.java
- DrinkGame.Game.TableTop.TableTop
- DrinkGame.Game.TableTop.TableTop$1
-Wolvesville/Screen/EventScreen.java
- Wolvesville.Screen.EventScreen
-Extend/PagedScroll/PagedScroll.java
- Extend.PagedScroll.PagedScroll
+DrinkGame/Base/VSlider.java
+ DrinkGame.Base.VSlider
+ DrinkGame.Base.VSlider$1
+Extend/Box2D/IFixture.java
+ Extend.Box2D.IFixture
+ Extend.Box2D.IFixture$ShapeType
+DrinkGame/Game/PassOutCore/GBoard1.java
+ DrinkGame.Game.PassOutCore.GBoard1
+Extend/IPutEvent.java
+ Extend.IPutEvent
+ Extend.IPutEvent$Type
 Extend/Box2D/IBodyListener.java
  Extend.Box2D.IBodyListener
-Extend/AI/Scene2dLocation.java
- Extend.AI.Scene2dLocation
-Wolvesville/Wolves.java
- Wolvesville.Wolves
-Extend/Box2D/IBox2D.java
- Extend.Box2D.IBox2D
-JigsawWood/View/VShape.java
- JigsawWood.View.VShape
- JigsawWood.View.VShape$1
-Wolvesville/Screen/ThoiNienListScreen.java
- Wolvesville.Screen.ThoiNienListScreen
-JigsawWood/Controller/GPuzzBoard.java
- JigsawWood.Controller.GPuzzBoard
-DrinkGame/Game/Drinkopoly/GPlayer.java
- DrinkGame.Game.Drinkopoly.GPlayer
-DrinkGame/Game/Drinkopoly/GBoard.java
- DrinkGame.Game.Drinkopoly.GBoard
+DrinkGame/Game/TiktaktoeCore/GBot.java
+ DrinkGame.Game.TiktaktoeCore.GBot
+DrinkGame/Game/DrinkopolyCore/GPlayer.java
+ DrinkGame.Game.DrinkopolyCore.GPlayer
+DrinkGame/Base/EndGameScreen.java
+ DrinkGame.Base.EndGameScreen
+DrinkGame/Game/DrunkRoll.java
+ DrinkGame.Game.DrunkRoll
+DrinkGame/Game/Hammer.java
+ DrinkGame.Game.Hammer
 DrinkGame/Game/DrinkCup.java
  DrinkGame.Game.DrinkCup
-DrinkGame/Game/Drinkopoly/Drinkopoly.java
- DrinkGame.Game.Drinkopoly.Drinkopoly
-DrinkGame/Game/PassOut/GBoard1.java
- DrinkGame.Game.PassOut.GBoard1
-DrinkGame/Game/PassOut/GPlayer1.java
- DrinkGame.Game.PassOut.GPlayer1
-DrinkGame/Game/PassOut/PassOut.java
- DrinkGame.Game.PassOut.PassOut
+DrinkGame/Base/BaseGame.java
+ DrinkGame.Base.BaseGame
+DrinkGame/Game/Pirate.java
+ DrinkGame.Game.Pirate
+DrinkGame/Game/TableTop.java
+ DrinkGame.Game.TableTop
+ DrinkGame.Game.TableTop$1
+DrinkGame/Game/DrunkDice.java
+ DrinkGame.Game.DrunkDice
+DrinkGame/Game/SnakeLadder.java
+ DrinkGame.Game.SnakeLadder
+DrinkGame/Game/Tiktaktoe.java
+ DrinkGame.Game.Tiktaktoe
+DrinkGame/Game/PassOut.java
+ DrinkGame.Game.PassOut
+DrinkGame/Game/Drinkopoly.java
+ DrinkGame.Game.Drinkopoly
+DrinkGame/Game/Spinner.java
+ DrinkGame.Game.Spinner
+DrinkGame/Game/BottleSpin.java
+ DrinkGame.Game.BottleSpin
+ DrinkGame.Game.BottleSpin$1
+DrinkGame/Game/Drinko.java
+ DrinkGame.Game.Drinko
+ DrinkGame.Game.Drinko$1
+DrinkGame/Game/Crocodile.java
+ DrinkGame.Game.Crocodile

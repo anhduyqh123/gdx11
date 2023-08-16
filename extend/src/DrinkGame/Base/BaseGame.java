@@ -1,6 +1,5 @@
 package DrinkGame.Base;
 
-import DrinkGame.Game.Drinkopoly.Drinkopoly;
 import GDX11.Asset;
 import GDX11.Config;
 import GDX11.Screen;
@@ -18,10 +17,12 @@ public class BaseGame {
         Asset.i.ForceLoadPackages(name);
 
         game = new GameScreen();
+        game.Click("btHome",()->NewBackMenuScreen().Show());
+        game.Click("btTut",()->NewTutScreen().Show());
+
         SDK.i.TrackCustomEvent("game_"+name);
         win = Config.GetPref(name+"win",0);
         total = Config.GetPref(name+"total",0);
-        InitUI();
         game.Show();
         ShowTut();
     }
@@ -30,13 +31,8 @@ public class BaseGame {
         NewGame();
     }
     protected void NewGame(){
-        game.iGroup.Reconnect();
-        game.iGroup.Refresh();
-        InitUI();
-    }
-    protected void InitUI(){
-        game.Click("btHome",()->{});
-        game.Click("btTut",()->NewTutScreen().Show());
+        game.FindIGroup("board").Reconnect();
+        game.FindIGroup("board").Refresh();
     }
     protected void NewMode(){
         NewMode(this::NewGame, this::NewGame);
@@ -94,6 +90,14 @@ public class BaseGame {
                 Config.SetPref(key,true);
             },0.6f);
         }
+    }
+    protected Screen NewBackMenuScreen(){
+        Screen screen = new Screen("BackMenu");
+        screen.Click("btYes",()->{
+            screen.Hide();
+            game.Hide();
+        });
+        return screen;
     }
     protected Screen NewTutScreen()
     {

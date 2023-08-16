@@ -2,7 +2,6 @@ package GDX11.IObject;
 
 import GDX11.*;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter;
 
 public abstract class IObject extends IBase implements Json.JsonObject {
 
@@ -43,61 +42,8 @@ public abstract class IObject extends IBase implements Json.JsonObject {
         if (js.has("prefab")) object = Get(js.getString("prefab")).Clone();
         return Json.JsonToObject(js,object);
     }
-
-//    private static Map<String,IObject> map = new HashMap<>();
-//    public static <T extends IObject> T Get(String name)
-//    {
-//        if (!map.containsKey(name)) map.put(name,Json.ToObject(Asset.i.GetString(name)));
-//        return (T)map.get(name);
-//    }
-    public static <T extends IObject> T Get(String name){
+    private <T extends IObject> T Get(String name){
         return Asset.i.GetObject(name);
     }
-    public static void Save(String url, IObject ic)
-    {
-        JsonValue jsData = Json.ToJson(ic);
-        GDX.WriteToFile(url,jsData.toJson(JsonWriter.OutputType.minimal));
-    }
-//    private static final Map<String,String> miniMap = LoadMiniMap();
-//    private static final Map<String,String> reMap = new HashMap<>();
-//    private static int index;
-//    private static final List<String> miniFields = Arrays.asList("class","prefab");
-//    private static Map LoadMiniMap()
-//    {
-//        return GDX.Try(()->{
-//            String stData = GDX.GetString("miniJson.ob");
-//            return Json.ToMap(Json.StringToJson(stData),new HashMap<>(), String.class);
-//        }, HashMap::new);
-//    }
-//    public static void SaveMiniMap()
-//    {
-//
-//    }
-//    private static JsonValue UnMini(String name)
-//    {
-//        JsonValue js = Json.StringToJson(GDX.GetStringByKey(name));
-//        return js;
-//    }
-//    private static JsonValue Mini(String name)
-//    {
-//        JsonValue js = Get(name).ToJson();
-//        Util.For(js,i->{
-//            if (miniFields.contains(i.name))
-//            {
-//                String key = Put(i.asString());
-//                if(key!=null) i.set(key);
-//            }
-//            String key = Put(i.name);
-//            if (key!=null) i.setName(key);
-//        });
-//        return js;
-//    }
-//    private static String Put(String value){
-//        if (reMap.containsKey(value) || value.length()<=5) return null;
-//        String key = "$"+index++;
-//        reMap.put(value,key);
-//        miniMap.put(key,value);
-//        return key;
-//    }
 
 }

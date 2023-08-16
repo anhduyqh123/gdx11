@@ -1,6 +1,7 @@
 package com.game;
 
-import DrinkGame.Game.PassOut.PassOut;
+import DrinkGame.DrinkGame;
+import DrinkGame.Game.PassOut;
 import Extend.Spine.SpineAsset;
 import GDX11.Asset;
 import GDX11.GDXGame;
@@ -14,7 +15,7 @@ public class MyGame extends GDXGame {
 
     @Override
     protected void FirstLoad() {
-        new PassOut();
+        new DrinkGame();
     }
 
     @Override

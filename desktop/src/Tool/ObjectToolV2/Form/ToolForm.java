@@ -1,6 +1,6 @@
 package Tool.ObjectToolV2.Form;
 
-import Tool.ObjectTool.Core.GenerateAsset;
+import Tool.ObjectToolV2.Core.GenerateAsset;
 import Tool.Swing.UI;
 
 import javax.swing.*;

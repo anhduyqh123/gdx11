@@ -2,9 +2,13 @@
 screen_x: 0
 screen_y: 0
 screen_width: 290
-screen_height: 433
-game_width: 720
-game_height: 1280
+screen_height: 429
+game_width: 1080
+game_height: 1920
 sound: true
 music: true
+extend_pack: {
+	drinkcup: drinkopoly
+	passout: drinkopoly
+}
 }

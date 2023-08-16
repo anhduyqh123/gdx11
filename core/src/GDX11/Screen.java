@@ -2,7 +2,6 @@ package GDX11;
 
 import GDX11.IObject.IActor.IFind;
 import GDX11.IObject.IActor.IGroup;
-import GDX11.IObject.IObject;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import java.util.ArrayList;
@@ -10,29 +9,23 @@ import java.util.List;
 
 public class Screen extends Group implements IFind {
     private static final List<Screen> screens = new ArrayList<>();
-
-    public GDX.Runnable onShow,onHide,onShowDone,onHideDone;
     public IGroup iGroup;
     public String name;
 
     public Screen(String name)
     {
         this.name = name;
-        this.iGroup = IObject.Get(name).Clone();
+        this.iGroup = Asset.i.GetObject(name).Clone();
         iGroup.SetActor(this);
         iGroup.SetIRoot(null);
         iGroup.Refresh();
 
-        iGroup.iParam.Set("startShow",(Runnable)()->TryRun(onShow));
-        iGroup.iParam.Set("startHide",(Runnable)()->TryRun(onHide));
-        iGroup.iParam.Set("showDone",(Runnable)()->TryRun(onShowDone));
-        iGroup.iParam.Set("hideDone",(Runnable)()->TryRun(onHideDone));
-        iGroup.iParam.Set("show",(Runnable)this::Show);
-        iGroup.iParam.Set("hide",(Runnable)this::Hide);
+        iGroup.iParam.SetRun("show", this::Show);
+        iGroup.iParam.SetRun("hide", this::Hide);
     }
-    private void TryRun(GDX.Runnable event)
+    private void TryRun(Runnable event)
     {
-        if (event!=null) event.Run();
+        if (event!=null) event.run();
     }
     public void Show()
     {
@@ -59,6 +52,19 @@ public class Screen extends Group implements IFind {
     }
     public void Run(Runnable cb,float delay){
         iGroup.Run(cb,delay);
+    }
+    //Event
+    public void SetStartShowEvent(Runnable cb){
+        iGroup.iParam.SetRun("startShow",cb);
+    }
+    public void SetStartHideEvent(Runnable cb){
+        iGroup.iParam.SetRun("startHide",cb);
+    }
+    public void SetEndShowEvent(Runnable cb){
+        iGroup.iParam.SetRun("endShow",cb);
+    }
+    public void SetEndHideEvent(Runnable cb){
+        iGroup.iParam.SetRun("endHide",cb);
     }
     //static
     public static Screen GetLatest()

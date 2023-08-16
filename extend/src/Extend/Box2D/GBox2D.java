@@ -59,6 +59,7 @@ public class GBox2D extends Actor {
     //debug
     private OrthographicCamera debugCamera;
     private Box2DDebugRenderer debugRenderer;
+    private final List<Body> destroyBodies = new ArrayList<>();
 
     public GBox2D(){
         world = new World(new Vector2(0, -10f), true);
@@ -66,9 +67,17 @@ public class GBox2D extends Actor {
     }
     @Override
     public void act(float delta) {
-        if (active)
-            DoPhysicsStep(delta);
+        if (active) DoPhysicsStep(delta);
+        DestroyBody();
     }
+
+    private void DestroyBody() {
+        if (world.isLocked()||destroyBodies.isEmpty()) return;
+        for (Body body : destroyBodies)
+                world.destroyBody(body);
+        destroyBodies.clear();
+    }
+
     @Override
     public void drawDebug(ShapeRenderer shapes) {
         if (debugRenderer==null) SetDebug();
@@ -151,7 +160,9 @@ public class GBox2D extends Actor {
         return world.createBody(bodyDef);
     }
     public void Destroy(Body body){
-        if (world.getBodyCount()>0 && body!=null) world.destroyBody(body);
+        body.setActive(false);
+        if (!destroyBodies.contains(body)) destroyBodies.add(body);
+        //if (world.getBodyCount()>0 && body!=null) world.destroyBody(body);
     }
 
     //Convert
